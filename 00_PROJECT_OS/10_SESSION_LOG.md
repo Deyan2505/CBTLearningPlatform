@@ -258,3 +258,24 @@
 - **Създадени файлове:** `.github/workflows/ci.yml`.
 - **Нерешени проблеми:** реален CI run остава pending до собственическо решение за GitHub remote (отделна бъдеща стъпка, не автоматична).
 - **Следваща стъпка:** STEP-1.4 (тестов проект xUnit) — изисква ново извикване, не е изпълнена автоматично.
+
+---
+
+## Сесия 9 — STEP-1.4: xUnit test project + CI test step — 2026-07-30
+
+- **Повод:** собственикът поиска изпълнение само на реалното съдържание на STEP-1.4 — xUnit test project, добавяне към solution, честни начални тестове, `dotnet test` в CI.
+- **Извършени действия:**
+  - Context control: прочетени само `02_CURRENT_STATUS.md`, секция STEP-1.4 от `24_IMPLEMENTATION_ROADMAP.md`, CI-релевантен откъс от `06_QA_STRATEGY.md`.
+  - Initial state check: `git status` чист, branch `main`, HEAD = `0101789`, без remote, SDK `10.0.302`, solution съдържа host+client, без съществуващ test project, `ci.yml` съществува.
+  - Създаден `CbtLearningPlatform.Tests` чрез официалния `dotnet new xunit` template (`net10.0`, `--no-restore`) — package versions немодифицирани (`coverlet.collector 6.0.4`, `Microsoft.NET.Test.Sdk 17.14.1`, `xunit 2.9.3`, `xunit.runner.visualstudio 3.1.4`). Добавен към solution (`dotnet sln add`), project reference към host `CbtLearningPlatform` (не към `.Client`).
+  - Генерираният `UnitTest1.cs` премахнат; създаден `RuntimeBaselineTests.cs` с 2 инфраструктурни теста.
+  - **Открит и коригиран реален проблем:** първоначалният тест с `AppContext.TargetFrameworkName` fail-na с `Actual: ".NETCoreApp,Version=v8.0"` вместо очакваното `v10.0` — root cause: това property отразява entry assembly на VSTest testhost процеса по време на `dotnet test`, не самия компилиран test проект. Коригирано на директно четене на `TargetFrameworkAttribute` от `typeof(RuntimeBaselineTests).Assembly` — честен тест на реалната конфигурация.
+  - Restore + Release build + test: 0 Warning(s)/0 Error(s), 2/2 passed, 0 failed, 0 skipped.
+  - CI workflow разширен с `Test` стъпка след `Build`; triggers/permissions/runner/timeout/`global-json-file`/restore/build непроменени. Структурен преглед: без tabs, точно един test step, в job `build`.
+  - Финална локална валидация: `git diff --check` чист, restore/build/test повторени успешно; `bin/`/`obj/` (вкл. на новия test проект) потвърдени игнорирани чрез `git add --dry-run`.
+  - Project OS финализиран преди commit (Вариант A).
+- **Резултат:** `PHASE 1 / STEP-1.4 COMPLETE — REMOTE CI RUN PENDING`.
+- **Променени файлове:** `.github/workflows/ci.yml`, `CbtLearningPlatform/CbtLearningPlatform.sln`, `02_CURRENT_STATUS.md`, `04_CHANGELOG.md`, `24_IMPLEMENTATION_ROADMAP.md`, `26_SKILL_USAGE_LOG.md`.
+- **Създадени файлове:** `CbtLearningPlatform.Tests/CbtLearningPlatform.Tests.csproj`, `CbtLearningPlatform.Tests/RuntimeBaselineTests.cs`.
+- **Нерешени проблеми:** реален GitHub CI run остава pending до собственическо решение за remote.
+- **Следваща стъпка:** STEP-1.5 (централизирана обработка на грешки) — изисква ново извикване, не е изпълнена автоматично.

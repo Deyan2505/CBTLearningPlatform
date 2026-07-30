@@ -54,3 +54,20 @@
 - **Проверки:** пътища в YAML сверени с реалната файлова структура (`ls`); `actionlint` не е инсталиран — не е инсталиран автономно, документирано като ограничение.
 - **Отклонения от skill инструкциите:** няма.
 - **Резултат:** STEP-1.3 `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING` — локалната конфигурация напълно проверена; реален GitHub run изисква remote, извън обхвата на тази стъпка.
+
+---
+
+## 2026-07-30 — STEP-1.4: xUnit test project + CI test step
+
+- **Roadmap step:** STEP-1.4 (`24_IMPLEMENTATION_ROADMAP.md`).
+- **Използвани skills:**
+  - `ponytail:ponytail` (YAGNI) — приложено чрез: официален template без допълнителни библиотеки (без bUnit/Moq/FluentAssertions/AutoFixture), 2 честни теста вместо `Assert.True(true)`, project reference само към host (не и към `.Client`, без доказана нужда).
+  - `run` — реално създаване на проекта, `dotnet sln add`, `dotnet add reference`, restore/build/test изпълнения (вкл. повторно след fix-а).
+  - `security-review` (кратък) — потвърдено, че новите package references са само официалните template defaults (без непознати/трети зависимости), CI промяната не добавя permissions/secrets.
+  - `simplify` — **не е приложен**: тестовият код е минимален от самото начало.
+- **Защо са избрани:** `run` директно приложим за честна проверка на "минава ли `dotnet test`"; `ponytail` управлява решението да не се добавят test frameworks/абстракции без доказана нужда.
+- **Конкретно приложено (вкл. root-cause fix):** `TestProject_TargetsDotNet10` първоначално използваше `AppContext.TargetFrameworkName`, който отразява entry assembly на VSTest testhost, не самия test проект — fail-на с `v8.0` вместо `v10.0`. Коригирано на четене на `TargetFrameworkAttribute` директно от компилирания test assembly (`typeof(RuntimeBaselineTests).Assembly`) — реалната, честна проверка. Ponytail принципът "root cause, not symptom" приложен буквално.
+- **Засегнати файлове:** `CbtLearningPlatform.Tests/CbtLearningPlatform.Tests.csproj`, `CbtLearningPlatform.Tests/RuntimeBaselineTests.cs`, `.github/workflows/ci.yml`, `CbtLearningPlatform.sln`.
+- **Проверки:** build (0/0), test (2/2 passed), package versions немодифицирани спрямо template, `bin`/`obj` на новия проект потвърдени игнорирани.
+- **Отклонения от skill инструкциите:** няма.
+- **Резултат:** STEP-1.4 `COMPLETE — REMOTE CI RUN PENDING`.

@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-07-30 (продължение 6) — STEP-1.4: xUnit test project + CI test step
+
+- **Код (добавено):** `CbtLearningPlatform.Tests/` — xUnit test project (`net10.0`, официален `dotnet new xunit` template, немодифицирани package versions), добавен към solution, project reference към host `CbtLearningPlatform`.
+- **Код (добавено):** `RuntimeBaselineTests.cs` — 2 инфраструктурни теста (target framework на компилирания test assembly чрез `TargetFrameworkAttribute`, host assembly loadable чрез `Assembly.Load`). Генерираният `UnitTest1.cs` премахнат.
+- **Поправено (root cause по време на изпълнение):** първоначален подход с `AppContext.TargetFrameworkName` връщаше грешен резултат (`v8.0` вместо `v10.0`), защото отразява entry assembly на VSTest testhost процеса, не самия test проект — сменено с директно четене на `TargetFrameworkAttribute` от компилирания test assembly.
+- **CI (добавено):** `.github/workflows/ci.yml` разширен с `Test` стъпка (`dotnet test ... --no-build --no-restore`) след `Build`, без промяна на triggers/permissions/runner/timeout.
+- **Проверено:** `dotnet build --configuration Release` → 0/0; `dotnet test` → 2/2 passed, 0 failed, 0 skipped.
+- **Резултат:** `PHASE 1 / STEP-1.4 COMPLETE — REMOTE CI RUN PENDING`. Реален GitHub Actions run остава невъзможен — няма remote. STEP-1.5 не е изпълнена.
+
 ## 2026-07-30 (продължение 5) — STEP-1.3: CI workflow (локално конфигуриран)
 
 - **CI (добавено):** `.github/workflows/ci.yml` — единствен workflow: restore + Release build на `CbtLearningPlatform.sln`, `permissions: contents: read`, SDK версия от `global-json-file` (без дублиране), `actions/checkout@v7`, `actions/setup-dotnet@v6`, triggers `push`/`pull_request` към `main` + `workflow_dispatch`. Без caching (няма `packages.lock.json`), без фиктивен `dotnet test` (няма test project).

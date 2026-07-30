@@ -6,7 +6,9 @@
 
 **STEP-1.2 статус: `COMPLETE`** (2026-07-30, Сесия 7). Git repository инициализиран в правилния project root, официален `.NET .gitignore` темплейт създаден и валидиран, branch `main`, Git identity зададена локално (собственикът потвърди email), baseline commit създаден с цялата одобрена baseline основа.
 
-**STEP-1.3 статус: `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING`** (2026-07-30, Сесия 8). `.github/workflows/ci.yml` създаден — restore + Release build, `permissions: contents: read`, SDK от `global.json`, без caching, без фиктивен test step. Security review и структурен YAML преглед чисти; локален Release build 0/0. Реален GitHub Actions run **не е възможен** — repository няма remote (извън обхвата на тази стъпка). **STEP-1.4 не е изпълнена** — следваща препоръчана стъпка, изисква ново извикване.
+**STEP-1.3 статус: `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING`** (2026-07-30, Сесия 8). `.github/workflows/ci.yml` създаден — restore + Release build, `permissions: contents: read`, SDK от `global.json`, без caching. Security review и структурен YAML преглед чисти; локален Release build 0/0. Реален GitHub Actions run **не е възможен** — repository няма remote (извън обхвата на тази стъпка).
+
+**STEP-1.4 статус: `COMPLETE — REMOTE CI RUN PENDING`** (2026-07-30, Сесия 9). xUnit test project `CbtLearningPlatform.Tests` създаден (официален template, `net10.0`), добавен към solution, project reference към host; 2 реални инфраструктурни теста, и двата passing. CI workflow разширен с `Test` стъпка. Локален build+test: 0/0, 2/2 passed. **STEP-1.5 не е изпълнена** — следваща препоръчана стъпка, изисква ново извикване.
 
 Детайлните стъпки по-долу покриват Фаза 1 (техническа основа) — непосредствено следващата фаза. Фази 2–9 остават на нивото на детайл в `01_MASTER_PLAN.md`, до момента на реалното им започване (тогава ще получат същото ниво на детайл).
 
@@ -45,6 +47,7 @@
 - **Зависимости:** STEP-1.1.
 - **Acceptance criteria:** `dotnet test` минава.
 - **Definition of Done:** CI изпълнява тестовия проект (интегрира се в STEP-1.3).
+- **Статус (2026-07-30, Сесия 9): `COMPLETE — REMOTE CI RUN PENDING`.** Вместо един тривиален тест — 2 честни инфраструктурни теста (target framework verification чрез `TargetFrameworkAttribute` на компилирания test assembly — не `AppContext.TargetFrameworkName`, който отразява entry assembly на VSTest testhost, не самия test проект; host assembly loadability). CI интеграцията изпълнена (`.github/workflows/ci.yml` разширен с `Test` стъпка). Реален GitHub run остава `PENDING` — няма remote.
 
 ### STEP-1.5 — Централизирана обработка на грешки
 - **Цел:** потребителят никога не вижда суров stack trace.

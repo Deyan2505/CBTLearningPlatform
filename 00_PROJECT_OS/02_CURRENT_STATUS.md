@@ -4,26 +4,26 @@
 
 ## ACTIVE CONTEXT FOR CURRENT STEP
 
-Минимален набор документи, необходими за следващата стъпка (STEP-1.4 — тестов проект xUnit):
+Минимален набор документи, необходими за следващата стъпка (STEP-1.5 — централизирана обработка на грешки):
 
 - `02_CURRENT_STATUS.md` (този файл — винаги първи).
-- `24_IMPLEMENTATION_ROADMAP.md` → само секция STEP-1.4.
-- `.github/workflows/ci.yml` → трябва да бъде разширен с `dotnet test`, когато test проектът съществува.
+- `24_IMPLEMENTATION_ROADMAP.md` → само секция STEP-1.5.
+- `03_DECISION_LOG.md` → приложими ADR за rendering стратегия (ADR-007), ако релевантно.
 - `25_CLAUDE_CODE_SKILLS_REGISTRY.md` → само за избор на приложим skill; `26_SKILL_USAGE_LOG.md` → само за кратък запис след реално използване.
 
 **Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15), PRD/IA/User Flows/Content Model (17–22), Clinical Safety Boundaries (23), пълен Risk Register, пълен Session Log. Отварят се само когато задачата реално засяга тяхната област (виж таблицата в `01_MASTER_PLAN.md` → "Постоянно правило — Context Control").
 
 ## Текуща фаза
 
-Фаза 0 — завършена. **Фаза 1 — STARTED.** STEP-1.1 `COMPLETE`. STEP-1.2 `COMPLETE`. STEP-1.3 `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING`.
+Фаза 0 — завършена. **Фаза 1 — STARTED.** STEP-1.1 `COMPLETE`. STEP-1.2 `COMPLETE`. STEP-1.3 `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING`. STEP-1.4 `COMPLETE — REMOTE CI RUN PENDING`.
 
 ## Текуща стъпка
 
-STEP-1.3 конфигурирана локално. Следваща (не автоматично изпълнена): STEP-1.4 — тестов проект (xUnit).
+STEP-1.4 завършена локално. Следваща (не автоматично изпълнена): STEP-1.5 — централизирана обработка на грешки.
 
 ## Последна завършена задача
 
-STEP-1.3: създаден `.github/workflows/ci.yml` (единствен workflow) — restore + Release build, `permissions: contents: read`, SDK версия от `global.json`, без caching, без фиктивен test step (проектът все още няма test project). Security review и структурен YAML преглед — чисти. Локален Release build проверен (0/0). **Реален GitHub Actions run е невъзможен — repository няма remote.**
+STEP-1.4: създаден xUnit test project `CbtLearningPlatform.Tests` (`net10.0`, официален template, добавен към solution, project reference към host `CbtLearningPlatform`), 2 реални инфраструктурни теста (`RuntimeBaselineTests.cs` — target framework на компилирания test assembly, host assembly loadable), и двата минаващи. CI workflow (`.github/workflows/ci.yml`) разширен с `Test` стъпка след `Build`, без промяна на triggers/permissions/runner. Локален Release build + test: 0 Warning(s)/0 Error(s), 2/2 passed. **Реален GitHub Actions run е невъзможен — repository няма remote.**
 
 ## Repository — статус (2026-07-30)
 
@@ -35,7 +35,8 @@ STEP-1.3: създаден `.github/workflows/ci.yml` (единствен workfl
 | Git identity | зададена **локално** (`--local`, само това repository); global конфигурация непроменена |
 | Baseline commit | **CREATED** — hash виж `10_SESSION_LOG.md` (не се записва email в Project OS) |
 | Remote | не съществува (не е част от обхвата) |
-| CI workflow | `.github/workflows/ci.yml` — конфигуриран локално, никога не е изпълняван на GitHub (няма remote) |
+| CI workflow | `.github/workflows/ci.yml` — restore + build + **test**, конфигуриран локално, никога не е изпълняван на GitHub (няма remote) |
+| Test project | `CbtLearningPlatform.Tests` (xUnit, `net10.0`) — 2 теста, и двата passing |
 
 ## Environment — актуален статус (2026-07-30)
 
@@ -69,12 +70,12 @@ STEP-1.3: създаден `.github/workflows/ci.yml` (единствен workfl
 
 ## Следваща препоръчана задача
 
-STEP-1.4 (тестов проект xUnit) — **не е изпълнена автоматично**, изисква ново извикване. Реален GitHub Actions run остава `PENDING` до създаване на remote (отделно собственическо решение, не част от текущия roadmap обхват).
+STEP-1.5 (централизирана обработка на грешки) — **не е изпълнена автоматично**, изисква ново извикване. Реален GitHub Actions run (STEP-1.3 + STEP-1.4 заедно) остава `PENDING` до създаване на remote (отделно собственическо решение, не част от текущия roadmap обхват).
 
 ## Последна актуализация
 
-2026-07-30 — Сесия 8, STEP-1.3 (CI workflow конфигуриран локално, GitHub run pending).
+2026-07-30 — Сесия 9, STEP-1.4 (xUnit test project + CI test step, локално завършена).
 
 ## Общ приблизителен прогрес
 
-Фаза 0: 100%. Фаза 1: ~42% (2.5 от 6 STEP-а — STEP-1.3 конфигурирана, но реален run pending). Общ проект (Фази 0–9): ~18%.
+Фаза 0: 100%. Фаза 1: ~58% (3.5 от 6 STEP-а — STEP-1.4 локално завършена, реален CI run pending). Общ проект (Фази 0–9): ~19%.
