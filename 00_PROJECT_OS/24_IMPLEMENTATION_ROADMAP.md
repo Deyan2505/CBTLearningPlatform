@@ -8,7 +8,9 @@
 
 **STEP-1.3 статус: `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING`** (2026-07-30, Сесия 8). `.github/workflows/ci.yml` създаден — restore + Release build, `permissions: contents: read`, SDK от `global.json`, без caching. Security review и структурен YAML преглед чисти; локален Release build 0/0. Реален GitHub Actions run **не е възможен** — repository няма remote (извън обхвата на тази стъпка).
 
-**STEP-1.4 статус: `COMPLETE — REMOTE CI RUN PENDING`** (2026-07-30, Сесия 9). xUnit test project `CbtLearningPlatform.Tests` създаден (официален template, `net10.0`), добавен към solution, project reference към host; 2 реални инфраструктурни теста, и двата passing. CI workflow разширен с `Test` стъпка. Локален build+test: 0/0, 2/2 passed. **STEP-1.5 не е изпълнена** — следваща препоръчана стъпка, изисква ново извикване.
+**STEP-1.4 статус: `COMPLETE — REMOTE CI RUN PENDING`** (2026-07-30, Сесия 9). xUnit test project `CbtLearningPlatform.Tests` създаден (официален template, `net10.0`), добавен към solution, project reference към host; 2 реални инфраструктурни теста, и двата passing. CI workflow разширен с `Test` стъпка. Локален build+test: 0/0, 2/2 passed.
+
+**STEP-1.5 статус: `COMPLETE — REMOTE CI RUN PENDING`** (2026-07-30, Сесия 10). `ErrorBoundary` + българска `Error.razor` + преведен `#blazor-error-ui` банер. Server-side exception handling вече беше в темплейта (`UseExceptionHandler`) — не дублиран. Реално симулирано изключение в истинска Production среда потвърди безопасно поведение (HTTP 500, без изтекли детайли). 2 нови теста, общо 4/4 passing. Вижте Phase 1 Remaining Steps Review (`10_SESSION_LOG.md`, Сесия 10) за препоръка относно STEP-1.6 vs. директен преход към Фаза 2.
 
 Детайлните стъпки по-долу покриват Фаза 1 (техническа основа) — непосредствено следващата фаза. Фази 2–9 остават на нивото на детайл в `01_MASTER_PLAN.md`, до момента на реалното им започване (тогава ще получат същото ниво на детайл).
 
@@ -56,6 +58,7 @@
 - **Acceptance criteria:** симулирано изключение показва приятелска страница, не suров trace.
 - **Тестове:** unit тест за error boundary поведение.
 - **Definition of Done:** проверено ръчно + автоматизиран тест.
+- **Статус (2026-07-30, Сесия 10): `COMPLETE — REMOTE CI RUN PENDING`.** Acceptance criteria проверено буквално ръчно: временен diagnostic endpoint (премахнат преди commit) хвърлен в истинска Production среда (не Development — `launchSettings.json` override избегнат чрез директно стартиране на compiled DLL) → HTTP 500, приятелско българско съобщение, 0 изтекли технически детайли. Автоматизиран тест: 2 reflection-базирани теста (съществуване на Error компонента + архитектурна гаранция, че той няма property от тип `Exception`).
 
 ### STEP-1.6 — Linting/formatting конфигурация
 - **Цел:** консистентен код стил.

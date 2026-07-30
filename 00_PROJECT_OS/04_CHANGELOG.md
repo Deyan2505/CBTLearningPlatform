@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-07-30 (продължение 7) — STEP-1.5: обработка на грешки
+
+- **Код (добавено):** `<ErrorBoundary>` около `<RouteView>` в `Routes.razor` — минимален български fallback за static SSR слоя, без активиране на global interactive rendering.
+- **Код (поправено):** `Error.razor` пренаписана на спокоен, кратък български текст без технически подробности; премахнат dev-ориентираният обяснителен блок от темплейта. `RequestId` (безопасен correlation id) запазен.
+- **Код (поправено):** `#blazor-error-ui` банер в `MainLayout.razor` преведен на български — `id`/класове непроменени (ползвани от `blazor.web.js`).
+- **Код (без промяна):** server-side `UseExceptionHandler`/`UseHsts`/`UseStatusCodePagesWithReExecute` вече присъстваха в темплейта — не дублирани, не заменени с custom `IExceptionHandler`/`AddProblemDetails` (не е API проект).
+- **Проверено (реално, не само предположено):** временен diagnostic endpoint (добавен и премахнат в рамките на сесията) хвърлен в истинска Production среда (compiled DLL, не `dotnet run`, за да се заобиколи `launchSettings.json` override на `ASPNETCORE_ENVIRONMENT`) → HTTP 500, приятелско съобщение, 0 изтекли exception детайли.
+- **Тестове (добавено):** `ErrorHandlingTests.cs` — 2 reflection-базирани теста. Общо 4/4 passing.
+- **Резултат:** `PHASE 1 / STEP-1.5 COMPLETE — REMOTE CI RUN PENDING`.
+
 ## 2026-07-30 (продължение 6) — STEP-1.4: xUnit test project + CI test step
 
 - **Код (добавено):** `CbtLearningPlatform.Tests/` — xUnit test project (`net10.0`, официален `dotnet new xunit` template, немодифицирани package versions), добавен към solution, project reference към host `CbtLearningPlatform`.

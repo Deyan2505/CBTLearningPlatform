@@ -279,3 +279,25 @@
 - **Създадени файлове:** `CbtLearningPlatform.Tests/CbtLearningPlatform.Tests.csproj`, `CbtLearningPlatform.Tests/RuntimeBaselineTests.cs`.
 - **Нерешени проблеми:** реален GitHub CI run остава pending до собственическо решение за remote.
 - **Следваща стъпка:** STEP-1.5 (централизирана обработка на грешки) — изисква ново извикване, не е изпълнена автоматично.
+
+---
+
+## Сесия 10 — STEP-1.5: обработка на грешки + Phase 1 Remaining Steps Review + UI UX Pro Max discovery — 2026-07-30
+
+- **Повод:** собственикът поиска STEP-1.5, преглед на оставащите Фаза 1 стъпки (за да не се раздува инфраструктурната фаза) и изрично откриване на евентуален "UI UX Pro Max" skill.
+- **UI UX Pro Max discovery:** проверени project-level `.claude/` (няма), parent-level `.claude/` (няма), user-level `~/.claude/skills/` (директорията не съществува изобщо), `~/.claude/plugins/installed_plugins.json` (само `vercel` и `ponytail`), пълният marketplace catalog cache `plugin-catalog-cache.json` (~385KB, стотици плъгини) — grep за "ui"+"ux" заедно и за "pro max" в каквато и да е форма — **без нито едно съвпадение**. Skill не съществува в тази среда под никакво име/вариант.
+- **Извършени действия (STEP-1.5):**
+  - Context control: прочетени само `02_CURRENT_STATUS.md`, секция STEP-1.5 от `24_IMPLEMENTATION_ROADMAP.md`, и реалните source файлове (`Program.cs` ×2, `App.razor`, `Routes.razor`, `MainLayout.razor`, `Error.razor`, `NotFound.razor`, `appsettings.json`).
+  - Initial check: чист working tree, `main`, HEAD = `9e1ffae`, solution съдържа 3 проекта, 2 теста съществуват.
+  - Находка: server-side вече има `UseExceptionHandler("/Error")` + `UseHsts` (production) + автоматична Developer Exception Page (development, вградено в `WebApplication` от .NET 6+) — не липсва нищо на server ниво. Липсваше: `<ErrorBoundary>` около `<RouteView>`, и целият error UI текст беше на английски с dev-ориентиран технически блок.
+  - Добавен `<ErrorBoundary>` в `Routes.razor` (минимален български fallback); пренаписана `Error.razor` (спокойно българско съобщение, без dev блок, безопасен `RequestId`); преведен `#blazor-error-ui` банер (id/класове непроменени).
+  - Създадени 2 reflection-базирани теста в `ErrorHandlingTests.cs` — build+test: 0/0, 4/4 passing.
+  - **Реална верификация на acceptance criteria:** временно добавен diagnostic endpoint (`/__diag_throw`), стартиран compiled DLL директно с `ASPNETCORE_ENVIRONMENT=Production` (заобикаляйки `launchSettings.json`, който насилва Development при `dotnet run`) → потвърдено HTTP 500 + приятелско съобщение + 0 изтекли детайли. Endpoint премахнат преди commit; `Program.cs` потвърден байт-идентичен на оригинала (без диф).
+  - Финална валидация: `git diff --check` чист, restore/build/test повторени, `git status --short` показва точно 4 очаквани файла.
+  - Project OS финализиран преди commit.
+- **Резултат:** `PHASE 1 / STEP-1.5 COMPLETE — REMOTE CI RUN PENDING`.
+- **Променени файлове:** `Routes.razor`, `Error.razor`, `MainLayout.razor`, `02_CURRENT_STATUS.md`, `04_CHANGELOG.md`, `24_IMPLEMENTATION_ROADMAP.md`, `26_SKILL_USAGE_LOG.md`.
+- **Създадени файлове:** `CbtLearningPlatform.Tests/ErrorHandlingTests.cs`.
+- **Нерешени проблеми:** `UI UX PRO MAX NOT FOUND — REQUIRED BEFORE PHASE 2 UI IMPLEMENTATION` (по изрична собственическа инструкция — skill не съществува в тази среда). Реален GitHub CI run остава pending.
+- **Phase 1 Remaining Steps Review и препоръка за преход към UI/UX:** вижте пълния handoff в чата за детайлна таблица и обосновка — обобщено: STEP-1.6 (linting) е `SAFE TO DEFER`, препоръка е директен преход към Фаза 2 след собственическо решение.
+- **Следваща стъпка:** собственическо решение — STEP-1.6 или директно начало на Фаза 2 (UI/UX); не е започнато автоматично нищо от двете.

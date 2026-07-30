@@ -71,3 +71,20 @@
 - **Проверки:** build (0/0), test (2/2 passed), package versions немодифицирани спрямо template, `bin`/`obj` на новия проект потвърдени игнорирани.
 - **Отклонения от skill инструкциите:** няма.
 - **Резултат:** STEP-1.4 `COMPLETE — REMOTE CI RUN PENDING`.
+
+---
+
+## 2026-07-30 — STEP-1.5: Обработка на грешки
+
+- **Roadmap step:** STEP-1.5 (`24_IMPLEMENTATION_ROADMAP.md`).
+- **Използвани skills:**
+  - `ponytail:ponytail` (YAGNI, root-cause) — приложено чрез: запазване на съществуващата template server-side инфраструктура вместо дублиране/замяна с custom `IExceptionHandler`; минимален `<ErrorBoundary>` без глобален client exception service; при production верификацията — реален root-cause анализ защо `dotnet run` показваше Development (launchSettings.json override), вместо да се приеме резултат без обяснение.
+  - `run` — реално създаване/build/test, и реално стартиране на compiled DLL в Production среда с временен diagnostic endpoint за честна проверка на acceptance criteria.
+  - `security-review` (кратък) — потвърдено, че error UI не включва нови зависимости, не логва потребителско съдържание, не добавя external telemetry; временният diagnostic endpoint премахнат преди commit (потвърдено чрез `git diff`/byte-check на `Program.cs`).
+  - `simplify` — **не е приложен**: кодът е минимален от самото начало.
+- **Защо са избрани:** `ponytail` директно governs решението да не се строи exception framework; `run` — единствен начин да се докаже честно acceptance criteria (не просто да се твърди); `security-review` — изрично изискан преди commit заради временния diagnostic route.
+- **UI UX Pro Max discovery:** проверени всички нива (project/parent/user `.claude/`, installed plugins, пълен marketplace catalog) — skill не съществува под никакво име. Не е "използван", защото не е бил открит — регистрирано честно, не твърдяно обратното.
+- **Засегнати файлове:** `Routes.razor`, `Error.razor`, `MainLayout.razor`, `ErrorHandlingTests.cs` (нов). `Program.cs` — временна промяна, върната обратно преди commit.
+- **Проверки:** build (0/0), test (4/4), реална Production HTTP проверка (500 без изтекли детайли), `git diff --check` чист, `Program.cs` потвърден непроменен спрямо преди сесията.
+- **Отклонения от skill инструкциите:** няма.
+- **Резултат:** STEP-1.5 `COMPLETE — REMOTE CI RUN PENDING`.
