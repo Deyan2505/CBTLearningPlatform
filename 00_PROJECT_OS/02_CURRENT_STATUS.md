@@ -72,7 +72,7 @@ STEP-1.5: `<ErrorBoundary>` добавен около `<RouteView>` в `Routes.r
 
 ## Следваща препоръчана задача
 
-Собственическо решение между STEP-1.6 (linting/formatting) и директен преход към Фаза 2 (UI/UX) — вижте Phase 1 Remaining Steps Review в `10_SESSION_LOG.md` (Сесия 10). Реален GitHub Actions run остава `PENDING` до създаване на remote (отделно собственическо решение).
+`ui-ux-pro-max` вече `ACTIVE` (project-scoped, `.claude/skills/ui-ux-pro-max/`) — единствената пречка пред Фаза 2 е разрешена. Собственическо решение между STEP-1.6 (linting/formatting, `SAFE TO DEFER`) и директен преход към Фаза 2 (UI/UX) — вижте Phase 1 Remaining Steps Review в `10_SESSION_LOG.md` (Сесия 10). Реален GitHub Actions run остава `PENDING` до създаване на remote (отделно собственическо решение).
 
 ## Последна актуализация
 
