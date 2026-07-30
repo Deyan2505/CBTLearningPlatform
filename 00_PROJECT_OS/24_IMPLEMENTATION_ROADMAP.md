@@ -4,7 +4,9 @@
 
 **STEP-1.1 статус: `COMPLETE`** (2026-07-30, Сесия 6). .NET 10 SDK инсталиран автономно; Blazor Web App solution `CbtLearningPlatform` създаден, build-проверен (0 предупреждения/грешки), `dotnet run` реално проверен (HTTP 200). Пълни доказателства в `02_CURRENT_STATUS.md`, `10_SESSION_LOG.md`, `26_SKILL_USAGE_LOG.md`.
 
-**STEP-1.2 статус: `COMPLETE`** (2026-07-30, Сесия 7). Git repository инициализиран в правилния project root, официален `.NET .gitignore` темплейт създаден и валидиран, branch `main`, Git identity зададена локално (собственикът потвърди email), baseline commit създаден с цялата одобрена baseline основа. **STEP-1.3 не е изпълнена** — следваща препоръчана стъпка, изисква ново извикване.
+**STEP-1.2 статус: `COMPLETE`** (2026-07-30, Сесия 7). Git repository инициализиран в правилния project root, официален `.NET .gitignore` темплейт създаден и валидиран, branch `main`, Git identity зададена локално (собственикът потвърди email), baseline commit създаден с цялата одобрена baseline основа.
+
+**STEP-1.3 статус: `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING`** (2026-07-30, Сесия 8). `.github/workflows/ci.yml` създаден — restore + Release build, `permissions: contents: read`, SDK от `global.json`, без caching, без фиктивен test step. Security review и структурен YAML преглед чисти; локален Release build 0/0. Реален GitHub Actions run **не е възможен** — repository няма remote (извън обхвата на тази стъпка). **STEP-1.4 не е изпълнена** — следваща препоръчана стъпка, изисква ново извикване.
 
 Детайлните стъпки по-долу покриват Фаза 1 (техническа основа) — непосредствено следващата фаза. Фази 2–9 остават на нивото на детайл в `01_MASTER_PLAN.md`, до момента на реалното им започване (тогава ще получат същото ниво на детайл).
 
@@ -35,6 +37,7 @@
 - **Зависимости:** STEP-1.1, STEP-1.2.
 - **Acceptance criteria:** push към main тригерва успешен build.
 - **Definition of Done:** CI зелен badge, реално тестван с push.
+- **Статус (2026-07-30, Сесия 8): `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING`.** `test` частта на обхвата съзнателно отложена — няма test project (той е предмет на STEP-1.4); workflow-ът ще бъде разширен с `dotnet test`, когато проектът реално съществува, вместо фиктивна команда сега. Acceptance criteria/Definition of Done, изискващи push и зелен badge, остават `PENDING` — repository няма GitHub remote (създаването му е извън обхвата на тази стъпка).
 
 ### STEP-1.4 — Тестов проект (xUnit)
 - **Цел:** основа за automated tests.

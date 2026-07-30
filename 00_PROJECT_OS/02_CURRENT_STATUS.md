@@ -4,26 +4,26 @@
 
 ## ACTIVE CONTEXT FOR CURRENT STEP
 
-Минимален набор документи, необходими за следващата стъпка (STEP-1.3 — основен CI build):
+Минимален набор документи, необходими за следващата стъпка (STEP-1.4 — тестов проект xUnit):
 
 - `02_CURRENT_STATUS.md` (този файл — винаги първи).
-- `24_IMPLEMENTATION_ROADMAP.md` → само секция STEP-1.3.
-- `03_DECISION_LOG.md` → само ADR-001/ADR-007 (стек/рендиране), ако STEP-1.3 ги засяга.
+- `24_IMPLEMENTATION_ROADMAP.md` → само секция STEP-1.4.
+- `.github/workflows/ci.yml` → трябва да бъде разширен с `dotnet test`, когато test проектът съществува.
 - `25_CLAUDE_CODE_SKILLS_REGISTRY.md` → само за избор на приложим skill; `26_SKILL_USAGE_LOG.md` → само за кратък запис след реално използване.
 
 **Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15), PRD/IA/User Flows/Content Model (17–22), Clinical Safety Boundaries (23), пълен Risk Register, пълен Session Log. Отварят се само когато задачата реално засяга тяхната област (виж таблицата в `01_MASTER_PLAN.md` → "Постоянно правило — Context Control").
 
 ## Текуща фаза
 
-Фаза 0 — завършена. **Фаза 1 — STARTED.** STEP-1.1 `COMPLETE`. STEP-1.2 `COMPLETE`.
+Фаза 0 — завършена. **Фаза 1 — STARTED.** STEP-1.1 `COMPLETE`. STEP-1.2 `COMPLETE`. STEP-1.3 `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING`.
 
 ## Текуща стъпка
 
-STEP-1.2 `COMPLETE`. Следваща (не автоматично изпълнена): STEP-1.3 — основен CI build.
+STEP-1.3 конфигурирана локално. Следваща (не автоматично изпълнена): STEP-1.4 — тестов проект (xUnit).
 
 ## Последна завършена задача
 
-STEP-1.2 изцяло завършена: Git repository инициализиран в **project root** (не в `CbtLearningPlatform/`), официален `.NET .gitignore` темплейт създаден и валидиран (`git check-ignore`), branch `main`, Git identity зададена **локално** (само за това repository, не global), baseline commit създаден с цялата одобрена baseline основа (Project OS + Blazor solution + `code_artifact.html` + `.gitignore`).
+STEP-1.3: създаден `.github/workflows/ci.yml` (единствен workflow) — restore + Release build, `permissions: contents: read`, SDK версия от `global.json`, без caching, без фиктивен test step (проектът все още няма test project). Security review и структурен YAML преглед — чисти. Локален Release build проверен (0/0). **Реален GitHub Actions run е невъзможен — repository няма remote.**
 
 ## Repository — статус (2026-07-30)
 
@@ -35,6 +35,7 @@ STEP-1.2 изцяло завършена: Git repository инициализир�
 | Git identity | зададена **локално** (`--local`, само това repository); global конфигурация непроменена |
 | Baseline commit | **CREATED** — hash виж `10_SESSION_LOG.md` (не се записва email в Project OS) |
 | Remote | не съществува (не е част от обхвата) |
+| CI workflow | `.github/workflows/ci.yml` — конфигуриран локално, никога не е изпълняван на GitHub (няма remote) |
 
 ## Environment — актуален статус (2026-07-30)
 
@@ -45,7 +46,7 @@ STEP-1.2 изцяло завършена: Git repository инициализир�
 | VS Code / Claude Code / Git | Работят |
 | Visual Studio (пълен IDE) | Все още не е инсталирана — `OPTIONAL`, не блокира |
 | Blazor Web App solution | Съществува — `CbtLearningPlatform/` (2 проекта + `.sln` + `global.json`), build чист след Git init (0/0) |
-| Git repository в проекта | **Съществува** (project root), без commits |
+| Git repository в проекта | **Съществува** (project root), 2 commits (baseline + CI workflow), няма remote |
 
 ## Какво е проверено
 
@@ -68,12 +69,12 @@ STEP-1.2 изцяло завършена: Git repository инициализир�
 
 ## Следваща препоръчана задача
 
-STEP-1.3 (основен CI build) — **не е изпълнена автоматично**, изисква ново извикване.
+STEP-1.4 (тестов проект xUnit) — **не е изпълнена автоматично**, изисква ново извикване. Реален GitHub Actions run остава `PENDING` до създаване на remote (отделно собственическо решение, не част от текущия roadmap обхват).
 
 ## Последна актуализация
 
-2026-07-30 — Сесия 7, STEP-1.2 завършена (Git repository + `.gitignore` + baseline commit).
+2026-07-30 — Сесия 8, STEP-1.3 (CI workflow конфигуриран локално, GitHub run pending).
 
 ## Общ приблизителен прогрес
 
-Фаза 0: 100%. Фаза 1: ~33% (2 от 6 STEP-а). Общ проект (Фази 0–9): ~17%.
+Фаза 0: 100%. Фаза 1: ~42% (2.5 от 6 STEP-а — STEP-1.3 конфигурирана, но реален run pending). Общ проект (Фази 0–9): ~18%.

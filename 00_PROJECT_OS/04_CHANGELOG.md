@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-07-30 (продължение 5) — STEP-1.3: CI workflow (локално конфигуриран)
+
+- **CI (добавено):** `.github/workflows/ci.yml` — единствен workflow: restore + Release build на `CbtLearningPlatform.sln`, `permissions: contents: read`, SDK версия от `global-json-file` (без дублиране), `actions/checkout@v7`, `actions/setup-dotnet@v6`, triggers `push`/`pull_request` към `main` + `workflow_dispatch`. Без caching (няма `packages.lock.json`), без фиктивен `dotnet test` (няма test project).
+- **Проверено:** структурен YAML преглед (без tabs, без duplicate keys, коректни пътища спрямо реалната файлова структура), security review (без secrets, без write permissions, без опасни triggers/actions), локален `dotnet restore` + `dotnet build --configuration Release` → 0/0.
+- **Ограничение:** реален GitHub Actions run **не е възможен** — repository няма remote; не е създаден такъв в тази стъпка.
+- **Резултат:** `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING`. STEP-1.4 не е изпълнена.
+
 ## 2026-07-30 (продължение 4) — STEP-1.2 завършена: Git identity + baseline commit
 
 - **Version control (добавено):** Git identity зададена **локално** (`git config --local`, само за това repository — global конфигурация непроменена) след изрично собственическо потвърждение на реален email.

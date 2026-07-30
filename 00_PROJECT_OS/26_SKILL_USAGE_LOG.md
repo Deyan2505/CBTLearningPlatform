@@ -37,3 +37,20 @@
 - **Резултат:** STEP-1.2 `PARTIAL` — repository/`.gitignore`/staging завършени и проверени; baseline commit изчаква собственикова намеса.
 
 **Допълнение (2026-07-30, продължение):** `run` използван за `git config --local` + verification + `git commit` + post-commit checks + build regression check, след като собственикът потвърди реален Git email при директна заявка. `security-review` (минимален) — повторен secret scan на unstaged Project OS промените преди финално staging. Резултат: STEP-1.2 `COMPLETE`.
+
+---
+
+## 2026-07-30 — STEP-1.3: Основен CI build (локално конфигуриран)
+
+- **Roadmap step:** STEP-1.3 (`24_IMPLEMENTATION_ROADMAP.md`).
+- **Използвани skills:**
+  - `ponytail:ponytail` (YAGNI) — приложено чрез единствен минимален workflow (само restore+build), без caching (изисква lock файл, който не съществува), без фиктивен test step, без допълнителни workflows за security/deployment/accessibility.
+  - `run` — реални Git/`.NET` проверки: initial state check, локален `dotnet restore`/`dotnet build --configuration Release`, `git status`/`git diff --check` след създаването на файла.
+  - `security-review` (кратък) — преглед на workflow permissions/triggers/actions: потвърдено `contents: read` само, официални pinned actions, без `pull_request_target`, без remote scripts/secrets/artifact upload/deployment.
+  - `simplify` — **не е приложен**: workflow-ът е минимален от самото начало, няма нужда от опростяване.
+- **Защо са избрани:** `ponytail` директно governs решението да не се добавя caching/test/допълнителни workflows преждевременно; `security-review` — изрично изискан преди записване на CI permissions; `run` за Definition of Done локалната част (build проверка).
+- **Конкретно приложено:** създаден `.github/workflows/ci.yml`, структурен YAML преглед (без tabs/duplicate keys), `dotnet restore` + `dotnet build --configuration Release --no-restore` (0/0), `git status --short` след build (само `.github/` untracked).
+- **Засегнати файлове:** `.github/workflows/ci.yml` (нов).
+- **Проверки:** пътища в YAML сверени с реалната файлова структура (`ls`); `actionlint` не е инсталиран — не е инсталиран автономно, документирано като ограничение.
+- **Отклонения от skill инструкциите:** няма.
+- **Резултат:** STEP-1.3 `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING` — локалната конфигурация напълно проверена; реален GitHub run изисква remote, извън обхвата на тази стъпка.

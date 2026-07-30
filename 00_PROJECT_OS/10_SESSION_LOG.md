@@ -239,3 +239,22 @@
 - **Променени файлове:** `01_MASTER_PLAN.md`, `02_CURRENT_STATUS.md`, `04_CHANGELOG.md`, `05_RISK_REGISTER.md`, `09_BACKLOG.md`, `24_IMPLEMENTATION_ROADMAP.md`, `26_SKILL_USAGE_LOG.md` — всички включени в baseline commit.
 - **Нерешени проблеми:** няма.
 - **Следваща стъпка:** STEP-1.3 (основен CI build) — изисква ново извикване, не е изпълнена автоматично.
+
+---
+
+## Сесия 8 — STEP-1.3: Основен CI build (локално конфигуриран) — 2026-07-30
+
+- **Повод:** собственикът поиска изпълнение само на реалното съдържание на STEP-1.3, с изричен pre-flight, минимален context control, забрана за remote/push/GitHub repo/STEP-1.4.
+- **Извършени действия:**
+  - Context control: прочетени само `02_CURRENT_STATUS.md`, секция STEP-1.3 от `24_IMPLEMENTATION_ROADMAP.md`, CI-релевантен откъс от `06_QA_STRATEGY.md`, `CbtLearningPlatform/global.json`.
+  - Initial state check: `git status` чист, branch `main`, HEAD = baseline commit `ea689a8`, без remote, repo root потвърден, SDK `10.0.302`, `global.json`/`.sln` съществуват.
+  - Създаден `.github/workflows/ci.yml` — единствен workflow: `actions/checkout@v7`, `actions/setup-dotnet@v6` (SDK от `global-json-file`, без дублиране), `permissions: contents: read`, triggers `push`/`pull_request`/`workflow_dispatch`, restore + Release build. Без caching (няма lock файл), без фиктивен `dotnet test` (няма test project — STEP-1.4 не е изпълнена).
+  - Структурен YAML преглед: без tabs, по един topic-level key, коректни пътища спрямо реалната структура (`CbtLearningPlatform/CbtLearningPlatform.sln`, `CbtLearningPlatform/global.json`) — потвърдено чрез `ls`. `actionlint` не е инсталиран — не е инсталиран автономно, документирано като структурен преглед, не реален GitHub parse.
+  - Security review: без secrets, без write permissions, без `pull_request_target`, без произволни/трети actions, без remote scripts, без artifact upload/publish/deployment, без shell interpolation на потребителски вход.
+  - Локална валидация: `git diff --check` чист, `dotnet restore` + `dotnet build --configuration Release --no-restore` → 0 Warning(s), 0 Error(s). `git status --short` след build → само `.github/` untracked (bin/obj под Release конфигурация също правилно игнорирани).
+  - Project OS финализиран преди commit (Вариант A): `02_CURRENT_STATUS.md`, `24_IMPLEMENTATION_ROADMAP.md`, `04_CHANGELOG.md` актуализирани.
+- **Резултат:** `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING`. Реален GitHub Actions run не е възможен — няма remote; не е създаден в тази стъпка (изрично забранено).
+- **Променени файлове:** `02_CURRENT_STATUS.md`, `04_CHANGELOG.md`, `24_IMPLEMENTATION_ROADMAP.md`, `26_SKILL_USAGE_LOG.md`.
+- **Създадени файлове:** `.github/workflows/ci.yml`.
+- **Нерешени проблеми:** реален CI run остава pending до собственическо решение за GitHub remote (отделна бъдеща стъпка, не автоматична).
+- **Следваща стъпка:** STEP-1.4 (тестов проект xUnit) — изисква ново извикване, не е изпълнена автоматично.
