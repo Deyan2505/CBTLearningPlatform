@@ -4,6 +4,18 @@
 
 ---
 
+## 2026-08-01 — STEP-2.1: Design system foundation (Фаза 2 стартирана)
+
+- **Архитектура:** STEP-1.6 (linting) официално `DEFERRED — REQUIRED BEFORE FIRST MAJOR FEATURE MERGE OR REMOTE PR` — собственическо решение, регистрирано в `24_IMPLEMENTATION_ROADMAP.md`.
+- **Код (добавено):** `app.css` пренаписан с пълна design tokens система (color roles, typography, spacing, shape, layout) + базови компоненти (бутони, връзки, карти, callout, navigation, form field foundation).
+- **Код (добавено):** `Components/Shared/DisclaimerCallout.razor` — reusable компонент с точния одобрен disclaimer текст от `23_CLINICAL_SAFETY_BOUNDARIES.md`.
+- **Код (поправено):** `MainLayout.razor` — реална header/nav (по одобрената IA)/footer/skip-link структура; `MainLayout.razor.css` restyled с tokens вместо hardcoded цветове; `App.razor` `lang="en"` → `lang="bg"`.
+- **Код (поправено):** `Home.razor` и `NotFound.razor` — честно, минимално реално съдържание вместо template placeholder ("Hello, world!" премахнато).
+- **Skill:** `ui-ux-pro-max` (SKILL-046) използван за starting point (style/color/typography/ux заявки), адаптиран ръчно — не механично прието.
+- **Тестове (добавено):** `DesignSystemTests.cs` — 2 нови теста. Общо 6/6 passing.
+- **Проверено:** build 0/0; реален HTTP smoke test (home 200, app.css 200, не-построена nav страница коректно 404 през нашата friendly NotFound страница); структурни проверки в реално сервирания HTML (nav/header/footer/disclaimer/skip-link/lang).
+- **Резултат:** `PHASE 2 / STEP-2.1 COMPLETE`.
+
 ## 2026-07-30 (продължение 7) — STEP-1.5: обработка на грешки
 
 - **Код (добавено):** `<ErrorBoundary>` около `<RouteView>` в `Routes.razor` — минимален български fallback за static SSR слоя, без активиране на global interactive rendering.

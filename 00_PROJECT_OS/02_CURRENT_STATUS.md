@@ -4,27 +4,26 @@
 
 ## ACTIVE CONTEXT FOR CURRENT STEP
 
-Минимален набор документи, необходими за следващата стъпка (STEP-1.6 — linting/formatting конфигурация):
+Минимален набор документи, необходими за следващата стъпка (Фаза 2 — допълнителни wireframes/страници по `22_USER_FLOWS.md`, или STEP-1.6 при собственическо решение):
 
 - `02_CURRENT_STATUS.md` (този файл — винаги първи).
-- `24_IMPLEMENTATION_ROADMAP.md` → само секция STEP-1.6.
-- `25_CLAUDE_CODE_SKILLS_REGISTRY.md` → само за избор на приложим skill; `26_SKILL_USAGE_LOG.md` → само за кратък запис след реално използване.
+- `24_IMPLEMENTATION_ROADMAP.md` → секция Фаза 2.
+- `18_INFORMATION_ARCHITECTURE.md` / `22_USER_FLOWS.md` → само страницата, която реално се строи.
+- `25_CLAUDE_CODE_SKILLS_REGISTRY.md` / `26_SKILL_USAGE_LOG.md` → `ui-ux-pro-max` (SKILL-046) е основният UI/UX skill за всяка следваща UI стъпка.
 
-**Забележка:** преди STEP-1.6 собственикът поиска Phase 1 Remaining Steps Review (виж handoff в `10_SESSION_LOG.md`, Сесия 10) — препоръка за преминаване към UI/UX вместо доизчерпване на цялата инфраструктурна фаза.
-
-**Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15), PRD/IA/User Flows/Content Model (17–22), Clinical Safety Boundaries (23), пълен Risk Register, пълен Session Log. Отварят се само когато задачата реално засяга тяхната област (виж таблицата в `01_MASTER_PLAN.md` → "Постоянно правило — Context Control").
+**Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15), PRD/Content Model (17, 21), Clinical Safety Boundaries (23) — освен когато страницата реално съдържа психологическо съдържание, пълен Risk Register, пълен Session Log.
 
 ## Текуща фаза
 
-Фаза 0 — завършена. **Фаза 1 — STARTED.** STEP-1.1 `COMPLETE`. STEP-1.2 `COMPLETE`. STEP-1.3 `CI CONFIGURATION COMPLETE — REMOTE RUN PENDING`. STEP-1.4 `COMPLETE — REMOTE CI RUN PENDING`. STEP-1.5 `COMPLETE — REMOTE CI RUN PENDING`.
+Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE` (STEP-1.3/1.4/1.5 с `REMOTE CI RUN PENDING`); STEP-1.6 `DEFERRED — REQUIRED BEFORE FIRST MAJOR FEATURE MERGE OR REMOTE PR`. **Фаза 2 — STARTED.** STEP-2.1 (Design system foundation) `COMPLETE`.
 
 ## Текуща стъпка
 
-STEP-1.5 завършена локално. Следваща (не автоматично изпълнена, вижте Phase 1 Remaining Steps Review в `10_SESSION_LOG.md`): STEP-1.6 или директно преход към Фаза 2 (собственическо решение).
+STEP-2.1 завършена. Следваща (не автоматично изпълнена): допълнителни wireframes/страници по `22_USER_FLOWS.md` или разширяване на компонентната библиотека — изисква ново извикване.
 
 ## Последна завършена задача
 
-STEP-1.5: `<ErrorBoundary>` добавен около `<RouteView>` в `Routes.razor` (минимален български fallback за static SSR слоя); `Error.razor` пренаписана — спокойно българско съобщение, без технически детайли, безопасен `RequestId` (без PII); `#blazor-error-ui` банер преведен (id/класове непроменени — ползвани от `blazor.web.js`). Сървърната инфраструктура (`UseExceptionHandler`/`UseHsts`/`UseStatusCodePagesWithReExecute`) вече беше налична от темплейта — не дублирана. 2 нови reflection-базирани теста (общо 4/4 passing). **Реално симулирано изключение** (временен diagnostic endpoint, премахнат преди commit) в истинска Production среда потвърди: HTTP 500, приятелско съобщение, 0 изтекли технически детайли. **Реален GitHub Actions run е невъзможен — repository няма remote.**
+STEP-2.1 (Фаза 2, Сесия 11): реална design system основа — CSS custom properties (color roles/typography/spacing/shape/layout) в `app.css`; базови компоненти (бутони, връзки, карти, `DisclaimerCallout` shared component, navigation container, form field foundation); `MainLayout.razor` пренаписан с реална header/nav/footer/skip-link структура по одобрената IA; `Home.razor` и `NotFound.razor` пренаписани с честно, минимално съдържание (не placeholder). `ui-ux-pro-max` използван за starting point (стил "Accessible & Ethical", шрифт Atkinson Hyperlegible), адаптиран ръчно (напр. заменена предложената cyan/healthcare палитра с по-топла, по-малко "клинична" — виж `26_SKILL_USAGE_LOG.md`). 2 нови теста (общо 6/6 passing). Реален HTTP smoke test потвърди структурата в сервирания HTML.
 
 ## Repository — статус (2026-07-30)
 
@@ -39,6 +38,7 @@ STEP-1.5: `<ErrorBoundary>` добавен около `<RouteView>` в `Routes.r
 | CI workflow | `.github/workflows/ci.yml` — restore + build + test, конфигуриран локално, никога не е изпълняван на GitHub (няма remote) |
 | Test project | `CbtLearningPlatform.Tests` (xUnit, `net10.0`) — 4 теста, всички passing |
 | Error handling | `ErrorBoundary` (Routes.razor) + българска `Error.razor` + преведен `#blazor-error-ui` банер; server-side `UseExceptionHandler` от темплейта, проверен реално в Production среда |
+| Design system | `app.css` — tokens (color/typography/spacing/shape/layout) + компоненти (бутони/карти/callout/nav/форми); `DisclaimerCallout` shared component; `MainLayout`/`Home`/`NotFound` реализирани с реално съдържание |
 
 ## Environment — актуален статус (2026-07-30)
 
@@ -72,12 +72,12 @@ STEP-1.5: `<ErrorBoundary>` добавен около `<RouteView>` в `Routes.r
 
 ## Следваща препоръчана задача
 
-`ui-ux-pro-max` вече `ACTIVE` (project-scoped, `.claude/skills/ui-ux-pro-max/`) — единствената пречка пред Фаза 2 е разрешена. Собственическо решение между STEP-1.6 (linting/formatting, `SAFE TO DEFER`) и директен преход към Фаза 2 (UI/UX) — вижте Phase 1 Remaining Steps Review в `10_SESSION_LOG.md` (Сесия 10). Реален GitHub Actions run остава `PENDING` до създаване на remote (отделно собственическо решение).
+Допълнителни Фаза 2 wireframes/страници по `22_USER_FLOWS.md` (за да се изпълни пълния Phase 2 критерий "поне 2 реални страници"), или STEP-1.6 (`DEFERRED`, задължителна преди първи голям merge/remote PR) — собственическо решение, изисква ново извикване. Реален GitHub Actions run остава `PENDING` до създаване на remote.
 
 ## Последна актуализация
 
-2026-07-30 — Сесия 10, STEP-1.5 (error handling, локално завършена) + Phase 1 Remaining Steps Review.
+2026-08-01 — Сесия 11, STEP-2.1 (Design system foundation, Фаза 2 стартирана).
 
 ## Общ приблизителен прогрес
 
-Фаза 0: 100%. Фаза 1: ~75% (4.5 от 6 STEP-а — STEP-1.5 локално завършена, реален CI run pending). Общ проект (Фази 0–9): ~20%.
+Фаза 0: 100%. Фаза 1: ~92% (5.5 от 6 STEP-а — само STEP-1.6 съзнателно отложена). Фаза 2: старт (1 стъпка от няколко). Общ проект (Фази 0–9): ~23%.

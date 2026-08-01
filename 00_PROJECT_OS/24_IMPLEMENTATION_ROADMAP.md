@@ -66,10 +66,23 @@
 - **Зависимости:** STEP-1.1.
 - **Acceptance criteria:** `dotnet format --verify-no-changes` минава на чист проект.
 - **Definition of Done:** интегрирано в CI (STEP-1.3) като проверка.
+- **Статус (2026-08-01, Сесия 11): `DEFERRED — REQUIRED BEFORE FIRST MAJOR FEATURE MERGE OR REMOTE PR`.** Собственическо решение да се премине директно към Фаза 2. Не блокира UI работа; задължителна преди първи голям feature merge, remote pull request или deployment readiness review.
 
 ## Преход към Фаза 2 (дизайн система) — предварителни условия
 
-Фаза 2 не започва, докато Фаза 1 STEP-1.1…1.6 не са `Done` и потвърдени в `02_CURRENT_STATUS.md`.
+Фаза 2 не започва, докато Фаза 1 STEP-1.1…1.6 не са `Done` и потвърдени в `02_CURRENT_STATUS.md`. **Изключение (2026-08-01, Сесия 11):** собственикът изрично реши STEP-1.6 да остане `DEFERRED` (не блокира UI работа) и Фаза 2 да започне без нея — виж статус на STEP-1.6 по-горе.
+
+## Фаза 2 — Дизайн система и UX основа: стъпки
+
+### STEP-2.1 — Design system foundation (tokens + базови компоненти)
+- **Цел:** последователна, достъпна визуална основа преди писане на съдържание.
+- **Обхват:** CSS custom properties (color roles, typography, spacing, shape, layout); базови компоненти — бутони, връзки, карти, callout/disclaimer banner, navigation container (header + footer + skip link), form field foundation; `MainLayout.razor` пренаписан с реална навигация по одобрената IA; `Home.razor` пренаписана с честно, минимално съдържание (не темплейтен placeholder).
+- **Зависимости:** Фаза 1 (STEP-1.1–1.5; STEP-1.6 съзнателно отложена).
+- **Skill:** `ui-ux-pro-max` (SKILL-046) — `--design-system` + `--domain color/typography/ux` заявки за starting point, адаптирани ръчно (виж `26_SKILL_USAGE_LOG.md` за точните приложени/отхвърлени препоръки).
+- **Acceptance criteria:** споделените компоненти реално се използват на `Home.razor` и `NotFound.razor`; build 0/0; тестове зелени; HTTP smoke test потвърждава структурата (nav/header/footer/disclaimer/skip-link/lang="bg") в реално сервирания HTML.
+- **Definition of Done (тази стъпка):** design tokens + основни компоненти съществуват и се използват на поне 1 реална страница (`Home.razor`); пълният Phase 2 критерий ("поне 2 реални страници") се постига кумулативно със следващи стъпки/Фаза 3 съдържателни страници.
+- **Статус (2026-08-01, Сесия 11): `COMPLETE`.** Виж `10_SESSION_LOG.md` за пълни детайли.
+- **Следваща стъпка в Фаза 2 (не изпълнена автоматично):** допълнителни wireframes/страници по потребителските потоци (`22_USER_FLOWS.md`), разширяване на компонентната библиотека при реална нужда — изисква ново извикване.
 
 ## Фази 2–9 — ниво на детайл
 

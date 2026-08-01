@@ -1,6 +1,33 @@
 ﻿@inherits LayoutComponentBase
 
-@Body
+<a class="skip-link" href="#main-content">Прескочи към съдържанието</a>
+
+<header class="site-header">
+    <div class="site-header__inner">
+        <a class="site-header__brand" href="/">КПТ Академия</a>
+        <nav aria-label="Основна навигация">
+            <ul class="site-nav">
+                <li><a href="/">Начало</a></li>
+                <li><a href="/kpt">Какво е КПТ</a></li>
+                <li><a href="/programa">Програма</a></li>
+                <li><a href="/resursi">Ресурси</a></li>
+                <li><a href="/vaprosi">ЧЗВ</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main id="main-content" class="page-container">
+    @Body
+</main>
+
+<footer class="site-footer">
+    <div class="site-footer__inner">
+        <a href="/za-nas">За проекта</a>
+        <a href="/poveritelnost">Поверителност</a>
+        <a href="/uslovia">Условия за използване</a>
+    </div>
+</footer>
 
 <div id="blazor-error-ui" data-nosnippet>
     Възникна неочакван проблем.

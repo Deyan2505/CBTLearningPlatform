@@ -88,3 +88,25 @@
 - **Проверки:** build (0/0), test (4/4), реална Production HTTP проверка (500 без изтекли детайли), `git diff --check` чист, `Program.cs` потвърден непроменен спрямо преди сесията.
 - **Отклонения от skill инструкциите:** няма.
 - **Резултат:** STEP-1.5 `COMPLETE — REMOTE CI RUN PENDING`.
+
+---
+
+## 2026-08-01 — STEP-2.1: Design system foundation (Фаза 2, първо реално използване на `ui-ux-pro-max`)
+
+- **Roadmap step:** STEP-2.1 (`24_IMPLEMENTATION_ROADMAP.md`, ново добавен).
+- **Използвани skills:**
+  - `ui-ux-pro-max` (SKILL-046) — **основен skill за тази стъпка**, задължителен по изрична инструкция. Реални CLI извиквания:
+    1. `search.py "educational mental health calm trustworthy accessible" --design-system -p "CBT Learning Platform" -f markdown` — пълна design system препоръка (pattern/style/colors/typography).
+    2. `search.py "education trust calm warm not clinical" --domain color -n 4` — алтернативни палитри след отхвърляне на предложената cyan/healthcare.
+    3. `search.py "education long-form reading clear professional" --domain typography -n 4` — алтернативна типография след отхвърляне на wellness-mood Lora/Raleway.
+    4. `search.py "accessibility forms focus keyboard" --domain ux -n 6` — потвърждение на accessibility правила.
+  - **Приложени правила от skill-а:** focus-visible states (3-4px ring), keyboard navigation/tab order, skip link, 44×44px touch targets, `prefers-reduced-motion`, semantic input types (foundation, без реална форма още), style "Accessible & Ethical" (WCAG AAA насоченост), font "Atkinson Hyperlegible" (accessibility-first pairing).
+  - **Отхвърлени/адаптирани препоръки (skill-ът не отменя проектните решения):** предложената cyan/healthcare палитра — отхвърлена (риск от "медицински стерилен вид", изрично забранено); заменена със самостоятелно синтезирана топла неутрална палитра + приглушен teal primary. Предложеният "Pattern: Social Proof-Focused, CTA above fold" (маркетингов landing page框) — не приложен буквално (платформата не използва social proof/агресивни CTA конвенции); Lora+Raleway wellness typography — заменен с по-четим/достъпен избор.
+  - `ponytail:ponytail` (пасивно) — без external UI library (без Tailwind/Bootstrap/shadcn), собствена малка CSS основа; component wrapper Razor компонент създаден само за `DisclaimerCallout` (реална нужда от reuse на идентичен текст), не за бутони/карти (само CSS класове, без нужда от wrapper компонент).
+  - `run` — реални build/test/HTTP smoke test изпълнения.
+  - `security-review` — **не е приложен формално**: няма нови зависимости, secrets, auth, или потребителски вход в тази стъпка.
+- **Защо са избрани:** `ui-ux-pro-max` — изрично задължителен skill за UI/UX стъпки по постоянно правило от `01_MASTER_PLAN.md`; `ponytail` управлява решението да не се добавя UI framework.
+- **Засегнати файлове:** `app.css`, `MainLayout.razor`, `MainLayout.razor.css`, `App.razor`, `Home.razor`, `NotFound.razor`, `DisclaimerCallout.razor` (нов), `DesignSystemTests.cs` (нов).
+- **Проверки:** build (0/0), тестове (6/6), реален HTTP smoke test на сервирания HTML/CSS.
+- **Отклонения от skill инструкциите:** няма — skill-ът е ползван правилно като searchable reference, не като автоматичен генератор без преглед.
+- **Резултат:** STEP-2.1 `COMPLETE`. `ui-ux-pro-max` доказано полезен, но изисква ръчна преценка за всяка препоръка спрямо клиничните/тоналните ограничения на проекта — това ще се прилага и занапред.
