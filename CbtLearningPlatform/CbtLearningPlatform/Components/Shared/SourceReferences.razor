@@ -1,0 +1,14 @@
+<section aria-labelledby="source-references-heading" class="source-references">
+    <h2 id="source-references-heading">Източници и допълнително четене</h2>
+    <ul>
+        @foreach (string citation in Citations)
+        {
+            <li>@citation</li>
+        }
+    </ul>
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<string> Citations { get; set; } = [];
+}

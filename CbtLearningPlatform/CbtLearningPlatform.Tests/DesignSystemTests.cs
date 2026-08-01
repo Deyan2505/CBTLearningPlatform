@@ -17,7 +17,7 @@ public sealed class DesignSystemTests
     [Fact]
     public void AppCss_DefinesCoreDesignTokens()
     {
-        string cssPath = Path.Combine(FindSolutionRoot(), "CbtLearningPlatform", "wwwroot", "app.css");
+        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "wwwroot", "app.css");
 
         string css = File.ReadAllText(cssPath);
 
@@ -25,18 +25,5 @@ public sealed class DesignSystemTests
         Assert.Contains("--color-background:", css);
         Assert.Contains("--color-focus:", css);
         Assert.Contains("--space-4:", css);
-    }
-
-    private static string FindSolutionRoot()
-    {
-        DirectoryInfo? directory = new(AppContext.BaseDirectory);
-
-        while (directory is not null && directory.GetFiles("*.sln").Length == 0)
-        {
-            directory = directory.Parent;
-        }
-
-        return directory?.FullName
-            ?? throw new DirectoryNotFoundException("Could not locate solution root from test output directory.");
     }
 }

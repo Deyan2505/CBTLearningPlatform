@@ -1,0 +1,14 @@
+<section aria-labelledby="learning-objectives-heading">
+    <h2 id="learning-objectives-heading">Учебни цели</h2>
+    <ul>
+        @foreach (string objective in Objectives)
+        {
+            <li>@objective</li>
+        }
+    </ul>
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<string> Objectives { get; set; } = [];
+}

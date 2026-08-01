@@ -130,3 +130,24 @@
 - **Проверки:** build (0/0), тестове (9/9), реален HTTP smoke test с структурни assertions (h1 count, active nav state, disabled module CTA, disclaimer текст, липса на placeholder/dead links).
 - **Отклонения от skill инструкциите:** няма.
 - **Резултат:** STEP-2.2 `COMPLETE`. Phase 2 критерий за завършване изпълнен.
+
+---
+
+## 2026-08-01 — STEP-3.1: Първи реален обучителен content slice
+
+- **Roadmap step:** STEP-3.1 (`24_IMPLEMENTATION_ROADMAP.md`, ново добавен, Фаза 3).
+- **Използвани skills:**
+  - `ui-ux-pro-max` (SKILL-046) — за структурата на образователната страница. Реални CLI извиквания:
+    1. `search.py "long form educational article progressive disclosure reading" --domain ux -n 6` — line-length (потвърди вече съществуващия `--content-max` token), truncation/forms (нерелевантни).
+    2. `search.py "callout notice box information" --domain style -n 2` — Bento Box Grid, Data-Dense Dashboard — **и двете отхвърлени**, не подхождат на спокоен образователен урок.
+  - **Приложено:** line-length ограничение (вече token-базирано); прогресивно разкриване чрез heading йерархия (обяснение → пример → callout → проверка → обобщение), не нова skill препоръка, а естествена структура на урочния шаблон REQ-CONT-002.
+  - Skill-ът не промени клиничното съдържание, не добави неподкрепени твърдения, не отмени design system решенията от STEP-2.1.
+  - `ponytail:ponytail` (пасивно) — `LearningObjectives`/`SourceReferences` извлечени само защото реално се използват 2×; `TestPaths.cs` helper извлечен от `DesignSystemTests.cs` по същия принцип (2-ра реална употреба).
+  - `run` — реални build/test/HTTP smoke test изпълнения (2 рунда — вторият след откриване и коригиране на disclaimer бъга).
+  - `security-review` — **не е приложен формално**: без нови зависимости/secrets/auth/потребителски вход.
+- **Content governance (не Claude Code skill, но задължителен процес за тази стъпка):** приложен изцяло преди писане — REQ/SRC идентифициране, изключване на непроверено съдържание (REQ-CLIN-008/009), маркиране `REQUIRES PROFESSIONAL REVIEW`.
+- **Защо са избрани:** `ui-ux-pro-max` — изрично задължителен за UI/образователни страници; `ponytail` — управлява кога компонент/helper реално заслужава extraction; `run` — единствен начин да се докаже честно, че съдържанието реално работи (и разкри реален бъг).
+- **Засегнати файлове:** `Kpt.razor`, `Modul2.razor`, `Modul2Lesson1.razor`, `LearningObjectives.razor`, `SourceReferences.razor`, `Home.razor`, `Programa.razor`, `app.css`, `ContentSliceTests.cs`, `TestPaths.cs`, `DesignSystemTests.cs`.
+- **Проверки:** build (0/0), тестове (21/21), реален HTTP smoke test с структурни assertions — включително откриване и коригиране на реален compliance бъг (липсващ disclaimer).
+- **Отклонения от skill инструкциите:** няма.
+- **Резултат:** STEP-3.1 `COMPLETE`. Content governance процесът (не skill) беше основният определящ фактор за съдържанието — `ui-ux-pro-max` допринесе структурно, но клиничните граници идват изцяло от проектните документи.

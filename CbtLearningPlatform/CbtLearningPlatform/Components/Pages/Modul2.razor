@@ -1,0 +1,45 @@
+@* REQUIRES PROFESSIONAL REVIEW before real publication — no staffed clinical reviewer yet (RISK-010).
+   Content basis: REQ-CONT-005 / REQ-CLIN-003 (SRC-041, Ch. 3). *@
+@page "/programa/modul-2"
+
+<PageTitle>Модул 2 — Ситуация → Мисъл → Емоция → Поведение — КПТ Академия</PageTitle>
+
+<div class="content">
+    <h1>Модул 2 — Ситуация → Мисъл → Емоция → Поведение</h1>
+    <p>
+        Този модул въвежда основния когнитивен модел на КПТ, с примери от ежедневието.
+        Той е предпоставка за всички следващи модули в програмата.
+    </p>
+
+    <LearningObjectives Objectives="@_objectives" />
+
+    <h2>Какво съдържа модулът</h2>
+    <p>Модулът включва един урок, който представя модела и предлага кратка проверка на разбирането.</p>
+
+    <h2>Уроци</h2>
+    <div class="module-list">
+        <ModuleCard Title="Урок 1 — Ситуация → Мисъл → Емоция → Поведение"
+                    Description="Основният когнитивен модел, с ежедневен пример и кратка проверка на разбирането."
+                    StatusLabel="Наличен"
+                    DestinationUrl="/programa/modul-2/situacia-misal-emocia-povedenie"
+                    CtaLabel="Започни урока" />
+    </div>
+
+    <p>
+        <a href="/programa">← Обратно към програмата</a>
+    </p>
+
+    <div class="section">
+        <DisclaimerCallout />
+    </div>
+</div>
+
+@code {
+    private readonly IReadOnlyList<string> _objectives =
+    [
+        "Разпознавате четирите части на модела: ситуация, мисъл, емоция/телесна реакция, поведение.",
+        "Разбирате, че интерпретацията на ситуацията — не самата ситуация — влияе върху реакцията.",
+        "Прилагате модела върху собствен, ежедневен пример."
+    ];
+}
+

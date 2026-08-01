@@ -4,27 +4,27 @@
 
 ## ACTIVE CONTEXT FOR CURRENT STEP
 
-Минимален набор документи, необходими за следващата стъпка (Фаза 2/3 продължение — реално съдържание за `/kpt` и Модул 1/2, или STEP-1.6 при собственическо решение):
+Минимален набор документи, необходими за следващата стъпка (следващ урок/модул съдържание, Google Fonts CDN решение, или STEP-1.6):
 
 - `02_CURRENT_STATUS.md` (този файл — винаги първи).
-- `24_IMPLEMENTATION_ROADMAP.md` → секция Фаза 2.
-- `18_INFORMATION_ARCHITECTURE.md` / `22_USER_FLOWS.md` → само страницата, която реално се строи.
-- `07_CONTENT_GOVERNANCE.md` → задължителен преди писане на реално учебно съдържание (Модул 1/2 текст).
-- `25_CLAUDE_CODE_SKILLS_REGISTRY.md` / `26_SKILL_USAGE_LOG.md` → `ui-ux-pro-max` (SKILL-046) е основният UI/UX skill за всяка следваща UI стъпка.
+- `24_IMPLEMENTATION_ROADMAP.md` → секция Фаза 3.
+- `07_CONTENT_GOVERNANCE.md` → задължителен преди всяко ново реално учебно съдържание.
+- `18_INFORMATION_ARCHITECTURE.md` / `13_REQUIREMENTS_TRACEABILITY.md` → само модула/REQ записите за следващия урок.
+- `25_CLAUDE_CODE_SKILLS_REGISTRY.md` / `26_SKILL_USAGE_LOG.md` → `ui-ux-pro-max` (SKILL-046).
 
-**Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15), PRD (17), пълен Risk Register, пълен Session Log.
+**Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15) освен конкретните SRC записи за новото съдържание, PRD (17), пълен Risk Register, пълен Session Log.
 
 ## Текуща фаза
 
-Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE` (STEP-1.3/1.4/1.5 с `REMOTE CI RUN PENDING`); STEP-1.6 `DEFERRED — REQUIRED BEFORE FIRST MAJOR FEATURE MERGE OR REMOTE PR`. **Фаза 2 — STARTED.** STEP-2.1 (Design system foundation) `COMPLETE`. STEP-2.2 (Real page wireframes and navigation) `COMPLETE`.
+Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. **Фаза 3 — STARTED.** STEP-3.1 (Първи реален обучителен content slice) `COMPLETE`.
 
 ## Текуща стъпка
 
-STEP-2.2 завършена. Следваща (не автоматично изпълнена): реално съдържание за `/kpt` и/или модулните страници (изисква `07_CONTENT_GOVERNANCE.md` цикъл), или STEP-1.6 — собственическо решение, изисква ново извикване.
+STEP-3.1 завършена. Следваща (не автоматично изпълнена): следващ урок/модул съдържание (изисква `07_CONTENT_GOVERNANCE.md` цикъл), Google Fonts CDN решение, или STEP-1.6 — собственическо решение, изисква ново извикване.
 
 ## Последна завършена задача
 
-STEP-2.2 (Фаза 2, Сесия 12): 2 реални публични страници — `Home.razor` пренаписана (hero/как работи/какво ще научите/образователна граница) и нова `/programa` страница (модулен каталог). Нов reusable `ModuleCard.razor` (Title/Description/StatusLabel/DestinationUrl/CtaLabel) — Модул 1 и Модул 2 показани с честен статус "в процес на подготовка", **без dead links** към несъществуващи lesson страници (съзнателно решение). Nav активно състояние чрез Blazor `NavLink` (автоматичен `aria-current="page"` + CSS клас). `ui-ux-pro-max` използван за landing/UX справки, адаптиран ръчно (отхвърлени testimonials/social-proof/sticky-nav модели). 3 нови теста (общо 9/9 passing). Реален HTTP smoke test потвърди двете страници, active nav state, disabled module CTA state, липса на dead links.
+STEP-3.1 (Фаза 3, Сесия 13): първи реален обучителен content slice — `/kpt` (публична страница "Какво е КПТ"), `/programa/modul-2` (Модул 2 overview), `/programa/modul-2/situacia-misal-emocia-povedenie` (първи реален урок — модел Ситуация→Мисъл→Емоция→Поведение, REQ-CLIN-003/SRC-041 Гл.3, оригинален неутрален пример, 2-3 рефлективни въпроса, обобщение). Нови reusable `LearningObjectives.razor` + `SourceReferences.razor` (реално използвани 2×). Модул 2 картите на Home/Programa вече сочат към реалното съдържание (вместо disabled state от STEP-2.2). **Реален бъг открит и коригиран по време на изпълнение:** `/kpt` и урокът първоначално нямаха `DisclaimerCallout` въпреки правилото за видим disclaimer на всяка психологическа страница — открито чрез HTTP smoke test, коригирано, добавен регресионен тест. Съдържанието маркирано `REQUIRES PROFESSIONAL REVIEW` (Razor коментари + `13_REQUIREMENTS_TRACEABILITY.md`) — не публикувано за реални потребители без клиничен рецензент (RISK-010). 12 нови теста (общо 21/21 passing).
 
 ## Repository — статус (2026-07-30)
 
@@ -40,7 +40,8 @@ STEP-2.2 (Фаза 2, Сесия 12): 2 реални публични стран
 | Test project | `CbtLearningPlatform.Tests` (xUnit, `net10.0`) — 4 теста, всички passing |
 | Error handling | `ErrorBoundary` (Routes.razor) + българска `Error.razor` + преведен `#blazor-error-ui` банер; server-side `UseExceptionHandler` от темплейта, проверен реално в Production среда |
 | Design system | `app.css` — tokens (color/typography/spacing/shape/layout) + компоненти (бутони/карти/callout/nav/форми); `DisclaimerCallout` shared component; `MainLayout`/`Home`/`NotFound` реализирани с реално съдържание |
-| Public pages | `/` (Home) и `/programa` — реални, честни, с `ModuleCard` компонент; nav active state (`NavLink`); Google Fonts CDN — временно решение (Variant B), не окончателно production |
+| Public pages | `/`, `/programa`, `/kpt`, `/programa/modul-2`, `/programa/modul-2/situacia-misal-emocia-povedenie` — реални, честни, с `ModuleCard`/`LearningObjectives`/`SourceReferences` компоненти; nav active state (`NavLink`); Google Fonts CDN — временно решение (Variant B), не окончателно production |
+| Learning content | Първи реален урок (Модул 2) — `REQUIRES PROFESSIONAL REVIEW`, не публикуван за реални потребители (RISK-010, няма щатен клиничен рецензент) |
 
 ## Environment — актуален статус (2026-07-30)
 
@@ -74,12 +75,12 @@ STEP-2.2 (Фаза 2, Сесия 12): 2 реални публични стран
 
 ## Следваща препоръчана задача
 
-Пълният Phase 2 критерий "споделена библиотека, използвана на поне 2 реални страници" вече е изпълнен (`Home` + `Programa`). Следваща логична стъпка: реално съдържание за `/kpt` и модулните lesson страници (Фаза 3, изисква `07_CONTENT_GOVERNANCE.md` цикъл), или STEP-1.6 (`DEFERRED`) — собственическо решение, изисква ново извикване. `PROVISIONAL — SCREENSHOT REVIEW PENDING`: реален browser/screenshot QA все още не е извършван (няма достъпен инструмент в тази сесия). Реален GitHub Actions run остава `PENDING` до създаване на remote.
+Следващ урок/модул съдържание (Модул 1 "Какво представлява КПТ", или урок 2 в Модул 2) — изисква нов `07_CONTENT_GOVERNANCE.md` цикъл. Отделно: Google Fonts CDN решение (deferred), STEP-1.6 (`DEFERRED`), файлов Markdown/JSON parsing pipeline (отворен архитектурен въпрос — виж STEP-3.1 в `24_IMPLEMENTATION_ROADMAP.md`). Всички — собственическо решение, изискват ново извикване. `PROVISIONAL — SCREENSHOT REVIEW PENDING` остава в сила. Реален GitHub Actions run остава `PENDING` до създаване на remote.
 
 ## Последна актуализация
 
-2026-08-01 — Сесия 12, STEP-2.2 (реални публични страници Home + Programa, Фаза 2 критерий изпълнен).
+2026-08-01 — Сесия 13, STEP-3.1 (първи реален обучителен content slice, Фаза 3 стартирана).
 
 ## Общ приблизителен прогрес
 
-Фаза 0: 100%. Фаза 1: ~92% (5.5 от 6 STEP-а — само STEP-1.6 съзнателно отложена). Фаза 2: ~40% (2 стъпки — design system + 2 реални страници; предстоят допълнителни wireframes/компоненти при реална нужда). Общ проект (Фази 0–9): ~25%.
+Фаза 0: 100%. Фаза 1: ~92% (5.5 от 6 STEP-а). Фаза 2: ~40% (design system + 2 публични страници). Фаза 3: старт (1 content slice — 3 страници, 1 реален урок). Общ проект (Фази 0–9): ~28%.
