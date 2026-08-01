@@ -4,28 +4,27 @@
 
 ## ACTIVE CONTEXT FOR CURRENT STEP
 
-Минимален набор документи, необходими за следващата стъпка (Модул 1 съдържание, Google Fonts CDN решение, или STEP-1.6):
+Минимален набор документи, необходими за следващата стъпка (Google Fonts CDN решение, STEP-1.6, или бъдещо съдържание извън Модул 1/2):
 
 - `02_CURRENT_STATUS.md` (този файл — винаги първи).
 - `24_IMPLEMENTATION_ROADMAP.md` → секция Фаза 3.
 - `07_CONTENT_GOVERNANCE.md` → задължителен преди всяко ново реално учебно съдържание.
-- `18_INFORMATION_ARCHITECTURE.md` (Модул 1 запис) / `13_REQUIREMENTS_TRACEABILITY.md`.
-- `03_DECISION_LOG.md` → ADR-009 (флагмански Модул 2 архитектура) — вече не е активен въпрос, но релевантен контекст.
+- `18_INFORMATION_ARCHITECTURE.md` / `13_REQUIREMENTS_TRACEABILITY.md` → само модула за следващото съдържание.
 - `25_CLAUDE_CODE_SKILLS_REGISTRY.md` / `26_SKILL_USAGE_LOG.md` → `ui-ux-pro-max` (SKILL-046).
 
 **Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15) освен конкретните SRC записи за новото съдържание, PRD (17), пълен Risk Register, пълен Session Log.
 
 ## Текуща фаза
 
-Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. **Фаза 3 — STARTED.** STEP-3.1/3.2 `COMPLETE`. STEP-3.3 (Трети урок + Content Pipeline Decision Gate) `COMPLETE`.
+Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. **Фаза 3 — STARTED.** STEP-3.1–3.3 `COMPLETE`. STEP-3.4 (Модул 1 overview и първи реален урок) `COMPLETE`.
 
 ## Текуща стъпка
 
-STEP-3.3 завършена. Флагманският Модул 2 достигна горната граница на REQ-CONT-002 (2–4 урока — сега 3). Следваща (не автоматично изпълнена): Модул 1 съдържание ("Какво представлява КПТ", стеснен обхват след ADR-009), Google Fonts CDN решение, или STEP-1.6 — собственическо решение, изисква ново извикване.
+STEP-3.4 завършена. И Модул 1, и флагманският Модул 2 (горна граница на REQ-CONT-002) вече имат реално съдържание. Следваща (не автоматично изпълнена): Google Fonts CDN решение, STEP-1.6, или бъдещо съдържание извън капацитета на Модул 1/2 — собственическо решение, изисква ново извикване.
 
 ## Последна завършена задача
 
-STEP-3.3 (Фаза 3, Сесия 15): трети реален урок в Модул 2 — `/programa/modul-2/emocii-i-telesni-reaktsii` ("Емоции и телесни реакции", SRC-041 Гл.10). **Архитектурна реконсилиация формализирана в ADR-009** (`03_DECISION_LOG.md`) — Модул 2 официално поема базовото ниво на темите от бъдещите Модул 3/Модул 5; тези модули се стесняват в `18_INFORMATION_ARCHITECTURE.md`, за да не дублират вече наученото. Нов пример (закъснение в трафик), Урок 2 вече линква реално към Урок 3. 5 нови теста (общо 30/30 passing). **Content Pipeline Decision Analysis:** `KEEP RAZOR FOR MVP` — вижте пълния анализ в `24_IMPLEMENTATION_ROADMAP.md` (STEP-3.3).
+STEP-3.4 (Фаза 3, Сесия 16): Модул 1 overview (`/programa/modul-1`) + първи реален урок (`/programa/modul-1/kakvo-e-kpt`, SRC-041 Гл.1, REQ-CLIN-009 — само общото твърдение, без остарялата 2006 статистика). Нов пример (приятел споделя тревога), илюстриращ границата образование/терапия. `Programa.razor` и `Home.razor` — Модул 1 картите вече сочат към реалното съдържание (вместо disabled state). Урок 1 линква напред към реалния Модул 2 (Модул 1 има само 1 урок, честно). 8 нови теста (общо 38/38 passing).
 
 ## Repository — статус (2026-07-30)
 
@@ -41,8 +40,8 @@ STEP-3.3 (Фаза 3, Сесия 15): трети реален урок в Мод
 | Test project | `CbtLearningPlatform.Tests` (xUnit, `net10.0`) — 4 теста, всички passing |
 | Error handling | `ErrorBoundary` (Routes.razor) + българска `Error.razor` + преведен `#blazor-error-ui` банер; server-side `UseExceptionHandler` от темплейта, проверен реално в Production среда |
 | Design system | `app.css` — tokens (color/typography/spacing/shape/layout) + компоненти (бутони/карти/callout/nav/форми); `DisclaimerCallout` shared component; `MainLayout`/`Home`/`NotFound` реализирани с реално съдържание |
-| Public pages | `/`, `/programa`, `/kpt`, `/programa/modul-2`, + 3 урока (`situacia-misal-emocia-povedenie`, `avtomatichni-misli`, `emocii-i-telesni-reaktsii`) — реални, честни, с `ModuleCard`/`LearningObjectives`/`SourceReferences` компоненти; nav active state (`NavLink`); Google Fonts CDN — временно решение (Variant B), не окончателно production |
-| Learning content | 3 реални урока в Модул 2 (горна граница на REQ-CONT-002) — `REQUIRES PROFESSIONAL REVIEW`, не публикувани за реални потребители (RISK-010, няма щатен клиничен рецензент) |
+| Public pages | `/`, `/programa`, `/kpt`, `/programa/modul-1` + 1 урок, `/programa/modul-2` + 3 урока — реални, честни, с `ModuleCard`/`LearningObjectives`/`SourceReferences` компоненти; nav active state (`NavLink`); Google Fonts CDN — временно решение (Variant B), не окончателно production |
+| Learning content | Модул 1 (1 урок) + Модул 2 (3 урока, горна граница на REQ-CONT-002) — `REQUIRES PROFESSIONAL REVIEW`, не публикувани за реални потребители (RISK-010, няма щатен клиничен рецензент) |
 | Content architecture | `KEEP RAZOR FOR MVP` (Content Pipeline Decision, STEP-3.3) — Markdown/JSON pipeline не се изгражда; преразглежда се при съдържание извън капацитета на флагманския Модул 2 |
 
 ## Environment — актуален статус (2026-07-30)
@@ -77,12 +76,12 @@ STEP-3.3 (Фаза 3, Сесия 15): трети реален урок в Мод
 
 ## Следваща препоръчана задача
 
-Модул 1 съдържание ("Какво представлява КПТ", стеснен обхват след ADR-009) — изисква нов `07_CONTENT_GOVERNANCE.md` цикъл. **Markdown/JSON pipeline: решено — `KEEP RAZOR FOR MVP`** (STEP-3.3), не се преразглежда без ново съдържание извън капацитета на флагманския Модул 2. Отделно: Google Fonts CDN решение (deferred), STEP-1.6 (`DEFERRED`). Всички — собственическо решение, изискват ново извикване. `PROVISIONAL — SCREENSHOT REVIEW PENDING` остава в сила. Реален GitHub Actions run остава `PENDING` до създаване на remote.
+Модул 1 и Модул 2 вече имат реално съдържание в границите на одобрения MVP обхват (`19_MVP_SCOPE.md` MUST HAVE #3). Следваща логична стъпка е извън content-slice работата: Google Fonts CDN решение (deferred), STEP-1.6 (`DEFERRED`), или планиране на следваща MVP функционалност (напр. Модул 14 "Кога е нужна професионална помощ", речник, ЧЗВ — вижте `19_MVP_SCOPE.md`). `KEEP RAZOR FOR MVP` остава в сила. Всички — собственическо решение, изискват ново извикване. `PROVISIONAL — SCREENSHOT REVIEW PENDING` остава в сила. Реален GitHub Actions run остава `PENDING` до създаване на remote.
 
 ## Последна актуализация
 
-2026-08-01 — Сесия 15, STEP-3.3 (трети реален урок, ADR-009 реконсилиация, Content Pipeline Decision: `KEEP RAZOR FOR MVP`).
+2026-08-01 — Сесия 16, STEP-3.4 (Модул 1 overview + първи реален урок).
 
 ## Общ приблизителен прогрес
 
-Фаза 0: 100%. Фаза 1: ~92% (5.5 от 6 STEP-а). Фаза 2: ~40% (design system + 2 публични страници). Фаза 3: ~20% (5 страници, 3 реални урока — флагманският Модул 2 съдържателно завършен за MVP). Общ проект (Фази 0–9): ~32%.
+Фаза 0: 100%. Фаза 1: ~92% (5.5 от 6 STEP-а). Фаза 2: ~40% (design system + 2 публични страници). Фаза 3: ~30% (7 страници, 4 реални урока — Модул 1 + флагманският Модул 2 съдържателно завършени за MVP). Общ проект (Фази 0–9): ~34%.

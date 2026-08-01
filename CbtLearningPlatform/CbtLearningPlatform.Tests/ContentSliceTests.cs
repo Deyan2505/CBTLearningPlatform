@@ -10,6 +10,8 @@ public sealed class ContentSliceTests
     [InlineData("CbtLearningPlatform.Components.Pages.Modul2Lesson1")]
     [InlineData("CbtLearningPlatform.Components.Pages.Modul2Lesson2")]
     [InlineData("CbtLearningPlatform.Components.Pages.Modul2Lesson3")]
+    [InlineData("CbtLearningPlatform.Components.Pages.Modul1")]
+    [InlineData("CbtLearningPlatform.Components.Pages.Modul1Lesson1")]
     [InlineData("CbtLearningPlatform.Components.Shared.LearningObjectives")]
     [InlineData("CbtLearningPlatform.Components.Shared.SourceReferences")]
     public void ContentSliceType_ExistsInHostAssembly(string typeName)
@@ -94,8 +96,35 @@ public sealed class ContentSliceTests
         Assert.Contains("предстои", lesson3Source);
     }
 
+    [Fact]
+    public void Modul1Overview_LinksToTheRealLesson1Route()
+    {
+        string overviewSource = ReadPage("Modul1.razor");
+
+        Assert.Contains(RouteOf("Modul1Lesson1.razor"), overviewSource);
+    }
+
+    [Fact]
+    public void Modul1Lesson1_LinksToRealModul1AndModul2Routes_NoDeadLinks()
+    {
+        string lessonSource = ReadPage("Modul1Lesson1.razor");
+
+        Assert.Contains(RouteOf("Modul1.razor"), lessonSource);
+        Assert.Contains(RouteOf("Modul2.razor"), lessonSource);
+    }
+
+    [Theory]
+    [InlineData("Programa.razor")]
+    [InlineData("Home.razor")]
+    public void ProgramCatalogPage_LinksToTheRealModule1Overview(string fileName)
+    {
+        Assert.Contains(RouteOf("Modul1.razor"), ReadPage(fileName));
+    }
+
     [Theory]
     [InlineData("Kpt.razor")]
+    [InlineData("Modul1.razor")]
+    [InlineData("Modul1Lesson1.razor")]
     [InlineData("Modul2.razor")]
     [InlineData("Modul2Lesson1.razor")]
     [InlineData("Modul2Lesson2.razor")]
@@ -110,7 +139,11 @@ public sealed class ContentSliceTests
     [Fact]
     public void ContentSlice_DoesNotContainTheUnsupportedDistortionCategorization()
     {
-        string[] contentFiles = ["Kpt.razor", "Modul2.razor", "Modul2Lesson1.razor", "Modul2Lesson2.razor", "Modul2Lesson3.razor"];
+        string[] contentFiles =
+        [
+            "Kpt.razor", "Modul1.razor", "Modul1Lesson1.razor",
+            "Modul2.razor", "Modul2Lesson1.razor", "Modul2Lesson2.razor", "Modul2Lesson3.razor"
+        ];
 
         // ADR-006/ADR-008: this categorization has no confirmed source and must never appear in published content.
         string[] forbiddenTerms = ["Оценка/Прогнозиране/Филтриране/Правила", "Прогнозиране/Филтриране"];

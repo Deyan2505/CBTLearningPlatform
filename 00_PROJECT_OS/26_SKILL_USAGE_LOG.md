@@ -186,3 +186,21 @@
 - **Проверки:** build (0/0), тестове (30/30), реален HTTP smoke test.
 - **Отклонения от skill инструкциите:** няма.
 - **Резултат:** STEP-3.3 `COMPLETE`. Content Pipeline решение: `KEEP RAZOR FOR MVP`, окончателно за текущия обхват на флагманския модул.
+
+---
+
+## 2026-08-01 — STEP-3.4: Модул 1 overview и първи реален урок
+
+- **Roadmap step:** STEP-3.4 (`24_IMPLEMENTATION_ROADMAP.md`).
+- **Използвани skills:**
+  - `ui-ux-pro-max` (SKILL-046) — потвърдено приложимо. Един targeted CLI check: `search.py "module overview list progressive disclosure" --domain ux -n 4` → 0 нови резултата — потвърждава, че вече прочетените правила от STEP-3.1–3.3 (line-length, callout placement, nav active-state, card patterns) са достатъчни; не са направени излишни повторни заявки, съгласно изричната инструкция.
+  - Дизайн системата запазена изцяло непроменена (топла палитра, teal, Atkinson Hyperlegible, tokens, focus-visible, reduced-motion) — без dashboard/bento/gamification/marketing.
+  - `ponytail:ponytail` (пасивно) — Модул 1 реализиран като единствен урок (честно, по IA), не изкуствено разделен на няколко, за да "прилича" на Модул 2; никакъв нов reusable компонент не е създаден (съществуващите четири напълно достатъчни).
+  - `run` — реални build/test/HTTP smoke test изпълнения.
+  - `security-review` — **не е приложен формално**: без нови зависимости/secrets/auth/потребителски вход.
+- **Content governance (задължителен процес, не skill):** REQ-CLIN-009 приложен внимателно — само общата, безопасна evidence-base claim, идентично ограничение като STEP-3.1's `/kpt`.
+- **Защо са избрани:** `ui-ux-pro-max` — задължителен за UI/образователни страници, но приложен ефективно без прекомерни повторни заявки; `ponytail` — предпази от изкуствено разширяване на Модул 1 отвъд одобрения му, едноурочен обхват.
+- **Засегнати файлове:** `Modul1.razor` (нов), `Modul1Lesson1.razor` (нов), `Programa.razor`, `Home.razor`, `ContentSliceTests.cs`.
+- **Проверки:** build (0/0), тестове (38/38), реален HTTP smoke test — вкл. потвърждение, че 0 disabled карти остават на публичните страници.
+- **Отклонения от skill инструкциите:** няма.
+- **Резултат:** STEP-3.4 `COMPLETE`. Content Pipeline решението (`KEEP RAZOR FOR MVP`) потвърдено отново приложимо — Модул 1 се вписа безпроблемно в established модела.

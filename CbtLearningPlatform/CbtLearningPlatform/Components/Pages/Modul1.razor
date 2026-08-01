@@ -1,0 +1,45 @@
+@* REQUIRES PROFESSIONAL REVIEW before real publication — no staffed clinical reviewer yet (RISK-010).
+   Content basis: REQ-CONT-001/005 (18_INFORMATION_ARCHITECTURE.md, "Модул 1 — Какво представлява КПТ"). *@
+@page "/programa/modul-1"
+
+<PageTitle>Модул 1 — Какво представлява КПТ — КПТ Академия</PageTitle>
+
+<div class="content">
+    <h1>Модул 1 — Какво представлява КПТ</h1>
+    <p>
+        Уводен модул без предварителни знания — запознава ви с основната идея на когнитивно-поведенческата
+        терапия и с границите на тази образователна платформа, преди да преминете към модела в Модул 2.
+    </p>
+
+    <LearningObjectives Objectives="@_objectives" />
+
+    <h2>Какво съдържа модулът</h2>
+    <p>Модулът включва един уводен урок, без практическо упражнение.</p>
+
+    <h2>Уроци</h2>
+    <div class="module-list">
+        <ModuleCard Title="Урок 1 — Какво представлява КПТ"
+                    Description="Основната идея на КПТ и разликата между образование и терапия."
+                    StatusLabel="Наличен"
+                    DestinationUrl="/programa/modul-1/kakvo-e-kpt"
+                    CtaLabel="Започни урока" />
+    </div>
+
+    <p>
+        <a href="/programa">← Обратно към програмата</a>
+        · <a href="/programa/modul-2">Модул 2: Ситуация → Мисъл → Емоция → Поведение →</a>
+    </p>
+
+    <div class="section">
+        <DisclaimerCallout />
+    </div>
+</div>
+
+@code {
+    private readonly IReadOnlyList<string> _objectives =
+    [
+        "Разбирате основната идея на КПТ — мислите влияят на емоциите и поведението.",
+        "Разбирате разликата между образователно съдържание и провеждане на терапия.",
+        "Знаете границите на платформата, преди да преминете към следващите модули."
+    ];
+}
