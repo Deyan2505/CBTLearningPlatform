@@ -169,3 +169,20 @@
 - **Проверки:** build (0/0), тестове (25/25), реален HTTP smoke test с HTML-entity-decode верификация на source citation.
 - **Отклонения от skill инструкциите:** няма.
 - **Резултат:** STEP-3.2 `COMPLETE`. Вторият урок потвърждава, че установеният шаблон от STEP-3.1 реално се преизползва без нужда от нова инфраструктура — добър знак за бъдещото Markdown/JSON pipeline решение, но все още под препоръчания праг от 3–4 урока.
+
+---
+
+## 2026-08-01 — STEP-3.3: Трети урок и Content Pipeline Decision Gate
+
+- **Roadmap step:** STEP-3.3 (`24_IMPLEMENTATION_ROADMAP.md`).
+- **Използвани skills:**
+  - `ui-ux-pro-max` (SKILL-046) — потвърждение, че дизайн системата остава непроменена (без нова палитра/шрифт/dashboard/gamification); не са правени нови CLI заявки тази стъпка — предходните (STEP-3.1/3.2) вече бяха достатъчни за established lesson pattern.
+  - `ponytail:ponytail` (пасивно) — приложен буквално в Content Pipeline Decision Analysis: избран `KEEP RAZOR FOR MVP` именно защото Markdown/JSON pipeline би добавил инфраструктурна сложност (custom block syntax за `.card`/`.callout`) без пропорционална стойност при таван от 2-4 урока в единствения модул, който в момента реално има съдържание — учебникарски пример за "не изграждай инфраструктура преди доказана нужда".
+  - `run` — реални build/test/HTTP smoke test изпълнения.
+  - `security-review` — **не е приложен формално**: без нови зависимости/secrets/auth/потребителски вход.
+- **Content governance + архитектурна реконсилиация (задължителен процес, не skill):** формален ADR-009 създаден за структурното решение (Модул 2 поема базовото ниво на Модул 3/5 теми); `18_INFORMATION_ARCHITECTURE.md` анотиран, за да не остане документацията в противоречие с реализацията — коригиран реален пропуск от STEP-3.1/3.2 (решението не беше формално записано в IA).
+- **Защо са избрани:** `ponytail` директно определи изхода на pipeline анализа (не просто "consulted", а решаващ фактор); content governance процесът беше основният определящ фактор за архитектурната реконсилиация — не skill.
+- **Засегнати файлове:** `Modul2Lesson3.razor` (нов), `Modul2.razor`, `Modul2Lesson2.razor`, `ContentSliceTests.cs`, `18_INFORMATION_ARCHITECTURE.md`, `03_DECISION_LOG.md`.
+- **Проверки:** build (0/0), тестове (30/30), реален HTTP smoke test.
+- **Отклонения от skill инструкциите:** няма.
+- **Резултат:** STEP-3.3 `COMPLETE`. Content Pipeline решение: `KEEP RAZOR FOR MVP`, окончателно за текущия обхват на флагманския модул.
