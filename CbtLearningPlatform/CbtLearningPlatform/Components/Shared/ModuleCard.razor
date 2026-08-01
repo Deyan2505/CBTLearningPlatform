@@ -1,0 +1,31 @@
+<article class="card module-card" aria-label="@Title">
+    <h3>@Title</h3>
+    <p>@Description</p>
+    <p class="module-card__status">@StatusLabel</p>
+    @if (!string.IsNullOrEmpty(DestinationUrl))
+    {
+        <a class="btn btn-secondary" href="@DestinationUrl">@CtaLabel</a>
+    }
+    else
+    {
+        <span class="btn btn-secondary is-disabled" aria-disabled="true">@CtaLabel</span>
+    }
+</article>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string Description { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string StatusLabel { get; set; } = string.Empty;
+
+    /// <summary>Null/empty renders a disabled (non-link) CTA — used when the destination page does not exist yet.</summary>
+    [Parameter]
+    public string? DestinationUrl { get; set; }
+
+    [Parameter]
+    public string CtaLabel { get; set; } = "Очаквайте скоро";
+}

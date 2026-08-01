@@ -4,26 +4,27 @@
 
 ## ACTIVE CONTEXT FOR CURRENT STEP
 
-Минимален набор документи, необходими за следващата стъпка (Фаза 2 — допълнителни wireframes/страници по `22_USER_FLOWS.md`, или STEP-1.6 при собственическо решение):
+Минимален набор документи, необходими за следващата стъпка (Фаза 2/3 продължение — реално съдържание за `/kpt` и Модул 1/2, или STEP-1.6 при собственическо решение):
 
 - `02_CURRENT_STATUS.md` (този файл — винаги първи).
 - `24_IMPLEMENTATION_ROADMAP.md` → секция Фаза 2.
 - `18_INFORMATION_ARCHITECTURE.md` / `22_USER_FLOWS.md` → само страницата, която реално се строи.
+- `07_CONTENT_GOVERNANCE.md` → задължителен преди писане на реално учебно съдържание (Модул 1/2 текст).
 - `25_CLAUDE_CODE_SKILLS_REGISTRY.md` / `26_SKILL_USAGE_LOG.md` → `ui-ux-pro-max` (SKILL-046) е основният UI/UX skill за всяка следваща UI стъпка.
 
-**Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15), PRD/Content Model (17, 21), Clinical Safety Boundaries (23) — освен когато страницата реално съдържа психологическо съдържание, пълен Risk Register, пълен Session Log.
+**Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15), PRD (17), пълен Risk Register, пълен Session Log.
 
 ## Текуща фаза
 
-Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE` (STEP-1.3/1.4/1.5 с `REMOTE CI RUN PENDING`); STEP-1.6 `DEFERRED — REQUIRED BEFORE FIRST MAJOR FEATURE MERGE OR REMOTE PR`. **Фаза 2 — STARTED.** STEP-2.1 (Design system foundation) `COMPLETE`.
+Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE` (STEP-1.3/1.4/1.5 с `REMOTE CI RUN PENDING`); STEP-1.6 `DEFERRED — REQUIRED BEFORE FIRST MAJOR FEATURE MERGE OR REMOTE PR`. **Фаза 2 — STARTED.** STEP-2.1 (Design system foundation) `COMPLETE`. STEP-2.2 (Real page wireframes and navigation) `COMPLETE`.
 
 ## Текуща стъпка
 
-STEP-2.1 завършена. Следваща (не автоматично изпълнена): допълнителни wireframes/страници по `22_USER_FLOWS.md` или разширяване на компонентната библиотека — изисква ново извикване.
+STEP-2.2 завършена. Следваща (не автоматично изпълнена): реално съдържание за `/kpt` и/или модулните страници (изисква `07_CONTENT_GOVERNANCE.md` цикъл), или STEP-1.6 — собственическо решение, изисква ново извикване.
 
 ## Последна завършена задача
 
-STEP-2.1 (Фаза 2, Сесия 11): реална design system основа — CSS custom properties (color roles/typography/spacing/shape/layout) в `app.css`; базови компоненти (бутони, връзки, карти, `DisclaimerCallout` shared component, navigation container, form field foundation); `MainLayout.razor` пренаписан с реална header/nav/footer/skip-link структура по одобрената IA; `Home.razor` и `NotFound.razor` пренаписани с честно, минимално съдържание (не placeholder). `ui-ux-pro-max` използван за starting point (стил "Accessible & Ethical", шрифт Atkinson Hyperlegible), адаптиран ръчно (напр. заменена предложената cyan/healthcare палитра с по-топла, по-малко "клинична" — виж `26_SKILL_USAGE_LOG.md`). 2 нови теста (общо 6/6 passing). Реален HTTP smoke test потвърди структурата в сервирания HTML.
+STEP-2.2 (Фаза 2, Сесия 12): 2 реални публични страници — `Home.razor` пренаписана (hero/как работи/какво ще научите/образователна граница) и нова `/programa` страница (модулен каталог). Нов reusable `ModuleCard.razor` (Title/Description/StatusLabel/DestinationUrl/CtaLabel) — Модул 1 и Модул 2 показани с честен статус "в процес на подготовка", **без dead links** към несъществуващи lesson страници (съзнателно решение). Nav активно състояние чрез Blazor `NavLink` (автоматичен `aria-current="page"` + CSS клас). `ui-ux-pro-max` използван за landing/UX справки, адаптиран ръчно (отхвърлени testimonials/social-proof/sticky-nav модели). 3 нови теста (общо 9/9 passing). Реален HTTP smoke test потвърди двете страници, active nav state, disabled module CTA state, липса на dead links.
 
 ## Repository — статус (2026-07-30)
 
@@ -39,6 +40,7 @@ STEP-2.1 (Фаза 2, Сесия 11): реална design system основа �
 | Test project | `CbtLearningPlatform.Tests` (xUnit, `net10.0`) — 4 теста, всички passing |
 | Error handling | `ErrorBoundary` (Routes.razor) + българска `Error.razor` + преведен `#blazor-error-ui` банер; server-side `UseExceptionHandler` от темплейта, проверен реално в Production среда |
 | Design system | `app.css` — tokens (color/typography/spacing/shape/layout) + компоненти (бутони/карти/callout/nav/форми); `DisclaimerCallout` shared component; `MainLayout`/`Home`/`NotFound` реализирани с реално съдържание |
+| Public pages | `/` (Home) и `/programa` — реални, честни, с `ModuleCard` компонент; nav active state (`NavLink`); Google Fonts CDN — временно решение (Variant B), не окончателно production |
 
 ## Environment — актуален статус (2026-07-30)
 
@@ -72,12 +74,12 @@ STEP-2.1 (Фаза 2, Сесия 11): реална design system основа �
 
 ## Следваща препоръчана задача
 
-Допълнителни Фаза 2 wireframes/страници по `22_USER_FLOWS.md` (за да се изпълни пълния Phase 2 критерий "поне 2 реални страници"), или STEP-1.6 (`DEFERRED`, задължителна преди първи голям merge/remote PR) — собственическо решение, изисква ново извикване. Реален GitHub Actions run остава `PENDING` до създаване на remote.
+Пълният Phase 2 критерий "споделена библиотека, използвана на поне 2 реални страници" вече е изпълнен (`Home` + `Programa`). Следваща логична стъпка: реално съдържание за `/kpt` и модулните lesson страници (Фаза 3, изисква `07_CONTENT_GOVERNANCE.md` цикъл), или STEP-1.6 (`DEFERRED`) — собственическо решение, изисква ново извикване. `PROVISIONAL — SCREENSHOT REVIEW PENDING`: реален browser/screenshot QA все още не е извършван (няма достъпен инструмент в тази сесия). Реален GitHub Actions run остава `PENDING` до създаване на remote.
 
 ## Последна актуализация
 
-2026-08-01 — Сесия 11, STEP-2.1 (Design system foundation, Фаза 2 стартирана).
+2026-08-01 — Сесия 12, STEP-2.2 (реални публични страници Home + Programa, Фаза 2 критерий изпълнен).
 
 ## Общ приблизителен прогрес
 
-Фаза 0: 100%. Фаза 1: ~92% (5.5 от 6 STEP-а — само STEP-1.6 съзнателно отложена). Фаза 2: старт (1 стъпка от няколко). Общ проект (Фази 0–9): ~23%.
+Фаза 0: 100%. Фаза 1: ~92% (5.5 от 6 STEP-а — само STEP-1.6 съзнателно отложена). Фаза 2: ~40% (2 стъпки — design system + 2 реални страници; предстоят допълнителни wireframes/компоненти при реална нужда). Общ проект (Фази 0–9): ~25%.

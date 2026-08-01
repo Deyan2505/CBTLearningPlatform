@@ -4,6 +4,18 @@
 
 ---
 
+## 2026-08-01 (продължение) — STEP-2.2: реални публични страници (Home + Programa)
+
+- **Код (поправено):** `Home.razor` пренаписана — hero (заглавие/обяснение/primary+secondary CTA), "Как работи обучението" (3 честни стъпки), "Какво ще научите" (2 `ModuleCard`), "Образователна граница" (`DisclaimerCallout` + пълен "какво НЕ е" списък от `00_PROJECT_CHARTER.md`).
+- **Код (добавено):** нова `/programa` страница — модулен каталог с 2 `ModuleCard` + `DisclaimerCallout`.
+- **Код (добавено):** `Components/Shared/ModuleCard.razor` — reusable компонент (Title/Description/StatusLabel/DestinationUrl/CtaLabel); при липсващ `DestinationUrl` рендира честен disabled-state вместо dead link.
+- **Код (поправено):** `MainLayout.razor` header nav — `<a>` заменени с `NavLink` за автоматичен active state (`class="active"` + `aria-current="page"`, потвърдено в реално сервирания HTML).
+- **CSS (добавено):** `.site-nav a.active`, `.module-list`, `.module-card__status`, `.is-disabled` в `app.css`.
+- **Google Fonts CDN:** запазен временно (Variant B) — не разширен, fallback stack потвърден в `--font-family-base`, регистриран като отворено privacy/performance решение, не окончателно production.
+- **Тестове (добавено):** `PublicPagesTests.cs` — 3 нови теста (Programa съществува, ModuleCard съществува, ModuleCard public API стабилен). Общо 9/9 passing.
+- **Проверено:** build 0/0; реален HTTP smoke test на `/` и `/programa` (200), active nav state, disabled module CTA (без href), липса на dead links, липса на placeholder текст, точен disclaimer текст на двете страници.
+- **Резултат:** `PHASE 2 / STEP-2.2 COMPLETE`. Phase 2 критерий "поне 2 реални страници" изпълнен.
+
 ## 2026-08-01 — STEP-2.1: Design system foundation (Фаза 2 стартирана)
 
 - **Архитектура:** STEP-1.6 (linting) официално `DEFERRED — REQUIRED BEFORE FIRST MAJOR FEATURE MERGE OR REMOTE PR` — собственическо решение, регистрирано в `24_IMPLEMENTATION_ROADMAP.md`.

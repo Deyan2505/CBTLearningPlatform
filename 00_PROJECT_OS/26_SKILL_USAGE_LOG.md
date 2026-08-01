@@ -110,3 +110,23 @@
 - **Проверки:** build (0/0), тестове (6/6), реален HTTP smoke test на сервирания HTML/CSS.
 - **Отклонения от skill инструкциите:** няма — skill-ът е ползван правилно като searchable reference, не като автоматичен генератор без преглед.
 - **Резултат:** STEP-2.1 `COMPLETE`. `ui-ux-pro-max` доказано полезен, но изисква ръчна преценка за всяка препоръка спрямо клиничните/тоналните ограничения на проекта — това ще се прилага и занапред.
+
+---
+
+## 2026-08-01 — STEP-2.2: Real page wireframes and navigation
+
+- **Roadmap step:** STEP-2.2 (`24_IMPLEMENTATION_ROADMAP.md`, ново добавен).
+- **Използвани skills:**
+  - `ui-ux-pro-max` (SKILL-046) — **основен skill**, задължителен. Реални CLI извиквания:
+    1. `search.py "educational course catalog hero non-promotional" --domain landing -n 4` — 4 landing patterns.
+    2. `search.py "card list catalog navigation" --domain ux -n 6` — navigation/accessibility правила.
+  - **Приложени правила:** структурна логика "Hero + Features + CTA" (без цветовата му стратегия); `nav-state-active` (реализирано чрез Blazor `NavLink`, не ръчен CSS/JS).
+  - **Отхвърлени препоръки (документирано защо):** vibrant/high-contrast marketing цветова схема — остава приглушената STEP-2.1 палитра; testimonials/social-proof/video-hero модели — забранени по продуктови правила (без измислени оценки/потребители/успехи); sticky navigation — ненужна сложност; breadcrumbs — преждевременно за 2-страничен сайт.
+  - `ponytail:ponytail` (пасивно) — `ModuleCard` компонент създаден само защото реално намалява дублиране (2 идентични карти на 2 страници); не са добавени bUnit/browser testing frameworks, не е добавен UI framework.
+  - `run` — реални build/test/HTTP smoke test изпълнения.
+  - `security-review` — **не е приложен формално**: без нови зависимости/secrets/auth/потребителски вход.
+- **Защо са избрани:** `ui-ux-pro-max` — изрично задължителен за UI стъпки; `ponytail` управлява решението кога компонент реално заслужава extraction.
+- **Засегнати файлове:** `Home.razor`, `Programa.razor` (нов), `ModuleCard.razor` (нов), `MainLayout.razor`, `app.css`, `_Imports.razor`, `PublicPagesTests.cs` (нов).
+- **Проверки:** build (0/0), тестове (9/9), реален HTTP smoke test с структурни assertions (h1 count, active nav state, disabled module CTA, disclaimer текст, липса на placeholder/dead links).
+- **Отклонения от skill инструкциите:** няма.
+- **Резултат:** STEP-2.2 `COMPLETE`. Phase 2 критерий за завършване изпълнен.

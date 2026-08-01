@@ -330,3 +330,32 @@
 - **Създадени файлове:** `DisclaimerCallout.razor`, `DesignSystemTests.cs`.
 - **Нерешени проблеми:** Google Fonts CDN зависимост (`@import url(...)` за Atkinson Hyperlegible) — деградира грациозно (system font fallback stack дефиниран), но не е тествано офлайн поведение в тази сесия. STEP-1.6 остава съзнателно отложена.
 - **Следваща стъпка:** допълнителни wireframes/страници по `22_USER_FLOWS.md` или разширяване на компонентната библиотека при реална нужда — изисква ново извикване.
+
+---
+
+## Сесия 12 — STEP-2.2: Real page wireframes and navigation — 2026-08-01
+
+- **Повод:** собственикът поиска реализация на поне 2 реални страници по roadmap, за да се изпълни Phase 2 критерия за завършване.
+- **Context control:** прочетени `02_CURRENT_STATUS.md`, MVP-релевантен откъс от `19_MVP_SCOPE.md` (потвърждение Модул 1 "Какво е КПТ" + Модул 2 flagship като първите 2 MVP модула), `22_USER_FLOWS.md` (Flow 1 "Първо посещение", Flow 3 "Избор на модул"), `18_INFORMATION_ARCHITECTURE.md` (модул 1/2 описания — точния learning objective текст, не измислен), `00_PROJECT_CHARTER.md` ("Какво НЕ е платформата" — точен списък за Home).
+- **UI UX Pro Max — реално използване:**
+  - `search.py "educational course catalog hero non-promotional" --domain landing -n 4` → 4 landing patterns (Hero-Centric, Hero+Features+CTA, Video-First, Hero+Testimonials).
+  - `search.py "card list catalog navigation" --domain ux -n 6` → sticky nav padding, breadcrumbs, back button, keyboard nav, skip links, active state.
+  - **Приложено:** структурна логика на "Hero + Features + CTA" (hero → процес → модули → CTA → footer); `nav-state-active` чрез Blazor `NavLink` (автоматичен `aria-current="page"`).
+  - **Отхвърлено (skill не отменя проектните решения):** vibrant/7:1-accent marketing цветова стратегия (остава приглушеният teal); testimonials/social-proof/video-hero — изрично забранени по продуктови правила; sticky navigation — излишна сложност за MVP; breadcrumbs — преждевременно (само 2 реални страници).
+- **Wireframes представени преди имплементация** (Home + Programa) — виж пълния текст в чата: hierarchy, секции по ред, primary/secondary CTA, mobile stacking, empty/unavailable states, landmarks, връзка към user flow.
+- **Ключово дизайн решение (документирано и обосновано):** Модул 1 и Модул 2 карти на `/programa` и `Home` показват честен статус "Съдържанието е в процес на подготовка" **без** кликаем линк към несъществуваща lesson страница — за разлика от header/footer nav (прието в STEP-2.1, че сочене към бъдещи routes с friendly 404 е нормално за инфраструктура), директна карта на действие представлява по-силно "click now" обещание, затова `ModuleCard` рендира disabled-style `<span aria-disabled="true">` вместо `<a>`, когато `DestinationUrl` е null.
+- **Извършена техническа работа:**
+  - `Components/Shared/ModuleCard.razor` — нов reusable компонент (`Title`, `Description`, `StatusLabel`, `DestinationUrl?`, `CtaLabel`).
+  - `Home.razor` пренаписана по wireframe-а: hero (h1 + честно обяснение + `.btn-primary`/`.btn-secondary`), "Как работи обучението" (`<ol>`, 3 честни стъпки, без обещания за резултат), "Какво ще научите" (2 `ModuleCard`), "Образователна граница" (`DisclaimerCallout` + пълен "какво НЕ е" списък, дословно от charter-а).
+  - Нова `Components/Pages/Programa.razor` (`/programa`) — заглавие, кратко въведение, 2 `ModuleCard`, `DisclaimerCallout`.
+  - `MainLayout.razor`: header nav `<a>` → `NavLink` (5 елемента); потвърдено, че Blazor `NavLink` автоматично добавя `aria-current="page"` при активен route (не се наложи ръчна имплементация).
+  - `app.css`: `.site-nav a.active`, `.module-list`, `.module-card__status`, `.is-disabled` добавени.
+  - Google Fonts CDN: **Вариант B** избран (временно запазване) — CDN не разширен с нови шрифтове, fallback stack (`-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`) вече присъства в `--font-family-base` от STEP-2.1, потвърдено; регистрирано като отворено, не-окончателно решение.
+  - `_Imports.razor`: добавен `@using CbtLearningPlatform.Components.Shared` глобално (вместо повторение per-page).
+  - `PublicPagesTests.cs` — 3 нови теста: `Programa` съществува в host assembly; `ModuleCard` съществува; `ModuleCard` публичните параметри (Title/Description/StatusLabel/DestinationUrl/CtaLabel) стабилни.
+- **Проверки:** `dotnet build` (0/0), `dotnet test` (9/9 — 6 съществуващи + 3 нови). Реален HTTP smoke test: стартирано приложението, `curl` `/` → 200, `/programa` → 200, `app.css` → 200, `/kpt` (все още непостроен) → 404 през нашата friendly `NotFound.razor` (не суров 404). Структурни проверки в реалния сервиран HTML: точно 1 `<h1>` на всяка страница; `NavLink` active state потвърден (`class="active" aria-current="page"`) и на двете страници спрямо текущия route; 2× `aria-disabled="true"` на `/programa` (двете module карти коректно disabled, без `href` към `/programa/{slug}`); точен disclaimer текст present на двете страници; липса на "Hello, world" placeholder. **Честно отбелязано:** Visual QA статус `PROVISIONAL — SCREENSHOT REVIEW PENDING` — HTTP/структурна проверка + ръчен CSS преглед, не буквален browser screenshot; няма достъпен screenshot инструмент в тази сесия.
+- **Резултат:** `PHASE 2 / STEP-2.2 COMPLETE`. Phase 2 критерий за завършване ("споделена библиотека от компоненти, използвана поне на 2 реални страници") официално изпълнен.
+- **Променени файлове:** `Home.razor`, `MainLayout.razor`, `app.css`, `_Imports.razor`, `02`, `04`, `24`, `26`.
+- **Създадени файлове:** `Programa.razor`, `ModuleCard.razor`, `PublicPagesTests.cs`.
+- **Нерешени проблеми:** Google Fonts CDN остава отворено privacy/performance решение (не окончателно). Реален browser/screenshot visual QA все още не е извършван. STEP-1.6 остава `DEFERRED`.
+- **Следваща стъпка:** реално съдържание за `/kpt` и модулните lesson страници (Фаза 3, изисква `07_CONTENT_GOVERNANCE.md` цикъл) или STEP-1.6 — собственическо решение, изисква ново извикване.
