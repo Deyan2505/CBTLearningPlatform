@@ -1,0 +1,221 @@
+@* REQUIRES PROFESSIONAL REVIEW before real publication — no staffed clinical reviewer yet (RISK-010).
+   Representative Weekly Course Hub week page — content-rich, sectioned, simulator-led, two-column
+   workspace redesign (owner visual rejection round 3). Composes over the existing, already-approved
+   Modul2Lesson1/2/3 content (situation→thought→emotion→behavior model) rather than duplicating
+   their full text. Content basis: same as the three Module 2 lessons (SRC-041, Ch. 3/9/10).
+   Concept-map/comparison-matrix are static SSR (no state); CbtChainSimulator/InterpretationExample
+   (branch diagram)/CategorizationCheck are the 3 Interactive WebAssembly islands. Two-column rows
+   use .learning-grid — DOM order always matches reading order, no CSS `order` reordering. *@
+@page "/kurs/sedmica-8"
+
+<PageTitle>Седмица 8: Автоматични мисли и емоции — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--@_week.Status.ToStatusModifier()">@_week.Status.ToPublicLabel()</span>
+        </div>
+        <LearningObjectives Objectives="@_week.LearningObjectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="#nakratko">Накратко</a>
+        <a href="#karta-na-temata">Карта на темата</a>
+        <a href="#simulator">Симулатор</a>
+        <a href="#sravnenie">Сравнение</a>
+        <a href="#misal-ili-emociya">Мисъл или емоция</a>
+        <a href="#palno-obyasnenie">Пълно обяснение</a>
+        <a href="#proverka">Проверка</a>
+        <a href="#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    <div class="learning-grid learning-grid--content-visual">
+        <section class="section-card section-card--theory">
+            <span class="section-role-label section-role-label--theory">Теория</span>
+            <h2 id="nakratko" tabindex="-1">01 · Накратко</h2>
+            <p>
+                Реакцията ни към дадена ситуация минава през автоматична мисъл — бърза, спонтанна
+                интерпретация — която на свой ред предизвиква емоция и телесна реакция, а те оформят
+                поведението ни. Например: закъснявате за среща и мисълта "ще си помислят зле за мен"
+                води до тревога и стегнати рамене, докато мисълта "трафикът е извън моя контрол" би
+                довела до различна, по-спокойна реакция.
+            </p>
+            <p class="key-idea-strip">
+                <span class="key-idea">Ситуация ≠ реакция</span>
+                <span class="key-idea">Мисъл ≠ чувство</span>
+                <span class="key-idea">Емоция често има телесен сигнал</span>
+                <span class="key-idea">Различни хора реагират различно</span>
+            </p>
+            <p>След тази седмица ще можете да различавате мисъл от емоция и да разпознавате телесния сигнал, който често придружава дадено чувство.</p>
+        </section>
+
+        <section class="section-card section-card--visual">
+            <span class="section-role-label section-role-label--visual">Визуален модел</span>
+            <h2 id="karta-na-temata" tabindex="-1">02 · Карта на темата</h2>
+            <div class="concept-map">
+                <ol class="concept-map__flow">
+                    <li class="concept-map__node">Ситуация</li>
+                    <li class="concept-map__connector" aria-hidden="true">↓</li>
+                    <li class="concept-map__node">Автоматична мисъл</li>
+                    <li class="concept-map__connector" aria-hidden="true">↓</li>
+                    <li class="concept-map__node-pair">
+                        <span class="concept-map__node">Емоция</span>
+                        <span class="concept-map__connector concept-map__connector--horizontal" aria-hidden="true">↔</span>
+                        <span class="concept-map__node">Телесна реакция</span>
+                    </li>
+                    <li class="concept-map__connector" aria-hidden="true">↓</li>
+                    <li class="concept-map__node">Поведение</li>
+                </ol>
+                <p class="concept-map__feedback">Поведението често влияе върху следващата ситуация, с която се сблъскваме — веригата не е еднопосочна.</p>
+
+                <div class="concept-map__side-notes">
+                    <div class="card">
+                        <h3>Факт срещу интерпретация</h3>
+                        <p><strong>Факт:</strong> "Съобщението остана без отговор 3 часа."</p>
+                        <p><strong>Интерпретация:</strong> "Сигурно съм казал/а нещо грешно."</p>
+                    </div>
+                    <div class="card">
+                        <h3>Мисъл срещу чувство</h3>
+                        <p><strong>Мисъл:</strong> "Изобщо не ставам за това." (изречение)</p>
+                        <p><strong>Чувство:</strong> "разочарование" (една дума)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <h2 id="simulator" tabindex="-1">03 · Симулатор</h2>
+    <CbtChainSimulator @rendermode="InteractiveWebAssembly" />
+
+    <div class="learning-grid learning-grid--balanced">
+        <section class="section-card section-card--example">
+            <span class="section-role-label section-role-label--example">Пример</span>
+            <h2 id="sravnenie" tabindex="-1">04 · Две интерпретации, два възможни пътя</h2>
+            <InterpretationExample @rendermode="InteractiveWebAssembly" />
+        </section>
+
+        <section class="section-card section-card--example">
+            <span class="section-role-label section-role-label--example">Пример</span>
+            <h2 id="misal-ili-emociya" tabindex="-1">05 · Мисъл или емоция?</h2>
+            <div class="comparison-matrix-wrapper">
+                <table class="comparison-matrix">
+                    <caption>Как да разпознаете четирите части на модела</caption>
+                    <thead>
+                        <tr><th scope="col">Категория</th><th scope="col">Как изглежда</th><th scope="col">Типичен граматичен вид</th><th scope="col">Пример</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><th scope="row">Мисъл</th><td>твърдение или образ</td><td>изречение</td><td>"Няма да се справя"</td></tr>
+                        <tr><th scope="row">Емоция</th><td>преживяване</td><td>често една дума</td><td>тревога</td></tr>
+                        <tr><th scope="row">Телесна реакция</th><td>физическо усещане</td><td>описание</td><td>напрежение</td></tr>
+                        <tr><th scope="row">Поведение</th><td>действие или избягване</td><td>глагол</td><td>отлагам</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <CategorizationCheck @rendermode="InteractiveWebAssembly" />
+        </section>
+    </div>
+
+    <div class="learning-grid learning-grid--wide-narrow">
+        <section class="section-card section-card--theory">
+            <span class="section-role-label section-role-label--theory">Теория</span>
+            <h2 id="palno-obyasnenie" tabindex="-1">06 · Пълно обяснение</h2>
+            <ProgressiveExplanation SummaryLabel="Покажи пълното обяснение">
+                <h3>Ситуация → Мисъл → Емоция → Поведение</h3>
+                <p>
+                    Целият модел е разгледан в <a href="/programa/modul-2/situacia-misal-emocia-povedenie">Урок 1 на Модул 2</a> —
+                    ситуациите сами по себе си не определят реакцията ни; интерпретацията им играе основна роля.
+                    Различни хора могат да интерпретират една и съща ситуация по коренно различен начин, без
+                    нито една от интерпретациите да е "погрешна" сама по себе си.
+                </p>
+
+                <h3>Автоматични мисли</h3>
+                <p>
+                    Автоматичната мисъл е бърза, спонтанна интерпретация — изречение или мислен образ — която
+                    се появява почти веднага след дадена ситуация, често без съзнателно усилие. Разгледана
+                    подробно в <a href="/programa/modul-2/avtomatichni-misli">Урок 2</a>, включително честото
+                    объркване между мисъл и чувство — двете лесно се сливат в едно, но описват различни неща.
+                </p>
+
+                <h3>Емоции и телесни реакции</h3>
+                <p>
+                    Емоциите обикновено се описват с една дума и имат различна сила — леки, средни или силни, не
+                    просто "включени" или "изключени". Често се придружават от телесен сигнал (стегнати рамене,
+                    ускорен пулс, тежест в стомаха), който понякога се забелязва преди самата емоция да бъде
+                    назована с дума. Пълното разглеждане е в <a href="/programa/modul-2/emocii-i-telesni-reaktsii">Урок 3</a>.
+                </p>
+
+                <h3>Граници на модела</h3>
+                <p>
+                    Моделът е опростяване, полезно за забелязване на връзки — не твърдение, че "просто промяна
+                    на мисленето" решава всеки проблем без контекст, нито заместител на професионална помощ при
+                    по-сериозни затруднения.
+                </p>
+            </ProgressiveExplanation>
+        </section>
+
+        <section class="section-card section-card--academic">
+            <span class="section-role-label section-role-label--academic">Академично</span>
+            <h3>Академичен контекст</h3>
+            <ProgressiveExplanation SummaryLabel="Академичен контекст">
+                <p>
+                    Моделът произлиза от когнитивната терапия на Аарон Т. Бек (1964) и е представен систематично
+                    от Джудит С. Бек в "Когнитивно-поведенческа терапия: Основи и отвъд" — основният citation-grade
+                    източник на платформата (виж <code>11_SOURCE_REGISTER.md</code>). Терминът "автоматична мисъл"
+                    описва когниция, която се появява спонтанно, без съзнателно усилие, и не е задължително
+                    логически обоснована.
+                </p>
+            </ProgressiveExplanation>
+        </section>
+    </div>
+
+    <div class="learning-grid learning-grid--balanced">
+        <section class="section-card section-card--theory">
+            <span class="section-role-label section-role-label--theory">Рефлексия</span>
+            <h2 id="proverka" tabindex="-1">07 · Проверка на разбирането</h2>
+            <p>Отделете момент да размислите (без изпращане, без оценка):</p>
+            <ol>
+                <li>Можете ли да посочите ситуация от собствения си живот и мисълта, която тя предизвика?</li>
+                <li>Каква е разликата между мисъл и чувство в собствените ви думи?</li>
+                <li>Забелязвате ли обикновено телесен сигнал преди да назовете емоцията, или след?</li>
+                <li>Как поведението в такъв момент би могло да повлияе на следваща подобна ситуация?</li>
+            </ol>
+        </section>
+
+        <section class="section-card section-card--academic">
+            <span class="section-role-label section-role-label--academic">Изводи</span>
+            <h2 id="izvori" tabindex="-1">08 · Обобщение, източници и граници</h2>
+            <ul>
+                <li>Ситуацията не определя сама по себе си реакцията ни — интерпретацията ѝ играе основна роля.</li>
+                <li>Автоматичната мисъл е бърза и спонтанна — изречение или образ, различни от чувството, което следва.</li>
+                <li>Емоциите се описват с една дума, имат различна сила и често се придружават от телесен сигнал.</li>
+                <li>Различни хора могат да реагират по различен начин на една и съща ситуация.</li>
+            </ul>
+
+            <DisclaimerCallout />
+
+            <p>
+                <a href="/programa/modul-2/situacia-misal-emocia-povedenie">Пълен Урок 1: Ситуация → Мисъл → Емоция → Поведение</a><br />
+                <a href="/programa/modul-2/avtomatichni-misli">Пълен Урок 2: Автоматични мисли</a><br />
+                <a href="/programa/modul-2/emocii-i-telesni-reaktsii">Пълен Урок 3: Емоции и телесни реакции</a><br />
+                <a href="/kurs">← Обратно към 15-седмичния курс</a>
+            </p>
+
+            <SourceReferences Citations="@_citations" />
+        </section>
+    </div>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 8);
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\", Глава 3 — Когнитивен модел (по Beck, 1964; Ellis, 1962).",
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\", Глава 9 — Идентифициране на автоматични мисли.",
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\", Глава 10 — Идентифициране на емоции."
+    ];
+}

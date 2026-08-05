@@ -1,48 +1,97 @@
 @* REQUIRES PROFESSIONAL REVIEW before real publication — no staffed clinical reviewer yet (RISK-010).
-   Content basis: REQ-CONT-005 / REQ-CLIN-003 (SRC-041, Ch. 3). *@
+   Content basis: REQ-CONT-005 / REQ-CLIN-003 (SRC-041, Ch. 3).
+   Global module-overview template (Session 21) — same wide/narrow pattern as Modul1.razor. *@
 @page "/programa/modul-2"
 
 <PageTitle>Модул 2 — Ситуация → Мисъл → Емоция → Поведение — КПТ Академия</PageTitle>
 
-<div class="content">
+<div class="hero-intro">
+    <p class="week-page__eyebrow"><a href="/programa">← Обучителна програма</a> · Модул 2 (флагмански)</p>
     <h1>Модул 2 — Ситуация → Мисъл → Емоция → Поведение</h1>
     <p>
         Този модул въвежда основния когнитивен модел на КПТ, с примери от ежедневието.
         Той е предпоставка за всички следващи модули в програмата.
     </p>
-
     <LearningObjectives Objectives="@_objectives" />
+</div>
 
-    <h2>Какво съдържа модулът</h2>
-    <p>Модулът включва поредица от уроци, които постепенно надграждат основния модел.</p>
+<div class="workspace">
+    <div class="learning-grid learning-grid--wide-narrow">
+        <LearningSection Role="theory" RoleLabel="Модул 2">
+            <h2>Уроци</h2>
+            <p>Модулът включва поредица от уроци, които постепенно надграждат основния модел.</p>
+            <div class="module-list">
+                <ModuleCard Title="Урок 1 — Ситуация → Мисъл → Емоция → Поведение"
+                            Description="Основният когнитивен модел, с ежедневен пример и кратка проверка на разбирането."
+                            StatusLabel="Наличен"
+                            DestinationUrl="/programa/modul-2/situacia-misal-emocia-povedenie"
+                            CtaLabel="Започни урока" />
 
-    <h2>Уроци</h2>
-    <div class="module-list">
-        <ModuleCard Title="Урок 1 — Ситуация → Мисъл → Емоция → Поведение"
-                    Description="Основният когнитивен модел, с ежедневен пример и кратка проверка на разбирането."
-                    StatusLabel="Наличен"
-                    DestinationUrl="/programa/modul-2/situacia-misal-emocia-povedenie"
-                    CtaLabel="Започни урока" />
+                <ModuleCard Title="Урок 2 — Автоматични мисли"
+                            Description="Разпознаване на бързи, спонтанни мисли — и как да ги различите от чувствата, които следват."
+                            StatusLabel="Наличен"
+                            DestinationUrl="/programa/modul-2/avtomatichni-misli"
+                            CtaLabel="Започни урока" />
 
-        <ModuleCard Title="Урок 2 — Автоматични мисли"
-                    Description="Разпознаване на бързи, спонтанни мисли — и как да ги различите от чувствата, които следват."
-                    StatusLabel="Наличен"
-                    DestinationUrl="/programa/modul-2/avtomatichni-misli"
-                    CtaLabel="Започни урока" />
+                <ModuleCard Title="Урок 3 — Емоции и телесни реакции"
+                            Description="Разпознаване на емоция и придружаващия я телесен сигнал — и различна сила на емоциите."
+                            StatusLabel="Наличен"
+                            DestinationUrl="/programa/modul-2/emocii-i-telesni-reaktsii"
+                            CtaLabel="Започни урока" />
+            </div>
+        </LearningSection>
 
-        <ModuleCard Title="Урок 3 — Емоции и телесни реакции"
-                    Description="Разпознаване на емоция и придружаващия я телесен сигнал — и различна сила на емоциите."
-                    StatusLabel="Наличен"
-                    DestinationUrl="/programa/modul-2/emocii-i-telesni-reaktsii"
-                    CtaLabel="Започни урока" />
-    </div>
+        <div class="hub-sidebar">
+            <LearningSection Role="visual" RoleLabel="Учебен път">
+                <h3>Как преминавате през модула</h3>
+                <ol class="module-path">
+                    <li class="module-path__item">
+                        <span class="module-path__marker module-path__marker--number" aria-hidden="true">1</span>
+                        <span class="module-path__connector-line" aria-hidden="true"></span>
+                        <a class="module-path__link" href="/programa/modul-2/situacia-misal-emocia-povedenie">Ситуация, мисъл, емоция и поведение</a>
+                        <p class="module-path__function">Целият модел, с ежедневен пример.</p>
+                    </li>
+                    <li class="module-path__item">
+                        <span class="module-path__marker module-path__marker--number" aria-hidden="true">2</span>
+                        <span class="module-path__connector-line" aria-hidden="true"></span>
+                        <a class="module-path__link" href="/programa/modul-2/avtomatichni-misli">Автоматични мисли</a>
+                        <p class="module-path__function">Мисъл срещу чувство.</p>
+                    </li>
+                    <li class="module-path__item">
+                        <span class="module-path__marker module-path__marker--number" aria-hidden="true">3</span>
+                        <a class="module-path__link" href="/programa/modul-2/emocii-i-telesni-reaktsii">Емоции и телесни реакции</a>
+                        <p class="module-path__function">Емоция и телесен сигнал.</p>
+                    </li>
+                </ol>
+            </LearningSection>
 
-    <p>
-        <a href="/programa">← Обратно към програмата</a>
-    </p>
+            <LearningSection Role="visual" RoleLabel="Карта на темата">
+                <h3>Моделът в четири стъпки</h3>
+                <ol class="concept-map__flow">
+                    <li class="concept-map__node">Ситуация</li>
+                    <li class="concept-map__connector" aria-hidden="true">↓</li>
+                    <li class="concept-map__node">Автоматична мисъл</li>
+                    <li class="concept-map__connector" aria-hidden="true">↓</li>
+                    <li class="concept-map__node-pair">
+                        <span class="concept-map__node">Емоция</span>
+                        <span class="concept-map__connector concept-map__connector--horizontal" aria-hidden="true">↔</span>
+                        <span class="concept-map__node">телесна реакция</span>
+                    </li>
+                    <li class="concept-map__connector" aria-hidden="true">↓</li>
+                    <li class="concept-map__node">Поведение</li>
+                </ol>
+            </LearningSection>
 
-    <div class="section">
-        <DisclaimerCallout />
+            <LearningSection Role="interactive" RoleLabel="В курса">
+                <h3>Представителна седмица</h3>
+                <p>Целият модел, обединен в едно интерактивно работно пространство — симулатор, сравнение и проверка.</p>
+                <p><a class="btn btn-violet" href="/kurs/sedmica-8">Отвори Седмица 8</a></p>
+            </LearningSection>
+
+            <LearningSection Role="academic" RoleLabel="Образователна граница">
+                <DisclaimerCallout />
+            </LearningSection>
+        </div>
     </div>
 </div>
 
@@ -54,4 +103,3 @@
         "Прилагате модела върху собствен, ежедневен пример."
     ];
 }
-

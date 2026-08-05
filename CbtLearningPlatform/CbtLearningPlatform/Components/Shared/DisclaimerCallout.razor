@@ -1,6 +1,14 @@
-<div class="callout callout--info" role="note">
+@* Session 23: two semantic variants. "educational" (default) is the calm, general boundary
+   statement used almost everywhere — indigo/blue, not danger-colored. "safety" (rose) is
+   reserved for content that needs a genuinely stronger limitation — not used by default. *@
+<div class="callout callout--@Variant" role="note">
     <p>
         Тази платформа е образователна и не замества професионална психологическа или медицинска помощ.
         <a href="/ogranichenia">Научете повече</a>
     </p>
 </div>
+
+@code {
+    [Parameter]
+    public string Variant { get; set; } = "educational";
+}

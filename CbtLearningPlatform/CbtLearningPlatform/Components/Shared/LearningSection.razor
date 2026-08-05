@@ -1,0 +1,26 @@
+@* Static SSR. Reusable content-role wrapper — replaces the old "everything is the same
+   .card" pattern (Session 21 global redesign). Role drives the left accent border + badge
+   color via app.css (.section-card--{role} / .section-role-label--{role}); text label is
+   always shown too, never color-only. *@
+
+<section class="section-card section-card--@Role" id="@Id">
+    @if (!string.IsNullOrEmpty(RoleLabel))
+    {
+        <span class="section-role-label section-role-label--@Role">@RoleLabel</span>
+    }
+    @ChildContent
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Role { get; set; } = "";
+
+    [Parameter]
+    public string? RoleLabel { get; set; }
+
+    [Parameter]
+    public string? Id { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
+}

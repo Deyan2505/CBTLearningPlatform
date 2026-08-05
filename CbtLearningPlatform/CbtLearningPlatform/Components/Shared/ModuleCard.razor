@@ -1,14 +1,16 @@
-<article class="card module-card" aria-label="@Title">
+@* No outer .card border — this always renders inside an already-bordered LearningSection,
+   so a second full border would be "card in card" chrome. A row + divider is enough. *@
+<article class="module-card" aria-label="@Title">
     <h3>@Title</h3>
     <p>@Description</p>
-    <p class="module-card__status">@StatusLabel</p>
     @if (!string.IsNullOrEmpty(DestinationUrl))
     {
-        <a class="btn btn-secondary" href="@DestinationUrl">@CtaLabel</a>
+        <a class="btn btn-violet" href="@DestinationUrl">@CtaLabel</a>
     }
     else
     {
-        <span class="btn btn-secondary is-disabled" aria-disabled="true">@CtaLabel</span>
+        <p class="module-card__status">@StatusLabel</p>
+        <span class="btn btn-neutral is-disabled" aria-disabled="true">@CtaLabel</span>
     }
 </article>
 

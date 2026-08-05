@@ -2,32 +2,46 @@
 
 <a class="skip-link" href="#main-content">Прескочи към съдържанието</a>
 
-<header class="site-header">
-    <div class="site-header__inner">
-        <a class="site-header__brand" href="/">КПТ Академия</a>
+<div class="app-shell">
+    <aside class="app-sidebar" aria-label="Странична навигация">
+        <a class="app-sidebar__brand" href="/">КПТ Академия</a>
+
         <nav aria-label="Основна навигация">
-            <ul class="site-nav">
-                <li><NavLink href="/" Match="NavLinkMatch.All">Начало</NavLink></li>
-                <li><NavLink href="/kpt">Какво е КПТ</NavLink></li>
-                <li><NavLink href="/programa">Програма</NavLink></li>
-                <li><NavLink href="/resursi">Ресурси</NavLink></li>
-                <li><NavLink href="/vaprosi">ЧЗВ</NavLink></li>
+            <p class="app-sidebar__group-label">Обучение</p>
+            <ul class="app-sidebar__nav">
+                <li><NavLink href="/" Match="NavLinkMatch.All"><svg class="app-sidebar__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 9.5 10 4l7 5.5V17a1 1 0 0 1-1 1h-3.5v-5h-5v5H4a1 1 0 0 1-1-1V9.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Начало</NavLink></li>
+                <li><NavLink href="/kurs" Match="NavLinkMatch.All"><svg class="app-sidebar__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 8h14M7 2.5v3M13 2.5v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>15-седмичен курс</NavLink></li>
+                <li><NavLink href="/kpt" Match="NavLinkMatch.All"><svg class="app-sidebar__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v4.5M10 6.75v.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Какво е КПТ</NavLink></li>
+                <li><NavLink href="/programa" Match="NavLinkMatch.All"><svg class="app-sidebar__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3 3 6.5 10 10l7-3.5L10 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 10.5 10 14l7-3.5M3 14 10 17.5 17 14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Обучителна програма</NavLink></li>
+                <li><NavLink href="/programa/modul-1" Match="NavLinkMatch.All"><svg class="app-sidebar__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="4" y="3" width="12" height="14" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 7.5h6M7 10.5h6M7 13.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Модул 1</NavLink></li>
+                <li><NavLink href="/programa/modul-2" Match="NavLinkMatch.All"><svg class="app-sidebar__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="4" y="3" width="12" height="14" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 7.5h6M7 10.5h6M7 13.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Модул 2</NavLink></li>
             </ul>
         </nav>
-    </div>
-</header>
+    </aside>
 
-<main id="main-content" class="page-container">
-    @Body
-</main>
+    <div class="app-main">
+        <header class="app-topbar">
+            <div class="app-topbar__label">
+                <svg class="app-topbar__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3 3 6.5 10 10l7-3.5L10 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 10.5 10 14l7-3.5M3 14 10 17.5 17 14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                <span class="app-topbar__status">Образователна платформа</span>
+                <span class="app-topbar__subtitle">Основи на КПТ</span>
+            </div>
+            <ThemeToggle @rendermode="InteractiveWebAssembly" />
+        </header>
 
-<footer class="site-footer">
-    <div class="site-footer__inner">
-        <a href="/za-nas">За проекта</a>
-        <a href="/poveritelnost">Поверителност</a>
-        <a href="/uslovia">Условия за използване</a>
+        <main id="main-content" class="page-container">
+            @Body
+        </main>
+
+        <footer class="site-footer">
+            <div class="site-footer__inner">
+                <a href="/za-nas">За проекта</a>
+                <a href="/poveritelnost">Поверителност</a>
+                <a href="/uslovia">Условия за използване</a>
+            </div>
+        </footer>
     </div>
-</footer>
+</div>
 
 <div id="blazor-error-ui" data-nosnippet>
     Възникна неочакван проблем.

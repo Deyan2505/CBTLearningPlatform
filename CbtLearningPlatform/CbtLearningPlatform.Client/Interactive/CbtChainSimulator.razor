@@ -1,0 +1,167 @@
+@* Interactive WebAssembly island — the representative week's primary simulator workspace.
+   All controls are closed-choice (select/range) — no personal free text, no scoring, no
+   diagnosis, no persistence, no server call, no AI. Body reaction is derived from the chosen
+   emotion (not a separate control) to keep the "emotion ↔ body reaction" pairing honest rather
+   than implying they are independently choosable facts. *@
+
+<div class="cbt-simulator">
+    <div class="cbt-simulator__header">
+        <p class="cbt-simulator__meta">
+            <span class="cbt-simulator__label">Симулатор 01</span>
+            <span class="cbt-simulator__badge">Интерактивно</span>
+        </p>
+        <h3>CBT верижен симулатор</h3>
+        <p>
+            Изберете ситуация и мисъл, за да видите как биха могли да изглеждат емоцията,
+            телесната реакция и поведението, които я следват. Образователна демонстрация — не
+            оценка на личността ви и не единственият възможен път.
+        </p>
+    </div>
+
+    <div class="learning-grid learning-grid--controls-output">
+    <div class="cbt-simulator__panel">
+        <div class="field">
+            <label for="sim-situation">Ситуация</label>
+            <select id="sim-situation" @bind="_situationIndex" @bind:after="OnSituationChanged">
+                @for (int i = 0; i < Situations.Count; i++)
+                {
+                    <option value="@i">@Situations[i].Label</option>
+                }
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="sim-thought">Автоматична мисъл</label>
+            <select id="sim-thought" @bind="_thoughtIndex">
+                @for (int i = 0; i < CurrentSituation.Thoughts.Count; i++)
+                {
+                    <option value="@i">@CurrentSituation.Thoughts[i]</option>
+                }
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="sim-emotion">Емоция</label>
+            <select id="sim-emotion" @bind="_emotionIndex">
+                @for (int i = 0; i < Emotions.Count; i++)
+                {
+                    <option value="@i">@Emotions[i].Label</option>
+                }
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="sim-intensity">Интензивност (пример): @IntensityLabel</label>
+            <input id="sim-intensity" type="range" min="0" max="100" @bind="_intensity" @bind:event="oninput" />
+        </div>
+
+        <div class="field">
+            <label for="sim-behavior">Поведение</label>
+            <select id="sim-behavior" @bind="_behaviorIndex">
+                @for (int i = 0; i < Behaviors.Count; i++)
+                {
+                    <option value="@i">@Behaviors[i]</option>
+                }
+            </select>
+        </div>
+
+        <button type="button" class="btn btn-neutral" @onclick="Reset">Нулирай</button>
+    </div>
+
+    <div class="cbt-simulator__results">
+    <div class="cbt-simulator__output" aria-live="polite">
+        <ol class="cbt-simulator__flow">
+            <li class="cbt-simulator__node">
+                <span class="cbt-simulator__node-label">Ситуация</span>
+                <span>@CurrentSituation.Label</span>
+            </li>
+            <li class="cbt-simulator__connector" aria-hidden="true">↓</li>
+            <li class="cbt-simulator__node">
+                <span class="cbt-simulator__node-label">Автоматична мисъл</span>
+                <span>@CurrentSituation.Thoughts[_thoughtIndex]</span>
+            </li>
+            <li class="cbt-simulator__connector" aria-hidden="true">↓</li>
+            <li class="cbt-simulator__node-pair">
+                <div class="cbt-simulator__node">
+                    <span class="cbt-simulator__node-label">Емоция</span>
+                    <span>@Emotions[_emotionIndex].Label (@IntensityLabel)</span>
+                </div>
+                <span class="cbt-simulator__connector cbt-simulator__connector--horizontal" aria-hidden="true">↔</span>
+                <div class="cbt-simulator__node">
+                    <span class="cbt-simulator__node-label">Телесна реакция</span>
+                    <span>@Emotions[_emotionIndex].BodyReaction</span>
+                </div>
+            </li>
+            <li class="cbt-simulator__connector" aria-hidden="true">↓</li>
+            <li class="cbt-simulator__node">
+                <span class="cbt-simulator__node-label">Поведение</span>
+                <span>@Behaviors[_behaviorIndex]</span>
+            </li>
+        </ol>
+    </div>
+
+    <div class="cbt-simulator__detail">
+        <p><strong>Защо мисълта е отделен елемент:</strong> тя е изречение с конкретно съдържание, различно от чувството, което я следва.</p>
+        <p><strong>Защо емоцията е отделен елемент:</strong> обикновено се описва с една дума и следва мисълта, но не е самата мисъл.</p>
+        <p>Това е само един възможен път през модела — с друга мисъл или друг избор по-горе веригата би изглеждала различно. Различни хора могат да реагират различно на една и съща ситуация.</p>
+    </div>
+    </div>
+    </div>
+</div>
+
+@code {
+    private int _situationIndex;
+    private int _thoughtIndex;
+    private int _emotionIndex;
+    private int _behaviorIndex;
+    private int _intensity = 50;
+
+    private static readonly IReadOnlyList<SimSituation> Situations =
+    [
+        new("Съобщение без отговор", ["Сигурно е ядосан/а.", "Вероятно е зает/а с нещо."]),
+        new("Грешка при нова задача", ["Изобщо не ставам за това.", "Нормално е да не се получи от първия път."]),
+        new("Промяна на уговорка в последния момент", ["Явно не съм приоритет.", "Сигурно е възникнало нещо непредвидено."]),
+        new("Закъснение поради трафик", ["Ще си помислят зле за мен.", "Трафикът не зависи от мен."])
+    ];
+
+    private static readonly IReadOnlyList<SimEmotion> Emotions =
+    [
+        new("тревога", "стегнати рамене, ускорен пулс"),
+        new("спокойствие", "отпуснати мускули"),
+        new("раздразнение", "стегната челюст"),
+        new("тъга", "тежест в гърдите"),
+        new("облекчение", "по-дълбоко дишане")
+    ];
+
+    private static readonly IReadOnlyList<string> Behaviors =
+    [
+        "избягва подобни ситуации",
+        "проверява отново многократно",
+        "продължава спокойно с деня си",
+        "търси директен разговор",
+        "отлага решаването на въпроса"
+    ];
+
+    private SimSituation CurrentSituation => Situations[_situationIndex];
+
+    private string IntensityLabel => _intensity switch
+    {
+        < 34 => "лека",
+        < 67 => "средна",
+        _ => "силна"
+    };
+
+    private void OnSituationChanged() => _thoughtIndex = 0;
+
+    private void Reset()
+    {
+        _situationIndex = 0;
+        _thoughtIndex = 0;
+        _emotionIndex = 0;
+        _behaviorIndex = 0;
+        _intensity = 50;
+    }
+
+    private sealed record SimSituation(string Label, IReadOnlyList<string> Thoughts);
+    private sealed record SimEmotion(string Label, string BodyReaction);
+}

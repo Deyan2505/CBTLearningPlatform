@@ -116,9 +116,22 @@ public sealed class ContentSliceTests
     [Theory]
     [InlineData("Programa.razor")]
     [InlineData("Home.razor")]
-    public void ProgramCatalogPage_LinksToTheRealModule1Overview(string fileName)
+    public void ProgramCatalogPage_UsesTheLearningPathVisualization(string fileName)
     {
-        Assert.Contains(RouteOf("Modul1.razor"), ReadPage(fileName));
+        // STEP visual-direction correction: the flat module card list was replaced by
+        // <LearningPathVisualization />, which itself links to the real Module 1/2 routes
+        // (covered by LearningPathVisualization_LinksToTheRealModuleRoutes below).
+        Assert.Contains("<LearningPathVisualization", ReadPage(fileName));
+    }
+
+    [Fact]
+    public void LearningPathVisualization_LinksToTheRealModuleRoutes_NoDeadLinks()
+    {
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Shared");
+        string source = File.ReadAllText(Path.Combine(pagesDirectory, "LearningPathVisualization.razor"));
+
+        Assert.Contains(RouteOf("Modul1.razor"), source);
+        Assert.Contains(RouteOf("Modul2.razor"), source);
     }
 
     [Theory]
@@ -129,6 +142,8 @@ public sealed class ContentSliceTests
     [InlineData("Modul2Lesson1.razor")]
     [InlineData("Modul2Lesson2.razor")]
     [InlineData("Modul2Lesson3.razor")]
+    [InlineData("Kurs.razor")]
+    [InlineData("Sedmica8.razor")]
     public void PsychologicalContentPage_IncludesDisclaimerCallout(string fileName)
     {
         // 23_CLINICAL_SAFETY_BOUNDARIES.md: visible disclaimer required on every page with
@@ -142,7 +157,8 @@ public sealed class ContentSliceTests
         string[] contentFiles =
         [
             "Kpt.razor", "Modul1.razor", "Modul1Lesson1.razor",
-            "Modul2.razor", "Modul2Lesson1.razor", "Modul2Lesson2.razor", "Modul2Lesson3.razor"
+            "Modul2.razor", "Modul2Lesson1.razor", "Modul2Lesson2.razor", "Modul2Lesson3.razor",
+            "Kurs.razor", "Sedmica8.razor"
         ];
 
         // ADR-006/ADR-008: this categorization has no confirmed source and must never appear in published content.

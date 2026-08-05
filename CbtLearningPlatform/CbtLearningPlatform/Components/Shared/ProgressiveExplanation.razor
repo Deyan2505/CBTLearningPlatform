@@ -1,0 +1,17 @@
+@* Static SSR only — no Interactive WebAssembly render mode. Native <details>/<summary> already
+   gives keyboard support, focus-visible, and screen-reader semantics for free. *@
+
+<details class="progressive-explanation">
+    <summary>@SummaryLabel</summary>
+    <div class="progressive-explanation__body">
+        @ChildContent
+    </div>
+</details>
+
+@code {
+    [Parameter, EditorRequired]
+    public string SummaryLabel { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
+}

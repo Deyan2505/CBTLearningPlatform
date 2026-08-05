@@ -1,0 +1,62 @@
+@* Interactive WebAssembly island. Reveal-style knowledge workspace: clicking any category
+   button reveals the same neutral explanation for that phrase, so there is no comparison
+   against "your" specific click — no grading, no correct/wrong language, no storage.
+   "Разгледани примери" is a plain count of revealed items, not a competitive ranking. *@
+
+<div class="categorization-workspace">
+    <div class="categorization-workspace__header">
+        <h3>Мисъл, емоция, телесна реакция или поведение?</h3>
+        <p>За всяка кратка фраза изберете категория, после вижте обяснението.</p>
+        <p class="categorization-workspace__progress">Разгледани примери: @_revealed.Count / @_items.Count</p>
+    </div>
+
+    <dl class="categorization-workspace__legend">
+        <div><dt>Мисъл</dt><dd>твърдение или образ с конкретно съдържание</dd></div>
+        <div><dt>Емоция</dt><dd>преживяване, обикновено описано с една дума</dd></div>
+        <div><dt>Телесна реакция</dt><dd>физическо усещане в тялото</dd></div>
+        <div><dt>Поведение</dt><dd>конкретно действие или избягване</dd></div>
+    </dl>
+
+    @foreach (CategorizationItem item in _items)
+    {
+        <div class="categorization-check__item card">
+            <p class="categorization-check__phrase">"@item.Phrase"</p>
+            <div class="categorization-check__choices">
+                @foreach (string category in Categories)
+                {
+                    <button type="button" class="btn btn-example" @onclick="() => Reveal(item)">
+                        @category
+                    </button>
+                }
+            </div>
+            @if (_revealed.Contains(item))
+            {
+                <div class="categorization-check__explanation" aria-live="polite">
+                    <p><strong>@item.Category:</strong> @item.Explanation</p>
+                </div>
+            }
+        </div>
+    }
+
+    <button type="button" class="btn btn-neutral" @onclick="Reset">Нулирай</button>
+</div>
+
+@code {
+    private static readonly IReadOnlyList<string> Categories = ["Мисъл", "Емоция", "Телесна реакция", "Поведение"];
+
+    private readonly HashSet<CategorizationItem> _revealed = [];
+
+    private readonly IReadOnlyList<CategorizationItem> _items =
+    [
+        new("Сърцето ми бие бързо.", "Телесна реакция", "Това описва физическо усещане в тялото."),
+        new("Сигурно ще се проваля.", "Мисъл", "Това е изречение с конкретно съдържание — автоматична мисъл."),
+        new("Тревога.", "Емоция", "Това е дума, описваща чувство."),
+        new("Отменям срещата.", "Поведение", "Това е конкретно действие.")
+    ];
+
+    private void Reveal(CategorizationItem item) => _revealed.Add(item);
+
+    private void Reset() => _revealed.Clear();
+
+    private sealed record CategorizationItem(string Phrase, string Category, string Explanation);
+}

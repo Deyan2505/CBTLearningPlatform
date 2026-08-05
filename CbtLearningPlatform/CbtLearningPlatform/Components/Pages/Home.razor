@@ -1,57 +1,123 @@
+@* Static SSR. Global two-column redesign (Session 21) — the old version was a single
+   narrow .content column top to bottom; now a full-width intro sits above 3 two-column
+   .learning-grid rows, matching the same workspace architecture as /kurs and /kurs/sedmica-8. *@
 @page "/"
 
 <PageTitle>КПТ Академия</PageTitle>
 
-<div class="content">
+<div class="hero-intro">
+    <p class="week-page__eyebrow">Образователна платформа</p>
     <h1>Основи на когнитивно-поведенческата терапия</h1>
     <p>
         Структурирано, безплатно обучение по принципите на когнитивно-поведенческата терапия (КПТ) —
         за хора без клинично образование, които искат да разберат връзката между мисли, емоции и поведение.
     </p>
-    <p>
-        <a class="btn btn-primary" href="/programa">Разгледай програмата</a>
-        <a class="btn btn-secondary" href="/kpt">Какво е КПТ</a>
+    <p class="hero-intro__cta">
+        <a class="btn btn-violet" href="/programa">Разгледай програмата</a>
+        <a class="btn btn-blue" href="/kpt">
+            <svg class="btn-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v4.5M10 6.75v.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Какво е КПТ
+        </a>
     </p>
 </div>
 
-<div class="content section">
-    <h2>Как работи обучението</h2>
-    <ol>
-        <li>Четете кратък урок — ясно обяснена концепция с примери от ежедневието.</li>
-        <li>Проверявате разбирането си — с кратки, нерезултатни рефлективни въпроси.</li>
-        <li>Прилагате наученото — с практическо упражнение, стъпка по стъпка.</li>
-    </ol>
-</div>
+<div class="workspace">
+    <div class="learning-grid learning-grid--balanced">
+        <LearningSection Role="theory" RoleLabel="Теория">
+            <h2>Как работи обучението</h2>
+            <ol class="process-steps">
+                <li class="process-steps__item">
+                    <span class="process-steps__number">1</span>
+                    <div>
+                        <h3>Четете кратък урок</h3>
+                        <p>Ясно обяснена концепция с примери от ежедневието.</p>
+                    </div>
+                </li>
+                <li class="process-steps__item">
+                    <span class="process-steps__number">2</span>
+                    <div>
+                        <h3>Проверявате разбирането си</h3>
+                        <p>С кратки, нерезултатни рефлективни въпроси.</p>
+                    </div>
+                </li>
+                <li class="process-steps__item">
+                    <span class="process-steps__number">3</span>
+                    <div>
+                        <h3>Прилагате наученото</h3>
+                        <p>С практическо упражнение или интерактивна демонстрация, стъпка по стъпка.</p>
+                    </div>
+                </li>
+            </ol>
+        </LearningSection>
 
-<div class="content section">
-    <h2>Какво ще научите</h2>
-    <div class="module-list">
-        <ModuleCard Title="Модул 1 — Какво представлява КПТ"
-                    Description="Общата рамка на КПТ и границите на платформата — уводен модул без предварителни знания."
-                    StatusLabel="Наличен"
-                    DestinationUrl="/programa/modul-1"
-                    CtaLabel="Влез в модула" />
-
-        <ModuleCard Title="Модул 2 — Ситуация → Мисъл → Емоция → Поведение"
-                    Description="Основният когнитивен модел — как да разделите собствен пример на четирите части."
-                    StatusLabel="Наличен"
-                    DestinationUrl="/programa/modul-2"
-                    CtaLabel="Влез в модула" />
+        <LearningSection Role="visual" RoleLabel="Визуален модел">
+            <h2>Учебният път накратко</h2>
+            <ol class="learning-path-diagram">
+                <li class="learning-path-diagram__step learning-path-diagram__step--theory">
+                    <span class="learning-path-diagram__number">1</span>
+                    <svg class="learning-path-diagram__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="4" y="3" width="12" height="14" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 7.5h6M7 10.5h6M7 13.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <h3>Научи</h3>
+                    <p>Кратко обяснение, ключови понятия и източници.</p>
+                </li>
+                <li class="learning-path-diagram__connector" aria-hidden="true"><svg viewBox="0 0 20 8" width="20" height="8"><path d="M0 4h16m0 0-4-3.5m4 3.5-4 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+                <li class="learning-path-diagram__step learning-path-diagram__step--visual">
+                    <span class="learning-path-diagram__number">2</span>
+                    <svg class="learning-path-diagram__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3 3 6.5 10 10l7-3.5L10 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 10.5 10 14l7-3.5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                    <h3>Разгледай</h3>
+                    <p>Диаграма, сравнение или интерактивен модел.</p>
+                </li>
+                <li class="learning-path-diagram__connector" aria-hidden="true"><svg viewBox="0 0 20 8" width="20" height="8"><path d="M0 4h16m0 0-4-3.5m4 3.5-4 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+                <li class="learning-path-diagram__step learning-path-diagram__step--interactive">
+                    <span class="learning-path-diagram__number">3</span>
+                    <svg class="learning-path-diagram__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="4" width="14" height="12" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 8.5 10 10.5l-2.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <h3>Приложи</h3>
+                    <p>Симулатор, пример или проверка на разбирането.</p>
+                </li>
+            </ol>
+            <p>
+                Пълният формат в действие: <a href="/kurs/sedmica-8">Седмица 8 от 15-седмичния курс</a> —
+                теория, диаграма, симулатор и проверка на едно място.
+            </p>
+        </LearningSection>
     </div>
-</div>
 
-<div class="content section">
-    <h2>Образователна граница</h2>
-    <DisclaimerCallout />
-    <p>Платформата:</p>
-    <ul>
-        <li>не е психотерапия и не провежда терапевтични сесии;</li>
-        <li>не поставя диагнози;</li>
-        <li>не гарантира лечение или конкретни резултати;</li>
-        <li>не е спешна психологическа помощ;</li>
-        <li>не замества лекар, психиатър, психолог или психотерапевт.</li>
-    </ul>
-    <p>
-        <a class="btn btn-primary" href="/programa">Разгледай програмата</a>
-    </p>
+    <div class="learning-grid learning-grid--content-visual">
+        <LearningSection Role="visual" RoleLabel="Визуален модел">
+            <h2>Какво ще научите</h2>
+            <LearningPathVisualization />
+        </LearningSection>
+
+        <LearningSection Role="interactive" RoleLabel="Започнете оттук">
+            <h3>Седмица 8 — Автоматични мисли и емоции</h3>
+            <p>
+                Представителен пример за пълния формат на курса: кратко обяснение, интерактивен
+                симулатор, сравнение на два пътя и проверка на разбирането.
+            </p>
+            <p><a class="btn btn-violet" href="/kurs/sedmica-8">Отвори Седмица 8</a></p>
+            <p><a href="/kurs">Целият 15-седмичен курс →</a></p>
+        </LearningSection>
+    </div>
+
+    <div class="learning-grid learning-grid--balanced">
+        <LearningSection Role="academic" RoleLabel="Образователна граница">
+            <h2>Какво платформата не е</h2>
+            <DisclaimerCallout />
+            <ul>
+                <li>не е психотерапия и не провежда терапевтични сесии;</li>
+                <li>не поставя диагнози;</li>
+                <li>не гарантира лечение или конкретни резултати;</li>
+                <li>не е спешна психологическа помощ;</li>
+                <li>не замества лекар, психиатър, психолог или психотерапевт.</li>
+            </ul>
+        </LearningSection>
+
+        <LearningSection Role="academic" RoleLabel="Накратко">
+            <h2>Защо тази платформа</h2>
+            <p>
+                Съдържанието е базирано на established КПТ литература (виж източниците към всеки урок),
+                представено интерактивно — с диаграми, симулатори и сравнения, не само текст.
+            </p>
+            <p><a class="btn btn-neutral" href="/programa">Виж пълната програма</a></p>
+        </LearningSection>
+    </div>
 </div>

@@ -143,6 +143,100 @@
 - **Статус (2026-08-01, Сесия 16): `COMPLETE`.** `REQUIRES PROFESSIONAL REVIEW` маркирано. Visual QA: `PROVISIONAL — SCREENSHOT REVIEW PENDING`. Content Pipeline решението `KEEP RAZOR FOR MVP` — непроменено, потвърдено отново приложимо (Модул 1 съдържанието се вписва в същия established Razor+components модел без триене).
 - **Следваща стъпка (не изпълнена автоматично):** Google Fonts CDN решение, STEP-1.6, или бъдещо съдържание извън Модул 1/2 (напр. Модул 14, речник, ЧЗВ) — собственическо решение, изисква ново извикване.
 
+## Visual Direction Correction Checkpoint — dark-first UI + интерактивни учебни визуализации
+
+- **Цел:** собственикът направи първи реален визуален преглед след STEP-3.4 и отхвърли текущата визуална посока (STEP-2.1/2.2 палитра/компоненти) като не-финална — твърде статична, недостатъчна визуална йерархия, недостатъчна интерактивност. Тази checkpoint стъпка коригира посоката, без да променя клинично съдържание или да добавя нови модули/уроци.
+- **Обхват:** dark-first, multi-level, не-чисто-черен design system (запазва light темата през session-only toggle, без cookies/localStorage/server storage); reusable интерактивна CBT model диаграма (Interactive WebAssembly, на `/kpt` + Модул 2 Урок 1); малък интерактивен interpretation пример (без scoring/storage) на `/kpt`; learning-path визуализация, заменяща плоския `ModuleCard` списък на Home/Programa; целенасочени page-level refinements (Kpt, Modul2Lesson1, Home, Programa).
+- **Зависимости:** Фаза 2 (STEP-2.1/2.2), Фаза 3 (STEP-3.1–3.4) — коригира визуалния слой върху вече съществуващото реално съдържание, не добавя ново съдържание.
+- **Skill:** `ui-ux-pro-max` (SKILL-046) — целенасочени dark-theme/accessibility заявки; 2 предложени "dark" стила (pure-black/neon OLED; glassmorphism/blur/glow cinema) изрично отхвърлени като несъвместими с not-pure-black/no-decorative-effects ограниченията — виж `26_SKILL_USAGE_LOG.md`.
+- **Acceptance criteria:** build 0/0; 56/56 теста; реален HTTP smoke test на fresh инстанция потвърждава `data-theme="dark"` на initial HTML, всички нови компонентни маркери (theme-toggle/cbt-diagram/interpretation-example/learning-path), prerendered WASM markup, light override в CSS, WCAG AA contrast (реално изчислен, не на око), 0 disabled карти, disclaimer/forbidden-term проверки непроменени.
+- **Статус (2026-08-01, Сесия 17): `TECHNICAL QA COMPLETE — OWNER VISUAL APPROVAL PENDING`.** Работата е функционално завършена и технически проверена, но **умишлено не е commit-ната** — собственическата инструкция изисква реален визуален преглед (не само HTTP 200) преди какъвто и да е commit. Собственикът трябва да прегледа `http://localhost:5055` (сървърът в момента е спрян — изисква рестарт за преглед) по чеклист (home/programa/kpt/диаграма/пример/desktop/mobile/dark/light/навигация/четивност на урок), да даде конкретна обратна връзка, след което Claude Code коригира и едва тогава прави един-единствен commit.
+- **Следваща стъпка (не изпълнена автоматично):** собственически визуален преглед → конкретна обратна връзка → корекции → commit. Не се стартира thought record упражнение и не се прави commit преди тази обратна връзка.
+
+## Weekly Course Hub + Simulator Foundation Checkpoint — dark-first redesign продължение (ADR-010)
+
+- **Цел:** нов, дългосрочен организационен слой (`/kurs`) над съществуващото Модул 1/2 съдържание — 15-седмичен curriculum reference (`kpt_syllabus.pdf`), progressive disclosure, симулатор-богато обучение като постоянни принципи, реализирани върху вече некомитнатата Visual Direction Correction работа (Сесия 17), не вместо нея.
+- **Обхват:** curriculum metadata модел (`Curriculum/CourseCatalog.cs`); curriculum safety classification за всичките 15 седмици; sidebar+top-bar application shell (структурно вдъхновен от собственически reference, без брандинг/gamification); `ProgressiveExplanation` (native `<details>`, 3 употреби); публичен `/kurs` hub (15-елементен списък, честни статус етикети, 0 dead links); представителна `/kurs/sedmica-8` (пълен 8-секционен template, композира върху трите реални Модул 2 урока); нов `CategorizationCheck` interactive knowledge-check (reveal-style, без scoring). Останалите 14 седмици и целият останал simulator каталог — `Deferred`.
+- **Зависимости:** Фаза 3 (Модул 1/2 реално съдържание), Visual Direction Correction checkpoint (dark-first design system, `CbtModelDiagram`, `InterpretationExample`).
+- **Skill:** `ui-ux-pro-max` — targeted заявки за weekly hub/sidebar/progressive disclosure; двата "dark" стилови резултата (OLED, Cinema Mobile glassmorphism) отхвърлени отново, идентично на Сесия 17 — виж `26_SKILL_USAGE_LOG.md`.
+- **Acceptance criteria:** build 0/0; 81/81 теста; всички routes 200 (вкл. `/kurs`, `/kurs/sedmica-8`); несъществуваща седмица → 404; 0 dead links в week list; 0 ECTS/институционални claims; всички интерактивни компонентни маркери реално prerendered; disclaimer/source references никога скрити зад progressive disclosure.
+- **Статус (2026-08-01, Сесия 18): `WEEKLY HUB AND SIMULATOR FOUNDATION READY — OWNER VISUAL REVIEW REQUIRED`.** Некомитнато, натрупано върху некомитнатата Сесия 17 работа. Приложението е оставено стартирано на `http://localhost:5055` за собственически преглед на двата checkpoint-а заедно.
+- **Следваща стъпка (не изпълнена автоматично):** собственически визуален преглед → обратна връзка → корекции → един commit, покриващ и двата checkpoint-а. Не се строи допълнителна седмица/симулатор без ново извикване.
+
+### Simulator Opportunity Matrix
+
+Пълен каталог на разгледаните interactive/simulator възможности за 15-те седмици (Section 13/14 от Сесия 18 инструкцията). Категории: `SIMULATOR` / `INTERACTIVE MODEL` / `COMPARISON` / `GUIDED DEMONSTRATION` / `KNOWLEDGE CHECK` / `STATIC VISUALIZATION` / `ACADEMIC ONLY`. Реализирани в тази стъпка: **само** редовете, маркирани `IMPLEMENTED` (Седмица 8 × 3). Всички останали — `CATALOGUED, NOT BUILT`, чакат бъдещо, отделно извикване и собствен content governance цикъл преди имплементация.
+
+| Седмица | Възможност | Тип | Safety level | Изисква проф. преглед? | Лични данни? | Изцяло локална? | MVP приоритет | Статус |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Интерактивна времева линия (психоанализа→емпиричен модел) | INTERACTIVE MODEL | PUBLIC CORE | Не | Не | Да | P2 | CATALOGUED, NOT BUILT |
+| 2 | Бек срещу Елис сравнение | COMPARISON | PUBLIC CORE | Не | Не | Да | P2 | CATALOGUED, NOT BUILT |
+| 3 | Йерархия (автоматични мисли→междинни→основни) + бърза/рефлексивна обработка | INTERACTIVE MODEL | PUBLIC CORE | Не | Не | Да | P1 | CATALOGUED, NOT BUILT |
+| 4 | Демонстрация как професионалист организира информация (без лична история) | ACADEMIC ONLY | ACADEMIC CONTEXT ONLY | Да (за какъвто и да е бъдещ разширен вариант) | Не (по дизайн — забранено въвеждане) | Да | P3 | CATALOGUED, NOT BUILT |
+| 5 | Как изглежда сътрудничеството в КПТ | GUIDED DEMONSTRATION | PUBLIC WITH ADAPTATION | Не | Не | Да | P2 | CATALOGUED, NOT BUILT |
+| 6 | Walkthrough на структура на сесия (не self-therapy) | GUIDED DEMONSTRATION | PUBLIC WITH ADAPTATION | Не | Не | Да | P2 | CATALOGUED, NOT BUILT |
+| 7 | Activity–mood visualizer / basic planning demo | SIMULATOR | PUBLIC WITH ADAPTATION (проф. преглед за самия planner) | Да | Потенциално (ако въвежда лична активност) | Да | P2 | CATALOGUED, NOT BUILT |
+| 8 | CBT model simulator | INTERACTIVE MODEL | PUBLIC CORE | Не | Не | Да | P0 | **IMPLEMENTED** (`CbtModelDiagram`, вече от Сесия 17) |
+| 8 | Interpretation branching | SIMULATOR | PUBLIC CORE | Не | Не | Да | P0 | **IMPLEMENTED** (`InterpretationExample`, вече от Сесия 17) |
+| 8 | Thought-versus-emotion sorter | KNOWLEDGE CHECK | PUBLIC CORE | Не | Не | Да | P0 | **IMPLEMENTED** (`CategorizationCheck`, ново тази стъпка) |
+| 9 | Simplified thought record | SIMULATOR | PUBLIC WITH ADAPTATION | Да (отделен content/safety review) | Да (по дизайн, ако някога се въведе) | Да | P0 (бъдещо, EPIC-004) | CATALOGUED, NOT BUILT — изрично забранено за тази стъпка |
+| 9 | Distortion explorer | SIMULATOR | PUBLIC WITH ADAPTATION | Да | Не | Да | P1 | CATALOGUED, NOT BUILT |
+| 9 | Fact-versus-interpretation activity | SIMULATOR | PUBLIC WITH ADAPTATION | Да | Не | Да | P2 | CATALOGUED, NOT BUILT |
+| 10 | Socratic question explorer / alternative-perspective demo | GUIDED DEMONSTRATION | PUBLIC CORE | Не | Не | Да | P1 | CATALOGUED, NOT BUILT |
+| 11 | Rules/attitudes/assumptions explorer (без downward-arrow tool) | INTERACTIVE MODEL | PROFESSIONAL REVIEW REQUIRED | Да | Не | Да | P2 | CATALOGUED, NOT BUILT |
+| 12 | Schema hierarchy visualization + criteria continuum demo | ACADEMIC ONLY | ACADEMIC CONTEXT ONLY | Да (за какъвто и да е self-guided вариант) | Не | Да | P2 | CATALOGUED, NOT BUILT |
+| 13 | Decision balance simulator | SIMULATOR | PUBLIC WITH ADAPTATION | Не | Потенциално | Да | P2 | CATALOGUED, NOT BUILT |
+| 13 | Responsibility pie / credit list | SIMULATOR | PUBLIC WITH ADAPTATION | Не | Потенциално | Да | P2 | CATALOGUED, NOT BUILT |
+| 13 | Behavioral exposure planner | SIMULATOR | NOT ELIGIBLE FOR SELF-GUIDED SIMULATOR | Да, задължително | Да | Да | Не в MVP | CATALOGUED, NOT BUILT — блокирано без отделен проф. преглед |
+| 14 | Maintenance-curve visualization / general planning demo | STATIC VISUALIZATION / GUIDED DEMONSTRATION | PROFESSIONAL REVIEW REQUIRED | Да | Не | Да | P2 | CATALOGUED, NOT BUILT — без relapse-risk predictor |
+| 15 | CBT waves timeline / comparison на подходи | ACADEMIC ONLY | ACADEMIC CONTEXT ONLY | Не | Не | Да | P3 | CATALOGUED, NOT BUILT — без CT-R simulator |
+
+**Всички редове по-горе са изцяло локални (без сървърна заявка), без сървърно съхранение на потребителски данни, съгласно ADR-002.** Дизайн договорът за всеки бъдещ симулатор (ясна учебна цел, keyboard/touch support, text fallback, reset, no hidden scoring/diagnosis/AI analysis, mobile layout, unit-testable state, собственически визуален преглед) е формализиран в Сесия 18 инструкцията и се прилага буквално за всяко бъдещо изграждане от този каталог.
+
+### Redesign Round 2 — Content-Rich, Sectioned and Simulator-Led (Сесия 19, 2026-08-03)
+
+- **Повод:** собственически визуален отказ на Сесия 18 резултата — недостатъчна информация, липса на разпознаваем симулатор, еднакви generic карти без визуален anchor.
+- **Обхват:** Седмица 8 (`Сряд 8` реда в таблицата по-горе) реализацията надградена на място — `CbtChainSimulator` (control panel + live diagram + reset) замества по-простия `CbtModelDiagram` **само на тази страница** (диаграмата остава непроменена на `/kpt`/Модул 2 Урок 1); `InterpretationExample`/`CategorizationCheck` пренаписани визуално (branch diagram/workspace), не заменени с нови компоненти. `/kurs` получи course map + week timeline вместо плосък списък. Останалите 14 реда в таблицата по-горе остават `CATALOGUED, NOT BUILT`, непроменени.
+- **Acceptance criteria:** build 0/0; 107/107 теста; 8 anchor-навигируеми секции на Седмица 8; симулаторът реално prerender-ва всички опции; branch diagram показва и двата пътя едновременно; comparison matrix и concept map присъстват; `.workspace` контейнер дава реална допълнителна ширина за диаграмите спрямо тесния `.content` четивен стълб.
+- **Статус (2026-08-03, Сесия 19): `CONTENT-RICH SIMULATOR REDESIGN READY — OWNER VISUAL REVIEW REQUIRED`.** Некомитнато, трети натрупан checkpoint. Пълни детайли в `10_SESSION_LOG.md` (Сесия 19), вкл. точния pre-redesign визуален одит.
+- **Следваща стъпка:** собственически визуален преглед на трите натрупани checkpoint-а заедно → обратна връзка → корекции → един commit.
+
+### Redesign Round 3 — Two-Column Workspace and Semantic Color (Сесия 20, 2026-08-03)
+
+- **Повод:** трети собственически визуален отказ — работната зона зад sidebar-а остава на практика едноколонна, недостатъчна цветова диференциация между типовете съдържание.
+- **Обхват:** формализиран `.learning-grid` layout foundation (4 съотношения, 1 breakpoint) и 6-ролева семантична цветова система в `app.css` — и двете реюзируеми за всяка бъдеща седмица/страница, не еднократни за Седмица 8. Седмица 8 и `/kurs` преструктурирани върху тази основа; `CbtChainSimulator` вече показва controls и live output едновременно на desktop. `--container-max` увеличен от 1120px на 1400px.
+- **Acceptance criteria:** build 0/0; 120/120 теста; ≥4 `.learning-grid` реда на Седмица 8; controls-преди-output ред в симулатора запазен в DOM; Пълно обяснение + Академичен контекст в общ ред без нов anchor; `/kurs` timeline+sidebar split; всичките 6 accent роли реално сервирани и в двете теми; single-column под 900px потвърдено чрез действителния CSS media block, не низово съвпадение.
+- **Статус (2026-08-03, Сесия 20): `TWO-COLUMN COLOR-RICH WORKSPACE READY — OWNER VISUAL REVIEW REQUIRED`.** Некомитнато, четвърти натрупан checkpoint. Пълни детайли, вкл. точните WCAG изчисления за виолет/синьо/индиго, в `10_SESSION_LOG.md` (Сесия 20).
+- **Следваща стъпка:** собственически визуален преглед на четирите натрупани checkpoint-а заедно → обратна връзка → корекции → един commit.
+
+### Redesign Round 4 — Global Two-Column Redesign Across All Existing Routes (Сесия 21, 2026-08-04)
+
+- **Повод:** четвърти собственически визуален отказ, с реален screenshot — двуколонният pattern от Redesign Round 3 беше приложен само локално (Седмица 8 + Kurs); открит и коригиран и реален root-cause CSS bug (`.content` без `margin: auto`, залепено вляво в разширения 1400px контейнер).
+- **Обхват:** `.learning-grid` breakpoint мина от viewport `@media` на `@container` (sidebar-aware ширина); нов `LearningSection.razor` reusable wrapper; 2 нови бутонни роли (`.btn-blue`/`.btn-neutral`, вече 5 общо); двуколонният workspace pattern приложен ГЛОБАЛНО на всичките 11 реални routes — Home (пълна преработка), Programa, Kpt (пренаписана въпреки предишен `GOOD — KEEP` одит), Модул 1/Модул 2 overview (нов module-overview шаблон), и четирите реални урока (всеки с конкретен нов visual anchor, калибрирано до 3 реда вместо пълните 4 от инструкцията заради по-краткото им реално съдържание — без изкуствено раздуване/нови клинични твърдения).
+- **Acceptance criteria:** build 0/0; 159/159 теста; всичките 11 routes показват реален `.learning-grid` usage (не само CSS class presence — преброен реален count на всеки route); `.content` центриран (margin-inline:auto потвърден); container query потвърдена в served CSS; ≥4 бутонни роли реално използвани (5 постигнати); всеки route запазва disclaimer видим; h1=1 навсякъде.
+- **Статус (2026-08-04, Сесия 21): `GLOBAL TWO-COLUMN LEARNING WORKSPACE READY — OWNER VISUAL REVIEW REQUIRED`.** Некомитнато, пети натрупан checkpoint. Пълни детайли, вкл. route-by-route breakdown и root-cause bug анализ, в `10_SESSION_LOG.md` (Сесия 21).
+- **Следваща стъпка:** собственически визуален преглед на петте натрупани checkpoint-а заедно → обратна връзка → корекции → един commit.
+
+### Final Visual Polish (Сесия 22, 2026-08-04)
+
+- **Повод:** собственикът потвърди глобалната архитектура от Redesign Round 4 като правилна посока; поискан само финален polish — sidebar active-nav bug, Home CTA/learning-path visual, per-lesson progressive disclosure, подобрени visual anchors, workspace gutters, по-хладна dark палитра.
+- **Обхват:** реален sidebar bug fix (`NavLinkMatch.All` на всичките 6 линка — предишните 5 разчитаха на подразбиращия се `Prefix` matching, което правеше родителя и текущата цел active едновременно на вложени routes); Home секции; всичките 4 реални урока получиха progressive disclosure + подобрени visual anchors; `.page-container` responsive gutter; navy-charcoal dark палитра (реално WCAG преизчислена); top bar subtitle.
+- **Acceptance criteria:** build 0/0; 185/185 теста; точно 1 active sidebar елемент на всеки основен route (не 0, не 2+); Home CTA-та визуално и структурно различими (violet fill vs. blue outline); learning path е реална диаграма с connectors, не текстови кутии; и четирите урока показват progressive disclosure с основната дефиниция извън disclosure; disclaimer никога вътре в disclosure; dark background тон реално различен от предходния (`#0E1420` vs `#1E1D1B`), light темата непроменена.
+- **Статус (2026-08-04, Сесия 22): `FINAL VISUAL POLISH READY — OWNER APPROVAL REQUIRED`.** Некомитнато, шести натрупан checkpoint. Пълни детайли в `10_SESSION_LOG.md` (Сесия 22).
+- **Следваща стъпка:** собственически финален визуален преглед на шестте натрупани checkpoint-а заедно → одобрение (един commit) или последна конкретна обратна връзка.
+
+### Final Layout Defect Correction (Сесия 23, 2026-08-04)
+
+- **Повод:** реален собственически screenshot преглед — 12 конкретни проблема (2 от тях blocking root-cause bugs: hoризонтален overflow, `<h1>` focus рамка), останалите polish-ниво (stretched columns, nested card chrome, слаб module learning path, error-styled disclaimer, 18 duplicate role-label/heading двойки, слаб status text, sidebar wrapping, hero density, празен top bar).
+- **Обхват:** `.learning-grid > * { min-width:0; align-self:start }` формализиран като задължителна част от grid контракта; heading focus CSS отделено от control focus CSS; `ModuleCard`/`DisclaimerCallout` премахнаха "card in card"/"warning in warning" chrome; Модул 1/Модул 2 получиха реален `.module-path` + concept map; систематичен duplicate-label audit и корекция в цялото приложение.
+- **Acceptance criteria:** build 0/0; 227/227 теста; без page-level horizontal scrollbar; `<h1>` без control-style focus рамка при нормално зареждане; grid columns никога не се разтягат с празно пространство; educational disclaimer вече не изглежда като error; Модул 1/2 имат реален visual learning path (не само зелен правоъгълник); 0 duplicate role-label/heading двойки; всичко потвърдено в реално сервирания HTML/CSS, не само в кода.
+- **Статус (2026-08-04, Сесия 23): `FINAL LAYOUT DEFECTS FIXED — OWNER APPROVAL REQUIRED`.** Некомитнато, седми натрупан checkpoint. Пълни детайли, вкл. точния root-cause анализ за overflow/focus бъговете, в `10_SESSION_LOG.md` (Сесия 23).
+- **Следваща стъпка:** собственически финален визуален преглед на седемте натрупани checkpoint-а заедно → одобрение (един commit) или последна конкретна обратна връзка.
+
+### Checkpoint chain resolved — Сесия 24 (2026-08-05)
+
+Всичките седем checkpoint-а по-горе (Сесии 17–23) одобрени от собственика и committed в един foundation commit (`feat: add interactive CBT learning portal foundation`) след финален pre-flight (build/test/route smoke test). Виж `02_CURRENT_STATUS.md` за текущото шестточково разграничение на обхвата и `10_SESSION_LOG.md` (Сесия 24) за пълни детайли. Следваща фаза: `CONTENT-DRIVEN TEMPLATE VALIDATION` (не започната автоматично).
+
 ## Фази 2–9 — ниво на детайл
 
 Запазват детайла, вече документиран в `01_MASTER_PLAN.md` (цел, задачи, зависимости, резултат, критерии за приемане, рискове за всяка фаза). Ще бъдат разбити на STEP-ниво детайл (както Фаза 1 по-горе) в началото на всяка съответна фаза, не предварително — за да не се планира в детайл работа, чиито предпоставки (напр. реален MVP UI за Фаза 2 дизайн решенията) все още не съществуват.

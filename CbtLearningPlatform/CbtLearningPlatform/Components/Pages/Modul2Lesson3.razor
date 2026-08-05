@@ -4,76 +4,137 @@
    (18_INFORMATION_ARCHITECTURE.md), housed here as Lesson 3 of the flagship Module 2 per
    REQ-CONT-002 ("2–4 lessons in the flagship module") and ADR-009 — see 03_DECISION_LOG.md.
    Example is original, neutral, non-clinical — not adapted from code_artifact.html or copied
-   from any source. *@
+   from any source. Global lesson-template redesign (Session 21) — added a small emotion↔body
+   relationship diagram and reused the comparison matrix; hands-on interactive practice is
+   cross-linked to /kurs/sedmica-8 rather than duplicating a simulator on every lesson page. *@
 @page "/programa/modul-2/emocii-i-telesni-reaktsii"
 
 <PageTitle>Емоции и телесни реакции — Модул 2 — КПТ Академия</PageTitle>
 
-<div class="content">
+<div class="hero-intro">
+    <p class="week-page__eyebrow"><a href="/programa/modul-2">← Модул 2</a> · Урок 3</p>
     <h1>Емоции и телесни реакции</h1>
-
     <LearningObjectives Objectives="@_objectives" />
+</div>
 
-    <p>
-        В Урок 1 разгледахме целия модел, а в Урок 2 се фокусирахме върху мисълта. Тук се насочваме
-        към следващата част: <strong>емоцията и телесната реакция</strong>, която следва мисълта.
-    </p>
+<div class="workspace">
+    <div class="learning-grid learning-grid--content-visual">
+        <LearningSection Role="theory" RoleLabel="Теория">
+            <h2>Основно обяснение</h2>
+            <p>
+                Емоцията и телесната реакция следват мисълта — обикновено се описват с една дума и имат
+                различна сила, не просто "включени" или "изключени".
+            </p>
+            <p class="key-idea-strip">
+                <span class="key-idea">Една дума: радост, тревога, тъга…</span>
+                <span class="key-idea">Често с телесен сигнал</span>
+                <span class="key-idea">Различна сила — лека, средна, силна</span>
+            </p>
+            <p><strong>Кратък пример:</strong> тревога често идва със стегнати рамене или ускорен пулс — но не винаги по еднакъв начин у всеки.</p>
 
-    <h2>Основно обяснение</h2>
-    <p>
-        Емоциите обикновено се описват с една дума — радост, тревога, тъга, раздразнение. Те често се
-        придружават от физическо усещане в тялото: стегнати рамене, ускорен пулс, топлина в лицето,
-        тежест в стомаха. Емоциите също имат различна сила — леки, средни или силни — не са просто
-        "включени" или "изключени".
-    </p>
-    <p>
-        Забелязването на телесния сигнал понякога помага да разпознаем емоцията по-рано — дори преди
-        да сме я назовали с дума.
-    </p>
+            <ProgressiveExplanation SummaryLabel="Покажи пълното обяснение">
+                <p>
+                    В Урок 1 разгледахме целия модел, а в Урок 2 се фокусирахме върху мисълта. Тук се насочваме
+                    към следващата част: <strong>емоцията и телесната реакция</strong>, която следва мисълта.
+                </p>
+                <p>
+                    Емоциите често се придружават от физическо усещане в тялото: стегнати рамене, ускорен
+                    пулс, топлина в лицето, тежест в стомаха.
+                </p>
+                <p>
+                    <strong>Граници:</strong> връзката емоция-телесна реакция е честа, но не универсална или
+                    еднозначна — една и съща емоция може да се усети различно у различни хора, и дори различно
+                    у един и същи човек в различни моменти.
+                </p>
+            </ProgressiveExplanation>
+        </LearningSection>
 
-    <h2>Пример от ежедневието</h2>
-    <p><strong>Ситуация:</strong> Закъснявате за важна среща, а трафикът не помръдва.</p>
-
-    <div class="card">
-        <p>Автоматична мисъл: "Ще закъснея и ще си помислят зле за мен."</p>
-        <p>Емоция: тревога (средна сила).</p>
-        <p>Телесна реакция: стегнати рамене, ускорен пулс.</p>
+        <LearningSection Role="visual" RoleLabel="Визуален модел">
+            <h2>Емоция ↔ телесна реакция</h2>
+            <ol class="concept-map__flow">
+                <li class="concept-map__node-pair">
+                    <span class="concept-map__node">Емоция</span>
+                    <span class="concept-map__connector concept-map__connector--horizontal" aria-hidden="true">↔</span>
+                    <span class="concept-map__node">Една възможна телесна реакция</span>
+                </li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node">Поведение</li>
+            </ol>
+            <p class="concept-map__feedback">Забелязването на телесния сигнал понякога помага да разпознаем емоцията по-рано — дори преди да сме я назовали с дума. Връзката не е универсална — различните хора могат да усещат една и съща емоция различно.</p>
+        </LearningSection>
     </div>
 
-    <div class="callout callout--info section" role="note">
+    <div class="learning-grid learning-grid--balanced">
+        <LearningSection Role="example" RoleLabel="Пример">
+            <h2>Пример от ежедневието</h2>
+            <p><strong>Ситуация:</strong> Закъснявате за важна среща, а трафикът не помръдва.</p>
+            <div class="card">
+                <p>Автоматична мисъл: "Ще закъснея и ще си помислят зле за мен."</p>
+                <p>Емоция: тревога (средна сила).</p>
+                <p>Телесна реакция: стегнати рамене, ускорен пулс.</p>
+            </div>
+            <div class="callout callout--info section" role="note">
+                <p>
+                    <strong>Забележете:</strong> емоцията не е "грешка", която трябва да се поправи — тя е
+                    естествена реакция на мисълта. Забелязването на телесния сигнал, който я придружава,
+                    е умение само по себе си, отделно от опита да променим самата емоция.
+                </p>
+            </div>
+        </LearningSection>
+
+        <LearningSection Role="example" RoleLabel="Сравнение">
+            <h2>Разпознаване на четирите части</h2>
+            <div class="comparison-matrix-wrapper">
+                <table class="comparison-matrix">
+                    <thead>
+                        <tr><th scope="col">Категория</th><th scope="col">Пример</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><th scope="row">Мисъл</th><td>"Ще закъснея и ще си помислят зле за мен."</td></tr>
+                        <tr><th scope="row">Емоция</th><td>тревога</td></tr>
+                        <tr><th scope="row">Телесна реакция</th><td>стегнати рамене, ускорен пулс</td></tr>
+                        <tr><th scope="row">Поведение</th><td>(зависи от следващия избор)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Опитайте самостоятелно в интерактивния <a href="/kurs/sedmica-8">CBT верижен симулатор на Седмица 8</a>.</p>
+        </LearningSection>
+    </div>
+
+    <div class="learning-grid learning-grid--balanced">
+        <LearningSection Role="theory" RoleLabel="Рефлексия">
+            <h2>Проверка на разбирането</h2>
+            <p>Отделете момент да размислите:</p>
+            <ol>
+                <li>В примера по-горе — коя дума описва емоцията, и кой телесен сигнал я придружава?</li>
+                <li>Каква би била силата на тревогата в примера — лека, средна или силна, според вас?</li>
+                <li>Спомняте ли си ситуация, в която сте забелязали телесен сигнал, преди да сте наясно какво точно чувствате?</li>
+                <li>Можете ли да разграничите мисълта от емоцията в примера по-горе?</li>
+            </ol>
+        </LearningSection>
+
+        <LearningSection Role="academic" RoleLabel="Изводи">
+            <h2>Обобщение</h2>
+            <ul>
+                <li>Емоциите обикновено се описват с една дума и имат различна сила.</li>
+                <li>Емоциите често се придружават от телесни сигнали.</li>
+                <li>Забелязването на телесния сигнал може да помогне за по-ранно разпознаване на емоцията.</li>
+                <li>Емоцията следва мисълта в модела, но не е "грешка" за поправяне.</li>
+                <li>С това трите урока покриват целия модел: ситуация, мисъл, емоция и телесна реакция.</li>
+            </ul>
+            <DisclaimerCallout />
+        </LearningSection>
+    </div>
+
+    <LearningSection Role="academic" RoleLabel="Напред">
+        <h2>Следваща стъпка</h2>
         <p>
-            <strong>Забележете:</strong> емоцията не е "грешка", която трябва да се поправи — тя е
-            естествена реакция на мисълта. Забелязването на телесния сигнал, който я придружава,
-            е умение само по себе си, отделно от опита да променим самата емоция.
+            <a href="/programa/modul-2/avtomatichni-misli">← Урок 2: Автоматични мисли</a><br />
+            <a href="/programa/modul-2">← Обратно към Модул 2</a>
         </p>
-    </div>
-
-    <h2>Проверка на разбирането</h2>
-    <p>Отделете момент да размислите:</p>
-    <ol>
-        <li>В примера по-горе — коя дума описва емоцията, и кой телесен сигнал я придружава?</li>
-        <li>Каква би била силата на тревогата в примера — лека, средна или силна, според вас?</li>
-        <li>Спомняте ли си ситуация, в която сте забелязали телесен сигнал, преди да сте наясно какво точно чувствате?</li>
-        <li>Можете ли да разграничите мисълта от емоцията в примера по-горе?</li>
-    </ol>
-
-    <h2>Обобщение</h2>
-    <ul>
-        <li>Емоциите обикновено се описват с една дума и имат различна сила.</li>
-        <li>Емоциите често се придружават от телесни сигнали.</li>
-        <li>Забелязването на телесния сигнал може да помогне за по-ранно разпознаване на емоцията.</li>
-        <li>Емоцията следва мисълта в модела, но не е "грешка" за поправяне.</li>
-        <li>С това трите урока покриват целия модел: ситуация, мисъл, емоция и телесна реакция.</li>
-    </ul>
-
-    <DisclaimerCallout />
-
-    <h2>Следваща стъпка</h2>
-    <p><a href="/programa/modul-2/avtomatichni-misli">← Урок 2: Автоматични мисли</a></p>
-    <p><a href="/programa/modul-2">← Обратно към Модул 2</a></p>
-    <p class="module-card__status">Следващият урок предстои.</p>
-
-    <SourceReferences Citations="@_citations" />
+        <p class="module-card__status">Следващият урок предстои.</p>
+        <SourceReferences Citations="@_citations" />
+    </LearningSection>
 </div>
 
 @code {

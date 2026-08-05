@@ -11,6 +11,32 @@
 │   └── Модул (/programa/{module-slug})
 │       └── Урок (/programa/{module-slug}/{lesson-slug})
 │           └── Упражнение (вградено в урока или /uprazhnenia/{exercise-slug})
+├── [ново, ADR-010, Сесия 18] 15-седмичен курс (/kurs)
+│   └── Седмица (/kurs/sedmica-{N}) — само реално разработени седмици; metadata-driven от Curriculum/CourseCatalog.cs,
+│       curriculum reference слой над съществуващите Модул 1/2 routes (не ги замества, не ги дублира)
+│       [Сесия 19] Седмица 8 пренаписана в 8 секции с anchor navigation; `CbtModelDiagram` остава
+│       непроменен на /kpt и Модул 2 Урок 1 (KEEP — играе различна, по-въвеждаща роля там), но е
+│       заменен на Седмица 8 от новия `CbtChainSimulator` (реален control-panel simulator, не
+│       stepper-diagram) — двата компонента съществуват паралелно за различни цели, не дублират се
+│       [Сесия 20] Формализиран reusable layout pattern `.learning-grid` (balanced/content-visual/
+│       controls-output/wide-narrow, единствен breakpoint 900px) — представителните седмици и hub-ът
+│       вече използват двуколонно desktop разпределение вместо еднa вертикална reading колона;
+│       6-ролева семантична цветова система (primary/interactive/theory/example/academic/safety) —
+│       и двете формализирани в app.css design tokens, приложими за бъдещи седмици без ново решение
+│       [Сесия 21] `.learning-grid` breakpoint мина от viewport `@media` на `@container` (sidebar-aware);
+│       новият `LearningSection.razor` (content-role wrapper) + двуколонният workspace pattern вече са
+│       ГЛОБАЛНИ — приложени на всичките 11 реални routes (Home/Programa/Kpt/двата модула/4-те урока),
+│       не само на Седмица 8/Kurs; коригиран root-cause CSS bug (`.content` без `margin: auto`)
+│       [Сесия 22] Sidebar navigation matching коригиран (всичките 6 NavLink вече Match="NavLinkMatch.All"
+│       — точно 1 active елемент на всеки route, без parent/child bleed-through); progressive disclosure
+│       формализиран като стандартен lesson-theory pattern (кратка дефиниция + 3 извода + мини пример,
+│       после ProgressiveExplanation) — приложен на всичките 4 реални урока; dark палитра захладена
+│       (navy-charcoal, не топло кафяво) — light темата непроменена
+│       [Сесия 23] Нов reusable `.module-path` pattern (numbered/status/next nodes + connector) —
+│       заменя плоския списък на module overview дясната колона за Модул 1/2, приложим за бъдещи модули;
+│       `DisclaimerCallout` вече поддържа семантични Variant-и (educational по подразбиране, safety
+│       запазен за силни ограничения); `.learning-grid > * { min-width:0; align-self:start }` формализиран
+│       като задължителна част от learning-grid контракта (root-cause fix за overflow/stretching)
 ├── Ресурсна библиотека (/resursi)
 │   ├── Статия (/resursi/{article-slug})
 │   └── (бъдещо, P2: История на КПТ — US-018b)
@@ -24,7 +50,7 @@
 └── [бъдещо, P2] Администрация (/admin) — Фаза 6, REQ-ADMIN-001
 ```
 
-**Глобална навигация (header):** Начало · Какво е КПТ · Програма · Ресурси · ЧЗВ. Footer: За проекта, Поверителност, Условия, връзка за връзка с екипа.
+**Глобална навигация:** от Сесия 18 (некомитнато) — sidebar shell (не header), група "Обучение": Начало · 15-седмичен курс · Какво е КПТ · Обучителна програма · Модул 1 · Модул 2. Top bar носи само темата (toggle). Footer (в main областта): За проекта, Поверителност, Условия, връзка за връзка с екипа. (Оригиналната header-nav версия от STEP-2.1: Начало · Какво е КПТ · Програма · Ресурси · ЧЗВ — запазена тук за история; `Ресурси`/`ЧЗВ` все още нямат реални страници и не са пренесени в sidebar-а, за да не се създават dead links.)
 
 **Постоянен елемент на всяка страница с психологическо съдържание:** тънка лента/бележка с disclaimer + линк към `/ogranichenia` (виж `23_CLINICAL_SAFETY_BOUNDARIES.md`).
 

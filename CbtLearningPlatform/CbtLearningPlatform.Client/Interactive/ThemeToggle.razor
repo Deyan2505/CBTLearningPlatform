@@ -1,0 +1,21 @@
+@* Interactive WebAssembly island. No cookies, no localStorage, no server round-trip —
+   theme choice is session-only per the current visual-direction scope; dark stays the
+   default on every fresh load/refresh. *@
+@inject IJSRuntime JS
+
+<button type="button"
+        class="theme-toggle"
+        aria-pressed="@_isLight"
+        @onclick="Toggle">
+    @(_isLight ? "Тъмна тема" : "Светла тема")
+</button>
+
+@code {
+    private bool _isLight;
+
+    private async Task Toggle()
+    {
+        _isLight = !_isLight;
+        await JS.InvokeVoidAsync("cbtTheme.set", _isLight ? "light" : "dark");
+    }
+}

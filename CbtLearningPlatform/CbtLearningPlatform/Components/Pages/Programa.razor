@@ -1,30 +1,44 @@
+@* Static SSR. Global two-column redesign (Session 21) — replaces the old single .content
+   column with the same wide/narrow workspace pattern used across the site. *@
 @page "/programa"
 
 <PageTitle>Обучителна програма — КПТ Академия</PageTitle>
 
-<div class="content">
+<div class="hero-intro">
+    <p class="week-page__eyebrow">Обучителна програма</p>
     <h1>Обучителна програма</h1>
     <p>
         Програмата преминава постепенно от основни към по-сложни концепции — всяка тема съчетава
         кратко обяснение с практическо упражнение, без да замества специалист.
     </p>
-
-    <h2>Модули</h2>
-    <div class="module-list">
-        <ModuleCard Title="Модул 1 — Какво представлява КПТ"
-                    Description="Запознаване с основната идея, че мислите влияят на емоциите и поведението, и с границите на образователната платформа."
-                    StatusLabel="Наличен"
-                    DestinationUrl="/programa/modul-1"
-                    CtaLabel="Влез в модула" />
-
-        <ModuleCard Title="Модул 2 — Ситуация → Мисъл → Емоция → Поведение"
-                    Description="Основният когнитивен модел с примери от ежедневието — как да разделите собствен пример на четирите части."
-                    StatusLabel="Наличен"
-                    DestinationUrl="/programa/modul-2"
-                    CtaLabel="Влез в модула" />
-    </div>
 </div>
 
-<div class="content section">
-    <DisclaimerCallout />
+<div class="workspace">
+    <div class="learning-grid learning-grid--wide-narrow">
+        <LearningSection Role="visual" RoleLabel="Учебен път">
+            <h2>Модули</h2>
+            <LearningPathVisualization />
+        </LearningSection>
+
+        <div class="hub-sidebar">
+            <LearningSection Role="theory" RoleLabel="Насоки">
+                <h3>Как се използва програмата</h3>
+                <p>Модулите се преминават последователно. Всеки урок съдържа кратко обяснение, пример и проверка на разбирането — не изпит, само размисъл.</p>
+            </LearningSection>
+
+            <LearningSection Role="interactive" RoleLabel="Формати">
+                <h3>Видове съдържание в уроците</h3>
+                <dl class="hub-sidebar__legend">
+                    <div><dt>Теория</dt><dd>кратко обяснение и ключови понятия</dd></div>
+                    <div><dt>Диаграма</dt><dd>визуален модел на връзките</dd></div>
+                    <div><dt>Симулатор</dt><dd>контроли + жив резултат</dd></div>
+                    <div><dt>Проверка</dt><dd>рефлективни въпроси, без оценка</dd></div>
+                </dl>
+            </LearningSection>
+
+            <LearningSection Role="academic" RoleLabel="Образователна граница">
+                <DisclaimerCallout />
+            </LearningSection>
+        </div>
+    </div>
 </div>

@@ -1,37 +1,72 @@
 @* REQUIRES PROFESSIONAL REVIEW before real publication — no staffed clinical reviewer yet (RISK-010).
-   Content basis: REQ-CONT-001/005 (18_INFORMATION_ARCHITECTURE.md, "Модул 1 — Какво представлява КПТ"). *@
+   Content basis: REQ-CONT-001/005 (18_INFORMATION_ARCHITECTURE.md, "Модул 1 — Какво представлява КПТ").
+   Global module-overview template (Session 21) — same wide/narrow pattern as Modul2.razor. *@
 @page "/programa/modul-1"
 
 <PageTitle>Модул 1 — Какво представлява КПТ — КПТ Академия</PageTitle>
 
-<div class="content">
+<div class="hero-intro">
+    <p class="week-page__eyebrow"><a href="/programa">← Обучителна програма</a> · Модул 1</p>
     <h1>Модул 1 — Какво представлява КПТ</h1>
     <p>
         Уводен модул без предварителни знания — запознава ви с основната идея на когнитивно-поведенческата
         терапия и с границите на тази образователна платформа, преди да преминете към модела в Модул 2.
     </p>
-
     <LearningObjectives Objectives="@_objectives" />
+</div>
 
-    <h2>Какво съдържа модулът</h2>
-    <p>Модулът включва един уводен урок, без практическо упражнение.</p>
+<div class="workspace">
+    <div class="learning-grid learning-grid--wide-narrow">
+        <LearningSection Role="theory" RoleLabel="Модул 1">
+            <h2>Уроци</h2>
+            <p>Модулът включва един уводен урок, без практическо упражнение.</p>
+            <div class="module-list">
+                <ModuleCard Title="Урок 1 — Какво представлява КПТ"
+                            Description="Основната идея на КПТ и разликата между образование и терапия."
+                            StatusLabel="Наличен"
+                            DestinationUrl="/programa/modul-1/kakvo-e-kpt"
+                            CtaLabel="Започни урока" />
+            </div>
+        </LearningSection>
 
-    <h2>Уроци</h2>
-    <div class="module-list">
-        <ModuleCard Title="Урок 1 — Какво представлява КПТ"
-                    Description="Основната идея на КПТ и разликата между образование и терапия."
-                    StatusLabel="Наличен"
-                    DestinationUrl="/programa/modul-1/kakvo-e-kpt"
-                    CtaLabel="Започни урока" />
-    </div>
+        <div class="hub-sidebar">
+            <LearningSection Role="visual" RoleLabel="Учебен път">
+                <h3>Как преминавате през модула</h3>
+                <ol class="module-path">
+                    <li class="module-path__item">
+                        <span class="module-path__marker module-path__marker--number" aria-hidden="true">1</span>
+                        <span class="module-path__connector-line" aria-hidden="true"></span>
+                        <a class="module-path__link" href="/programa/modul-1/kakvo-e-kpt">Какво представлява КПТ</a>
+                    </li>
+                    <li class="module-path__item">
+                        <span class="module-path__marker module-path__marker--status" aria-hidden="true">·</span>
+                        <span class="module-path__connector-line" aria-hidden="true"></span>
+                        <span class="module-path__status">Основна идея и граници на платформата</span>
+                    </li>
+                    <li class="module-path__item">
+                        <span class="module-path__marker module-path__marker--next" aria-hidden="true">→</span>
+                        <a class="module-path__link" href="/programa/modul-2">Следваща стъпка · Модул 2</a>
+                    </li>
+                </ol>
+            </LearningSection>
 
-    <p>
-        <a href="/programa">← Обратно към програмата</a>
-        · <a href="/programa/modul-2">Модул 2: Ситуация → Мисъл → Емоция → Поведение →</a>
-    </p>
+            <LearningSection Role="visual" RoleLabel="Карта на темата">
+                <h3>Ключовата идея на модула</h3>
+                <ol class="concept-map__flow">
+                    <li class="concept-map__node">Какво е КПТ</li>
+                    <li class="concept-map__connector" aria-hidden="true">↓</li>
+                    <li class="concept-map__node">Как мислите влияят на реакциите</li>
+                    <li class="concept-map__connector" aria-hidden="true">↓</li>
+                    <li class="concept-map__node">Образование ≠ терапия</li>
+                    <li class="concept-map__connector" aria-hidden="true">↓</li>
+                    <li class="concept-map__node">Подготовка за когнитивния модел</li>
+                </ol>
+            </LearningSection>
 
-    <div class="section">
-        <DisclaimerCallout />
+            <LearningSection Role="academic" RoleLabel="Образователна граница">
+                <DisclaimerCallout />
+            </LearningSection>
+        </div>
     </div>
 </div>
 

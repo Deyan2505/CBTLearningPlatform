@@ -1,0 +1,60 @@
+@* Interactive WebAssembly island — branching comparison diagram. Both paths are always
+   rendered (not click-to-reveal) so a screen reader or a glance sees the full comparison
+   immediately; clicking a path only emphasizes it (border/weight, never hides the other and
+   never relies on color alone). No scoring, no "correct" path, no storage. *@
+
+<div class="branch-diagram">
+    <p class="branch-diagram__situation"><strong>Една и съща ситуация:</strong> Виждате, че познат ви подминава на улицата, без да ви поздрави.</p>
+
+    <div class="branch-diagram__paths">
+        @for (int i = 0; i < _interpretations.Count; i++)
+        {
+            int index = i;
+            Interpretation interpretation = _interpretations[index];
+            <div class="branch-diagram__path @(_emphasized == index ? "is-emphasized" : "")">
+                <button type="button" class="branch-diagram__toggle" @onclick="() => ToggleEmphasis(index)">
+                    Подчертай път @(index == 0 ? "А" : "Б")
+                </button>
+                <ol class="branch-diagram__chain">
+                    <li class="branch-diagram__node"><span class="branch-diagram__node-label">Мисъл</span><span>"@interpretation.Thought"</span></li>
+                    <li class="branch-diagram__connector" aria-hidden="true">↓</li>
+                    <li class="branch-diagram__node"><span class="branch-diagram__node-label">Емоция</span><span>@interpretation.Emotion</span></li>
+                    <li class="branch-diagram__connector" aria-hidden="true">↓</li>
+                    <li class="branch-diagram__node"><span class="branch-diagram__node-label">Телесна реакция</span><span>@interpretation.BodyReaction</span></li>
+                    <li class="branch-diagram__connector" aria-hidden="true">↓</li>
+                    <li class="branch-diagram__node"><span class="branch-diagram__node-label">Поведение</span><span>@interpretation.Behavior</span></li>
+                </ol>
+            </div>
+        }
+    </div>
+
+    <p class="branch-diagram__summary" aria-live="polite">
+        @if (_emphasized is int emphasizedIndex)
+        {
+            <text>Подчертан е път @(emphasizedIndex == 0 ? "А" : "Б") — същата ситуация, различна интерпретация, различна верига. И двата пътя остават валидни примери.</text>
+        }
+        else
+        {
+            <text>Същата ситуация води до два различни възможни пътя, в зависимост от интерпретацията.</text>
+        }
+    </p>
+
+    <p class="interpretation-example__note">
+        Това са примери — не единствените или "правилните" реакции. Различни хора могат да
+        реагират различно на една и съща ситуация.
+    </p>
+</div>
+
+@code {
+    private int? _emphasized;
+
+    private readonly IReadOnlyList<Interpretation> _interpretations =
+    [
+        new("Сигурно е ядосан/а на мен.", "тревога", "стегнати рамене", "отбягва да го/я заговори следващия път"),
+        new("Вероятно не ме е забелязал/а — беше се замислил/а.", "спокойствие", "отпуснати мускули", "поздравява го/я следващия път както обичайно")
+    ];
+
+    private void ToggleEmphasis(int index) => _emphasized = _emphasized == index ? null : index;
+
+    private sealed record Interpretation(string Thought, string Emotion, string BodyReaction, string Behavior);
+}

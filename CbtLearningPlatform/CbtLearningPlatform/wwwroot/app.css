@@ -1,34 +1,71 @@
 /* ==========================================================================
-   Design tokens — CBT Learning Platform (Фаза 2, STEP-2.1 foundation)
-   Light mode only in MVP. Values chosen for calm/trustworthy tone and
-   WCAG AA contrast (verified by hand — no clinical-cyan, no neon).
+   Design tokens — CBT Learning Platform
+   Dark-first (default). Light available via [data-theme="light"] toggle.
+   All pairs verified against real WCAG contrast math (not eyeballed) —
+   see 10_SESSION_LOG.md for the computed ratios. No pure black, no neon,
+   no glow — calm, professional, accessibility-first. Cooler navy-charcoal
+   neutral base since Session 22 (was warm brown-gray).
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
 
 :root {
-    /* Color roles */
-    --color-background: #FAFAF7;
-    --color-surface: #FFFFFF;
-    --color-surface-muted: #F1F0EC;
-    --color-text-primary: #262523;
-    --color-text-secondary: #57534E;
-    --color-border: #E0DDD3;
+    /* Color roles — DARK (default). Session 22: cooler navy-charcoal neutral base
+       (was a warm brown-gray) — closer to a dark learning-lab tone, still not pure
+       black, no neon. All pairs re-verified against real WCAG contrast math after the
+       change — see 10_SESSION_LOG.md for the computed ratios. */
+    --color-background: #0E1420;
+    --color-surface: #141B2B;
+    --color-surface-elevated: #1A2338;
+    --color-text-primary: #E7E9F2;
+    --color-text-secondary: #A7AEC2;
+    --color-border: #526686;
 
-    --color-primary: #2B5E5E;
-    --color-primary-hover: #1F4747;
+    --color-primary: #3D7A7A;
+    --color-primary-hover: #48908F;
     --color-on-primary: #FFFFFF;
+    --color-link: #5FADAD;
 
-    --color-focus: #1D4ED8;
+    --color-focus: #6FA8FF;
 
-    --color-success-text: #1F6E43;
-    --color-success-bg: #E7F3EC;
-    --color-warning-text: #8A5A0B;
-    --color-warning-bg: #FBF1DC;
-    --color-error-text: #A32B22;
-    --color-error-bg: #FBEAE8;
-    --color-info-text: #2B5E5E;
-    --color-info-bg: #E9F1F0;
+    --color-success-text: #6FBF8B;
+    --color-success-bg: #1E2E23;
+    --color-warning-text: #E0AA55;
+    --color-warning-bg: #332A1A;
+    --color-error-text: #E58A82;
+    --color-error-bg: #332019;
+    --color-info-text: #5FADAD;
+    --color-info-bg: #223333;
+
+    /* Semantic content-role accents (Session 20 — real WCAG contrast computed, see
+       10_SESSION_LOG.md). "Interactive"/"example"/"safety" deliberately alias the
+       already-verified teal/amber/rose tokens above instead of introducing new hues —
+       violet/blue/indigo are the only genuinely new colors added this round. */
+    --accent-primary: #9C8CF5;
+    --accent-primary-on: #1E1D1B;
+    --accent-primary-surface: #2A2440;
+    --accent-primary-border: #9C8CF5;
+
+    --accent-theory: #7FB0FF;
+    --accent-theory-surface: #1E2733;
+    --accent-theory-border: #7FB0FF;
+
+    --accent-academic: #A9A6F0;
+    --accent-academic-surface: #242240;
+    --accent-academic-border: #A9A6F0;
+
+    --accent-interactive: var(--color-link);
+    --accent-interactive-on: var(--color-on-primary);
+    --accent-interactive-surface: var(--color-info-bg);
+    --accent-interactive-border: var(--color-primary);
+
+    --accent-example: var(--color-warning-text);
+    --accent-example-surface: var(--color-warning-bg);
+    --accent-example-border: var(--color-warning-text);
+
+    --accent-safety: var(--color-error-text);
+    --accent-safety-surface: var(--color-error-bg);
+    --accent-safety-border: var(--color-error-text);
 
     /* Typography */
     --font-family-base: 'Atkinson Hyperlegible', -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -48,13 +85,76 @@
     /* Shape */
     --radius-sm: 6px;
     --radius-md: 10px;
-    --shadow-sm: 0 1px 2px rgba(38, 37, 35, 0.06), 0 1px 3px rgba(38, 37, 35, 0.08);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.24), 0 1px 3px rgba(0, 0, 0, 0.3);
     --focus-ring-width: 3px;
     --focus-ring-offset: 2px;
 
-    /* Layout */
-    --container-max: 1120px;
+    /* Layout — reading column stays narrow for prose; workspace/visual sections get
+       real desktop width (Session 20: main content no longer reads as one long
+       right-hand text column). */
+    --container-max: 1400px;
     --content-max: 42rem;
+    --workspace-max-width: var(--container-max);
+    --reading-max-width: var(--content-max);
+    --visual-max-width: var(--container-max);
+
+    color-scheme: dark;
+}
+
+/* Color roles — LIGHT (opt-in via toggle) */
+:root[data-theme="light"] {
+    --color-background: #FAFAF7;
+    --color-surface: #FFFFFF;
+    --color-surface-elevated: #FFFFFF;
+    --color-text-primary: #262523;
+    --color-text-secondary: #57534E;
+    --color-border: #E0DDD3;
+
+    --color-primary: #2B5E5E;
+    --color-primary-hover: #1F4747;
+    --color-on-primary: #FFFFFF;
+    --color-link: #2B5E5E;
+
+    --color-focus: #1D4ED8;
+
+    --color-success-text: #1F6E43;
+    --color-success-bg: #E7F3EC;
+    --color-warning-text: #8A5A0B;
+    --color-warning-bg: #FBF1DC;
+    --color-error-text: #A32B22;
+    --color-error-bg: #FBEAE8;
+    --color-info-text: #2B5E5E;
+    --color-info-bg: #E9F1F0;
+
+    --accent-primary: #5B3FD6;
+    --accent-primary-on: #FFFFFF;
+    --accent-primary-surface: #EFEBFC;
+    --accent-primary-border: #5B3FD6;
+
+    --accent-theory: #1A56CC;
+    --accent-theory-surface: #E9F1FC;
+    --accent-theory-border: #1A56CC;
+
+    --accent-academic: #4B47B8;
+    --accent-academic-surface: #ECEBFA;
+    --accent-academic-border: #4B47B8;
+
+    --accent-interactive: var(--color-link);
+    --accent-interactive-on: var(--color-on-primary);
+    --accent-interactive-surface: var(--color-info-bg);
+    --accent-interactive-border: var(--color-primary);
+
+    --accent-example: var(--color-warning-text);
+    --accent-example-surface: var(--color-warning-bg);
+    --accent-example-border: var(--color-warning-text);
+
+    --accent-safety: var(--color-error-text);
+    --accent-safety-surface: var(--color-error-bg);
+    --accent-safety-border: var(--color-error-text);
+
+    --shadow-sm: 0 1px 2px rgba(38, 37, 35, 0.06), 0 1px 3px rgba(38, 37, 35, 0.08);
+
+    color-scheme: light;
 }
 
 /* ==========================================================================
@@ -76,6 +176,7 @@ body {
     line-height: var(--line-height-base);
     color: var(--color-text-primary);
     background: var(--color-background);
+    transition: background-color 200ms ease, color 200ms ease;
 }
 
 h1, h2, h3, h4 {
@@ -86,7 +187,13 @@ h1, h2, h3, h4 {
     color: var(--color-text-primary);
 }
 
-h1 { font-size: 2.25rem; }
+h1 {
+    font-size: 2.5rem;
+    line-height: 1.15;
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-border);
+}
+
 h2 { font-size: 1.75rem; }
 h3 { font-size: 1.375rem; }
 h4 { font-size: 1.125rem; }
@@ -96,7 +203,7 @@ p {
 }
 
 a {
-    color: var(--color-primary);
+    color: var(--color-link);
     text-decoration: underline;
 }
 
@@ -113,6 +220,26 @@ select:focus-visible,
 [tabindex]:focus-visible {
     outline: var(--focus-ring-width) solid var(--color-focus);
     outline-offset: var(--focus-ring-offset);
+}
+
+/* Session 23: headings get tabindex="-1" two ways — Blazor's <FocusOnNavigate Selector="h1">
+   silently focuses the page h1 after every navigation (for screen-reader announcement, not
+   a real interaction), and our own section h2's carry tabindex="-1" for in-page anchor-nav
+   focus. Both are non-interactive text, not form controls — they must never wear the same
+   thick input-style ring the [tabindex]:focus-visible rule above gives real controls. A real
+   keyboard Tab landing on one (rare, but possible) still gets a visible, softer ring. */
+h1[tabindex="-1"]:focus,
+h2[tabindex="-1"]:focus,
+h3[tabindex="-1"]:focus {
+    outline: none;
+}
+
+h1[tabindex="-1"]:focus-visible,
+h2[tabindex="-1"]:focus-visible,
+h3[tabindex="-1"]:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 6px;
+    border-radius: var(--radius-sm);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -146,67 +273,446 @@ select:focus-visible,
     }
 
 /* ==========================================================================
-   Layout shell
+   Layout shell — sidebar + top bar application shell
    ========================================================================== */
 
-.site-header {
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-surface);
-}
-
-.site-header__inner {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    padding: var(--space-4) var(--space-4);
+.app-shell {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-3);
+    align-items: flex-start;
+    min-height: 100vh;
 }
 
-.site-header__brand {
+.app-sidebar {
+    /* Session 23: 240px + var(--space-4) horizontal padding made "Обучителна програма" wrap
+       awkwardly mid-word. Widened toward the 270-290px range and tightened padding/icon gap
+       instead of shrinking the font — labels now fit on one line at the default text size. */
+    width: 276px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--color-border);
+    background: var(--color-surface-elevated);
+    padding: var(--space-5) var(--space-3);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.app-sidebar__brand {
+    display: block;
     font-weight: 700;
     font-size: 1.125rem;
     color: var(--color-text-primary);
     text-decoration: none;
+    margin-bottom: var(--space-6);
 }
 
-.site-nav {
+.app-sidebar__group-label {
+    margin: 0 0 var(--space-2) 0;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.app-sidebar__nav {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2) var(--space-5);
+    flex-direction: column;
+    gap: var(--space-1);
     list-style: none;
-    margin: 0;
+    margin: 0 0 var(--space-6) 0;
     padding: 0;
 }
 
-    .site-nav a {
+    .app-sidebar__nav a {
+        padding: var(--space-2) var(--space-2);
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        border-radius: var(--radius-sm);
+        border-left: 3px solid transparent;
         color: var(--color-text-primary);
         text-decoration: none;
         font-weight: 400;
+        transition: background-color 120ms ease, border-color 120ms ease;
     }
 
-        .site-nav a:hover {
-            color: var(--color-primary);
-            text-decoration: underline;
+        .app-sidebar__nav a:hover {
+            background: var(--color-surface);
+            color: var(--color-link);
         }
 
-        .site-nav a.active {
-            color: var(--color-primary);
+        .app-sidebar__nav a.active {
+            background: var(--accent-primary-surface);
+            border-left-color: var(--accent-primary);
+            color: var(--accent-primary);
             font-weight: 700;
-            text-decoration: underline;
         }
+
+.app-sidebar__icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.app-topbar__label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-right: auto;
+}
+
+.app-topbar__status {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.app-topbar__subtitle {
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.app-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-topbar {
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface-elevated);
+    padding: var(--space-2) var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.app-topbar__icon {
+    width: 20px;
+    height: 20px;
+    color: var(--accent-primary);
+    flex-shrink: 0;
+}
 
 .page-container {
+    container-type: inline-size;
     max-width: var(--container-max);
     margin: 0 auto;
-    padding: var(--space-6) var(--space-4);
+    padding-block: var(--space-6);
+    /* Responsive gutter (Session 22) — on a wide desktop the right column was sitting
+       right at the viewport edge; a fixed --space-4 (16px) side padding wasn't enough
+       once --container-max grew to 1400px. Scales with viewport, never collapses to 0. */
+    padding-inline: clamp(24px, 2.5vw, 48px);
+    width: 100%;
+    box-sizing: border-box;
 }
 
+/* Session 21 root-cause fix: .content previously had a max-width but no auto margin,
+   so it sat flush left inside the (now 1400px) page-container, leaving a large unused
+   gap on the right — exactly the bug the owner's screenshot showed. */
 .content {
-    max-width: var(--content-max);
+    max-width: var(--reading-max-width);
+    margin-inline: auto;
 }
+
+/* Wider container for diagrams/simulators/comparisons — the narrow reading column
+   (--content-max) is right for prose but too cramped for side-by-side visual content. */
+.workspace {
+    max-width: var(--visual-max-width);
+}
+
+.workspace > *:first-child {
+    margin-top: 0;
+}
+
+/* Hero intro — wider than .content (which is sized for body-copy line length) so a page
+   h1 doesn't wrap prematurely on a wide desktop viewport, still centered and reading-width
+   for the paragraph beneath it. */
+.hero-intro {
+    /* Session 23: less top padding and tighter internal spacing — the hero was eating too
+       much of the first viewport on a 1080px-tall screen, pushing the first learning-grid
+       row below the fold. */
+    max-width: 54rem;
+    margin-inline: auto;
+    padding: var(--space-5) var(--space-4) 0 var(--space-4);
+}
+
+    .hero-intro p {
+        margin-bottom: var(--space-3);
+    }
+
+.process-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.process-steps__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+}
+
+    .process-steps__item h3 {
+        margin: 0 0 var(--space-1) 0;
+        font-size: 1.05rem;
+    }
+
+    .process-steps__item p {
+        margin: 0;
+        color: var(--color-text-secondary);
+    }
+
+.hero-intro__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+/* ==========================================================================
+   Home learning-path diagram (Научи → Разгледай → Приложи) — Session 22:
+   was three plain text boxes with a tiny arrow between them; now a real
+   role-colored step diagram with icons, numbered nodes, and directional
+   connectors. Ordered list is the accessible fallback (reading order = DOM
+   order); connectors are aria-hidden decoration only, never load-bearing.
+   ========================================================================== */
+
+.learning-path-diagram {
+    display: flex;
+    align-items: stretch;
+    gap: var(--space-2);
+    list-style: none;
+    margin: 0 0 var(--space-4) 0;
+    padding: 0;
+}
+
+.learning-path-diagram__step {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-top: 3px solid transparent;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+}
+
+    .learning-path-diagram__step h3 {
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    .learning-path-diagram__step p {
+        margin: 0;
+        color: var(--color-text-secondary);
+        font-size: 0.9rem;
+    }
+
+.learning-path-diagram__step--theory { border-top-color: var(--accent-theory-border); color: var(--accent-theory); }
+.learning-path-diagram__step--visual { border-top-color: var(--accent-primary-border); color: var(--accent-primary); }
+.learning-path-diagram__step--interactive { border-top-color: var(--accent-interactive-border); color: var(--accent-interactive); }
+
+.learning-path-diagram__number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: var(--color-surface-elevated);
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+    .learning-path-diagram__step--theory .learning-path-diagram__number { background: var(--accent-theory-surface); }
+    .learning-path-diagram__step--visual .learning-path-diagram__number { background: var(--accent-primary-surface); }
+    .learning-path-diagram__step--interactive .learning-path-diagram__number { background: var(--accent-interactive-surface); }
+
+.learning-path-diagram__icon {
+    width: 22px;
+    height: 22px;
+}
+
+.learning-path-diagram__connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    color: var(--color-text-secondary);
+}
+
+@media (max-width: 640px) {
+    .learning-path-diagram {
+        flex-direction: column;
+    }
+
+    .learning-path-diagram__connector {
+        width: auto;
+        height: 20px;
+        transform: rotate(90deg);
+    }
+}
+
+.process-steps__number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--accent-theory-surface);
+    color: var(--accent-theory);
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   Learning grid — reusable two-column layout foundation (Session 20, container-query
+   aware since Session 21). Mobile-first: single column by default, two columns only
+   once the actual available workspace width (after the sidebar) has room — a plain
+   viewport breakpoint can't see the sidebar, a container query can. DOM order is
+   never reordered via CSS `order` (accessibility/reading order stays literal).
+   ========================================================================== */
+
+.learning-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5) var(--space-6);
+    align-items: start;
+    margin: var(--space-5) 0;
+}
+
+/* Session 23 root-cause fix: grid items default to min-width:auto (their content's
+   min-content size) and align-self:stretch — a wide unbreakable child (a table, a long
+   flex row) could grow a column past its track and force page-level horizontal scroll,
+   and a shorter sibling would stretch to match a taller one leaving dead space inside its
+   own border. min-width:0 lets the item shrink to its track (so overflow-x:auto wrappers
+   like .comparison-matrix-wrapper actually engage instead of pushing the page wider);
+   align-self:start makes every item end exactly at its own content, never taller. */
+.learning-grid > * {
+    min-width: 0;
+    align-self: start;
+}
+
+.learning-grid__item--full {
+    grid-column: 1 / -1;
+}
+
+@container (min-width: 760px) {
+    .learning-grid--balanced { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .learning-grid--content-visual { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+    .learning-grid--controls-output { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+    .learning-grid--wide-narrow { grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); }
+}
+
+/* Fallback for browsers without container query support — falls back to a plain
+   viewport breakpoint (less accurate around the sidebar, but never breaks layout). */
+@supports not (container-type: inline-size) {
+    @media (min-width: 900px) {
+        .learning-grid--balanced { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+        .learning-grid--content-visual { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+        .learning-grid--controls-output { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+        .learning-grid--wide-narrow { grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); }
+    }
+}
+
+/* ==========================================================================
+   Section visual identity — left accent border + role badge, no emoji.
+   ========================================================================== */
+
+.section-card {
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--color-border);
+    border-left-width: 4px;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+}
+
+.section-card--theory { border-left-color: var(--accent-theory-border); }
+.section-card--visual { border-left-color: var(--accent-primary-border); }
+.section-card--interactive { border-left-color: var(--accent-interactive-border); }
+.section-card--example { border-left-color: var(--accent-example-border); }
+.section-card--academic { border-left-color: var(--accent-academic-border); }
+.section-card--safety { border-left-color: var(--accent-safety-border); }
+
+.section-role-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.section-role-label--theory { color: var(--accent-theory); background: var(--accent-theory-surface); }
+.section-role-label--visual { color: var(--accent-primary); background: var(--accent-primary-surface); }
+.section-role-label--interactive { color: var(--accent-interactive); background: var(--accent-interactive-surface); }
+.section-role-label--example { color: var(--accent-example); background: var(--accent-example-surface); }
+.section-role-label--academic { color: var(--accent-academic); background: var(--accent-academic-surface); }
+
+/* ==========================================================================
+   Button hierarchy (Session 20) — color communicates role, never color alone
+   (label text always states the action; focus-visible ring identical for all).
+   ========================================================================== */
+
+.btn-violet {
+    background: var(--accent-primary);
+    color: var(--accent-primary-on);
+    border-color: var(--accent-primary);
+}
+
+    .btn-violet:hover {
+        filter: brightness(1.08);
+    }
+
+.btn-example {
+    background: transparent;
+    color: var(--accent-example);
+    border-color: var(--accent-example-border);
+}
+
+    .btn-example:hover {
+        background: var(--accent-example-surface);
+    }
+
+.btn-blue {
+    background: var(--accent-theory-surface);
+    color: var(--accent-theory);
+    border-color: var(--accent-theory-border);
+}
+
+    .btn-blue:hover {
+        background: var(--accent-theory);
+        color: var(--accent-primary-on);
+    }
+
+/* Neutral outline — reset/back/cancel. Deliberately no accent color: these are utility
+   actions, not content-role actions, and should never compete visually with them. */
+.btn-neutral {
+    background: transparent;
+    color: var(--color-text-secondary);
+    border-color: var(--color-border);
+}
+
+    .btn-neutral:hover {
+        background: var(--color-surface-elevated);
+        color: var(--color-text-primary);
+    }
 
 .section {
     margin-top: var(--space-7);
@@ -239,11 +745,47 @@ select:focus-visible,
     }
 
 @media (max-width: 768px) {
-    .site-header__inner {
+    .app-shell {
         flex-direction: column;
-        align-items: flex-start;
+    }
+
+    .app-sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .app-sidebar__nav {
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 }
+
+/* ==========================================================================
+   Theme toggle
+   ========================================================================== */
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+    min-height: 44px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-primary);
+    font-family: var(--font-family-base);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+    .theme-toggle:hover {
+        border-color: var(--color-primary);
+        color: var(--color-link);
+    }
 
 /* ==========================================================================
    Buttons
@@ -256,14 +798,24 @@ select:focus-visible,
     gap: var(--space-2);
     padding: var(--space-3) var(--space-5);
     border-radius: var(--radius-sm);
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     font-family: var(--font-family-base);
     font-size: 1rem;
     font-weight: 700;
     text-decoration: none;
     cursor: pointer;
     min-height: 44px;
-    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease, filter 100ms ease;
+}
+
+    .btn:active:not(:disabled):not(.is-disabled) {
+        filter: brightness(0.9);
+    }
+
+.btn-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
 }
 
 .btn-primary {
@@ -278,7 +830,7 @@ select:focus-visible,
 
 .btn-secondary {
     background: transparent;
-    color: var(--color-primary);
+    color: var(--color-link);
     border-color: var(--color-primary);
 }
 
@@ -305,11 +857,30 @@ select:focus-visible,
     padding: var(--space-5);
 }
 
+/* Single surface + internal dividers, not a stack of full bordered cards inside an
+   already-bordered LearningSection (Session 23 — "card in card" chrome cleanup). */
 .module-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
 }
+
+.module-card {
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+    .module-card:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .module-card:first-child {
+        padding-top: 0;
+    }
+
+    .module-card h3 {
+        margin-bottom: var(--space-2);
+    }
 
 .module-card__status {
     color: var(--color-text-secondary);
@@ -358,12 +929,1034 @@ select:focus-visible,
     background: var(--color-success-bg);
 }
 
+.callout--safety {
+    border-left-color: var(--accent-safety-border);
+    background: var(--accent-safety-surface);
+}
+
+/* Calm default for the general "this platform is educational" boundary statement — indigo,
+   not danger-colored, and no full box border (it almost always sits inside an already-
+   bordered LearningSection, so a second full panel would be "warning inside warning"). */
+.callout--educational {
+    border: none;
+    border-left: 4px solid var(--accent-academic-border);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    background: var(--accent-academic-surface);
+}
+
 .callout p {
     margin: 0;
 }
 
 .callout a {
     font-weight: 700;
+}
+
+/* ==========================================================================
+   CBT model diagram (interactive)
+   ========================================================================== */
+
+.cbt-diagram {
+    margin: var(--space-5) 0;
+}
+
+.cbt-diagram__steps {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    list-style: none;
+    margin: 0 0 var(--space-4) 0;
+    padding: 0;
+}
+
+.cbt-diagram__step-item {
+    display: flex;
+}
+
+.cbt-diagram__step-connector {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+}
+
+.cbt-diagram__step {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    min-height: 44px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-base);
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+    .cbt-diagram__step.is-selected {
+        border-color: var(--accent-interactive-border);
+        background: var(--accent-interactive-surface);
+        color: var(--accent-interactive);
+        font-weight: 700;
+    }
+
+.cbt-diagram__step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.cbt-diagram__explanation {
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+}
+
+    .cbt-diagram__explanation h3 {
+        margin-bottom: var(--space-2);
+    }
+
+    .cbt-diagram__explanation p {
+        margin: 0;
+        color: var(--color-text-secondary);
+    }
+
+.cbt-diagram__fallback {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+    .cbt-diagram__steps {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cbt-diagram__step-connector {
+        transform: rotate(90deg);
+        align-self: center;
+    }
+}
+
+/* ==========================================================================
+   Interactive interpretation example (legacy hook class kept on the note only)
+   ========================================================================== */
+
+.interpretation-example__note {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    margin-top: var(--space-4);
+}
+
+/* ==========================================================================
+   Branch diagram (InterpretationExample) — both paths always visible
+   ========================================================================== */
+
+.branch-diagram {
+    margin: var(--space-5) 0;
+}
+
+.branch-diagram__situation {
+    margin-bottom: var(--space-4);
+}
+
+.branch-diagram__paths {
+    display: flex;
+    gap: var(--space-5);
+    align-items: flex-start;
+}
+
+.branch-diagram__path {
+    flex: 1;
+    min-width: 0;
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+}
+
+    .branch-diagram__path.is-emphasized {
+        border-color: var(--color-primary);
+        border-width: 2px;
+        font-weight: 700;
+    }
+
+        .branch-diagram__path.is-emphasized .branch-diagram__node span:last-child {
+            font-weight: 700;
+        }
+
+.branch-diagram__toggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: var(--space-2) var(--space-4);
+    margin-bottom: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-link);
+    font-family: var(--font-family-base);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.branch-diagram__chain {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.branch-diagram__node {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-2) 0;
+}
+
+.branch-diagram__node-label {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.branch-diagram__connector {
+    display: block;
+    text-align: center;
+    color: var(--color-text-secondary);
+}
+
+.branch-diagram__summary {
+    margin-top: var(--space-4);
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .branch-diagram__paths {
+        flex-direction: column;
+    }
+}
+
+/* ==========================================================================
+   CBT chain simulator — the representative week's primary simulator workspace
+   ========================================================================== */
+
+.cbt-simulator {
+    margin: var(--space-5) 0;
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+}
+
+.cbt-simulator__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+}
+
+.cbt-simulator__label {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.cbt-simulator__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-1) var(--space-3);
+    border-radius: 999px;
+    background: var(--color-info-bg);
+    color: var(--color-info-text);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.cbt-simulator__panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+    align-items: end;
+    margin: var(--space-5) 0;
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-elevated);
+}
+
+    .cbt-simulator__panel .field {
+        margin-bottom: 0;
+    }
+
+.cbt-simulator__output {
+    margin: var(--space-5) 0;
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-background);
+}
+
+.cbt-simulator__flow {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cbt-simulator__node {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-sm);
+    background: var(--color-info-bg);
+}
+
+.cbt-simulator__node-label {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.cbt-simulator__node-pair {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+    .cbt-simulator__node-pair .cbt-simulator__node {
+        flex: 1;
+    }
+
+.cbt-simulator__connector {
+    display: block;
+    text-align: center;
+    padding: var(--space-1) 0;
+    color: var(--color-text-secondary);
+    font-weight: 700;
+}
+
+.cbt-simulator__connector--horizontal {
+    padding: 0 var(--space-2);
+}
+
+.cbt-simulator__detail {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+}
+
+    .cbt-simulator__detail p {
+        margin-bottom: var(--space-2);
+    }
+
+@media (max-width: 640px) {
+    .cbt-simulator__node-pair {
+        flex-direction: column;
+    }
+}
+
+/* ==========================================================================
+   Concept map (static SSR flow diagram + side comparisons)
+   ========================================================================== */
+
+.concept-map {
+    margin: var(--space-4) 0 var(--space-6) 0;
+}
+
+.concept-map__mini {
+    color: var(--color-text-secondary);
+    font-weight: 700;
+}
+
+.concept-map__flow {
+    list-style: none;
+    margin: 0 0 var(--space-4) 0;
+    padding: 0;
+    max-width: 26rem;
+}
+
+.concept-map__node {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-5);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-sm);
+    background: var(--color-info-bg);
+    font-weight: 700;
+}
+
+.concept-map__node--highlight {
+    border: 2px solid var(--accent-primary-border);
+    background: var(--accent-primary-surface);
+    color: var(--accent-primary);
+}
+
+/* Three (or more) visually distinct labeled categories side by side — e.g. fact vs.
+   automatic thought vs. feeling — never just a bullet list pretending to compare things. */
+.category-compare {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: var(--space-4) 0;
+}
+
+.category-compare__item {
+    flex: 1;
+    min-width: 160px;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+}
+
+    .category-compare__item p:last-child {
+        margin: 0;
+    }
+
+.category-compare__label {
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.category-compare__item--fact { background: var(--accent-example-surface); border-color: var(--accent-example-border); }
+.category-compare__item--fact .category-compare__label { color: var(--accent-example); }
+
+.category-compare__item--thought { background: var(--accent-theory-surface); border-color: var(--accent-theory-border); }
+.category-compare__item--thought .category-compare__label { color: var(--accent-theory); }
+
+.category-compare__item--feeling { background: var(--accent-interactive-surface); border-color: var(--accent-interactive-border); }
+.category-compare__item--feeling .category-compare__label { color: var(--accent-interactive); }
+
+.concept-map__node-pair {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.concept-map__connector {
+    display: block;
+    text-align: center;
+    padding: var(--space-1) 0;
+    color: var(--color-text-secondary);
+    font-weight: 700;
+}
+
+.concept-map__connector--horizontal {
+    padding: 0 var(--space-2);
+}
+
+.concept-map__feedback {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    max-width: var(--content-max);
+}
+
+.concept-map__side-notes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+}
+
+@media (max-width: 640px) {
+    .concept-map__flow {
+        max-width: 100%;
+    }
+
+    .concept-map__node-pair {
+        flex-direction: column;
+    }
+}
+
+/* ==========================================================================
+   Comparison matrix (static table)
+   ========================================================================== */
+
+.comparison-matrix-wrapper {
+    overflow-x: auto;
+    margin: var(--space-4) 0;
+}
+
+.comparison-matrix {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .comparison-matrix caption {
+        text-align: left;
+        font-weight: 700;
+        margin-bottom: var(--space-2);
+    }
+
+    .comparison-matrix th,
+    .comparison-matrix td {
+        text-align: left;
+        padding: var(--space-2) var(--space-3);
+        border-bottom: 1px solid var(--color-border);
+        white-space: nowrap;
+    }
+
+    .comparison-matrix th[scope="col"] {
+        color: var(--color-text-secondary);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        white-space: normal;
+    }
+
+/* Two clearly distinct columns (e.g. education vs. professional support) — a subtle
+   surface tint difference, never warning/error coloring on either side. */
+.comparison-matrix--dual th:first-child,
+.comparison-matrix--dual td:first-child {
+    background: var(--accent-example-surface);
+}
+
+.comparison-matrix--dual th:last-child,
+.comparison-matrix--dual td:last-child {
+    background: var(--accent-academic-surface);
+}
+
+.comparison-matrix__icon {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: var(--space-2);
+    color: var(--color-text-secondary);
+}
+
+/* ==========================================================================
+   Categorization workspace (legend around CategorizationCheck)
+   ========================================================================== */
+
+.categorization-workspace {
+    margin: var(--space-5) 0;
+}
+
+.categorization-workspace__progress {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+.categorization-workspace__legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-3);
+    margin: 0 0 var(--space-5) 0;
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-elevated);
+}
+
+    .categorization-workspace__legend dt {
+        font-weight: 700;
+    }
+
+    .categorization-workspace__legend dd {
+        margin: 0;
+        color: var(--color-text-secondary);
+        font-size: 0.9rem;
+    }
+
+/* ==========================================================================
+   Section navigation, week navigator, key idea strip
+   ========================================================================== */
+
+.section-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin: var(--space-5) 0;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-elevated);
+}
+
+    .section-nav a {
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+        .section-nav a:hover {
+            text-decoration: underline;
+        }
+
+.week-navigator__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.key-idea-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.key-idea {
+    display: inline-flex;
+    padding: var(--space-1) var(--space-3);
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   Course map (4 curriculum blocks) + week timeline
+   ========================================================================== */
+
+.course-map {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: var(--space-3);
+    margin: var(--space-4) 0 var(--space-6) 0;
+}
+
+.course-map__block {
+    flex: 1;
+    min-width: 200px;
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+}
+
+.course-map__range {
+    margin: 0 0 var(--space-1) 0;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.course-map__meta {
+    margin: var(--space-2) 0 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+}
+
+.course-map__connector {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-secondary);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.start-panel {
+    margin-bottom: var(--space-6);
+}
+
+.hub-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+/* ==========================================================================
+   Module learning path (Session 23) — replaces the old flat "list of module
+   titles" with a real sequence: numbered link nodes, a status-only node (no
+   button affordance — it's not a destination), and a labeled "next" link.
+   ========================================================================== */
+
+.module-path {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.module-path__item {
+    position: relative;
+    padding-left: calc(1.75rem + var(--space-3));
+    padding-bottom: var(--space-4);
+}
+
+    .module-path__item:last-child {
+        padding-bottom: 0;
+    }
+
+.module-path__marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 700;
+    z-index: 1;
+}
+
+.module-path__marker--number {
+    background: var(--accent-primary-surface);
+    color: var(--accent-primary);
+}
+
+.module-path__marker--status {
+    background: transparent;
+    border: 1px dashed var(--color-border);
+    color: var(--color-text-secondary);
+}
+
+.module-path__marker--next {
+    background: var(--accent-interactive-surface);
+    color: var(--accent-interactive);
+}
+
+.module-path__connector-line {
+    position: absolute;
+    left: calc(0.875rem - 1px);
+    top: 1.75rem;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-border);
+}
+
+.module-path__link {
+    display: inline-block;
+    font-weight: 700;
+    color: var(--color-link);
+    text-decoration: underline;
+}
+
+    .module-path__link:hover {
+        color: var(--color-primary-hover);
+    }
+
+.module-path__function {
+    margin: var(--space-1) 0 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+}
+
+.module-path__status {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.hub-sidebar__legend {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+    .hub-sidebar__legend dt {
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    .hub-sidebar__legend dd {
+        margin: 0;
+        color: var(--color-text-secondary);
+        font-size: 0.85rem;
+    }
+
+.week-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.week-timeline__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: var(--space-4);
+    padding-bottom: var(--space-5);
+}
+
+    .week-timeline__item:last-child {
+        padding-bottom: 0;
+    }
+
+.week-timeline__marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-weight: 700;
+    z-index: 1;
+}
+
+.week-timeline__connector {
+    position: absolute;
+    top: 2.5rem;
+    left: 1.25rem;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-border);
+}
+
+    .week-timeline__item:last-child .week-timeline__connector {
+        display: none;
+    }
+
+@media (max-width: 640px) {
+    .course-map {
+        flex-direction: column;
+    }
+
+    .course-map__connector {
+        transform: rotate(90deg);
+        align-self: center;
+    }
+}
+
+/* ==========================================================================
+   Learning path visualization
+   ========================================================================== */
+
+.learning-path {
+    display: flex;
+    flex-direction: column;
+}
+
+.learning-path__step {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+}
+
+.learning-path__step.is-future {
+    background: transparent;
+    border-style: dashed;
+    color: var(--color-text-secondary);
+}
+
+    .learning-path__step.is-future h3 {
+        color: var(--color-text-secondary);
+    }
+
+.learning-path__step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.learning-path__step.is-future .learning-path__step-number {
+    background: transparent;
+    border: 1px dashed var(--color-border);
+    color: var(--color-text-secondary);
+}
+
+.learning-path__step-body h3 {
+    margin: 0 0 var(--space-1) 0;
+    font-size: 1.125rem;
+}
+
+.learning-path__step-body p {
+    margin: 0;
+    color: var(--color-text-secondary);
+}
+
+.learning-path__connector {
+    width: 2px;
+    height: var(--space-5);
+    margin-left: calc(var(--space-5) + 1.25rem);
+    background: var(--color-border);
+}
+
+/* ==========================================================================
+   Progressive explanation (native <details>, static SSR — no WASM needed)
+   ========================================================================== */
+
+.progressive-explanation {
+    margin: var(--space-4) 0;
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+}
+
+.progressive-explanation > summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--color-link);
+}
+
+.progressive-explanation__body {
+    margin-top: var(--space-4);
+}
+
+    .progressive-explanation__body > :last-child {
+        margin-bottom: 0;
+    }
+
+/* ==========================================================================
+   Weekly Course Hub
+   ========================================================================== */
+
+.week-page__eyebrow {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: var(--space-2);
+}
+
+.curriculum-modules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.curriculum-modules__range {
+    margin: 0 0 var(--space-1) 0;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.week-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.week-list__item {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    padding: var(--space-4) var(--space-5);
+}
+
+.week-list__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+}
+
+.week-list__number {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.week-list__title {
+    margin: var(--space-1) 0 var(--space-1) 0;
+}
+
+.week-list__module {
+    margin: 0 0 var(--space-2) 0;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+}
+
+.week-list__status {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-1) var(--space-3);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: 1px solid var(--color-border);
+}
+
+.week-list__status--available {
+    color: var(--color-success-text);
+    background: var(--color-success-bg);
+    border-color: var(--color-success-text);
+}
+
+.week-list__status--in-preparation {
+    color: var(--color-text-secondary);
+    background: transparent;
+}
+
+.week-list__status--academic-overview {
+    color: var(--color-info-text);
+    background: var(--color-info-bg);
+    border-color: var(--color-info-text);
+}
+
+.week-list__status--review-required {
+    color: var(--color-warning-text);
+    background: var(--color-warning-bg);
+    border-color: var(--color-warning-text);
+}
+
+.week-list__formats {
+    margin: var(--space-2) 0 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   Categorization check (interactive knowledge check)
+   ========================================================================== */
+
+.categorization-check__item {
+    margin-bottom: var(--space-4);
+}
+
+.categorization-check__phrase {
+    font-weight: 700;
+}
+
+.categorization-check__choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: var(--space-2) 0;
+}
+
+.categorization-check__explanation {
+    margin-top: var(--space-2);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
 }
 
 /* ==========================================================================

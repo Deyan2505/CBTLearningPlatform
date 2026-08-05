@@ -1,0 +1,59 @@
+@* Interactive WebAssembly island. Native <button> elements — keyboard/mouse/touch work
+   automatically, no custom ARIA widget pattern needed. aria-current="step" is the one
+   place ARIA is genuinely required (no native HTML equivalent for "current step"). *@
+
+<div class="cbt-diagram">
+    <ol class="cbt-diagram__steps" aria-label="Моделът: Ситуация, Мисъл, Емоция, Телесна реакция, Поведение">
+        @for (int i = 0; i < Steps.Count; i++)
+        {
+            int index = i;
+            <li class="cbt-diagram__step-item">
+                <button type="button"
+                        class="cbt-diagram__step @(_selected == index ? "is-selected" : "")"
+                        aria-current="@(_selected == index ? "step" : null)"
+                        @onclick="() => Select(index)">
+                    <span class="cbt-diagram__step-number">@(index + 1)</span>
+                    <span class="cbt-diagram__step-label">@Steps[index].Label</span>
+                </button>
+            </li>
+            if (index < Steps.Count - 1)
+            {
+                <li class="cbt-diagram__step-connector" aria-hidden="true">
+                    <svg viewBox="0 0 20 8" width="20" height="8"><path d="M0 4h16m0 0-4-3.5m4 3.5-4 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </li>
+            }
+        }
+    </ol>
+
+    <div class="cbt-diagram__explanation" aria-live="polite">
+        <h3>@Steps[_selected].Label</h3>
+        <p>@Steps[_selected].Explanation</p>
+    </div>
+
+    <details class="cbt-diagram__fallback">
+        <summary>Текстово описание на модела</summary>
+        <ol>
+            @foreach (CbtModelStep step in Steps)
+            {
+                <li><strong>@step.Label:</strong> @step.Explanation</li>
+            }
+        </ol>
+    </details>
+</div>
+
+@code {
+    private int _selected;
+
+    private static readonly IReadOnlyList<CbtModelStep> Steps =
+    [
+        new("Ситуация", "Какво реално се случва — конкретно събитие или обстоятелство."),
+        new("Мисъл", "Първата спонтанна интерпретация на ситуацията — автоматичната мисъл."),
+        new("Емоция", "Чувството, което следва мисълта — обикновено описано с една дума."),
+        new("Телесна реакция", "Физическото усещане, което придружава емоцията."),
+        new("Поведение", "Какво правим (или не правим) в отговор.")
+    ];
+
+    private void Select(int index) => _selected = index;
+
+    private sealed record CbtModelStep(string Label, string Explanation);
+}

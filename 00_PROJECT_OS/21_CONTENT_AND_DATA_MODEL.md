@@ -32,6 +32,17 @@
 | **ContentReview** | Запис за клиничен/редакторски преглед на съдържателна единица | id, lessonId, reviewerRole, status, date, notes | id, lessonId, status | N→1 Lesson | Не като код/UI в MVP — **процесно да, чрез `07_CONTENT_GOVERNANCE.md`** (напр. таблица/чеклист, не база данни) | Markdown/таблица в проектната документация | Не | Собственик + бъдещ рецензент | Git (история на прегледите) | Всеки Lesson публикуван без "reviewed" статус блокира publish (процесно правило) |
 | **ContentVersion** | История на промените в съдържателна единица | (имплицитно чрез Git commit история) | N/A — не отделен модел | N/A | Да, но **чрез Git, не отделна таблица** (ADR-003) | Git история | Не | Git | Git е самото версиониране | N/A |
 
+## Добавка (2026-08-01, Сесия 18, некомитнато) — Curriculum metadata модел
+
+Нов, отделен от `Lesson`, типизиран C# metadata модел за Weekly Course Hub (`Curriculum/CourseCatalog.cs` — не Markdown/JSON файл, тъй като е малък, строго типизиран catalog, не prose съдържание):
+
+| Модел | Предназначение | Ключови полета | MVP? | Съхранение | Чувствителни данни? | Версиониране |
+|---|---|---|---|---|---|---|
+| **CourseWeekDefinition** | Метаданни за една от 15-те седмици на curriculum reference-а (`kpt_syllabus.pdf`) | Number, ModuleLabel, Title, ShortSummary, Status, SafetyLevel, Route, LearningObjectives, InteractiveFormats | Да (частично — само 15 записа метаданни, 1 реален route) | C# `sealed record`, компилиран в кода (Git) | Не — никакво lesson съдържание, само кратки метаданни | Git |
+| **CourseModule** (curriculum block) | Групиране на седмиците в 4-те curriculum блока за hub изгледа | Number, Title, WeekRangeLabel, Description | Да | C# `sealed record` | Не | Git |
+
+**Изрично НЕ включва:** пълен lesson текст (остава в Razor страници, `KEEP RAZOR FOR MVP` непроменено), лични данни, clinical scoring, user progress, персонализирани препоръки. `Status` (публичен, 4-стойностен) винаги се извежда от `SafetyLevel` + `Route` чрез `CurriculumLabels.DeriveStatus()` — никога не се задава ръчно отделно, за да не се разсинхронизира с safety класификацията.
+
 ## Ключово архитектурно решение
 
 **ProgressRecord е единственият модел с потенциално чувствителни данни в MVP**, и той **никога не напуска браузъра на потребителя** (local storage, ADR-002). Няма сървърна база данни, следователно няма сървърно съхранени лични данни за изтичане или неправомерен достъп в MVP архитектурата.
