@@ -1,0 +1,57 @@
+@* Interactive WebAssembly island. Fixed, neutral, pre-set scenario — no personal-situation
+   input, no local storage, no scoring, no simulation-of-the-brain framing. Two toggle buttons
+   change how the same 5 fixed data points are labeled; a text label always accompanies the
+   visual emphasis/dimming so meaning never depends on color alone. *@
+
+<div class="schema-filter">
+    <div class="schema-filter__controls">
+        <button type="button" class="btn btn-neutral @(!_filterActive ? "is-selected" : "")" @onclick="ShowAllData">Покажи всички данни</button>
+        <button type="button" class="btn btn-example @(_filterActive ? "is-selected" : "")" @onclick="ShowExpectationFilter">Покажи как очакването може да насочи вниманието</button>
+        <button type="button" class="btn btn-violet" @onclick="Reset">Нулирай</button>
+    </div>
+
+    @if (_filterActive)
+    {
+        <p class="schema-filter__expectation" aria-live="polite">
+            Активирано очакване: <strong>"Грешките означават, че представянето е неуспешно."</strong>
+        </p>
+    }
+
+    <ul class="schema-filter__data" aria-live="polite">
+        @foreach (SchemaDataPoint point in DataPoints)
+        {
+            <li class="schema-filter__item @(_filterActive ? (point.GetsMoreAttention ? "is-emphasized" : "is-dimmed") : "")">
+                <span>@point.Text</span>
+                @if (_filterActive)
+                {
+                    <span class="schema-filter__weight">@(point.GetsMoreAttention ? "получава повече внимание" : "лесно се пренебрегва")</span>
+                }
+            </li>
+        }
+    </ul>
+
+    <p class="interpretation-example__note">
+        Схемата не премахва фактите. Тя може да влияе върху това кои факти забелязваме по-лесно и какво значение им придаваме.
+    </p>
+</div>
+
+@code {
+    private bool _filterActive;
+
+    private static readonly IReadOnlyList<SchemaDataPoint> DataPoints =
+    [
+        new("Презентацията е завършена навреме.", GetsMoreAttention: false),
+        new("Един слайд съдържа пропуск.", GetsMoreAttention: true),
+        new("Двама колеги задават полезни въпроси.", GetsMoreAttention: false),
+        new("Ръководителят отбелязва какво може да се подобри.", GetsMoreAttention: true),
+        new("Част от аудиторията оценява структурата като ясна.", GetsMoreAttention: false)
+    ];
+
+    private void ShowAllData() => _filterActive = false;
+
+    private void ShowExpectationFilter() => _filterActive = true;
+
+    private void Reset() => _filterActive = false;
+
+    private sealed record SchemaDataPoint(string Text, bool GetsMoreAttention);
+}

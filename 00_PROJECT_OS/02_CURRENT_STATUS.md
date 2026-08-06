@@ -7,28 +7,38 @@
 Минимален набор документи, необходими за следващата стъпка (собственически content + визуален преглед → корекции → commit):
 
 - `02_CURRENT_STATUS.md` (този файл — винаги първи).
-- `24_IMPLEMENTATION_ROADMAP.md` → Slice 1 (Седмица 1) checkpoint запис.
-- Локално стартираното приложение на `http://localhost:5055` (не е committed) — `/kurs/sedmica-1`.
+- `24_IMPLEMENTATION_ROADMAP.md` → Slice 2 (Седмица 3) checkpoint запис.
+- Локално стартираното приложение на `http://localhost:5055` (не е committed) — `/kurs/sedmica-3`.
 
 **Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15), PRD (17), пълен Risk Register, пълен Session Log.
 
 ## Текуща фаза
 
-Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). CONTENT-DRIVEN TEMPLATE VALIDATION — Slice 1 (Седмица 1) — `COMPLETE` след собственическо одобрение, committed в отделен commit (Сесия 27).**
+Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31).**
 
 ## Текуща стъпка
 
-`WEEK 1 CONTENT-DRIVEN VERTICAL SLICE COMMITTED` (Сесия 27). Собственикът одобри съдържанието и визуалната реализация на Седмица 1 (Сесии 25–26 резултат) — изпълнен финален pre-flight (build/test/route smoke test/content pre-flight) и създаден единствен commit `feat: add week 1 CBT history learning slice`. "Theory and History" archetype-ът е `VALIDATED` — вторият representative-week архетип на Weekly Course Hub-а реално доказа, че ADR-010 архитектурата мащабира отвъд Седмица 8, включително случая, в който споделен layout pattern (`.cbt-diagram`) се е оказал недостатъчен и е изисквал локален, scoped variant (документирано изрично в `24_IMPLEMENTATION_ROADMAP.md`, Сесия 26 — валиден резултат от validation фазата, не грешка). **Ясно разграничение на текущия обхват:**
+`WEEK 3 AND SYSTEMIC ANCHOR FIX COMMITTED` (Сесия 31). Собственикът одобри визуално и функционално Седмица 3, вътрешната anchor навигация на Седмици 1/3/8, глобалния skip-link и поправения section flow на Седмица 3 — изпълнен финален pre-flight (build/test/route smoke test/anchor navigation pre-flight/content pre-flight/layout pre-flight) и създаден единствен commit `feat: add week 3 cognitive model slice and route-safe anchors`. "Concept and Diagram" архетипът е `VALIDATED` — третият representative-week архетип на Weekly Course Hub-а реално доказа, че ADR-010 архитектурата мащабира и към йерархично/диаграмно съдържание. Systemic route-safe anchor contract-ът е `COMPLETE` — bare-fragment риска (потвърден в Седмица 1/3/8 и site-wide skip-link) е технически разрешен навсякъде и вече в history. **Ясно разграничение на текущия обхват:**
 
 - **Visual/UX foundation** — `COMPLETE`, `COMMITTED` (hash `115f5fa`).
 - **Weekly Course Hub foundation** — `COMPLETE`, `COMMITTED` (`/kurs` route, `CourseCatalog.cs`, `DeriveStatus()` — ADR-010).
 - **Седмица 1 (Theory and History архетип)** — `COMPLETE`, `COMMITTED` (`/kurs/sedmica-1`) — архетипът `VALIDATED`.
+- **Седмица 3 (Concept and Diagram архетип)** — `COMPLETE`, `COMMITTED` (`/kurs/sedmica-3`) — архетипът `VALIDATED`.
 - **Седмица 8 (Simulator Workspace архетип)** — `COMPLETE`, `COMMITTED` (`/kurs/sedmica-8`).
-- **Седмица 3 и Седмица 10** — `NOT STARTED` (само метаданни в `CourseCatalog.cs`, както и останалите 11 седмици).
-- **Клиничен/академичен review на съдържанието** — `PENDING` (RISK-010 — няма щатен независим академичен/клиничен рецензент; съдържанието не е публикувано за реални потребители извън локалната разработка).
-- **Следваща фаза** — `CONTENT-DRIVEN TEMPLATE VALIDATION — WEEK 3` (име, не старт — изисква ново собственическо извикване; **не е започната автоматично**).
+- **Systemic route-safe anchor contract** — `COMPLETE`, `COMMITTED` (Седмица 1/3/8 section-nav + global skip-link, всички route-safe; whole-tree regression тест предпазва от бъдеща регресия).
+- **Седмица 10 и останалите 11 седмици** — `NOT STARTED` (само метаданни в `CourseCatalog.cs`).
+- **Независим академичен/клиничен review на съдържанието** — `PENDING` (RISK-010 — няма щатен рецензент; съдържанието не е публикувано за реални потребители извън локалната разработка).
+- **Следваща фаза** — `CONTENT-DRIVEN TEMPLATE VALIDATION — WEEK 10` (име, не старт — изисква ново собственическо извикване; **не е започната автоматично**).
 
 ## Последна завършена задача
+
+Week 3 Final Pre-Flight and Commit, включващ Systemic Anchor Fix (Сесия 31, 2026-08-06): собственикът одобри Седмица 3, anchor навигацията на Седмици 1/3/8, глобалния skip-link и поправения section flow; изпълнен пълен pre-flight (build/test, 13-route smoke test, anchor navigation pre-flight на трите седмици + skip-link на 6 routes, Week 3 content pre-flight, Week 3 layout pre-flight) и създаден единствен commit `feat: add week 3 cognitive model slice and route-safe anchors`. Виж `10_SESSION_LOG.md` (Сесия 31) за пълен commit hash и diffstat.
+
+Systemic Route-Safe Anchor Fix (Сесия 30, 2026-08-06): систематичен одит и поправка на bare-fragment anchor риска, докладван в Сесия 29 — `Sedmica1.razor` (9 anchors), `Sedmica8.razor` (8 anchors) вече route-safe (`Sedmica3.razor` вече беше поправен). Site-wide skip-link в `MainLayout.razor` поправен динамично чрез `NavigationManager` (`{uri.AbsolutePath}{uri.Query}#main-content`), тъй като целевата страница се променя на всеки route. `<base href="/">` в `App.razor` — недокоснат (задължителен). Нов `SystemicAnchorFixTests.cs` с whole-tree regression тест, потвърждаващ 0 bare fragment hrefs остават никъде в `Components/`. 9 нови/актуализирани теста (общо 296/296 passing). **Некомитнато.** Пълни детайли в `10_SESSION_LOG.md` (Сесия 30).
+
+WEEK 3 Owner Review — Anchor Navigation and Grid Gap Fix (Сесия 29, 2026-08-06): собственически преглед на живо на `/kurs/sedmica-3` докладва 2 blocking дефекта. Root cause #1: `App.razor`-овият `<base href="/">` кара bare `href="#id"` да резолва спрямо "/" (Home), не спрямо текущата страница — поправено само в Седмица 3 чрез пълни пътища; идентичен риск докладван, но **не поправен**, в Седмица 1/Седмица 8 и site-wide skip-link-а в `MainLayout`. Root cause #2: секции 08/09 бяха сдвоени в общ двуколонен ред с несъответстващи височини, оставяйки празна зона под по-късата — поправено чрез разделяне в собствени пълноширочинни секции. 2 нови regression теста (общо 287/287 passing). **Некомитнато.** Пълни детайли в `10_SESSION_LOG.md` (Сесия 29).
+
+CONTENT-DRIVEN TEMPLATE VALIDATION — Slice 2: Седмица 3 (Сесия 28, 2026-08-06): изграден нов route `/kurs/sedmica-3` — третият representative-week архетип ("Concept and Diagram"), валидиращ че Weekly Course Hub архитектурата (ADR-010) реално мащабира към йерархично/диаграмно съдържание, различно и от двата предишни архетипа. Два нови interactive компонента (`CognitiveHierarchyExplorer` — reuse на `.cbt-diagram`; `SchemaFilterDemonstration` — нов малък `.schema-filter` CSS блок за toggle+list). Реконсилирани syllabus твърдения (основните вярвания не са задължително отрицателни; "схема като филтър" изрично обозначена като метафора; "автоматично" не се приравнява на "ирационално"; рефлексивната обработка не гарантира безгрешен резултат). 26 нови/актуализирани теста (общо 285/285 passing). **Некомитнато** — чака собственически преглед. Пълни детайли в `10_SESSION_LOG.md` (Сесия 28).
 
 Week 1 Final Pre-Flight and Commit (Сесия 27, 2026-08-06): собственикът одобри съдържанието и визуалната реализация на Седмица 1; изпълнен пълен pre-flight (restore/build/test, 12-route smoke test, content pre-flight — заглавие/badge/reconciled формулировки/1979 цитат/learner-facing academic context/български review статус/educational disclaimer) и създаден единствен commit `feat: add week 1 CBT history learning slice`. Виж `10_SESSION_LOG.md` (Сесия 27) за пълен commit hash и diffstat.
 
@@ -83,6 +93,7 @@ Final Layout Defect Correction (Сесия 23, 2026-08-04): собственик
 
 - Visual Studio (пълен IDE) все още не е инсталирана — `RECOMMENDED`, не блокира.
 - Клиничен рецензент все още липсва — не блокира техническа работа.
+- ~~Anchor-navigation риск (bare `href="#id"` резолва спрямо `App.razor`-овия `<base href="/">`)~~ — **RESOLVED и committed (Сесия 31).** Виж `10_SESSION_LOG.md` (Сесии 29–31) за пълната диагноза и поправка.
 - **Повтарящ се environment проблем:** `dotnet run` фонови процеси в тази Windows/Git-Bash среда понякога надживяват bash `kill` (не се виждат от `ps aux`), задържайки порт 5055 за следваща сесия/стъпка — потвърдено седем пъти (Сесия 17–23). Обратен случай, открит в Сесия 23: `nohup ... &` фонов процес умря сам (без crash в лога) между стъпки, оставяйки `http://localhost:5055` недостъпен за собственика — коригирано с `disown` след `&`, не гарантирано решение за тази среда. Друга находка (Сесия 23): `Get-NetTCPConnection -LocalPort 5055` понякога показва "призрачни" `TimeWait` записи с `OwningProcess 0` (System Idle Process) от вече затворени HTTP заявки — тези НЕ блокират нов `LISTEN`; проверявай `State` колоната, не само присъствие на запис, преди да заключиш, че портът е зает. Винаги проверявай `Get-NetTCPConnection -LocalPort 5055` + `Get-Process -Name "CbtLearningPlatform"` през PowerShell преди нов smoke test, не разчитай само на предходно "процесът спрян чисто" съобщение от bash.
 
 ## Блокиращи проблеми
@@ -91,11 +102,11 @@ Final Layout Defect Correction (Сесия 23, 2026-08-04): собственик
 
 ## Следваща препоръчана задача
 
-Следваща фаза: `CONTENT-DRIVEN TEMPLATE VALIDATION — WEEK 3` — собственическо решение дали и кога да стартира, изисква ново извикване, **не е започната автоматично**. `KEEP RAZOR FOR MVP` остава в сила. Реален GitHub Actions run остава `PENDING` до създаване на remote.
+Следваща фаза: `CONTENT-DRIVEN TEMPLATE VALIDATION — WEEK 10` — собственическо решение дали и кога да стартира, изисква ново извикване, **не е започната автоматично**. `KEEP RAZOR FOR MVP` остава в сила. Реален GitHub Actions run остава `PENDING` до създаване на remote.
 
 ## Последна актуализация
 
-2026-08-06 — Сесия 27, Week 1 Final Pre-Flight and Commit.
+2026-08-06 — Сесия 31, Week 3 Final Pre-Flight and Commit (включващ Systemic Anchor Fix).
 
 ## Общ приблизителен прогрес
 

@@ -49,6 +49,13 @@
 │       `.research-turn-stepper` responsive CSS Grid (споделеният `.cbt-diagram` layout недокоснат).
 │       Нов sidebar "weak context" слой в `MainLayout` (`IsSectionContext()`) — `/kurs/*`/`/programa/*`
 │       вече показват приглушен parent marker, отделен от NavLink-овия силен exact-match `.active`
+│       [Сесия 28, CONTENT-DRIVEN TEMPLATE VALIDATION Slice 2] Трети реален route, `/kurs/sedmica-3` —
+│       валидира трети representative-week архетип ("Concept and Diagram": йерархични модели, concept
+│       maps, ограничена интерактивност), различен и от Седмица 1, и от Седмица 8. Два нови компонента:
+│       `CognitiveHierarchyExplorer` (wholesale reuse на `.cbt-diagram`, 0 нови CSS класа) и
+│       `SchemaFilterDemonstration` (единственият реално нов, малък `.schema-filter` CSS блок тази
+│       сесия). Останалата визуализация reuse-ва вече доказани static patterns (`.learning-path-diagram`,
+│       `.concept-map__side-notes`, `.concept-map__flow`) — 0 нови компонента за тях
 ├── Ресурсна библиотека (/resursi)
 │   ├── Статия (/resursi/{article-slug})
 │   └── (бъдещо, P2: История на КПТ — US-018b)

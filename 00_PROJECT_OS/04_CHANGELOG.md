@@ -4,6 +4,41 @@
 
 ---
 
+## 2026-08-06 (продължение 5) — Week 3 Final Pre-Flight and Commit, including Systemic Anchor Fix (Сесия 31)
+
+- **Повод:** собственикът одобри Седмица 3, anchor навигацията на Седмици 1/3/8, глобалния skip-link и поправения section flow на Седмица 3.
+- **Version control (добавено):** единствен commit `feat: add week 3 cognitive model slice and route-safe anchors`, обхващащ целия Content-Driven Vertical Slice — Week 3 (нов route, 2 нови interactive компонента) плюс целия systemic route-safe anchor fix (Седмица 1/3/8 + global skip-link).
+- **Проверено:** restore/build (0/0), test (296/296), 13/13 routes 200 на прясна инстанция, anchor navigation pre-flight (Седмица 1/3/8 + skip-link на 6 routes), Week 3 content pre-flight (14 точки), Week 3 layout pre-flight (без negative margins/absolute positioning/fixed heights) — всички потвърдени.
+- **Резултат:** `WEEK 3 AND SYSTEMIC ANCHOR FIX COMMITTED`. "Concept and Diagram" архетип `VALIDATED`. Systemic route-safe anchor contract `COMPLETE`. Следваща фаза `CONTENT-DRIVEN TEMPLATE VALIDATION — WEEK 10` — не е започната автоматично.
+
+## 2026-08-06 (продължение 4) — Systemic Route-Safe Anchor Fix (Сесия 30, НЕКОМИТНАТО)
+
+- **Повод:** Сесия 29 установи, че anchor-navigation бъгът (bare `href="#id"` резолва спрямо `App.razor`-овия `<base href="/">`, не спрямо текущата страница) е системен, потвърден и в вече committed-натите `Sedmica1.razor`/`Sedmica8.razor` и в site-wide skip-link-а. Тази сесия систематично поправя всички потвърдени случаи.
+- **Поправено:** `Sedmica1.razor` (9 section-nav anchors), `Sedmica8.razor` (8 section-nav anchors) вече route-safe (`href="/kurs/sedmica-{N}#id"`) — идентично на вече прилoжената поправка в `Sedmica3.razor`. Site-wide skip-link в `MainLayout.razor` вече изчислява целта динамично чрез `NavigationManager` (`{uri.AbsolutePath}{uri.Query}#main-content`), тъй като целевата страница се променя на всеки route — не може да е статичен път.
+- **Недокоснато (умишлено):** `<base href="/">` в `App.razor` — остава непроменен, задължителен за Blazor asset/SignalR resolution.
+- **Тестове:** нов `SystemicAnchorFixTests.cs` — включва whole-`Components/`-tree regression тест (`NoBareFragmentAnchorsRemainAnywhereInComponents`), потвърждаващ, че никой `.razor` файл вече не съдържа bare fragment href. Остарял `Week8Page_SectionNavigatorLinksToAllEightAnchors` (`SectionArchitectureTests.cs`) актуализиран за route-safe hrefs. 9 нови/актуализирани теста общо (296/296 passing).
+- **Проверено:** build 0/0, `git diff --check` чист, fresh-server smoke test потвърждава skip-link реално сервира различен href на всяка тествана страница, 0 bare fragments в served HTML на трите седмици.
+- **Резултат:** anchor-navigation рискът е технически разрешен навсякъде, където беше потвърден. Некомитнато — засяга и вече committed файлове, чака собственическо одобрение.
+
+## 2026-08-06 (продължение 3) — WEEK 3 Owner Review: Anchor Navigation and Grid Gap Fix (Сесия 29, НЕКОМИТНАТО)
+
+- **Повод:** собственически преглед на живо на `/kurs/sedmica-3` докладва 2 blocking дефекта — вътрешна anchor навигация отваря Home вместо да скролва на място; голяма празна зона под "Чести обърквания" поради height-mismatch с "Проверка на разбирането" в общ grid ред.
+- **Поправено (root cause #1):** `App.razor`-овият `<base href="/">` резолва bare `href="#id"` спрямо "/", не спрямо текущата страница (HTML spec поведение, не Blazor-специфично) — section-nav hrefs в `Sedmica3.razor` вече включват пълния път (`/kurs/sedmica-3#id`).
+- **Докладвано, не поправено:** идентичен риск в вече committed-натите `Sedmica1.razor`/`Sedmica8.razor` и в site-wide skip-link-а в `MainLayout.razor` — извън обхвата на тази стъпка, изисква отделно собственическо решение.
+- **Поправено (root cause #2):** секции "Чести обърквания"/"Проверка на разбирането" разделени в собствени пълноширочинни `LearningSection` блокове вместо споделен двуколонен ред; 3-те карти на "Чести обърквания" минаха от fixed 2-col grid (оставящ orphan) на auto-fit `.concept-map__side-notes`.
+- **Тестове:** 2 нови regression теста (hrefs включват пълния път; секциите не споделят grid wrapper). 287/287 общо.
+- **Резултат:** двата blocking дефекта коригирани в Седмица 3; известен, документиран риск за Седмица 1/8/skip-link остава открит за собственическо решение.
+
+## 2026-08-06 (продължение 2) — CONTENT-DRIVEN TEMPLATE VALIDATION, Slice 2: Седмица 3 (Сесия 28, НЕКОМИТНАТО)
+
+- **Повод:** върху committed-ата Седмица 1, собственикът стартира втория content-driven vertical slice — само Седмица 3, без Седмица 2/4/10, без глобален redesign, без commit в тази стъпка.
+- **Съдържание (добавено):** нов route `/kurs/sedmica-3` — третият representative-week архетип на Weekly Course Hub-а, "Concept and Diagram" (йерархия автоматична мисъл→междинно вярване→основно вярване, когнитивна триада, schema-as-filter демонстрация, автоматична/рефлексивна обработка, интегрирана concept map).
+- **Компоненти (добавени):** `CognitiveHierarchyExplorer.razor` (reuse на `.cbt-diagram` wholesale, 0 нови CSS класа); `SchemaFilterDemonstration.razor` (нов малък, scoped `.schema-filter` CSS блок за toggle+list UI, реален необходим нов компонент, не generic framework).
+- **Source reconciliation (4 конфликта, документирани):** основните вярвания не са задължително отрицателни/патологични; "схема като филтър" изрично обозначена като учебна метафора, не буквален механизъм; "автоматично" не се приравнява на "ирационално"; рефлексивната обработка изрично не гарантира безгрешен резултат.
+- **Тестове:** нов `Week3ContentSliceTests.cs` (26 факта); `CurriculumHubTests.cs`/`Week1ContentSliceTests.cs`/`ContentSliceTests.cs` актуализирани за третата налична седмица. 285/285 общо.
+- **Проверено:** build 0/0, `git diff --check` чист, 13/13 routes 200 на прясна инстанция, decoded HTML потвърждава 0 изтекли вътрешни термини, 0 диагностични скали, 0 personal-data inputs.
+- **Резултат:** `WEEK 3 CONCEPT-AND-DIAGRAM VERTICAL SLICE READY — OWNER CONTENT AND VISUAL REVIEW REQUIRED`. Некомитнато — изчаква собственически преглед.
+
 ## 2026-08-06 (продължение) — Week 1 Final Pre-Flight and Commit (Сесия 27)
 
 - **Повод:** собственикът одобри съдържанието и визуалната реализация на Седмица 1 (Сесии 25–26 резултат).

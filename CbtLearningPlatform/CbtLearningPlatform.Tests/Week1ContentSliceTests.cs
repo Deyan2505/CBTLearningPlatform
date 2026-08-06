@@ -34,15 +34,16 @@ public sealed class Week1ContentSliceTests
     }
 
     [Fact]
-    public void RemainingThirteenWeeks_StayUnavailable()
+    public void RemainingWeeks_StayUnavailable()
     {
+        int[] availableNumbers = [1, 3, 8];
         int[] stillUnavailable = [.. CourseCatalog.Weeks
-            .Where(w => w.Number != 1 && w.Number != 8)
+            .Where(w => !availableNumbers.Contains(w.Number))
             .Select(w => w.Number)];
 
-        Assert.Equal(13, stillUnavailable.Length);
+        Assert.Equal(12, stillUnavailable.Length);
 
-        foreach (CourseWeekDefinition week in CourseCatalog.Weeks.Where(w => w.Number != 1 && w.Number != 8))
+        foreach (CourseWeekDefinition week in CourseCatalog.Weeks.Where(w => !availableNumbers.Contains(w.Number)))
         {
             Assert.Null(week.Route);
             Assert.NotEqual(CourseWeekStatus.Available, week.Status);
@@ -330,6 +331,7 @@ public sealed class Week1ContentSliceTests
 
         Assert.Contains("/kurs/sedmica-1", source);
         Assert.Contains("/kurs/sedmica-8", source);
+        // Week 3 is covered separately in Week3ContentSliceTests.cs.
     }
 
     [Fact]

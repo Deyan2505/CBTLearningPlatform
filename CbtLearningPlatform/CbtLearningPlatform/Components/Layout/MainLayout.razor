@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager Nav
 
-<a class="skip-link" href="#main-content">Прескочи към съдържанието</a>
+<a class="skip-link" href="@CurrentPageFragment("main-content")">Прескочи към съдържанието</a>
 
 <div class="app-shell">
     <aside class="app-sidebar" aria-label="Странична навигация">
@@ -58,4 +58,16 @@
     // still gets NavLink's own .active. Exact route itself (e.g. /kurs) never gets .is-context.
     private bool IsSectionContext(string prefix) =>
         Nav.ToBaseRelativePath(Nav.Uri).StartsWith(prefix + "/", StringComparison.OrdinalIgnoreCase);
+
+    // Route-safe same-page fragment link. App.razor sets <base href="/"> (required for Blazor
+    // asset/SignalR path resolution) — per the HTML base-URL resolution spec this affects every
+    // relative reference in the document, including bare fragment-only hrefs like "#main-content",
+    // which would resolve to "/#main-content" (Home) instead of staying on the current page. This
+    // mirrors the fix already applied to the Week 1/3/8 section-nav anchors, but computed once
+    // here since the skip-link's target page changes on every route.
+    private string CurrentPageFragment(string fragment)
+    {
+        Uri uri = new(Nav.Uri);
+        return $"{uri.AbsolutePath}{uri.Query}#{fragment}";
+    }
 }

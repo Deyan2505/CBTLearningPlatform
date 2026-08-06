@@ -1,0 +1,86 @@
+@* Interactive WebAssembly island. Adapted from CbtModelDiagram's proven step-select pattern
+   (native <button> elements, aria-current="step", text fallback) — reuses the .cbt-diagram
+   button/explanation/fallback CSS wholesale, no new styles needed (the 3 levels fit the
+   shared flex-wrap layout without the long-label wrapping problem ResearchTurnStepper hit).
+   One neutral shared example across all three levels, not a personal-thought input — no
+   storage, no scoring, no self-assessment. *@
+
+<div class="cbt-diagram">
+    <ol class="cbt-diagram__steps" aria-label="Трите нива на когнитивния модел">
+        @for (int i = 0; i < Levels.Count; i++)
+        {
+            int index = i;
+            <li class="cbt-diagram__step-item">
+                <button type="button"
+                        class="cbt-diagram__step @(_selected == index ? "is-selected" : "")"
+                        aria-current="@(_selected == index ? "step" : null)"
+                        @onclick="() => Select(index)">
+                    <span class="cbt-diagram__step-number">@(index + 1)</span>
+                    <span class="cbt-diagram__step-label">@Levels[index].Name</span>
+                </button>
+            </li>
+            if (index < Levels.Count - 1)
+            {
+                <li class="cbt-diagram__step-connector" aria-hidden="true">
+                    <svg viewBox="0 0 20 8" width="20" height="8"><path d="M0 4h16m0 0-4-3.5m4 3.5-4 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </li>
+            }
+        }
+    </ol>
+
+    <div class="cbt-diagram__explanation" aria-live="polite">
+        <h3>@Levels[_selected].Name</h3>
+        <p>@Levels[_selected].WhatItIs</p>
+        <p><strong>Колко общо или ситуативно е:</strong> @Levels[_selected].Generality</p>
+        <p><strong>Типична езикова форма:</strong> @Levels[_selected].TypicalForm</p>
+        <p><strong>Връзка със съседните нива:</strong> @Levels[_selected].Connection</p>
+        <p><strong>Пример:</strong> @Levels[_selected].Example</p>
+    </div>
+
+    <p class="interpretation-example__note">Това е учебен пример, а не заключение за конкретен човек.</p>
+
+    <details class="cbt-diagram__fallback">
+        <summary>Текстово описание на трите нива</summary>
+        <ol>
+            @foreach (CognitiveLevel level in Levels)
+            {
+                <li>
+                    <strong>@level.Name:</strong> @level.WhatItIs Колко общо или ситуативно е: @level.Generality
+                    Типична езикова форма: @level.TypicalForm Връзка със съседните нива: @level.Connection
+                    Пример: @level.Example
+                </li>
+            }
+        </ol>
+    </details>
+</div>
+
+@code {
+    private int _selected;
+
+    private static readonly IReadOnlyList<CognitiveLevel> Levels =
+    [
+        new("Автоматична мисъл",
+            "Бърза, спонтанна интерпретация, която се появява в конкретна ситуация.",
+            "Най-ситуативно — свързано с точно този момент.",
+            "Кратко изречение или образ (\"Изложих се.\").",
+            "Възниква в ситуация и може да отразява по-общо междинно вярване, без да го доказва еднозначно.",
+            "\"Изложих се.\" — при обратна връзка, че на презентацията липсва част."),
+        new("Междинно вярване",
+            "Нагласа, правило или условно предположение, което стои зад повтарящи се автоматични мисли.",
+            "По-общо от автоматичната мисъл, но все още не най-дълбокото ниво.",
+            "Условно правило (\"Ако допусна грешка, другите ще решат, че не съм способен.\").",
+            "Може да поражда сходни автоматични мисли в различни ситуации и често е свързано с по-дълбоко основно вярване.",
+            "\"Ако допусна грешка, другите ще решат, че не съм способен.\""),
+        new("Основно вярване",
+            "По-обща и устойчива представа за себе си, другите хора или света.",
+            "Най-общо — не е обвързано с конкретна ситуация.",
+            "Кратко, обобщаващо твърдение (\"Не съм достатъчно способен.\").",
+            "Може да се изразява чрез различни междинни вярвания и автоматични мисли в множество ситуации.",
+            "\"Не съм достатъчно способен.\"")
+    ];
+
+    private void Select(int index) => _selected = index;
+
+    private sealed record CognitiveLevel(
+        string Name, string WhatItIs, string Generality, string TypicalForm, string Connection, string Example);
+}

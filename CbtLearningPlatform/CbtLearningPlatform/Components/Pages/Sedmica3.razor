@@ -1,0 +1,345 @@
+@* ACADEMIC/CLINICAL REVIEW PENDING internally — no staffed reviewer yet (RISK-010), not shown
+   as an uppercase status in the public UI (Week 1 owner-review correction lesson applied).
+   CONTENT-DRIVEN TEMPLATE VALIDATION, Slice 2: "Concept and Diagram" archetype — distinct from
+   Week 1's "Theory and History" and Week 8's "Simulator Workspace". Curriculum topic from
+   kpt_syllabus.pdf (Week 3) — map only, never verbatim text. Content basis: SRC-041 (Judith
+   Beck), Ch. 3 "The Cognitive Model" (automatic thoughts, intermediate/core beliefs, schema)
+   plus the classic Beck cognitive triad (self/world/future, confirmed by multiple registered
+   sources — 11_SOURCE_REGISTER.md SRC-025/035/037). Reconciled syllabus claims (10_SESSION_LOG.md,
+   this session): core beliefs are not framed as inherently negative/pathological; "schema as
+   filter" is explicitly labeled a teaching metaphor, not a literal mechanism; "automatic" is not
+   equated with "irrational"; reflective processing is not framed as guaranteed-correct.
+   Two interactive islands (CognitiveHierarchyExplorer, SchemaFilterDemonstration) — both reuse
+   proven patterns (.cbt-diagram step-select; a small toggle+list), no generic diagram/node-editor
+   framework. Knowledge check and thought-vs-belief check reuse native <details>/<summary>
+   (Week 1 pattern), not a second quiz engine. *@
+@page "/kurs/sedmica-3"
+
+<PageTitle>Седмица 3: Архитектура на когнитивния модел — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--format">Концепция и диаграма</span>
+        </div>
+        <p><em>Как автоматичните мисли, междинните вярвания и основните вярвания са свързани</em></p>
+        <p>
+            Когнитивният модел разглежда мисленето на няколко свързани нива. В конкретна ситуация човек
+            може да забележи бърза автоматична мисъл, зад която да стоят по-общи правила и предположения,
+            а още по-дълбоко — устойчиви представи за себе си, другите и света.
+        </p>
+        <LearningObjectives Objectives="@_objectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-3#tri-niva">Три нива</a>
+        <a href="/kurs/sedmica-3#izsledvane">Изследвайте нивата</a>
+        <a href="/kurs/sedmica-3#situacia-znachenie">От ситуация до значение</a>
+        <a href="/kurs/sedmica-3#triada">Когнитивна триада</a>
+        <a href="/kurs/sedmica-3#filtar">Схема като филтър</a>
+        <a href="/kurs/sedmica-3#obrabotka">Обработка на информация</a>
+        <a href="/kurs/sedmica-3#karta">Как се свързват нивата</a>
+        <a href="/kurs/sedmica-3#obarkvaniya">Чести обърквания</a>
+        <a href="/kurs/sedmica-3#proverka">Проверка</a>
+        <a href="/kurs/sedmica-3#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    <LearningSection Role="theory" RoleLabel="Визуален модел">
+        <h2 id="tri-niva" tabindex="-1">01 · Три нива на мисленето</h2>
+        <ol class="learning-path-diagram" aria-label="Три нива на когнитивния модел">
+            <li class="learning-path-diagram__step learning-path-diagram__step--theory">
+                <span class="learning-path-diagram__number">1</span>
+                <h3>Автоматична мисъл</h3>
+                <p>Бърза, ситуативна и сравнително лесна за забелязване.</p>
+            </li>
+            <li class="learning-path-diagram__connector" aria-hidden="true"><svg viewBox="0 0 20 8" width="20" height="8"><path d="M0 4h16m0 0-4-3.5m4 3.5-4 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+            <li class="learning-path-diagram__step learning-path-diagram__step--visual">
+                <span class="learning-path-diagram__number">2</span>
+                <h3>Междинно вярване</h3>
+                <p>Нагласи, правила и условни предположения.</p>
+            </li>
+            <li class="learning-path-diagram__connector" aria-hidden="true"><svg viewBox="0 0 20 8" width="20" height="8"><path d="M0 4h16m0 0-4-3.5m4 3.5-4 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+            <li class="learning-path-diagram__step learning-path-diagram__step--interactive">
+                <span class="learning-path-diagram__number">3</span>
+                <h3>Основно вярване</h3>
+                <p>По-общи представи за себе си, другите и света.</p>
+            </li>
+        </ol>
+        <p>
+            Основните вярвания са дълбоки и общи представи за себе си, другите хора и света. Те могат да
+            бъдат адаптивни или неадаптивни и често се активират по-силно в определени ситуации — не са
+            задължително отрицателни, ирационални или признак на заболяване.
+        </p>
+    </LearningSection>
+
+    <h2 id="izsledvane" tabindex="-1">02 · Изследвайте нивата</h2>
+    <CognitiveHierarchyExplorer @rendermode="InteractiveWebAssembly" />
+
+    <div class="learning-grid learning-grid--content-visual">
+        <LearningSection Role="visual" RoleLabel="Визуален модел">
+            <h2 id="situacia-znachenie" tabindex="-1">03 · От ситуация до значение</h2>
+            <ol class="concept-map__flow">
+                <li class="concept-map__node">Ситуация</li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node concept-map__node--highlight">Автоматично значение</li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node">Емоционална и телесна реакция</li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node">Поведение</li>
+            </ol>
+            <p class="concept-map__feedback">
+                Същата ситуация може да бъде интерпретирана по различен начин от различни хора или от един и
+                същ човек в различен контекст. Пълният модел е разгледан в
+                <a href="/programa/modul-2/situacia-misal-emocia-povedenie">Урок 1 на Модул 2</a>.
+            </p>
+        </LearningSection>
+
+        <LearningSection Role="academic" RoleLabel="Академично">
+            <h2 id="triada" tabindex="-1">04 · Когнитивната триада: Аз, светът и бъдещето</h2>
+            <div class="concept-map__side-notes">
+                <div class="card">
+                    <h3>Аз</h3>
+                    <p>Как човек вижда себе си.</p>
+                </div>
+                <div class="card">
+                    <h3>Светът и преживяванията</h3>
+                    <p>Как тълкува средата, отношенията и събитията.</p>
+                </div>
+                <div class="card">
+                    <h3>Бъдещето</h3>
+                    <p>Какво очаква да се случи.</p>
+                </div>
+            </div>
+            <ProgressiveExplanation SummaryLabel="Историческо значение на модела">
+                <p>
+                    В класическия модел на Бек за депресията трите области могат да бъдат доминирани от
+                    устойчиви негативни оценки. Триадата е исторически модел, свързан с разбирането на
+                    депресивните преживявания — не диагностичен тест, не инструмент за самооценка и не
+                    доказателство, че всяка негативна мисъл е част от депресивна триада.
+                </p>
+            </ProgressiveExplanation>
+        </LearningSection>
+    </div>
+
+    <LearningSection Role="example" RoleLabel="Пример">
+        <h2 id="filtar" tabindex="-1">05 · Схемата като филтър — полезна метафора, не буквален механизъм</h2>
+        <p>
+            Съществуващите вярвания могат да насочват вниманието и интерпретацията, така че част от
+            информацията да получава повече значение, а друга да бъде пренебрегвана или обяснявана по
+            различен начин. По-долу е един фиксиран, неутрален сценарий — не въвеждане на лична ситуация.
+        </p>
+        <SchemaFilterDemonstration @rendermode="InteractiveWebAssembly" />
+    </LearningSection>
+
+    <div class="learning-grid learning-grid--balanced">
+        <LearningSection Role="theory" RoleLabel="Сравнение">
+            <h2 id="obrabotka" tabindex="-1">06 · Автоматична и рефлексивна обработка</h2>
+            <div class="learning-grid learning-grid--balanced">
+                <div class="card">
+                    <h3>Автоматична обработка</h3>
+                    <ul>
+                        <li>бърза;</li>
+                        <li>изисква малко съзнателно усилие;</li>
+                        <li>използва познати модели и асоциации;</li>
+                        <li>полезна в много ежедневни ситуации;</li>
+                        <li>може да пропусне част от контекста.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Рефлексивна обработка</h3>
+                    <ul>
+                        <li>по-бавна;</li>
+                        <li>изисква повече внимание;</li>
+                        <li>позволява сравнение на повече информация;</li>
+                        <li>може да преразгледа първоначалната интерпретация;</li>
+                        <li>не гарантира безгрешен резултат.</li>
+                    </ul>
+                </div>
+            </div>
+            <ol class="concept-map__flow">
+                <li class="concept-map__node">Първа интерпретация</li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node">Пауза и разглеждане на допълнителни данни</li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node">Потвърждение, уточнение или промяна на първоначалния извод</li>
+            </ol>
+        </LearningSection>
+
+        <LearningSection Role="visual" RoleLabel="Визуален модел">
+            <h2 id="karta" tabindex="-1">07 · Как се свързват нивата</h2>
+            <ol class="concept-map__flow">
+                <li class="concept-map__node">Основно вярване</li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node">Междинно правило или предположение</li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node">Ситуация</li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node concept-map__node--highlight">Автоматична мисъл</li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node">Емоция / телесна реакция / поведение</li>
+            </ol>
+            <p class="concept-map__feedback">
+                Новият опит може да подсили или да постави под въпрос съществуващото вярване (↺) — връзките не
+                са механични и еднопосочни. От една мисъл не може надеждно да се заключи какво е основното
+                вярване на човека; тази диаграма не е инструмент за самодиагностика.
+            </p>
+        </LearningSection>
+    </div>
+
+    <LearningSection Role="example" RoleLabel="Сравнение">
+        <h2 id="obarkvaniya" tabindex="-1">08 · Чести обърквания</h2>
+        <p>Изберете как бихте класифицирали всяка фраза, после разгънете обяснението.</p>
+
+        <div class="concept-map__side-notes">
+            <div class="card">
+                <p>"Ще се изложа на срещата."</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи класификацията</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Автоматична мисъл</strong> в конкретна ситуация.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p>"Ако не се справя отлично, хората ще ме отхвърлят."</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи класификацията</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Условно предположение или правило</strong> (междинно вярване).</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p>"Не съм достатъчно добър."</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи класификацията</summary>
+                    <div class="progressive-explanation__body">
+                        <p>Възможно <strong>основно вярване</strong>.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div class="callout callout--info" role="note">
+            <p><strong>Важно:</strong> езиковата форма помага за ориентация, но не е достатъчна сама по себе си за окончателна класификация.</p>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Рефлексия">
+        <h2 id="proverka" tabindex="-1">09 · Проверка на разбирането</h2>
+        <p>Изберете отговор, след което разгънете обяснението. Проверката не се оценява и не запазва отговори.</p>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Въпрос 1.</strong> Кое е най-ситуативното когнитивно ниво?</p>
+                <p>А. Основно вярване<br />Б. Междинно вярване<br />В. Автоматична мисъл</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>В.</strong> Автоматичната мисъл е най-близо до конкретния момент и ситуация.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 2.</strong> Какво включват междинните вярвания?</p>
+                <p>А. Само спомени от детството<br />Б. Нагласи, правила и условни предположения<br />В. Точни описания на факти</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Междинните вярвания са нагласи, правила и условни предположения между основните вярвания и автоматичните мисли.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 3.</strong> Какво означава "схема като филтър"?</p>
+                <p>А. Схемата премахва напълно противоречащите факти<br />Б. Съществуващите вярвания могат да насочват вниманието и интерпретацията, без буквално да премахват фактите<br />В. Схемата не влияе по никакъв начин на вниманието</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> "Филтър" е учебна метафора — фактите остават, но получават различно внимание и значение.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 4.</strong> Кое твърдение за рефлексивната обработка е най-точно?</p>
+                <p>А. Тя винаги дава правилния извод<br />Б. Тя позволява по-съзнателно разглеждане на информацията, но не гарантира безгрешен извод<br />В. Тя е винаги по-добра от автоматичната обработка</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Рефлексивната обработка позволява по-задълбочено разглеждане, но остава податлива на грешки.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </LearningSection>
+
+    <div class="learning-grid learning-grid--balanced">
+        <LearningSection Role="academic" RoleLabel="Изводи">
+            <h2 id="izvori" tabindex="-1">10 · Обобщение, академичен контекст и източници</h2>
+
+            <h3>Какво да запомните</h3>
+            <ul>
+                <li>Мисленето може да бъде разглеждано на различни нива.</li>
+                <li>Автоматичните мисли са най-близо до конкретната ситуация.</li>
+                <li>Междинните вярвания включват нагласи, правила и предположения.</li>
+                <li>Основните вярвания са по-общи представи.</li>
+                <li>Схемите могат да насочват вниманието и интерпретацията.</li>
+                <li>Автоматичната и рефлексивната обработка имат различни функции.</li>
+            </ul>
+
+            <h3>Академичен контекст</h3>
+            <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
+                <p>
+                    Йерархията автоматична мисъл → междинно вярване → основно вярване и когнитивната триада
+                    (себе си, света, бъдещето) се основават на когнитивния модел на Аарон Т. Бек и на
+                    систематичното му представяне в трудовете на Джудит С. Бек.
+                </p>
+                <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
+            </ProgressiveExplanation>
+
+            <DisclaimerCallout Text="Тази страница представя образователен модел на когнитивните нива. Тя не определя вашите вярвания, не поставя диагноза и не обучава за самостоятелно провеждане на терапия." />
+
+            <h3>Източници и следващи стъпки</h3>
+            <p>
+                <a href="/programa/modul-2">Модул 2 — Ситуация → Мисъл → Емоция → Поведение</a><br />
+                <a href="/programa/modul-2/avtomatichni-misli">Урок: Автоматични мисли</a><br />
+                <a href="/programa/modul-2/emocii-i-telesni-reaktsii">Урок: Емоции и телесни реакции</a><br />
+                <a href="/kurs/sedmica-1">Седмица 1 — Как се ражда когнитивната терапия</a><br />
+                <a href="/kurs/sedmica-8">Седмица 8 — Автоматични мисли и емоции</a><br />
+                <a href="/kurs">← Обратно към 15-седмичния курс</a>
+            </p>
+
+            <SourceReferences Citations="@_citations" />
+        </LearningSection>
+    </div>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 3);
+
+    private readonly IReadOnlyList<string> _objectives =
+    [
+        "Различавате автоматични мисли, междинни вярвания и основни вярвания.",
+        "Обяснявате как трите нива могат да бъдат свързани.",
+        "Разпознавате когнитивната триада като исторически модел за депресивните преживявания.",
+        "Обяснявате метафората \"схема като филтър\".",
+        "Различавате автоматична от рефлексивна обработка.",
+        "Разбирате, че по-дълбоко ниво не означава непременно заболяване или необратима характеристика."
+    ];
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — глава за когнитивния модел, междинните и основните вярвания.",
+        "Аарон Т. Бек — когнитивен модел за депресията и когнитивната триада (себе си, света, бъдещето).",
+        "Учебната последователност на тази седмица е използвана само за тематична ориентация, без институционални твърдения."
+    ];
+}

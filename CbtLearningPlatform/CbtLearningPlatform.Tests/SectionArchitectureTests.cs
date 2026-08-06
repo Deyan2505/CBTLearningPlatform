@@ -26,11 +26,15 @@ public sealed class SectionArchitectureTests
     [Fact]
     public void Week8Page_SectionNavigatorLinksToAllEightAnchors()
     {
+        // Route-safe hrefs (owner review, systemic anchor fix): App.razor's <base href="/">
+        // means a bare "#anchor" resolves to Home, not the current page — every section-nav
+        // link must include the full "/kurs/sedmica-8" path.
         string source = ReadPage("Sedmica8.razor");
 
         foreach (string anchor in SectionAnchors)
         {
-            Assert.Contains($"href=\"#{anchor}\"", source);
+            Assert.Contains($"href=\"/kurs/sedmica-8#{anchor}\"", source);
+            Assert.DoesNotContain($"href=\"#{anchor}\"", source);
         }
     }
 
