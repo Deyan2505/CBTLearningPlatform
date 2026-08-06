@@ -1,0 +1,70 @@
+@* Interactive WebAssembly island. Adapted from CbtModelDiagram's proven step-select pattern
+   (native <button> elements, aria-current="step", text fallback for no-JS/screen readers) —
+   reuses the .cbt-diagram button/explanation/fallback CSS wholesale. The 4 stepper stages
+   compress the 5-box causal chain from Section D of the Week 1 brief: "formulate a new
+   question" and "focus on thoughts/meanings" are one reformulation idea, not two separate
+   stages. No scoring, no storage, no "correct" step.
+   Owner review correction: CbtModelDiagram's shared flex-wrap step list breaks unevenly with
+   this component's longer step labels (3 fit a row, 4th dangles alone with a trailing arrow
+   into empty space). Fixed with a local ".research-turn-stepper" CSS Grid variant (app.css) —
+   scoped to this component only, CbtModelDiagram's own layout is untouched. DOM/tab order stays
+   1→2→3→4 at every breakpoint; only the CSS visual placement changes. *@
+
+<div class="cbt-diagram research-turn-stepper">
+    <ol class="cbt-diagram__steps" aria-label="Изследователският обрат: от хипотеза до преформулиране">
+        @for (int i = 0; i < Steps.Count; i++)
+        {
+            int index = i;
+            <li class="cbt-diagram__step-item">
+                <button type="button"
+                        class="cbt-diagram__step @(_selected == index ? "is-selected" : "")"
+                        aria-current="@(_selected == index ? "step" : null)"
+                        @onclick="() => Select(index)">
+                    <span class="cbt-diagram__step-number">@(index + 1)</span>
+                    <span class="cbt-diagram__step-label">@Steps[index].Label</span>
+                </button>
+            </li>
+            if (index < Steps.Count - 1)
+            {
+                <li class="cbt-diagram__step-connector" aria-hidden="true">
+                    <svg viewBox="0 0 20 8" width="20" height="8"><path d="M0 4h16m0 0-4-3.5m4 3.5-4 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </li>
+            }
+        }
+    </ol>
+
+    <div class="cbt-diagram__explanation" aria-live="polite">
+        <h3>@Steps[_selected].Label</h3>
+        <p>@Steps[_selected].Explanation</p>
+    </div>
+
+    <details class="cbt-diagram__fallback">
+        <summary>Текстово описание на обрата</summary>
+        <ol>
+            @foreach (ResearchTurnStep step in Steps)
+            {
+                <li><strong>@step.Label:</strong> @step.Explanation</li>
+            }
+        </ol>
+    </details>
+</div>
+
+@code {
+    private int _selected;
+
+    private static readonly IReadOnlyList<ResearchTurnStep> Steps =
+    [
+        new("Първоначална хипотеза",
+            "Бек е обучен в психоаналитичната традиция и изследва нейни предположения за депресията, очаквайки резултатите да ги потвърдят."),
+        new("Наблюдение и проверка",
+            "Той организира емпирично изследване, за да провери тези предположения систематично — не само въз основа на клинично впечатление."),
+        new("Резултатът не потвърждава очакването",
+            "Данните не подкрепят първоначалната хипотеза по начина, по който е била формулирана."),
+        new("Преформулиране: нов фокус върху мисли и значения",
+            "Изследователският въпрос се пренасочва към повтарящите се модели на мислене и към начина, по който хората интерпретират ситуациите — основата на когнитивния модел.")
+    ];
+
+    private void Select(int index) => _selected = index;
+
+    private sealed record ResearchTurnStep(string Label, string Explanation);
+}

@@ -4,6 +4,37 @@
 
 ---
 
+## 2026-08-06 (продължение) — Week 1 Final Pre-Flight and Commit (Сесия 27)
+
+- **Повод:** собственикът одобри съдържанието и визуалната реализация на Седмица 1 (Сесии 25–26 резултат).
+- **Version control (добавено):** единствен commit `feat: add week 1 CBT history learning slice`, обхващащ целия Content-Driven Vertical Slice — Week 1 (нов route, 2 нови компонента, sidebar contextual state, всички content-driven корекции от Сесия 26).
+- **Проверено:** restore/build (0/0), test (258/258), 12/12 routes 200 на прясна инстанция, friendly 404, dark/light theme, content pre-flight (title/badge/reconciled формулировки/1979 цитат/learner-facing academic context/български review статус/educational disclaimer) — всички потвърдени.
+- **Резултат:** `WEEK 1 CONTENT-DRIVEN VERTICAL SLICE COMMITTED`. "Theory and History" архетип `VALIDATED`. Следваща фаза `CONTENT-DRIVEN TEMPLATE VALIDATION — WEEK 3` — не е започната автоматично.
+
+## 2026-08-06 — CONTENT-DRIVEN TEMPLATE VALIDATION, Owner Review Correction (Сесия 26, НЕКОМИТНАТО)
+
+- **Повод:** собственически визуален преглед на Седмица 1 (`/kurs/sedmica-1`) — архитектурата потвърдена, поискани само точкови content-driven корекции.
+- **Поправено (публичен HTML):** премахнати всички вътрешни development термини (файлови имена, `citation-grade`, uppercase `ACADEMIC/CLINICAL REVIEW PENDING`) от рендерираното съдържание — заменени с learner-facing академичен текст и обикновено българско review изречение.
+- **Поправено (layout):** нов scoped `.research-turn-stepper` CSS Grid variant за 4-те стъпки на `ResearchTurnStepper` (равноправни tracks на desktop, zigzag на средна ширина, вертикално на mobile, без dangling arrow, без absolute positioning) — споделеният `CbtModelDiagram`/`.cbt-diagram` layout остава непроменен.
+- **Добавено:** `HistoricalTimeline.Compact` density параметър + `.week-timeline--compact` CSS (Course Hub-овата собствена timeline непроменена); "weak parent context" sidebar слой в `MainLayout` (`/kurs/*`, `/programa/*`) — отделен от NavLink-овия силен exact-match `.active`.
+- **Поправено (съдържание):** скъсено Week 1 заглавие; content-format badge "Теория и история" вместо availability pill; преформулирана non-scored knowledge-check инструкция; Section 09 разбита на 3 подблока (Какво да запомните / Академичен контекст / Източници и следващи стъпки); Section 01 сведена до основната си теза.
+- **Ключов резултат (документиран изрично):** споделените timeline/diagram patterns бяха преизползваеми принципно, но реалното историческо съдържание изискваше compact density и отделен responsive stepper layout — валиден резултат от content-driven валидацията, не грешка в дизайна.
+- **Тестове:** 10 нови факта в `Week1ContentSliceTests.cs`. 258/258 общо.
+- **Проверено:** build 0/0, `git diff --check` чист, 12/12 routes 200, decoded HTML потвърждава 0 изтекли вътрешни термини, sidebar active/context комбинации коректни на всички проверени routes.
+- **Резултат:** `WEEK 1 CONTENT AND TEMPLATE CORRECTIONS READY — OWNER APPROVAL REQUIRED`. Некомитнато.
+
+## 2026-08-05 (продължение) — CONTENT-DRIVEN TEMPLATE VALIDATION, Slice 1: Седмица 1 (Сесия 25, НЕКОМИТНАТО)
+
+- **Повод:** върху одобрения и committed-ан foundation (`115f5fa`), собственикът стартира новата фаза с изричен, тесен обхват — само Седмица 1, без redesign, без промяна на application shell, без commit в тази стъпка.
+- **Съдържание (добавено):** нов route `/kurs/sedmica-1` — вторият representative-week архетип на Weekly Course Hub-а, "Theory and History" (историческа времева линия, causal research-turn interactivity, before/after сравнение на изследователския фокус, 1979 milestone, non-scored knowledge check), различен от Седмица 8-ия "Simulator Workspace" архетип.
+- **Компоненти (добавени, нула нови CSS класове):** `HistoricalTimeline.razor` (Components/Shared, static SSR — reuse на `.week-timeline`); `ResearchTurnStepper.razor` (Client/Interactive, единствен interactive island — reuse на `.cbt-diagram`, адаптиран директно от `CbtModelDiagram`). `comparison-matrix--dual` (дефиниран по-рано, неизползван) приложен за първи път.
+- **Компоненти (разширени):** `DisclaimerCallout` получи optional `Text` параметър (backward-compatible — default текст непроменен, съществуващите извиквания без параметър работят идентично).
+- **Source governance:** `kpt_syllabus.pdf` използван само като curriculum map, не като цитируем източник; институционално оформление изрично изключено. Основен източник — SRC-041. Двете дати (1964 контекстуално потвърдена, 1979 показана директно) проверени срещу `10_SESSION_LOG.md` GAP-012 (Closed).
+- **Source reconciliation (2 конфликта, документирани, не мълчаливо решени):** автоматичните мисли не са представени като "лишени от обективна валидност" (заменено с вече заключената формулировка); психоанализата не е представена като "провалена" — преходът е описан като промяна на изследователския въпрос, не като "победа" на школа.
+- **Тестове:** нов `Week1ContentSliceTests.cs` (19 теста); `CurriculumHubTests.cs`/`ContentSliceTests.cs` актуализирани за втората налична седмица. 248/248 общо (227 baseline + 21 нови/актуализирани).
+- **Проверено:** build 0/0, `git diff --check` чист, smoke test на всичките 12 реални routes на прясна инстанция (всички `200`), 0 ECTS/институционален бранд/диагностично съдържание, exactly 1 interactive island, 0 нови CSS класа.
+- **Резултат:** `WEEK 1 CONTENT-DRIVEN VERTICAL SLICE READY — OWNER CONTENT AND VISUAL REVIEW REQUIRED`. Некомитнато — изчаква собственически преглед. Седмица 2/3/10 не са започнати.
+
 ## 2026-08-05 — Final Pre-Flight and Foundation Commit (Сесия 24)
 
 - **Повод:** собственикът одобри натрупаната visual/UX основа от Сесии 17–23 без допълнителни промени; поискан е само финален pre-flight и един общ commit.

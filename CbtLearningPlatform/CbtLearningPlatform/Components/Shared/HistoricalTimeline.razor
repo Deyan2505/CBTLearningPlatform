@@ -1,0 +1,35 @@
+@* Static SSR. Reuses the .week-timeline visual pattern (numbered marker + connector + card
+   body) already proven responsive on /kurs — a historical milestone sequence is the same
+   shape as a week sequence, just without the availability-status pill.
+   Owner review correction: the Course Hub's own .week-timeline density (large card padding,
+   generous vertical gap) made a 6-milestone page unnecessarily long. Added an optional
+   "week-timeline--compact" modifier (app.css) for this use — the Course Hub timeline itself
+   is untouched (no Compact param passed there). *@
+
+<ol class="week-timeline @(Compact ? "week-timeline--compact" : "")" aria-label="@AriaLabel">
+    @for (int i = 0; i < Milestones.Count; i++)
+    {
+        HistoricalMilestone milestone = Milestones[i];
+        <li class="week-timeline__item">
+            <span class="week-timeline__connector" aria-hidden="true"></span>
+            <div class="week-timeline__marker" aria-hidden="true">@(i + 1)</div>
+            <div class="week-timeline__body card">
+                <h3 class="week-list__title">@milestone.Title</h3>
+                <p>@milestone.Description</p>
+            </div>
+        </li>
+    }
+</ol>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<HistoricalMilestone> Milestones { get; set; } = [];
+
+    [Parameter]
+    public string AriaLabel { get; set; } = "Историческа последователност";
+
+    [Parameter]
+    public bool Compact { get; set; }
+
+    public sealed record HistoricalMilestone(string Title, string Description);
+}

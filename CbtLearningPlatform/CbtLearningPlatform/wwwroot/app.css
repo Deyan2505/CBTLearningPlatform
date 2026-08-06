@@ -350,6 +350,13 @@ h3[tabindex="-1"]:focus-visible {
             font-weight: 700;
         }
 
+        /* Weak "contextual parent" state (e.g. /kurs while on /kurs/sedmica-1) — deliberately
+           lighter than .active: no background fill, no bold, only a left marker + tinted text. */
+        .app-sidebar__nav a.is-context {
+            border-left-color: var(--accent-primary-border);
+            color: var(--color-text-secondary);
+        }
+
 .app-sidebar__icon {
     width: 18px;
     height: 18px;
@@ -1052,6 +1059,63 @@ h3[tabindex="-1"]:focus-visible {
 }
 
 /* ==========================================================================
+   Research turn stepper — local layout variant, scoped to ResearchTurnStepper
+   only (CbtModelDiagram's shared .cbt-diagram__steps above is untouched).
+   Fixed step count (4) known ahead of time, so nth-child placement is a
+   deliberate one-off, not a generic reusable grid stepper system. Mobile-first:
+   base = 1 column; 640–899px = 3-col zigzag (row1: 1→2, row2: wrap arrow down,
+   row3: 3→4); 900px+ = single row of 4 equal tracks. DOM/tab order is always
+   1,2,3,4 — only CSS visual placement changes.
+   ========================================================================== */
+
+.research-turn-stepper .cbt-diagram__steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+}
+
+.research-turn-stepper .cbt-diagram__step-item,
+.research-turn-stepper .cbt-diagram__step-connector {
+    min-width: 0;
+}
+
+.research-turn-stepper .cbt-diagram__step {
+    width: 100%;
+    height: 100%;
+    white-space: normal;
+    text-align: left;
+}
+
+.research-turn-stepper .cbt-diagram__step-connector {
+    justify-content: center;
+    transform: rotate(90deg);
+}
+
+@media (min-width: 640px) and (max-width: 899px) {
+    .research-turn-stepper .cbt-diagram__steps {
+        grid-template-columns: 1fr auto 1fr;
+    }
+
+    .research-turn-stepper .cbt-diagram__step-item:nth-child(1) { grid-row: 1; grid-column: 1; }
+    .research-turn-stepper .cbt-diagram__step-connector:nth-child(2) { grid-row: 1; grid-column: 2; transform: none; }
+    .research-turn-stepper .cbt-diagram__step-item:nth-child(3) { grid-row: 1; grid-column: 3; }
+    .research-turn-stepper .cbt-diagram__step-connector:nth-child(4) { grid-row: 2; grid-column: 1 / -1; }
+    .research-turn-stepper .cbt-diagram__step-item:nth-child(5) { grid-row: 3; grid-column: 1; }
+    .research-turn-stepper .cbt-diagram__step-connector:nth-child(6) { grid-row: 3; grid-column: 2; transform: none; }
+    .research-turn-stepper .cbt-diagram__step-item:nth-child(7) { grid-row: 3; grid-column: 3; }
+}
+
+@media (min-width: 900px) {
+    .research-turn-stepper .cbt-diagram__steps {
+        grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    }
+
+    .research-turn-stepper .cbt-diagram__step-connector {
+        transform: none;
+    }
+}
+
+/* ==========================================================================
    Interactive interpretation example (legacy hook class kept on the note only)
    ========================================================================== */
 
@@ -1722,6 +1786,40 @@ h3[tabindex="-1"]:focus-visible {
     background: var(--color-border);
 }
 
+/* Owner review correction: compact density modifier for pages with several milestones where
+   the Course Hub's own generous card padding/gap made the page unnecessarily long. Course Hub
+   timeline (Kurs.razor) never passes Compact, so it is visually unaffected. */
+.week-timeline--compact .week-timeline__item {
+    grid-template-columns: 2rem 1fr;
+    gap: var(--space-3);
+    padding-bottom: var(--space-3);
+}
+
+.week-timeline--compact .week-timeline__marker {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.85rem;
+}
+
+.week-timeline--compact .week-timeline__connector {
+    top: 2rem;
+    left: 1rem;
+}
+
+.week-timeline--compact .week-timeline__body.card {
+    padding: var(--space-3);
+}
+
+.week-timeline--compact .week-timeline__body.card .week-list__title {
+    margin-bottom: var(--space-1);
+    font-size: 1rem;
+}
+
+.week-timeline--compact .week-timeline__body.card p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
     .week-timeline__item:last-child .week-timeline__connector {
         display: none;
     }
@@ -1919,6 +2017,15 @@ h3[tabindex="-1"]:focus-visible {
     color: var(--color-info-text);
     background: var(--color-info-bg);
     border-color: var(--color-info-text);
+}
+
+/* Content-format badge (e.g. "Теория и история") — not an availability status, so it gets
+   its own neutral academic tint rather than reusing the green "available" status color, which
+   would read as a progress/completion indicator on the page's own heading row. */
+.week-list__status--format {
+    color: var(--accent-academic);
+    background: var(--accent-academic-surface);
+    border-color: var(--accent-academic-border);
 }
 
 .week-list__status--review-required {

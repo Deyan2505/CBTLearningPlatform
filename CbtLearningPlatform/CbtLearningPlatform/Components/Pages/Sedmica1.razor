@@ -1,0 +1,263 @@
+@* ACADEMIC/CLINICAL REVIEW PENDING — no staffed clinical/academic reviewer yet (RISK-010).
+   CONTENT-DRIVEN TEMPLATE VALIDATION, Slice 1: first "Theory and History" archetype week,
+   distinct from Week 8's "Simulator Workspace" archetype. Curriculum sequencing/topic from
+   kpt_syllabus.pdf (Week 1) — used only as a map, never as verbatim text; institutional
+   credit/department framing intentionally excluded. Content basis: SRC-041 (Judith
+   Beck, Cognitive Behavior Therapy: Basics and Beyond) plus the primary 1979 citation
+   (Beck, Rush, Shaw & Emery — Cognitive Therapy for Depression), both dates independently
+   confirmed against SRC-041 (10_SESSION_LOG.md, GAP-012 closed). Reconciled two syllabus
+   claims that conflicted with already-locked platform content (10_SESSION_LOG.md, this
+   session): automatic thoughts are not framed as "lacking objective validity" (they can be
+   accurate, inaccurate, or partially supported), and psychoanalysis is not framed as
+   "failed" — both described as a shift in research question/method, not a winner/loser.
+   One interactive island only (ResearchTurnStepper) — the knowledge check reuses native
+   <details>/<summary> (same mechanism as ProgressiveExplanation), not a second WASM component. *@
+@page "/kurs/sedmica-1"
+
+<PageTitle>Седмица 1: Как се ражда когнитивната терапия — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--format">Теория и история</span>
+        </div>
+        <p><em>Научният преход от психоаналитични предположения към проверими когнитивни модели</em></p>
+        <p>
+            Когнитивната терапия не възниква като предварително завършена теория. Тя се оформя постепенно,
+            когато Аарон Бек започва да проверява научно собствените си предположения за депресията и получените
+            резултати го насочват към начина, по който хората възприемат и интерпретират преживяванията си.
+        </p>
+        <LearningObjectives Objectives="@_objectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="#nakratko">Накратко</a>
+        <a href="#istoricheska-linia">Историческа линия</a>
+        <a href="#nauchen-obrat">Научният обрат</a>
+        <a href="#predi-i-sled">Промяна във фокуса</a>
+        <a href="#avtomatichni-misli-preview">Автоматични мисли</a>
+        <a href="#zashto-struktura">Протоколи и наръчници</a>
+        <a href="#publikacia-1979">1979 г.</a>
+        <a href="#proverka">Проверка</a>
+        <a href="#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    <div class="learning-grid learning-grid--content-visual">
+        <LearningSection Role="theory" RoleLabel="Теория">
+            <h2 id="nakratko" tabindex="-1">01 · Накратко</h2>
+            <p>Когнитивната терапия се ражда от научна проверка, а не от предварително готова теория.</p>
+            <p class="key-idea-strip">
+                <span class="key-idea">Промяна на изследователския въпрос, не "победа" на школа</span>
+                <span class="key-idea">Резултатите насочват теорията</span>
+                <span class="key-idea">Автоматичната мисъл става обект на наблюдение</span>
+                <span class="key-idea">Структурата прави метода изследваем</span>
+            </p>
+            <p>След тази седмица ще разбирате защо и как когнитивната терапия възниква като научен, а не само клиничен отговор на по-ранни обяснения.</p>
+        </LearningSection>
+
+        <LearningSection Role="visual" RoleLabel="Визуален модел">
+            <h2 id="istoricheska-linia" tabindex="-1">02 · Историческа линия</h2>
+            <HistoricalTimeline AriaLabel="Историческата последователност от Седмица 1" Milestones="@_milestones" Compact="true" />
+        </LearningSection>
+    </div>
+
+    <h2 id="nauchen-obrat" tabindex="-1">03 · Научният обрат: как проверката променя теорията</h2>
+    <ResearchTurnStepper @rendermode="InteractiveWebAssembly" />
+    <p>
+        Основното учебно послание: когато резултатите не подкрепят една хипотеза, научният подход изисква тя да
+        бъде преразгледана. Това не е твърдение, че психоанализата е "победена" от когнитивния подход — а описание
+        на промяна на изследователския въпрос, метода на проверка и наблюдавания материал.
+    </p>
+
+    <div class="learning-grid learning-grid--balanced">
+        <LearningSection Role="example" RoleLabel="Сравнение">
+            <h2 id="predi-i-sled" tabindex="-1">04 · Какво се променя във фокуса</h2>
+            <div class="comparison-matrix-wrapper">
+                <table class="comparison-matrix comparison-matrix--dual">
+                    <caption>Промяна на изследователския фокус — не стара грешна школа срещу нова правилна</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">По-ранният изследователски въпрос</th>
+                            <th scope="col">Новият когнитивен изследователски въпрос</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Какъв скрит вътрешен конфликт стои зад симптома?</td>
+                            <td>Какво преминава през ума на човека в конкретната ситуация?</td>
+                        </tr>
+                        <tr>
+                            <td>Как несъзнаваните процеси обясняват преживяването?</td>
+                            <td>Как интерпретацията е свързана с емоцията и поведението?</td>
+                        </tr>
+                        <tr>
+                            <td>Каква предварителна теория може да обясни наблюдаваното?</td>
+                            <td>Как предположението може да бъде проверено чрез наблюдение и факти?</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </LearningSection>
+
+        <LearningSection Role="example" RoleLabel="Пример">
+            <h2 id="avtomatichni-misli-preview" tabindex="-1">05 · Автоматични мисли: първа среща</h2>
+            <p>
+                Автоматичните мисли са бързи и спонтанни мисловни реакции, които могат да бъдат точни, неточни
+                или частично подкрепени от фактите. Те често възникват толкова бързо, че остават незабелязани —
+                а мисълта не е равна на факт, дори когато се усеща убедително.
+            </p>
+            <div class="card">
+                <p><strong>Ситуация:</strong> Получавате кратък отговор на съобщение.</p>
+                <p><strong>Автоматична мисъл:</strong> "Сигурно съм го подразнил."</p>
+                <p><strong>Важно:</strong> Това е интерпретация, а не пряко наблюдаем факт.</p>
+            </div>
+            <p><a href="/kurs/sedmica-8">Разгледайте подробно автоматичните мисли в Седмица 8 →</a></p>
+        </LearningSection>
+    </div>
+
+    <div class="learning-grid learning-grid--wide-narrow">
+        <LearningSection Role="theory" RoleLabel="Теория">
+            <h2 id="zashto-struktura" tabindex="-1">06 · Защо протоколите и наръчниците са важни</h2>
+            <ProgressiveExplanation SummaryLabel="Покажи пълното обяснение">
+                <p>Структурираните процедури и терапевтични наръчници играят четири основни роли:</p>
+                <ol>
+                    <li>дават ясно описание на метода;</li>
+                    <li>позволяват различни специалисти да бъдат обучавани последователно;</li>
+                    <li>правят подхода възможен за системно изследване;</li>
+                    <li>позволяват резултатите от различни изследвания да бъдат сравнявани и обсъждани.</li>
+                </ol>
+                <p>
+                    Структурирането прави метода по-достъпен за систематично изследване; доказателствата идват от
+                    качеството и резултатите на самите изследвания, не от самото наличие на протокол.
+                </p>
+            </ProgressiveExplanation>
+        </LearningSection>
+
+        <LearningSection Role="academic" RoleLabel="Академично">
+            <h2 id="publikacia-1979" tabindex="-1">07 · 1979: Cognitive Therapy for Depression</h2>
+            <div class="card">
+                <p><em>Beck, A.T., Rush, A.J., Shaw, B.F., &amp; Emery, G. (1979). Cognitive Therapy for Depression.</em></p>
+            </div>
+            <p>
+                Трудът е исторически значим, защото представя систематично когнитивния подход и е свързан с
+                развитието на клинични протоколи за изследване и обучение. Той не трябва да бъде разглеждан като
+                единственото начало на целия когнитивен подход — по-скоро като важна веха в неговото структуриране.
+            </p>
+        </LearningSection>
+    </div>
+
+    <div class="learning-grid learning-grid--balanced">
+        <LearningSection Role="theory" RoleLabel="Рефлексия">
+            <h2 id="proverka" tabindex="-1">08 · Проверка на разбирането</h2>
+            <p>Изберете отговор, след което разгънете обяснението. Проверката не се оценява и не запазва отговори.</p>
+
+            <div class="card">
+                <p><strong>Въпрос 1.</strong> Кое най-добре описва научния обрат?</p>
+                <p>А. Бек приема първоначалната си теория без проверка.<br />
+                   Б. Бек проверява хипотезата и променя посоката според наблюдаваните резултати.<br />
+                   В. Бек изоставя всякакви психологически обяснения.</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Резултатите не потвърждават първоначалната хипотеза, затова изследователският въпрос се преформулира — не сляпо приемане, нито пълно изоставяне на психологическото обяснение.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 2.</strong> Автоматичната мисъл е:</p>
+                <p>А. непременно невярна;<br />
+                   Б. винаги съзнателно избрана;<br />
+                   В. бърза мисловна реакция, която може да бъде проверена.</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>В.</strong> Автоматичните мисли не са задължително грешни, нито съзнателно избрани — те са бързи реакции, които могат да бъдат забелязани и проверени спрямо фактите.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 3.</strong> Защо структурираните протоколи имат значение?</p>
+                <p>А. Защото сами по себе си доказват ефективност.<br />
+                   Б. Защото позволяват методът да бъде описван, преподаван и изследван по-последователно.<br />
+                   В. Защото премахват необходимостта от професионална преценка.</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Структурата подпомага изследването и обучението — тя сама по себе си не е доказателство за ефективност и не заменя професионалната преценка.</p>
+                    </div>
+                </details>
+            </div>
+        </LearningSection>
+
+        <LearningSection Role="academic" RoleLabel="Изводи">
+            <h2 id="izvori" tabindex="-1">09 · Обобщение, академичен контекст и източници</h2>
+
+            <h3>Какво да запомните</h3>
+            <ul>
+                <li>Когнитивната терапия се развива чрез проверка и преформулиране на хипотези.</li>
+                <li>Вниманието се насочва към мислите и значенията в конкретни ситуации.</li>
+                <li>Автоматичната мисъл е интерпретация, която може да бъде изследвана.</li>
+                <li>Структурираните процедури подпомагат обучението и научното оценяване на метода.</li>
+            </ul>
+
+            <h3>Академичен контекст</h3>
+            <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
+                <p>
+                    Историческият обзор се основава на развитието на когнитивния модел от Аарон Т. Бек и на
+                    систематичното му представяне в трудовете на Джудит С. Бек. Публикацията
+                    "Cognitive Therapy for Depression" от 1979 г. е важен етап в описването и структурирането
+                    на подхода.
+                </p>
+                <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
+            </ProgressiveExplanation>
+
+            <DisclaimerCallout Text="Тази страница представя историческо и образователно въведение. Тя не обучава за самостоятелно провеждане на терапия и не заменя професионална психологическа или медицинска помощ." />
+
+            <h3>Източници и следващи стъпки</h3>
+            <p>
+                <a href="/kpt">Какво е КПТ (кратко въведение)</a><br />
+                <a href="/programa/modul-1">Модул 1 — Какво представлява КПТ</a><br />
+                <a href="/kurs/sedmica-8">Седмица 8 — Автоматични мисли и емоции</a><br />
+                <a href="/kurs">← Обратно към 15-седмичния курс</a>
+            </p>
+
+            <SourceReferences Citations="@_citations" />
+        </LearningSection>
+    </div>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 1);
+
+    private readonly IReadOnlyList<string> _objectives =
+    [
+        "Поставяте възникването на когнитивната терапия в исторически контекст.",
+        "Обяснявате защо емпиричната проверка променя посоката на изследванията на Бек.",
+        "Разпознавате автоматичните мисли като важен обект на наблюдение.",
+        "Обяснявате защо структурираните протоколи позволяват методът да бъде изследван.",
+        "Различавате историческо описание от твърдение, че една школа напълно отменя друга."
+    ];
+
+    private readonly IReadOnlyList<HistoricalTimeline.HistoricalMilestone> _milestones =
+    [
+        new("Първоначална рамка", "Бек е обучен в психоаналитичната традиция и изследва нейни предположения за депресията."),
+        new("Емпирична проверка", "Първоначалните изследвания не потвърждават очаквания модел по начина, по който е бил формулиран."),
+        new("Ново наблюдение", "Вниманието се насочва към повтарящи се отрицателни интерпретации и бързи мисловни реакции."),
+        new("Когнитивен модел", "Мислите, значенията и интерпретациите започват да се разглеждат като важна част от емоционалните и поведенческите реакции."),
+        new("Структуриране и изследване", "Разработват се по-ясни процедури и терапевтични наръчници, които позволяват систематично обучение и оценяване."),
+        new("1979 г.", "Публикуван е Cognitive Therapy for Depression (Beck, Rush, Shaw & Emery) — систематично представяне на когнитивния подход.")
+    ];
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — глава за развитието на когнитивния модел.",
+        "Beck, A.T., Rush, A.J., Shaw, B.F., & Emery, G. (1979). Cognitive Therapy for Depression. New York: Guilford Press.",
+        "Учебната последователност на тази седмица е използвана само за тематична ориентация, без институционални твърдения."
+    ];
+}

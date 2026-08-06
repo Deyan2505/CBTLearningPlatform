@@ -1,7 +1,7 @@
 @* Weekly Course Hub. Static SSR — no interactivity needed here. Metadata comes entirely
    from CourseCatalog (Curriculum/CourseCatalog.cs) — no lesson text duplicated here. Only
-   Week 8 has a real Route; every other week intentionally has Route=null so this page never
-   links to a page that doesn't exist yet. Main hub area uses a wide/narrow two-column
+   Weeks 1 and 8 have a real Route; every other week intentionally has Route=null so this page
+   never links to a page that doesn't exist yet. Main hub area uses a wide/narrow two-column
    learning-grid (timeline left, contextual panel right) — not sticky, to avoid footer-overlap
    and zoom/accessibility risk for modest benefit. *@
 @page "/kurs"
@@ -89,12 +89,14 @@
             <div class="card start-panel">
                 <h3>Откъде да започнете</h3>
                 <p>
-                    Единствената напълно разработена и достъпна седмица точно сега е
-                    <a class="btn btn-violet" href="/kurs/sedmica-8">Седмица 8 — Автоматични мисли и емоции</a> —
-                    представителен пример за пълния формат на седмиците в курса (кратко обяснение,
-                    интерактивен симулатор, сравнение, проверка на разбирането, академичен контекст).
+                    Две седмици са напълно разработени и достъпни точно сега:
+                    <a class="btn btn-violet" href="/kurs/sedmica-1">Седмица 1 — Как се ражда когнитивната терапия</a>
+                    (историческо въведение) и
+                    <a class="btn btn-violet" href="/kurs/sedmica-8">Седмица 8 — Автоматични мисли и емоции</a>
+                    (представителен пример за симулаторния формат — обяснение, интерактивен симулатор,
+                    сравнение, проверка на разбирането, академичен контекст).
                 </p>
-                <p>Останалите 14 седмици представят пълния академичен пътен план на курса, не завършено съдържание.</p>
+                <p>Останалите 13 седмици представят пълния академичен пътен план на курса, не завършено съдържание.</p>
             </div>
 
             <div class="card">

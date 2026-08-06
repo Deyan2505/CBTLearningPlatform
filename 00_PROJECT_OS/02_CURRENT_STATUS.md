@@ -4,32 +4,39 @@
 
 ## ACTIVE CONTEXT FOR CURRENT STEP
 
-Минимален набор документи, необходими за следващата стъпка (собственически визуален преглед → корекции → commit):
+Минимален набор документи, необходими за следващата стъпка (собственически content + визуален преглед → корекции → commit):
 
 - `02_CURRENT_STATUS.md` (този файл — винаги първи).
-- `24_IMPLEMENTATION_ROADMAP.md` → визуален checkpoint запис.
-- Локално стартираното приложение на `http://localhost:5055` (не е committed).
+- `24_IMPLEMENTATION_ROADMAP.md` → Slice 1 (Седмица 1) checkpoint запис.
+- Локално стартираното приложение на `http://localhost:5055` (не е committed) — `/kurs/sedmica-1`.
 
 **Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15), PRD (17), пълен Risk Register, пълен Session Log.
 
 ## Текуща фаза
 
-Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Седем натрупани visual/UX checkpoint-а (Сесии 17–23) — собственически одобрени и committed в един-единствен foundation commit (Сесия 24, final pre-flight).**
+Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). CONTENT-DRIVEN TEMPLATE VALIDATION — Slice 1 (Седмица 1) — `COMPLETE` след собственическо одобрение, committed в отделен commit (Сесия 27).**
 
 ## Текуща стъпка
 
-`FOUNDATION COMMIT COMPLETE` (Сесия 24). Седемте checkpoint-а от Сесии 17–23 — (1) dark-first visual redesign, (2) Weekly Course Hub + progressive disclosure, (3) content-rich sectioned simulator-led redesign, (4) two-column workspace + семантична цветова система (локално), (5) същата архитектура глобално върху всички routes, (6) финален визуален polish, (7) корекция на реални layout дефекти (overflow/focus/stretched columns/nested card chrome/module paths/disclaimer tone/duplicate labels) — собственикът прегледа визуално, одобри текущата основа изрично и инструктира финален pre-flight + един общ commit, без нови функции/уроци/седмици/дизайнерски промени в тази стъпка. Pre-flight включи: restore/build (0/0)/test (227/227) чисти; потвърдено липсва `overflow-x:hidden` workaround навсякъде; smoke test на всичките 11 реални routes на прясно стартиран сървър — всички `200`, несъществуващ route → приятелски `404` на български; тъмна тема по подразбиране потвърдена, светла тема все още достъпна; без ECTS/институционален бранд/диагностично съдържание на публичните страници. **Ясно разграничение на текущия обхват:**
+`WEEK 1 CONTENT-DRIVEN VERTICAL SLICE COMMITTED` (Сесия 27). Собственикът одобри съдържанието и визуалната реализация на Седмица 1 (Сесии 25–26 резултат) — изпълнен финален pre-flight (build/test/route smoke test/content pre-flight) и създаден единствен commit `feat: add week 1 CBT history learning slice`. "Theory and History" archetype-ът е `VALIDATED` — вторият representative-week архетип на Weekly Course Hub-а реално доказа, че ADR-010 архитектурата мащабира отвъд Седмица 8, включително случая, в който споделен layout pattern (`.cbt-diagram`) се е оказал недостатъчен и е изисквал локален, scoped variant (документирано изрично в `24_IMPLEMENTATION_ROADMAP.md`, Сесия 26 — валиден резултат от validation фазата, не грешка). **Ясно разграничение на текущия обхват:**
 
-- **Visual/UX foundation** — `COMPLETE` (тъмна тема по подразбиране, sidebar+topbar shell, двуколонна `.learning-grid` архитектура, 6-роля семантична цветова система, приложени глобално върху всичките 11 реални routes, всички докладвани layout дефекти коригирани).
-- **Weekly Course Hub foundation** — `COMPLETE` (`/kurs` route, типизиран `CourseCatalog.cs` модел за 15-те седмици, `DeriveStatus()` safety-gating логика; архитектурата е постоянна — ADR-010).
-- **Седмица 8 (представителна седмица)** — `COMPLETE` (`/kurs/sedmica-8`, 8 anchor-navigable секции, 3 интерактивни типа — `CbtChainSimulator`, `CategorizationCheck`, `InterpretationExample`).
-- **Останалите 14 седмици** — `NOT BUILT` (само метаданни в `CourseCatalog.cs`; Седмица 8 е единственият изграден шаблон/представителен пример, не образец за автоматично мащабиране без собственическо решение).
-- **Клиничен/академичен review на съдържанието** — `STILL PENDING` (RISK-010 — няма щатен клиничен рецензент; съдържанието не е публикувано за реални потребители извън локалната разработка).
-- **Следваща фаза** — `CONTENT-DRIVEN TEMPLATE VALIDATION` (име, не старт — изисква ново собственическо извикване; **не е започната автоматично**).
+- **Visual/UX foundation** — `COMPLETE`, `COMMITTED` (hash `115f5fa`).
+- **Weekly Course Hub foundation** — `COMPLETE`, `COMMITTED` (`/kurs` route, `CourseCatalog.cs`, `DeriveStatus()` — ADR-010).
+- **Седмица 1 (Theory and History архетип)** — `COMPLETE`, `COMMITTED` (`/kurs/sedmica-1`) — архетипът `VALIDATED`.
+- **Седмица 8 (Simulator Workspace архетип)** — `COMPLETE`, `COMMITTED` (`/kurs/sedmica-8`).
+- **Седмица 3 и Седмица 10** — `NOT STARTED` (само метаданни в `CourseCatalog.cs`, както и останалите 11 седмици).
+- **Клиничен/академичен review на съдържанието** — `PENDING` (RISK-010 — няма щатен независим академичен/клиничен рецензент; съдържанието не е публикувано за реални потребители извън локалната разработка).
+- **Следваща фаза** — `CONTENT-DRIVEN TEMPLATE VALIDATION — WEEK 3` (име, не старт — изисква ново собственическо извикване; **не е започната автоматично**).
 
 ## Последна завършена задача
 
-Final Pre-Flight and Foundation Commit (Сесия 24, 2026-08-05): собственикът одобри натрупаната visual/UX основа от Сесии 17–23 без допълнителни промени; изпълнен пълен pre-flight (validation + 11-route smoke test) и създаден един-единствен foundation commit (`feat: add interactive CBT learning portal foundation`), обхващащ всичко от предходните седем checkpoint-а. Виж `10_SESSION_LOG.md` (Сесия 24) за пълен commit hash и diffstat.
+Week 1 Final Pre-Flight and Commit (Сесия 27, 2026-08-06): собственикът одобри съдържанието и визуалната реализация на Седмица 1; изпълнен пълен pre-flight (restore/build/test, 12-route smoke test, content pre-flight — заглавие/badge/reconciled формулировки/1979 цитат/learner-facing academic context/български review статус/educational disclaimer) и създаден единствен commit `feat: add week 1 CBT history learning slice`. Виж `10_SESSION_LOG.md` (Сесия 27) за пълен commit hash и diffstat.
+
+CONTENT-DRIVEN TEMPLATE VALIDATION — Owner review correction (Сесия 26, 2026-08-06): собственически визуален преглед на Седмица 1 доведе до 9 точкови content-driven корекции — премахнат вътрешен development език от публичния HTML; нов scoped `.research-turn-stepper` responsive CSS Grid (споделеният `.cbt-diagram` остава непроменен); нов `HistoricalTimeline.Compact` density вариант (Course Hub timeline непроменена); нов sidebar "weak context" слой в `MainLayout`; скъсено заглавие; content-format badge вместо availability pill; преформулирана knowledge-check инструкция; Section 09 разбита на 3 подблока; Section 01 сведена до същината си. 10 нови теста (общо 258/258 passing). Пълни детайли в `10_SESSION_LOG.md` (Сесия 26).
+
+CONTENT-DRIVEN TEMPLATE VALIDATION — Slice 1: Седмица 1 (Сесия 25, 2026-08-05): изграден нов route `/kurs/sedmica-1` — вторият representative-week архетип ("Theory and History"), валидиращ че Weekly Course Hub архитектурата (ADR-010) реално мащабира отвъд Седмица 8. Два нови reusable компонента с нула нови CSS класове (`HistoricalTimeline` reuse на `.week-timeline`; `ResearchTurnStepper` reuse на `.cbt-diagram`, адаптиран от `CbtModelDiagram`); `comparison-matrix--dual` (дефиниран, но неизползван преди тази сесия) приложен за перви път; knowledge check чрез native `<details>/<summary>`, не нов quiz engine; `DisclaimerCallout` разширен с optional `Text` параметър (backward-compatible). Source governance: `kpt_syllabus.pdf` използван само като curriculum map; 2 syllabus конфликта реконсилирани (виж `10_SESSION_LOG.md`, Сесия 25). 21 нови/актуализирани теста (общо 248/248 passing). Пълни детайли в `10_SESSION_LOG.md` (Сесия 25).
+
+Final Pre-Flight and Foundation Commit (Сесия 24, 2026-08-05): собственикът одобри натрупаната visual/UX основа от Сесии 17–23 без допълнителни промени; изпълнен пълен pre-flight (validation + 11-route smoke test) и създаден един-единствен foundation commit (`feat: add interactive CBT learning portal foundation`, hash `115f5fa`), обхващащ всичко от предходните седем checkpoint-а. Виж `10_SESSION_LOG.md` (Сесия 24) за пълен commit hash и diffstat.
 
 Final Layout Defect Correction (Сесия 23, 2026-08-04): собственикът извърши реален визуален преглед и докладва 12 конкретни, визуално потвърдени проблема. **Двата blocking проблема бяха реални root-cause bugs, не козметика:** (1) **хоризонтален overflow** — grid items по подразбиране имат `min-width: auto` (не `0`), затова широко/непрекъсваемо съдържание в която и да е `.learning-grid` колона можеше да разшири цялата страница вместо да задейства локалния `overflow-x: auto` на `.comparison-matrix-wrapper` — коригирано с `.learning-grid > * { min-width: 0; align-self: start; }` (втората половина на same fix едновременно реши и #2); (2) **опънати колони с празно пространство** — `align-items: start` на самия grid контейнер не е достатъчен, ако конкретен grid item няма собствен `align-self: start`; същото правило по-горе го гарантира за всеки item; (3) **дебела синя рамка около `<h1>`** — Blazor `<FocusOnNavigate Selector="h1">` реално добавя `tabindex="-1"` и фокусира h1 при всяка навигация (за screen reader announcement, не истинска клавиатурна фокусировка) — генеричното `[tabindex]:focus-visible` правило го третираше като бутон; добавено отделно, по-меко правило само за `h1/h2/h3[tabindex="-1"]`. Допълнително: nested "карта в карта" chrome премахнат (ModuleCard вече без собствена пълна рамка — divider pattern); `DisclaimerCallout` вече поддържа `Variant` ("educational" спокоен индиго по подразбиране, "safety" остава запазен за силни ограничения) — вече не изглежда като error съобщение; Модул 1/Модул 2 дясната колона преработена в реален `.module-path` (номерирани link nodes + connector линия + ясно разграничен status node) + нова concept map секция; 18 duplicate role-label/heading двойки коригирани в цялото приложение (напр. "Проверка"/"Проверка на разбирането" → "Рефлексия"/"Проверка на разбирането"); "Наличен" статус текст премахнат за наличните уроци (CTA вече го подразбира); sidebar разширен на 276px с по-плътен padding (без неудобно пренасяне на "Обучителна програма"); Home hero компресиран (по-малко top padding, по-стегнат `line-height` на h1); top bar получи малка platform икона. 42 нови теста (общо 227/227 passing). Пълни детайли в `10_SESSION_LOG.md` (Сесия 23).
 
@@ -84,11 +91,11 @@ Final Layout Defect Correction (Сесия 23, 2026-08-04): собственик
 
 ## Следваща препоръчана задача
 
-Следваща фаза: **CONTENT-DRIVEN TEMPLATE VALIDATION** — валидиране дали Седмица 8 архитектурата (8 секции, 3 интерактивни типа, `.learning-grid`/`LearningSection` система) реално мащабира към допълнителни седмици от 15-седмичния curriculum, преди да се строят всичките останали 14. Собственическо решение, изисква ново извикване — **не е започната автоматично**. `KEEP RAZOR FOR MVP` остава в сила. Реален GitHub Actions run остава `PENDING` до създаване на remote.
+Следваща фаза: `CONTENT-DRIVEN TEMPLATE VALIDATION — WEEK 3` — собственическо решение дали и кога да стартира, изисква ново извикване, **не е започната автоматично**. `KEEP RAZOR FOR MVP` остава в сила. Реален GitHub Actions run остава `PENDING` до създаване на remote.
 
 ## Последна актуализация
 
-2026-08-05 — Сесия 24, Final Pre-Flight and Foundation Commit.
+2026-08-06 — Сесия 27, Week 1 Final Pre-Flight and Commit.
 
 ## Общ приблизителен прогрес
 

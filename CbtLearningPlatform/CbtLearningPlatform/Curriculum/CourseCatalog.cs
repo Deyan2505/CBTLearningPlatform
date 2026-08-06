@@ -18,8 +18,8 @@ public sealed record CourseWeekDefinition(
 /// module grouping (Модул I–IV), not an invented structure.</summary>
 public sealed record CourseModule(int Number, string Title, string WeekRangeLabel, string Description);
 
-/// <summary>Single source of truth for the 15-week curriculum reference. Only Week 8 has a real Route in
-/// this step — every other week is intentionally InPreparation/AcademicOverview/ProfessionalReviewRequired
+/// <summary>Single source of truth for the 15-week curriculum reference. Only Weeks 1 and 8 have a real
+/// Route so far — every other week is intentionally InPreparation/AcademicOverview/ProfessionalReviewRequired
 /// with Route=null, so the hub never links to a page that doesn't exist.</summary>
 public static class CourseCatalog
 {
@@ -38,9 +38,9 @@ public static class CourseCatalog
     public static IReadOnlyList<CourseWeekDefinition> Weeks { get; } =
     [
         Week(1, "Теоретични и исторически основи",
-            "Въведение в когнитивната терапия и исторически преход",
+            "Как се ражда когнитивната терапия",
             "Как когнитивната терапия на Аарон Бек възниква като научен отговор на психоанализата.",
-            CurriculumSafetyLevel.PublicCore, route: null,
+            CurriculumSafetyLevel.PublicCore, route: "/kurs/sedmica-1",
             objectives:
             [
                 "Разбирате защо и как възниква когнитивната терапия.",

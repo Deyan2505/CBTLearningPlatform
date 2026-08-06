@@ -37,6 +37,18 @@
 │       `DisclaimerCallout` вече поддържа семантични Variant-и (educational по подразбиране, safety
 │       запазен за силни ограничения); `.learning-grid > * { min-width:0; align-self:start }` формализиран
 │       като задължителна част от learning-grid контракта (root-cause fix за overflow/stretching)
+│       [Сесия 25, CONTENT-DRIVEN TEMPLATE VALIDATION Slice 1] Втори реален route, `/kurs/sedmica-1` —
+│       валидира втори representative-week архетип ("Theory and History", различен от Седмица 8-ия
+│       "Simulator Workspace"). Два нови reusable компонента, нула нови CSS класове: `HistoricalTimeline`
+│       (Components/Shared — reuse на `.week-timeline`) и `ResearchTurnStepper` (Client/Interactive —
+│       reuse на `.cbt-diagram`, адаптиран от `CbtModelDiagram`). `DisclaimerCallout` разширен с optional
+│       `Text` параметър (backward-compatible, default непроменен). Останалите 13 седмици остават Route=null
+│       [Сесия 26, owner review correction] Content-driven валидацията показа, че споделените
+│       `.week-timeline`/`.cbt-diagram` patterns са преизползваеми принципно, но реално съдържание
+│       изисква variant-и: `HistoricalTimeline.Compact` (density modifier) и локален, scoped
+│       `.research-turn-stepper` responsive CSS Grid (споделеният `.cbt-diagram` layout недокоснат).
+│       Нов sidebar "weak context" слой в `MainLayout` (`IsSectionContext()`) — `/kurs/*`/`/programa/*`
+│       вече показват приглушен parent marker, отделен от NavLink-овия силен exact-match `.active`
 ├── Ресурсна библиотека (/resursi)
 │   ├── Статия (/resursi/{article-slug})
 │   └── (бъдещо, P2: История на КПТ — US-018b)

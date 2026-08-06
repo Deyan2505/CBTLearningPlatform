@@ -113,11 +113,22 @@
 ## 13. Разглеждане на 15-седмичния курс (ново, ADR-010, Сесия 18)
 
 - **Начална точка:** sidebar навигация → "15-седмичен курс" (`/kurs`).
-- **Стъпки:** вижда intro + разграничение "пълна програма срещу налично сега" (progressive disclosure) → вижда 4-те curriculum блока → разглежда списъка от 15 седмици с честен статус етикет за всяка → кликва единствената налична седмица (Седмица 8).
+- **Стъпки:** вижда intro + разграничение "пълна програма срещу налично сега" (progressive disclosure) → вижда 4-те curriculum блока → разглежда списъка от 15 седмици с честен статус етикет за всяка → кликва една от двете налични седмици (Седмица 1 или Седмица 8).
 - **Крайна цел:** ясно разбиране кое от 15-седмичната академична програма реално съществува като образователно съдържание точно сега, без dead links или подвеждащи очаквания.
 - **Грешки/празни състояния:** N/A — статичен списък, без мрежови заявки.
 - **Accessibility:** списъкът е семантичен (`<ol>`/`aria-label`), статус показан и текстово (не само чрез цвят на badge-а), progressive disclosure е native `<details>`.
 - **Acceptance criteria:** 0 от 15-те седмични записа сочат към несъществуваща страница; статус етикетите съвпадат точно с реалната наличност на route.
+- **[Сесия 25]** Две седмици вече налични (Седмица 1 добавена, CONTENT-DRIVEN TEMPLATE VALIDATION Slice 1) — start panel и timeline сочат и към двете, останалите 13 остават непроменени в статус.
+
+## 14a. Разглеждане на представителна седмица — "Theory and History" архетип (Седмица 1, Сесия 25)
+
+- **Начална точка:** `/kurs`, клик върху "Седмица 1" (или section-nav anchor директно).
+- **Стъпки:** чете "Накратко" → разглежда `HistoricalTimeline` (6 milestones, semantic `<ol>`, без CSS overflow workaround) → взаимодейства с единствения interactive island `ResearchTurnStepper` (адаптиран от `CbtModelDiagram` — 4 стъпки хипотеза→проверка→резултат→преформулиране, без storage/scoring) → разглежда `comparison-matrix--dual` таблицата "какво се променя във фокуса" → чете preview на автоматичните мисли (CTA към Седмица 8, не дублира симулатора) → по избор разгръща "Защо протоколите имат значение" → разглежда 1979 milestone card → работи с 3-въпросна knowledge check (native `<details>/<summary>` reveal, не нов quiz engine) → чете обобщение → по избор разгръща академичния контекст (разграничение curriculum source vs. academic source) → вижда educational disclaimer с custom текст (нов `DisclaimerCallout.Text` override параметър, backward-compatible).
+- **Крайна цел:** втори, съдържателно различен representative-week архетип (Theory and History, не Simulator Workspace) валидира, че Weekly Course Hub архитектурата (ADR-010) реално мащабира отвъд Седмица 8, без нов global redesign.
+- **Грешки/празни състояния:** N/A.
+- **Accessibility:** идентични принципи на поток 14; `HistoricalTimeline`/`comparison-matrix--dual` са нула нови CSS класове (wholesale reuse на вече проверени `.week-timeline`/`.comparison-matrix--dual` стилове); `ResearchTurnStepper` има текстов fallback (`<details>`) и `aria-current="step"`.
+- **Acceptance criteria:** exactly 1 interactive island на страницата; disclaimer/source references никога скрити зад disclosure; всички cross-links (`/kpt`, Модул 1, Седмица 8, `/kurs`) сочат към реални routes; без ECTS/институционален бранд/диагностично съдържание; единствената точна година, показана на страницата (1979), е потвърдена срещу SRC-041 (GAP-012 в `15_GAPS_AND_CONFLICTS.md` вече Closed); по-ранните milestones нарочно остават без точни години, макар 1964 да е също потвърдена — съзнателно решение да не се добавя точност, надхвърляща дадения инструктаж.
+- **[Сесия 26, owner review correction]** Sidebar вече показва "weak context" маркер на "15-седмичен курс" при посещение на всяка `/kurs/*` подстраница (преди тази сесия — 0 маркирани sidebar items на подстраници, потребителят губеше визуален контекст къде се намира спрямо цялото приложение). Същият принцип приложен и на `/programa/*` (вкл. lesson routes) за консистентност. `ResearchTurnStepper` вече използва локален responsive CSS Grid (4 равноправни стъпки на широк desktop, без dangling arrow, без absolute positioning) вместо споделения `.cbt-diagram` flex-wrap, който се чупеше неравномерно с по-дългите stepper labels. `HistoricalTimeline` вече поддържа `Compact` density вариант, приложен на Седмица 1 (Course Hub-овата собствена timeline остава непроменена). Публичният "Академичен контекст" вече е чисто learner-facing — без файлови имена/вътрешен QA жаргон.
 
 ## 14. Разглеждане на представителна седмица (Седмица 8, ADR-010, Сесия 18; преработено съдържателно Сесия 19)
 
