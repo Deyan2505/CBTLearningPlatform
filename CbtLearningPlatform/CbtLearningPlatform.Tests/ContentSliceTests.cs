@@ -146,6 +146,7 @@ public sealed class ContentSliceTests
     [InlineData("Sedmica8.razor")]
     [InlineData("Sedmica1.razor")]
     [InlineData("Sedmica3.razor")]
+    [InlineData("Sedmica10.razor")]
     public void PsychologicalContentPage_IncludesDisclaimerCallout(string fileName)
     {
         // 23_CLINICAL_SAFETY_BOUNDARIES.md: visible disclaimer required on every page with
@@ -160,7 +161,7 @@ public sealed class ContentSliceTests
         [
             "Kpt.razor", "Modul1.razor", "Modul1Lesson1.razor",
             "Modul2.razor", "Modul2Lesson1.razor", "Modul2Lesson2.razor", "Modul2Lesson3.razor",
-            "Kurs.razor", "Sedmica8.razor", "Sedmica1.razor", "Sedmica3.razor"
+            "Kurs.razor", "Sedmica8.razor", "Sedmica1.razor", "Sedmica3.razor", "Sedmica10.razor"
         ];
 
         // ADR-006/ADR-008: this categorization has no confirmed source and must never appear in published content.

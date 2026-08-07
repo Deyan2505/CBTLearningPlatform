@@ -36,12 +36,12 @@ public sealed class Week1ContentSliceTests
     [Fact]
     public void RemainingWeeks_StayUnavailable()
     {
-        int[] availableNumbers = [1, 3, 8];
+        int[] availableNumbers = [1, 3, 8, 10];
         int[] stillUnavailable = [.. CourseCatalog.Weeks
             .Where(w => !availableNumbers.Contains(w.Number))
             .Select(w => w.Number)];
 
-        Assert.Equal(12, stillUnavailable.Length);
+        Assert.Equal(11, stillUnavailable.Length);
 
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks.Where(w => !availableNumbers.Contains(w.Number)))
         {

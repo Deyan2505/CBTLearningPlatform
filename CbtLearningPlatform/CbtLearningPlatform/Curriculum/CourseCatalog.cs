@@ -18,8 +18,8 @@ public sealed record CourseWeekDefinition(
 /// module grouping (Модул I–IV), not an invented structure.</summary>
 public sealed record CourseModule(int Number, string Title, string WeekRangeLabel, string Description);
 
-/// <summary>Single source of truth for the 15-week curriculum reference. Only Weeks 1, 3 and 8 have a
-/// real Route so far — every other week is intentionally InPreparation/AcademicOverview/ProfessionalReviewRequired
+/// <summary>Single source of truth for the 15-week curriculum reference. Only Weeks 1, 3, 8 and 10 have
+/// a real Route so far — every other week is intentionally InPreparation/AcademicOverview/ProfessionalReviewRequired
 /// with Route=null, so the hub never links to a page that doesn't exist.</summary>
 public static class CourseCatalog
 {
@@ -137,9 +137,9 @@ public static class CourseCatalog
             formats: [InteractiveFormat.Simulator]),
 
         Week(10, "Когнитивни инструменти и преструктуриране",
-            "Сократически въпроси",
+            "Сократически въпроси и съвместно изследване",
             "Метод за изследване на мисълта чрез внимателни, отворени въпроси, а не чрез спор.",
-            CurriculumSafetyLevel.PublicCore, route: null,
+            CurriculumSafetyLevel.PublicCore, route: "/kurs/sedmica-10",
             objectives:
             [
                 "Разбирате Сократическия въпрос като метод за изследване, не за убеждаване.",

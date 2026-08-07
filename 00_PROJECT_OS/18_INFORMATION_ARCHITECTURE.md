@@ -56,6 +56,12 @@
 │       `SchemaFilterDemonstration` (единственият реално нов, малък `.schema-filter` CSS блок тази
 │       сесия). Останалата визуализация reuse-ва вече доказани static patterns (`.learning-path-diagram`,
 │       `.concept-map__side-notes`, `.concept-map__flow`) — 0 нови компонента за тях
+│       [Сесия 32, CONTENT-DRIVEN TEMPLATE VALIDATION Slice 3] Четвърти реален route, `/kurs/sedmica-10` —
+│       валидира четвърти representative-week архетип ("Guided Practice": сократически въпроси,
+│       non-scored guided-dialogue упражнение), различен от Седмица 1/3/8. Един нов компонент —
+│       `SocraticDialogueExplorer` (wholesale reuse на `.cbt-diagram`, 0 нови CSS класа). Останалата
+│       визуализация reuse-ва вече доказани static patterns (`.concept-map__flow`,
+│       `.concept-map__side-notes`, `.category-compare`) — 0 нови компонента за тях
 ├── Ресурсна библиотека (/resursi)
 │   ├── Статия (/resursi/{article-slug})
 │   └── (бъдещо, P2: История на КПТ — US-018b)

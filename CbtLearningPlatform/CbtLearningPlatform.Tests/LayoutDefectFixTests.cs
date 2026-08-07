@@ -63,18 +63,28 @@ public sealed class LayoutDefectFixTests
     }
 
     [Fact]
-    public void AppCss_RealKeyboardFocusOnAHeadingStillGetsAVisibleRing()
+    public void AppCss_HeadingFocusVisibleIsMergedIntoTheSameUnconditionalNoOutlineRule()
     {
+        // Session 33 root-cause correction (owner review, Week 10): tabindex="-1" removes an
+        // element from sequential (Tab-key) navigation per the HTML spec — it is reachable ONLY
+        // via scripted .focus() calls, so a heading with tabindex="-1" can never actually receive
+        // a "real keyboard Tab" focus event. The old separate :focus-visible branch with a
+        // softer-but-still-visible ring was, in practice, matching FocusOnNavigate's own scripted
+        // .focus() call (Chromium/Firefox's :focus-visible heuristic treats programmatic focus on
+        // a non-interactive a11y-significant element as visible-worthy), so it fired on every
+        // normal navigation — reproducing the original bug in a thinner form. There is no genuine
+        // keyboard-visible-focus case left to special-case, so :focus and :focus-visible share one
+        // unconditional outline:none rule for h1/h2/h3[tabindex="-1"].
         string css = ReadCss();
 
-        int ruleIndex = css.IndexOf("h1[tabindex=\"-1\"]:focus-visible,", StringComparison.Ordinal);
+        int ruleIndex = css.IndexOf("h1[tabindex=\"-1\"]:focus,", StringComparison.Ordinal);
         Assert.True(ruleIndex >= 0);
 
         int ruleEnd = css.IndexOf('}', ruleIndex);
         string rule = css[ruleIndex..ruleEnd];
 
-        Assert.Contains("outline:", rule);
-        Assert.DoesNotContain("outline: none", rule);
+        Assert.Contains("h1[tabindex=\"-1\"]:focus-visible,", rule);
+        Assert.Contains("outline: none;", rule);
     }
 
     [Fact]

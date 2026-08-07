@@ -4,6 +4,73 @@
 
 ---
 
+## 2026-08-07 — Week 10 Final Pre-Flight and Commit (Сесия 33, финал)
+
+- **Повод:** собственикът одобри окончателно Седмица 10, включително Section 08 simplified process design.
+- **Version control (добавено):** единствен commit `feat: add week 10 guided practice learning slice`, обхващащ целия Week 10 slice — изграждане (Сесия 32) + всичките корекционни pass-ове (Сесия 33: h1 фокус root-cause fix, Section 01 responsive process + arrow placement, Section 10 full-width подялба, Section 08 два-режимен simplified process + 6-`<li>` семантика) + тестове + Project OS.
+- **Проверено:** restore/build (0/0), test (336/336), `git diff --check` чист, 14/14 routes `200` + български 404 на прясна инстанция, Week 10 content pre-flight (12 точки), interactive pre-flight (SocraticDialogueExplorer), Section 01/08/10 layout contracts, route-safe anchor contract (0 bare fragments, 0 дублирани id-та) — всички потвърдени. Без Co-Authored-By, без AI attribution, без push.
+- **Резултат:** `WEEK 10 COMMITTED`. "Guided Practice" архетип `VALIDATED` (четвърти валидиран архетип). Следваща стъпка `OPTIONAL READING SOURCE COMPONENT` (НЕ Library phase) — не е започната автоматично.
+
+## 2026-08-06 (продължение 11) — Section 08 Final Redesign: Simple, Clear, Intuitive Six-Step Process (Сесия 33, продължение, НЕКОМИТНАТО)
+
+- **Повод:** собственикът отхвърли целия 3×2 layout подход, не само отделни позиции — номер/текст не групирани визуално, линии отделени от съдържанието, 03→04 неинтуитивен, 06 изолиран, много празно пространство.
+- **Ново решение:** точно два responsive режима (wide хоризонтален ред / narrow вертикална колона), нищо междинно — без 3×2, без boustrophedon, без reversal. Нов `.guided-practice-sequence__unit` физически групира номер+label в едно цяло. Connector-и (5, presentation-only spans) свързват целите unit-и чрез flexbox, центрирани спрямо фиксирания размер на номера — не зависят от дължината на label текста.
+- **Container query:** преизползван съществуващият `.page-container` ambient container context (без нов wrapper); breakpoint 1100px, избран емпирично според най-дългия label; `@supports not` fallback по установената конвенция.
+- **Премахнат dead CSS:** целият 3×2 grid-placement блок (repeat(3), nth-child hack-ове, display:none workaround) изцяло изтрит.
+- **Тестове:** 2 нови факта (unit grouping; точно два режима, без dead 3×2 contract, без CSS `order`, без absolute positioning). 336/336 общо.
+- **Проверено:** build/test 0/0 → 336/336, `git diff --check` чист, fresh-server structural QA потвърждава новата семантика без регресия на Section 01/Седмица 1/3/8.
+- **Резултат:** `WEEK 10 SECTION 08 SIMPLIFIED PROCESS READY — OWNER REVIEW REQUIRED`. Некомитнато.
+
+## 2026-08-06 (продължение 10) — Week 10 Visual Corrections: Section 01 Arrow Placement + Section 08 Broken-Flow Look (Сесия 33, продължение, НЕКОМИТНАТО)
+
+- **Повод:** нов собственически визуален преглед — Section 01's turn connector изглежда сякаш тръгва от грешна стъпка; необозначена "втора зона" все още визуално обърква, изисквана честна диагноза.
+- **Issue 1 root cause:** Section 01's turn connector (стъпка 3→4) беше центриран през целия ред вместо подравнен под колоната, в която реално стоят стъпка 3 и стъпка 4 (колона 5) — визуално изглеждаше, че пада от стъпка 2.
+- **Issue 1 fix:** `app.css` — connector преместен на `grid-column: 5`, директно под/над съответните стъпки. Само CSS, layout идеята запазена.
+- **Issue 2 диагноза:** Section 08's стъпка 3 (нейният нов 3×2 rail) получаваше центриран marker, докато съседните ѝ стъпки (1,2,4,5) имат ляво подравнен marker — единствената несъответстваща не-финална стъпка, четяща се като прекъснат/полу-счупен rail.
+- **Issue 2 fix:** `app.css` — премахнато центрирането за стъпка 3; вече ляво подравнена като съседите си, консистентен вид. Центрирането остава само за истински финалната стъпка 6.
+- **Засегнати файлове:** единствено `app.css`. Без DOM/съдържание промени.
+- **Тестове:** без нови (чисто CSS). 334/334 непроменено.
+- **Проверено:** build/test 0/0 → 334/334, `git diff --check` чист, fresh-server QA потвърждава двете корекции без регресия на Седмица 1/3/8/anchors/accessibility (DOM недокоснат).
+- **Резултат:** `WEEK 10 VISUAL CORRECTIONS APPLIED — OWNER VISUAL REVIEW REQUIRED`. Некомитнато.
+
+## 2026-08-06 (продължение 9) — Section 08 Semantic Correction: Six Steps Must Mean Six List Items (Сесия 33, продължение, НЕКОМИТНАТО)
+
+- **Повод:** предходният handoff призна собствен accessibility/semantic дефект — Section 08's `<ol>` съдържаше 11 `<li>` (6 markers + 5 connector-и) вместо точно 6, защото connector-ите бяха отделни sibling `<li>` елементи, участващи погрешно в list semantics ("item N of 11" вместо "item N of 6").
+- **Поправено (Sedmica10.razor):** `<ol class="guided-practice-sequence">` вече съдържа точно **6 `<li>`** (един по стъпка). Connector-ите станаха `<span aria-hidden="true">`, вложени вътре в предходния `<li>`, presentation-only, без `role="listitem"`. Последната стъпка (06) няма connector.
+- **Поправено (app.css, visual redesign заради двусмисленост):** предходният 4+2 boustrophedon (ред 2 обърнат) заменен с по-прост **3×2 grid** — ред 1 = 01→02→03, ред 2 = 04→05→06, и двата отляво надясно, без reversal (точно като пренасяне на текстов ред). Connector-ът за row wrap-а (03→04) е скрит — линия там би подвела; поредната номерация е достатъчна. Позициониране чрез explicit CSS Grid placement, не CSS `order`.
+- **Тестове:** 3 нови факта — точно 6 `<li>`, connector-ите не са собствени `<li>`, 5 presentation-only connector spans, без connector след финалната стъпка, `--final` модификаторът остава. 334/334 общо.
+- **Проверено:** build/test 0/0 → 334/334, `git diff --check` чист, fresh-server structural QA потвърждава точната 6-`<li>` семантика и без регресия на Section 01/Седмица 1/3/8.
+- **Резултат:** `SECTION 08 SEMANTICS FIXED — OWNER VISUAL REVIEW REQUIRED`. Некомитнато.
+
+## 2026-08-06 (продължение 8) — WEEK 10 Redesign Section 08 Only: Practical Sequence as a Real Process Visual (Сесия 33, продължение, НЕКОМИТНАТО)
+
+- **Повод:** визуален преглед на трите Сесия-33 корекции отхвърли Section 08 — пълноширочинна секция, но шестте стъпки все още подредени като тесен вертикален stack, огромно неизползвано пространство отдясно, недостатъчна визуална стойност за реален process model.
+- **Поправено (Sedmica10.razor + app.css):** нов, изрично scoped `.guided-practice-sequence` pattern — номерирани кръгли markers на свързваща хоризонтална "релса", **не** reuse на `.concept-map__flow`/`__node`/`__connector`. Mobile: вертикална релса. Desktop (900px+): 4+2 converging layout (ред 1 = стъпки 1-4 през пълната ширина; централен turn marker; ред 2 = стъпки 5-6 центрирани, 05 дясно/06 ляво-highlighted) чрез explicit `nth-child` grid placement. DOM/reading order 1→6 запазен.
+- **Съдържание:** шестте стъпки и educational note-ът запазени дословно; добавени само позиционни номера 01-06 в markers-ите (съответстват на собственическия mockup).
+- **Тестове:** 3 нови факта в `Week10ContentSliceTests.cs` (scoped pattern, DOM ред/съдържание дословно запазени, изолация от другите седмици и от Section 01). 331/331 общо.
+- **Проверено:** build/test 0/0 → 331/331 (стар сървърен процес, заключил build изхода, идентифициран и спрян преди build), `git diff --check` чист, fresh-server structural QA (decoded HTML, коригирана slice граница до следващата секция) потвърждава точна DOM структура (11 `<li>`: 6 markers + 5 connectors), без регресия на Section 01/Седмица 1/3/8/route-safe anchors.
+- **Резултат:** `WEEK 10 SECTION 08 PROCESS RAIL READY — OWNER APPROVAL REQUIRED`. Некомитнато.
+
+## 2026-08-06 (продължение 7) — WEEK 10 Owner Visual Review: Final Layout Corrections (Сесия 33, НЕКОМИТНАТО)
+
+- **Повод:** собственическият визуален преглед на некомитнатата Седмица 10 одобри архетипа като цяло и поиска 3 точкови корекции: `<h1>` фокус рамка, тесен Section 01 process layout на desktop, празна дясна половина на Section 10.
+- **Поправено (`<h1>` фокус рамка, глобален CSS):** Сесия-23-ото предположение за `tabindex="-1"` и реална клавиатурна фокусировка е фактически невярно — коригирано разбиране; `:focus`/`:focus-visible` слети в едно безусловно `outline: none` правило за `h1/h2/h3[tabindex="-1"]`; ретроактивно потвърдено и за Седмица 1/3/8 без техни промени.
+- **Поправено (Section 01, Sedmica10.razor + app.css):** нов scoped `.concept-map__flow--process` модификатор (`@media (min-width: 900px)`) — boustrophedon 6-стъпков layout чрез explicit `nth-child` grid placement + ротирани "↓" стрелки; DOM/visual order 1→6 запазен; всяка друга `.concept-map__flow` употреба недокосната.
+- **Поправено (Section 10, Sedmica10.razor):** премахнат single-child `.learning-grid--balanced` wrapper (същият defect клас, недокоснат в Седмица 3); нов вътрешен пълноширочинен `.learning-grid--balanced` с 4 sibling блока, разчитащ на естественото CSS Grid row-major auto-placement — 0 нов CSS, без `order`.
+- **Тестове:** 7 нови факта в `Week10ContentSliceTests.cs`; 1 тест в `LayoutDefectFixTests.cs` преименуван/коригиран за верния `tabindex="-1"` разбор. 328/328 общо.
+- **Проверено:** build/test 0/0 → 328/328, `git diff --check` чист, fresh-server structural QA (curl + decoded HTML) потвърждава всички 3 корекции и липсата на регресия на Седмица 1/3/8. Headless browser недостъпен в тази среда — pixel-level breakpoint QA не бе технически възможна, отбелязано изрично.
+- **Резултат:** `WEEK 10 FINAL LAYOUT CORRECTIONS READY — OWNER APPROVAL REQUIRED`. Некомитнато — изчаква собственическо одобрение.
+
+## 2026-08-06 (продължение 6) — CONTENT-DRIVEN TEMPLATE VALIDATION, Slice 3: Седмица 10 (Сесия 32, НЕКОМИТНАТО)
+
+- **Повод:** върху committed-ата Седмица 3, собственикът стартира третия content-driven vertical slice — само Седмица 10, без Седмица 2/4/9/11, без глобален redesign, без промяна на вече валидираните архетипи.
+- **Съдържание (добавено):** нов route `/kurs/sedmica-10` — четвъртият representative-week архетип на Weekly Course Hub-а, "Guided Practice" (сократически въпроси, четири семейства въпроси, guided dialogue explorer, факт/предположение/заключение, декатастрофизиране, балансиран отговор).
+- **Компоненти (добавени, 0 нови CSS класа):** `SocraticDialogueExplorer.razor` (wholesale reuse на `.cbt-diagram`).
+- **Source reconciliation (реконсилирани 4+ конфликта):** сократическите въпроси не са разпит/прикрит съвет/риторика/доказателство, че мисълта е грешна; балансираният отговор не е принудителен позитивизъм; декатастрофизирането не омаловажава реален проблем; алтернативата не отменя първото обяснение само защото е по-приятна.
+- **Тестове:** нов `Week10ContentSliceTests.cs` (24 факта); `CurriculumHubTests.cs`/`Week1ContentSliceTests.cs`/`Week3ContentSliceTests.cs`/`ContentSliceTests.cs` актуализирани за четвъртата налична седмица. 321/321 общо.
+- **Проверено:** build 0/0, `git diff --check` чист, 14/14 routes 200 на прясна инстанция, route-safe anchors от самото начало, decoded HTML потвърждава 0 изтекли вътрешни термини, 0 диагностични скали, 0 personal-data inputs.
+- **Резултат:** `WEEK 10 GUIDED-PRACTICE VERTICAL SLICE READY — OWNER CONTENT AND VISUAL REVIEW REQUIRED`. Некомитнато — изчаква собственически преглед.
+
 ## 2026-08-06 (продължение 5) — Week 3 Final Pre-Flight and Commit, including Systemic Anchor Fix (Сесия 31)
 
 - **Повод:** собственикът одобри Седмица 3, anchor навигацията на Седмици 1/3/8, глобалния skip-link и поправения section flow на Седмица 3.
