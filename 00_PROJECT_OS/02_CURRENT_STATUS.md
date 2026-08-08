@@ -18,7 +18,9 @@
 
 ## Текуща стъпка
 
-`WEEK 10 COMMITTED` (Сесия 33, финал). Собственикът одобри окончателно Седмица 10, включително опростения Section 08 process design (два responsive режима). Изпълнен пълен pre-flight: restore/build (0/0), test (336/336), `git diff --check` чист, 14/14 routes `200` + приятелски български 404 на прясна инстанция, Week 10 content pre-flight (заглавие/badge/реконсилирани формулировки/без диагностика/без клинично-обучителен език/learner-facing academic context/educational disclaimer), interactive pre-flight (SocraticDialogueExplorer — 5 стъпки, фиксиран сценарий, без input/persistence/scoring), Section 01/08/10 layout contracts, route-safe anchor contract (0 bare fragments, 11 route-safe anchors, динамичен skip-link). Създаден единствен commit `feat: add week 10 guided practice learning slice` (без Co-Authored-By, без AI attribution, без push). Пълни детайли в `10_SESSION_LOG.md` (Сесия 33, финал).
+`OPTIONAL READING SOURCE COMPONENT — COMPLETE` (Сесия 34). Собственикът одобри визуално компонента на четирите седмици; изпълнен пълен pre-flight (restore/build 0/0, test 348/348, `git diff --check` чист, 14-route smoke test, четирите week routes с точно по един блок и без рендериран линк) и създаден единствен commit `feat: add optional reading source component`. Нов reusable компонент `OptionalReadingSource.razor` — compact „Допълнително четене" блок за доброволно по-задълбочено четене на оригиналния академичен източник (SRC-041, Джудит С. Бек), добавен на четирите валидирани седмици (1/3/8/10) след SourceReferences. Ключови принципи (закотвени и в тестове): optional reading is supplemental only; platform lessons remain self-contained; no Library phase created; no textbook dependency; public URL is optional and must be verified before use. Няма регистриран публичен URL за SRC-041 → блокът рендерира без бутон навсякъде (**PUBLIC SOURCE URL — PENDING VERIFICATION**, вътрешен статус). Номера на глави само където са потвърдени от реалния прочит (Глава 1 → Седмица 1; Глава 3 → Седмица 3); Седмица 8/10 — тематичен RelevantSection без номер. 12 нови теста (общо 348/348). Пълни детайли в `10_SESSION_LOG.md` (Сесия 34).
+
+Предходен checkpoint — `WEEK 10 COMMITTED` (Сесия 33, финал). Собственикът одобри окончателно Седмица 10, включително опростения Section 08 process design (два responsive режима). Изпълнен пълен pre-flight: restore/build (0/0), test (336/336), `git diff --check` чист, 14/14 routes `200` + приятелски български 404 на прясна инстанция, Week 10 content pre-flight (заглавие/badge/реконсилирани формулировки/без диагностика/без клинично-обучителен език/learner-facing academic context/educational disclaimer), interactive pre-flight (SocraticDialogueExplorer — 5 стъпки, фиксиран сценарий, без input/persistence/scoring), Section 01/08/10 layout contracts, route-safe anchor contract (0 bare fragments, 11 route-safe anchors, динамичен skip-link). Създаден единствен commit `feat: add week 10 guided practice learning slice` (без Co-Authored-By, без AI attribution, без push). Пълни детайли в `10_SESSION_LOG.md` (Сесия 33, финал).
 
 Предходен checkpoint в същата сесия — `WEEK 10 SECTION 08 SIMPLIFIED PROCESS READY — OWNER REVIEW REQUIRED` (Сесия 33, продължение 4). Собственикът отхвърли целия 3×2 layout на Section 08 — не отделна позиция, а самата структура: номер/label не групирани визуално, линии изглеждат отделени, 03→04 неинтуитивен, 06 изолиран. Решено с пълен redesign: точно два responsive режима (wide хоризонтален единичен ред `01→02→03→04→05→06`, narrow вертикална колона), нищо междинно — премахнат целият 3×2/nth-child dead CSS. Нов `.guided-practice-sequence__unit` физически групира номер+label. Connector-и (5, presentation-only) свързват цели units чрез flexbox. Container query (breakpoint 1100px, преизползващ съществуващия `.page-container` ambient контекст) вместо viewport media query. 2 нови теста (общо 336/336). Изрична собственическа инструкция: само Section 08, без съдържание/тема промени, без commit.
 
@@ -39,9 +41,12 @@
 - **Седмица 10 (Guided Practice архетип)** — `COMPLETE`, `COMMITTED` (`/kurs/sedmica-10`) — архетипът `VALIDATED`.
 - **Останалите 11 седмици** — `NOT STARTED` (само метаданни в `CourseCatalog.cs`).
 - **Независим академичен/клиничен review на съдържанието** — `PENDING` (RISK-010 — няма щатен рецензент; съдържанието не е публикувано за реални потребители извън локалната разработка).
-- **Следваща стъпка** — `OPTIONAL READING SOURCE COMPONENT`: малък reusable блок „Допълнително четене" за доброволен достъп до оригиналния източник; основното обучение остава изцяло в самите страници. Това **НЕ** е Library phase. **Не е започната автоматично.** Седмица 2/4/9/11 **не са започнати**.
+- **Optional Reading Source компонент** — `COMPLETE`, `COMMITTED` (`OptionalReadingSource.razor`, използван на Седмица 1/3/8/10).
+- **Следваща стъпка** — `SYSTEMATIC CURRICULUM EXPANSION` (не е започната автоматично). Седмица 2/4/9/11 **не са започнати**.
 
 ## Последна завършена задача
+
+Optional Reading Source Component — Final Pre-Flight and Commit (Сесия 34, 2026-08-08): собственикът одобри визуално компонента „Допълнително четене" на четирите валидирани седмици; изпълнен пълен pre-flight (restore/build/test 348/348, 14-route smoke test, four-week block QA) и създаден единствен commit `feat: add optional reading source component`. Компонентът остава supplemental-only, self-contained lessons, без Library phase, без textbook dependency, без публичен URL (pending verification). Виж `10_SESSION_LOG.md` (Сесия 34) за пълен commit hash и diffstat.
 
 Week 10 Final Pre-Flight and Commit (Сесия 33, финал, 2026-08-07): собственикът одобри окончателно Седмица 10 (включително Section 08 simplified process); изпълнен пълен pre-flight (restore/build/test 336/336, 14-route smoke test + 404, Week 10 content pre-flight, interactive pre-flight, Section 01/08/10 layout contracts, route-safe anchor contract) и създаден единствен commit `feat: add week 10 guided practice learning slice`. "Guided Practice" архетипът е `VALIDATED` — четвъртият representative-week архетип на Weekly Course Hub-а (ADR-010). Виж `10_SESSION_LOG.md` (Сесия 33, финал) за пълен commit hash и diffstat.
 
@@ -127,11 +132,11 @@ Final Layout Defect Correction (Сесия 23, 2026-08-04): собственик
 
 ## Следваща препоръчана задача
 
-`OPTIONAL READING SOURCE COMPONENT` — малък reusable блок „Допълнително четене" за доброволен достъп до оригиналния източник. Това **НЕ** е Library phase; основното обучение остава изцяло в самите страници. **Не е започната автоматично** — чака отделно собственическо извикване. Седмица 2, 4, 9 и 11 остават неизградени. `KEEP RAZOR FOR MVP` остава в сила. Реален GitHub Actions run остава `PENDING` до създаване на remote.
+`SYSTEMATIC CURRICULUM EXPANSION` — не е започната автоматично, чака отделно собственическо извикване. Седмица 2, 4, 9 и 11 остават неизградени. `KEEP RAZOR FOR MVP` остава в сила. Реален GitHub Actions run остава `PENDING` до създаване на remote.
 
 ## Последна актуализация
 
-2026-08-07 — Сесия 33 (финал), Week 10 Final Pre-Flight and Commit.
+2026-08-08 — Сесия 34, Optional Reading Source Component — Final Pre-Flight and Commit.
 
 ## Общ приблизителен прогрес
 

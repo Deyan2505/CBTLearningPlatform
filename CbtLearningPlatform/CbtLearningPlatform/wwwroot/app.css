@@ -904,6 +904,96 @@ h3[tabindex="-1"]:focus-visible {
     padding-top: var(--space-4);
 }
 
+/* Optional reading source — compact, calm academic block for voluntary deeper reading.
+   Deliberately quiet (indigo academic accent, subtle border, small type): it must never
+   compete with the lesson content, knowledge checks, diagrams, or the next-step links,
+   and must never read as a warning or a primary CTA. */
+.optional-reading {
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--accent-academic-border);
+    border-radius: var(--radius-md);
+    background: var(--accent-academic-surface);
+    font-size: 0.9rem;
+    max-width: 46rem;
+}
+
+.optional-reading__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+}
+
+.optional-reading__header h3 {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-academic);
+}
+
+.optional-reading__icon {
+    width: 18px;
+    height: 18px;
+    color: var(--accent-academic);
+    flex-shrink: 0;
+}
+
+.optional-reading__role {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0 var(--space-2);
+}
+
+.optional-reading__title {
+    margin: 0;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.optional-reading__meta {
+    margin: 0 0 var(--space-2) 0;
+    color: var(--color-text-secondary);
+}
+
+.optional-reading__section {
+    margin: 0 0 var(--space-2) 0;
+    font-style: italic;
+}
+
+.optional-reading__description {
+    margin: 0 0 var(--space-2) 0;
+}
+
+.optional-reading__note {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+}
+
+/* Secondary action, never a primary CTA — link-styled with a small external icon.
+   Padding keeps the touch target comfortable without button chrome. */
+.optional-reading__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+    padding: var(--space-2) 0;
+    color: var(--color-link);
+    font-weight: 600;
+}
+
+.optional-reading__link-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
 /* ==========================================================================
    Callouts (disclaimer / notice / success / warning / error)
    ========================================================================== */

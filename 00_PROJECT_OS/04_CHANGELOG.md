@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-08-08 — Optional Reading Source Component: Final Pre-Flight and Commit (Сесия 34)
+
+- **Повод:** собственикът одобри визуално компонента „Допълнително четене" на четирите седмици; финален pre-flight и commit.
+- **Version control (добавено):** единствен commit `feat: add optional reading source component`.
+- **Компонент (добавен):** `OptionalReadingSource.razor` — compact `<aside>`, спокойна academic роля (indigo, book икона), заглавие „Допълнително четене", винаги видима формулировка „не е необходим за преминаването на урока"; линк само при подаден проверен Url (никоя страница не подава — SRC-041 няма регистриран публичен URL: **PUBLIC SOURCE URL — PENDING VERIFICATION**).
+- **Интеграция (променено):** Sedmica1/3/8/10.razor — по един блок след SourceReferences. Номера на глави само където са source-confirmed (Глава 1, Глава 3); тематични секции без номер за Седмица 8/10.
+- **Тестове:** нов `OptionalReadingSourceTests.cs` (12 нови). 348/348 общо.
+- **Проверено:** restore/build/test 0/0 → 348/348, `git diff --check` чист, 14-route smoke test, fresh-server QA на четирите седмици (по един блок, без рендериран линк, без iframe, без textbook-dependent език). Без Co-Authored-By, без AI attribution, без push.
+- **Резултат:** `OPTIONAL READING SOURCE COMPONENT — COMPLETE`. Следваща фаза `SYSTEMATIC CURRICULUM EXPANSION` — не е започната автоматично.
+
 ## 2026-08-07 — Week 10 Final Pre-Flight and Commit (Сесия 33, финал)
 
 - **Повод:** собственикът одобри окончателно Седмица 10, включително Section 08 simplified process design.

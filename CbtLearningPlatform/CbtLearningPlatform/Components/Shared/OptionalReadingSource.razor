@@ -1,0 +1,67 @@
+@* Optional deeper-reading pointer to the original academic source. Supplemental only —
+   every lesson stays fully self-contained, so the wording must never imply required reading
+   ("за да разберете урока...", "задължително четене" and similar are forbidden here).
+   Source governance: Url may only be set to a registered, verified, public-access location
+   (see 11_SOURCE_REGISTER.md); until one exists the block renders with no action link, which
+   is the intended state, not a defect. RelevantSection may only name a chapter number when
+   that chapter is confirmed in the source registry / session log — otherwise pass a thematic
+   section name (e.g. "Когнитивният модел") or omit it. *@
+<aside class="optional-reading" aria-labelledby="optional-reading-heading">
+    <div class="optional-reading__header">
+        <svg class="optional-reading__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 4.5c-1.4-1-3.3-1.5-6-1.5v12c2.7 0 4.6.5 6 1.5 1.4-1 3.3-1.5 6-1.5V3c-2.7 0-4.6.5-6 1.5Zm0 0v12" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <h3 id="optional-reading-heading">Допълнително четене</h3>
+        @if (!string.IsNullOrEmpty(SourceRole))
+        {
+            <span class="optional-reading__role">@SourceRole</span>
+        }
+    </div>
+
+    <p class="optional-reading__title">@Title</p>
+    <p class="optional-reading__meta">@Author@(string.IsNullOrEmpty(Edition) ? null : $" · {Edition}")</p>
+
+    @if (!string.IsNullOrEmpty(RelevantSection))
+    {
+        <p class="optional-reading__section">За по-задълбочено разглеждане: @RelevantSection</p>
+    }
+
+    <p class="optional-reading__description">@Description</p>
+
+    <p class="optional-reading__note">
+        Този източник не е необходим за преминаването на урока. Той е подходящ, ако искате да
+        разгледате темата по-задълбочено в оригиналния академичен контекст.
+    </p>
+
+    @if (!string.IsNullOrEmpty(Url))
+    {
+        <a class="optional-reading__link" href="@Url">
+            @(string.IsNullOrEmpty(LinkLabel) ? "Отвори източника" : LinkLabel)
+            <svg class="optional-reading__link-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M8 5H5.5A1.5 1.5 0 0 0 4 6.5v8A1.5 1.5 0 0 0 5.5 16h8a1.5 1.5 0 0 0 1.5-1.5V12M11.5 4H16v4.5M16 4l-6.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+    }
+</aside>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public string Author { get; set; } = "";
+
+    [Parameter]
+    public string? Edition { get; set; }
+
+    [Parameter]
+    public string? RelevantSection { get; set; }
+
+    [Parameter, EditorRequired]
+    public string Description { get; set; } = "";
+
+    [Parameter]
+    public string? Url { get; set; }
+
+    [Parameter]
+    public string? LinkLabel { get; set; }
+
+    [Parameter]
+    public string? SourceRole { get; set; }
+}
