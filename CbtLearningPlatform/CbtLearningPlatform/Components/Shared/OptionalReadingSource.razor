@@ -10,10 +10,6 @@
     <div class="optional-reading__header">
         <svg class="optional-reading__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 4.5c-1.4-1-3.3-1.5-6-1.5v12c2.7 0 4.6.5 6 1.5 1.4-1 3.3-1.5 6-1.5V3c-2.7 0-4.6.5-6 1.5Zm0 0v12" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
         <h3 id="optional-reading-heading">Допълнително четене</h3>
-        @if (!string.IsNullOrEmpty(SourceRole))
-        {
-            <span class="optional-reading__role">@SourceRole</span>
-        }
     </div>
 
     <p class="optional-reading__title">@Title</p>
@@ -61,7 +57,4 @@
 
     [Parameter]
     public string? LinkLabel { get; set; }
-
-    [Parameter]
-    public string? SourceRole { get; set; }
 }

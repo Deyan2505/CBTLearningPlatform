@@ -152,14 +152,57 @@ public sealed class OptionalReadingSourceTests
         int blockEnd = css.IndexOf(".optional-reading__link-icon", ruleIndex, StringComparison.Ordinal);
         string block = css[ruleIndex..blockEnd];
 
-        Assert.Contains("var(--accent-academic-border)", block);
-        Assert.Contains("var(--accent-academic-surface)", block);
         Assert.DoesNotContain("--accent-safety", block);
         Assert.DoesNotContain("--color-warning", block);
         Assert.DoesNotContain("--color-error", block);
         Assert.DoesNotContain("--accent-interactive", block);
         // The link is a quiet secondary action, not the violet primary CTA treatment.
         Assert.DoesNotContain("--accent-primary", block);
+    }
+
+    [Fact]
+    public void AppCss_OptionalReadingUsesThePageCompatibleSurface_NotAFilledAccentBackground()
+    {
+        // Owner review: the original solid --accent-academic-surface fill read as a violet
+        // featured card. Only the border stays academic-indigo; the background now matches the
+        // same page-compatible surface every ordinary lesson card (.card/.section-card) uses.
+        string css = ReadCss();
+
+        int ruleIndex = css.IndexOf(".optional-reading {", StringComparison.Ordinal);
+        int ruleEnd = css.IndexOf('}', ruleIndex);
+        string rule = css[ruleIndex..ruleEnd];
+
+        Assert.Contains("border: 1px solid var(--accent-academic-border);", rule);
+        Assert.Contains("background: var(--color-surface);", rule);
+        Assert.DoesNotContain("--accent-academic-surface", rule);
+        // No arbitrary narrow max-width — it aligns with .source-references above it.
+        Assert.DoesNotContain("max-width", rule);
+    }
+
+    [Fact]
+    public void SourceReferences_HeadingIsJustSources_NoLongerDuplicatesOptionalReading()
+    {
+        // Owner review: "Източници и допълнително четене" duplicated the OptionalReadingSource
+        // block's own "Допълнително четене" heading immediately below it. The two blocks now
+        // have clearly distinct roles and headings.
+        string source = ReadSharedComponent("SourceReferences.razor");
+
+        Assert.Contains("<h2 id=\"source-references-heading\">Източници</h2>", source);
+        Assert.DoesNotContain("Източници и допълнително четене", source);
+    }
+
+    [Fact]
+    public void OptionalReadingSource_NoLongerRendersASourceRoleBadge()
+    {
+        string component = ReadSharedComponent("OptionalReadingSource.razor");
+
+        Assert.DoesNotContain("SourceRole", component);
+        Assert.DoesNotContain("optional-reading__role", component);
+
+        foreach (string fileName in WeekPagesWithOptionalReading)
+        {
+            Assert.DoesNotContain("SourceRole=\"Учебник\"", ReadPage(fileName));
+        }
     }
 
     private static string ReadPage(string fileName)

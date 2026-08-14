@@ -905,17 +905,21 @@ h3[tabindex="-1"]:focus-visible {
 }
 
 /* Optional reading source — compact, calm academic block for voluntary deeper reading.
-   Deliberately quiet (indigo academic accent, subtle border, small type): it must never
-   compete with the lesson content, knowledge checks, diagrams, or the next-step links,
-   and must never read as a warning or a primary CTA. */
+   Owner review: the original filled --accent-academic-surface background read as a solid
+   violet card — too close in weight to a featured CTA. Background is now the same
+   page-compatible --color-surface used by every ordinary lesson card (.card/.section-card);
+   only a thin indigo border carries the "academic" accent, so it stays clearly quieter than
+   the bordered+left-accent .section-card treatment above it. No max-width — it aligns to
+   whatever width .source-references above it already uses, instead of floating as a
+   narrower island. Must never compete with the lesson content, knowledge checks, diagrams,
+   or the next-step links, and must never read as a warning or a primary CTA. */
 .optional-reading {
     margin-top: var(--space-4);
     padding: var(--space-3) var(--space-4);
     border: 1px solid var(--accent-academic-border);
     border-radius: var(--radius-md);
-    background: var(--accent-academic-surface);
-    font-size: 0.9rem;
-    max-width: 46rem;
+    background: var(--color-surface);
+    font-size: 0.85rem;
 }
 
 .optional-reading__header {
@@ -927,7 +931,7 @@ h3[tabindex="-1"]:focus-visible {
 
 .optional-reading__header h3 {
     margin: 0;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -935,19 +939,10 @@ h3[tabindex="-1"]:focus-visible {
 }
 
 .optional-reading__icon {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     color: var(--accent-academic);
     flex-shrink: 0;
-}
-
-.optional-reading__role {
-    margin-left: auto;
-    font-size: 0.75rem;
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    padding: 0 var(--space-2);
 }
 
 .optional-reading__title {
@@ -973,7 +968,7 @@ h3[tabindex="-1"]:focus-visible {
 .optional-reading__note {
     margin: 0;
     color: var(--color-text-secondary);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
 
 /* Secondary action, never a primary CTA — link-styled with a small external icon.
