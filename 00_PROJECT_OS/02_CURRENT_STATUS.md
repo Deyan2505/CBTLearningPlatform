@@ -4,21 +4,53 @@
 
 ## ACTIVE CONTEXT FOR CURRENT STEP
 
-Минимален набор документи, необходими за следващата стъпка (OPTIONAL READING SOURCE COMPONENT — не е започната):
+Минимален набор документи, необходими за следващата стъпка (Седмица 7 — не е започната):
 
 - `02_CURRENT_STATUS.md` (този файл — винаги първи).
-- `24_IMPLEMENTATION_ROADMAP.md` → Slice 3 (Седмица 10) checkpoint запис.
-- `10_SESSION_LOG.md` → Сесия 33 (Week 10 corrections + commit).
+- `24_IMPLEMENTATION_ROADMAP.md` → Batch A checkpoint запис (Седмица 6/12).
+- `10_SESSION_LOG.md` → Сесия 37 (Week 12 implementation + commit).
 
 **Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15), PRD (17), пълен Risk Register, пълен Session Log.
 
 ## Текуща фаза
 
-Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31). Седмица 10 — `COMPLETE`, `COMMITTED` (Сесия 33) — "Guided Practice" архетипът `VALIDATED`. Седмица 6 — `COMPLETE`, некомитната (Сесия 35, Phase C) — първата седмица от Systematic Curriculum Expansion.**
+Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31). Седмица 10 — `COMPLETE`, `COMMITTED` (Сесия 33) — "Guided Practice" архетипът `VALIDATED`. Седмица 6 — `COMPLETE`, `COMMITTED` (Сесия 35, Phase C, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion. Седмица 12 — `COMPLETE`, некомитната (Сесия 37) — втората седмица от build order-а, `AcademicOverview` архетип (routed, но не `Available`, по дизайн).**
 
 ## Текуща стъпка
 
-`OPTIONAL READING VISUAL REFINEMENT — CLOSED, COMMITTED` (Сесия 36, 2026-08-09). Audit на некомитнатия diff от Сесия 34 (продължение) не намери реални дефекти — heading дублирането е премахнато (`SourceReferences.razor`: "Източници и допълнително четене" → "Източници"), визуалната тежест на `.optional-reading` е намалена (`--color-surface` вместо плътен `--accent-academic-surface`, премахнат "Учебник" badge, премахнат `max-width`), 0 dead CSS, 0 orphaned селектори (`.optional-reading__role`/`SourceRole` изцяло премахнати навсякъде), source съдържанието (заглавия/автор/издание/глави/описания) непроменено на всичките 4 засегнати страници. Fresh-server QA потвърди консистентност на всичките 5 седмици (1/3/6/8/10, включително Седмица 6 като regression check). 372/372 теста (непроменен брой — трите нови теста вече бяха включени в baseline-а от Сесия 35). Build 0/0. Затворено в собствен, изолиран commit `70d56cb` ("style: refine optional reading presentation") — Седмица-6 commit-ът `ac0d82e` остава недокоснат, отделен исторически commit. Working tree чист.
+`WEEK 6 v2 — DEEP LEARNING REBUILD — IMPLEMENTED, AWAITING OWNER LEARNING REVIEW` (Сесия 39,
+2026-08-14). **Собственикът обяви фундаментална промяна на посоката** (Сесия 38) — замразеният
+curriculum build order е поставен на PAUSE: досегашните седмици (6/8/10/12) са преценени като
+прекалено кратки/повърхностни за реалната цел на платформата (дълбоко, систематично, source-faithful
+учене на КПТ). Нов стандарт: "Deep Learning Week" — пълен прочит на реалната глава от източника (не
+резюме от паметта на проекта), Chapter Coverage Matrix, 100% accounted-for покритие, реални визуали,
+практика, сериозен финален тест, собственически learning review като последна gate — виж
+`06_QA_STRATEGY.md` → "Deep Learning Week — Definition of Done v2" за пълния стандарт.
+
+**Blueprint (Сесия 38):** `00_PROJECT_OS/_blueprints/WEEK6_v2_DEEP_LEARNING_BLUEPRINT.md`
+написан и ревизиран до v1.1 (owner-approved, `READY FOR IMPLEMENTATION: YES`). Критична находка:
+SRC-041 никога не е бил запазен като файл — само поставен веднъж в чат сесия (Сесия 3,
+2026-07-29). Собственикът предостави локалния PDF път; пълният текст на Глава 5 (~41 600 символа)
+е извлечен и кеширан в `00_PROJECT_OS/_source_corpus/` (gitignored, никога не се commit-ва). 47
+knowledge units идентифицирани, 100% accounted for.
+
+**Implementation (Сесия 39):** `Sedmica6.razor` изцяло преизграден — 14 секции (6.0–6.13), всичките
+47 units представени, first-session прецизност навсякъде (v1's "стандартна сесия" генерализация
+беше реален, сега поправен source-fidelity дефект). Три нови, индивидуално обосновани компонента:
+`WhatIfBox`, `SourceArtifact`, `ScenarioSimulator` (Interactive WebAssembly, multi-level A/B/C
+branching симулатор). Нов `.decision-branch` CSS pattern (истинско branching дърво, замества
+плосък `.category-compare` grid). Case Lab: Мартин/Ирина (одобрен pilot longitudinal case)/Радо.
+U08/U22 включени по owner-approved `OBSERVATIONAL SAFETY BOUNDARY` договор. 13 локални проверки +
+20-въпросен финален тест (Q19 пренаписан от platform-policy към source-grounded съдържание).
+Нов `Week6ContentSliceTests.cs` (пълен rewrite, 33 факта) + нов `Week6NewComponentTests.cs` (17
+факта). **430/430 passing** (396 baseline + 34 нови), build 0/0, 9/9 routes 200. **Некомитнато,
+изолирано от все още некомитнатата Седмица 12** (тя не е изоставена — само с по-нисък приоритет,
+докато Deep Learning моделът се потвърди). Собственически learning review остава последната gate
+преди `COMPLETE` — виж пълни детайли в `10_SESSION_LOG.md` (Сесии 38–39).
+
+Предходен checkpoint — `WEEK 12 — COMPLETE` (Сесия 37, 2026-08-14). Втората седмица от замразения Systematic Curriculum Expansion build order (6→12→7→4→5→2→9→11→15→13→14) е реализирана върху съществуващата архитектура — нула нови reusable компонента, нула нов CSS. Source contract: SRC-041, Глава 14 (confirmed чрез session-log наратив, Сесия 3 продължение 2) — трите широки категории при **негативните** основни вярвания (безпомощност/необичаемост/безполезност, Beck 1999 + J.S. Beck 2005), не core beliefs изобщо; формулировката изрично реконсилирана със Седмица 3's установена позиция, че основните вярвания не са задължително отрицателни. Съдържание: кратък recap на Седмица 3's трипластова йерархия (само линк, без повторно рендериране на диаграмата), дефиниция на основно вярване/схема, трите категории чрез `.category-compare`, изричен academic-only/no-self-assessment boundary, non-scored проверка на разбирането (native `<details>`), обобщение+академичен контекст+източници+`OptionalReadingSource` (Глава 14, без URL). Reuse: `LearningSection`/`LearningObjectives`/`ProgressiveExplanation`/`DisclaimerCallout`/`SourceReferences`/`OptionalReadingSource`, `.category-compare`, `.learning-grid--balanced` (коригиран вариант — grid-ът има директни `<div>` card деца, не Седмица-3-стил single-child anti-pattern). **Curriculum nuance:** Седмица 12 е `CurriculumSafetyLevel.AcademicContextOnly`, затова `DeriveStatus()` я резолва на `CourseWeekStatus.AcademicOverview`, не `Available`, въпреки зададения route — потвърдено structural QA на прясна инстанция; `Kurs.razor` start-panel остава непроменен (същите пет налични седмици), Седмица 12 се появява само в timeline-а с "Академичен обзор" badge и работещ линк. `CourseCatalog.cs`/`Kurs.razor` route + doc-коментари актуализирани. Нов `Week12ContentSliceTests.cs` (21 факта) + минимални актуализации в 6 съществуващи test файла. **396/396 passing** (374 baseline + 22 нови), build 0/0, `git diff --check` чист, 9/9 routes `200` на прясна инстанция (порт 5131), structural QA (1×`<h1>`, коректна h1→h2→h3, 0 bare fragment anchors, всички decorative icon-и aria-hidden). Source QA: всяко твърдение проследено до потвърдения Глава-14 обхват или до вече публикувано Седмица-3 съдържание. Safety QA: explicit anti-diagnostic disclaimer, explicit no-self-assessment boundary, нула интерактивност, нула лични данни. Промените са изолирани — единствено Week-12-related файлове в working tree, все още **некомитнати**, чакат собственическо одобрение преди единствен commit. Следваща стъпка от замразения ред: **Седмица 7** (не е започната автоматично). `10_SESSION_LOG.md` беше открит без запис за предходната Сесия 36 (Optional Reading Visual Refinement Closure) — попълнен ретроактивно в тази сесия, за да не се изгуби историята.
+
+Предходен checkpoint — `OPTIONAL READING VISUAL REFINEMENT — CLOSED, COMMITTED` (Сесия 36, 2026-08-09). Audit на некомитнатия diff от Сесия 34 (продължение) не намери реални дефекти — heading дублирането е премахнато (`SourceReferences.razor`: "Източници и допълнително четене" → "Източници"), визуалната тежест на `.optional-reading` е намалена (`--color-surface` вместо плътен `--accent-academic-surface`, премахнат "Учебник" badge, премахнат `max-width`), 0 dead CSS, 0 orphaned селектори (`.optional-reading__role`/`SourceRole` изцяло премахнати навсякъде), source съдържанието (заглавия/автор/издание/глави/описания) непроменено на всичките 4 засегнати страници. Fresh-server QA потвърди консистентност на всичките 5 седмици (1/3/6/8/10, включително Седмица 6 като regression check). 372/372 теста (непроменен брой — трите нови теста вече бяха включени в baseline-а от Сесия 35). Build 0/0. Затворено в собствен, изолиран commit `70d56cb` ("style: refine optional reading presentation") — Седмица-6 commit-ът `ac0d82e` остава недокоснат, отделен исторически commit. Working tree чист.
 
 **Push/deployment блокер (установен, не нов):** `git remote -v` е празен — **няма конфигуриран GitHub remote за това repository**. Съществуващият `.github/workflows/ci.yml` е build+test-only workflow (restore/build/test при push/PR към `main`) — **няма deployment job изобщо**, независимо от remote статуса. Push, реален GitHub Actions run, и публичен production URL остават невъзможни, докато собственикът не създаде remote (виж таблицата "Repository" по-долу — статусът е непроменен от началото на проекта). И двата commit-а (`ac0d82e`, `70d56cb`) стоят готови локално на `main`.
 
@@ -51,13 +83,26 @@
 - **Седмица 8 (Simulator Workspace архетип)** — `COMPLETE`, `COMMITTED` (`/kurs/sedmica-8`).
 - **Systemic route-safe anchor contract** — `COMPLETE`, `COMMITTED`.
 - **Седмица 10 (Guided Practice архетип)** — `COMPLETE`, `COMMITTED` (`/kurs/sedmica-10`) — архетипът `VALIDATED`.
-- **Седмица 6 (Guided Practice/Concept and Diagram hybrid)** — `COMPLETE`, **некомитната** (`/kurs/sedmica-6`) — първата седмица от Systematic Curriculum Expansion build order.
-- **Останалите 10 седмици** — `NOT STARTED` (само метаданни в `CourseCatalog.cs`).
+- **Седмица 6 (Guided Practice/Concept and Diagram hybrid)** — `COMPLETE`, `COMMITTED` (`/kurs/sedmica-6`, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion build order.
+- **Седмица 12 (Concept and Diagram, AcademicOverview архетип)** — `COMPLETE`, **некомитната** (`/kurs/sedmica-12`) — не изоставена, само с по-нисък приоритет по време на Deep Learning pivot-а.
+- **Седмица 6 v2 (Deep Learning module, пилот)** — `IMPLEMENTED — AWAITING OWNER LEARNING REVIEW`, некомитната (`/kurs/sedmica-6`) — пълен rebuild, 47/47 knowledge units, 14 секции, нов симулатор и 2 нови static компонента.
+- **Замразеният curriculum build order** — `PAUSED` (Сесия 38) в полза на валидиране на Deep Learning модела; ще се възобнови след собственически review.
+- **Останалите 9 седмици** — `NOT STARTED` (само метаданни в `CourseCatalog.cs`).
 - **Независим академичен/клиничен review на съдържанието** — `PENDING` (RISK-010 — няма щатен рецензент; съдържанието не е публикувано за реални потребители извън локалната разработка).
-- **Optional Reading Source компонент** — `COMPLETE`, `COMMITTED` (`OptionalReadingSource.razor`, използван на Седмица 1/3/6/8/10).
-- **Следваща стъпка** — `Седмица 12` от замразения build order (не е започната автоматично).
+- **Optional Reading Source компонент** — `COMPLETE`, `COMMITTED` (`OptionalReadingSource.razor`, използван на Седмица 1/3/6/8/10/12).
+- **Следваща стъпка** — собственически learning review на Седмица 6 v2. Не Седмица 7, не Седмица 12 продължение, не redesign на друга седмица.
 
 ## Последна завършена задача
+
+Week 6 v2 Deep Learning Rebuild — Implementation (Сесия 39, 2026-08-14): пълен rebuild на Седмица 6
+по owner-approved blueprint v1.1 — 14 секции, 47/47 knowledge units, нов multi-level branching
+симулатор, 2 нови static компонента, 20-въпросен финален тест. 430/430 теста. **Некомитнато** —
+чака собственически learning review (последна DoD gate, не автоматична). Пълни детайли в
+`10_SESSION_LOG.md` (Сесии 38–39).
+
+Week 12 Implementation — Systematic Curriculum Expansion, Batch A, Second Candidate (Сесия 37, 2026-08-14): реализирана втората седмица от замразения build order — нула нови компонента, нула нов CSS, изцяло reuse на съществуващи patterns. Source contract: SRC-041, Глава 14 (confirmed, scoped към негативните основни вярвания). `AcademicContextOnly` safety level → `AcademicOverview` статус, не `Available`, въпреки зададения route — потвърдено чрез `DeriveStatus()` и structural QA. 396/396 теста. **Некомитнато** — чака собствен Week-12-only commit. Пълни детайли в `10_SESSION_LOG.md` (Сесия 37).
+
+Optional Reading Visual Refinement: Closure + Deployment Check (Сесия 36, 2026-08-09): audit на некомитнатия diff от Сесия 34 (продължение) не намери реални дефекти; затворено в изолиран commit `70d56cb`. Deployment проверка потвърди липсата на GitHub remote/deployment pipeline — докладвано, не заобиколено. Project OS commit `3bd527e`. Пълни детайли в `10_SESSION_LOG.md` (Сесия 36).
 
 Week 6 Implementation — Phase C, First Implementation Candidate (Сесия 35, 2026-08-09): реализирана първата седмица от замразения Systematic Curriculum Expansion build order — нула нови компонента, нула нов CSS, изцяло reuse на съществуващи patterns (`.category-compare`, `.concept-map__side-notes`, shared components). Source contract: SRC-041, Глава 5 (confirmed). Прототипната диагностична референция (BDI/BAI) изрично изключена. 372/372 теста. **Некомитнато** — изолирано от отделната некомитната `Optional Reading Visual Refinement`, чака собствен Week-6-only commit. Пълни детайли в `10_SESSION_LOG.md` (Сесия 35).
 
@@ -147,11 +192,14 @@ Final Layout Defect Correction (Сесия 23, 2026-08-04): собственик
 
 ## Следваща препоръчана задача
 
-Собственикът да реши дали да създаде GitHub remote — реален push/CI run/production deployment остават невъзможни без него (виж "Push/deployment блокер" по-горе). До тогава: следваща позиция в замразения curriculum build order е **Седмица 12** — **не е започната автоматично**. Седмица 2/4/5/7/9/11/13/14/15 остават неизградени. `KEEP RAZOR FOR MVP` остава в сила.
+Собственически learning review на Седмица 6 v2 (`/kurs/sedmica-6`, локален URL в handoff-а на Сесия
+39) — потвърждение, че модулът реално учи, преди тя да бъде маркирана `COMPLETE` и commit-ната.
+Замразеният curriculum build order (Седмица 12 некомитната, Седмица 7 следваща) остава на PAUSE до
+това решение. Deployment остава извън обхват до отделна бъдеща фаза. `KEEP RAZOR FOR MVP` остава в сила.
 
 ## Последна актуализация
 
-2026-08-09 — Сесия 36, Optional Reading Visual Refinement Closure.
+2026-08-14 — Сесии 38–39, Deep Learning pivot + Week 6 v2 Implementation.
 
 ## Общ приблизителен прогрес
 

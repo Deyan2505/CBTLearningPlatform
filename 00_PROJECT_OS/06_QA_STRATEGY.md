@@ -71,3 +71,27 @@
 6. Резултатът е проверен спрямо acceptance criteria на съответната user story.
 7. Промените са описани в handoff доклад и в `10_SESSION_LOG.md`.
 8. Няма съзнателно скрит недовършен проблем.
+
+## Deep Learning Week — Definition of Done v2 (Сесия 39, 2026-08-14)
+
+Собственически одобрен нов стандарт (`WEEK6_v2_DEEP_LEARNING_BLUEPRINT.md` v1.1 §13/§20/§23),
+допълва — не заменя — общия Definition of Done по-горе, специфично за седмиците от
+Systematic Curriculum Expansion, преработени в "дълбочинен модул" формат (пилотирано на
+Седмица 6 v2). Задача от този тип се счита за завършена само когато:
+
+1. Пълен прочит на релевантната глава от реалния текст (не резюме от паметта на проекта).
+2. Идентифицирани knowledge units (Chapter Coverage Matrix).
+3. **100% units accounted for** — всеки unit има статус Included/Deferred (с explicit destination)/Excluded (с explicit причина); `≥90%` е официално отхвърлено правило, никога не се използва.
+4. Terminology Map, реално преброена — нито един ключов термин без обяснение.
+5. Основна теория, задълбочен нюанс (deep dive), множество конкретни примери.
+6. Case-based приложение с нови, самостоятелно измислени фиктивни персонажи.
+7. Поне едно смислено практическо взаимодействие, където темата позволява — не token quiz.
+8. Реално визуално обучение — минимум 3 истински графични учебни визуализации (не само styled text cards), с explicit класификация (graphic diagram / SVG illustration / source artifact / styled card).
+9. Section checks след всеки основен блок.
+10. Сериозен финален тест, покриващ Recall/Understand/Distinguish/Apply/Analyze.
+11. Обяснителна, source-grounded обратна връзка навсякъде — никога голо "Верен/Грешен".
+12. First-session/scope precision (или еквивалентна source-scope точност за темата) — изрично проверена с grep одит, не приета по подразбиране.
+13. Source traceability — всяко твърдение проследимо до конкретен knowledge unit.
+14. Safety QA — explicit third-person/observational framing документирана за всеки чувствителен елемент.
+15. Accessibility QA, Visual QA (структурна, с прозрачен метод), функционални тестове — зелени, отразяващи реалния нов обем.
+16. **Собственически learning review** — последната gate. Дори при зелени тестове/build/coverage, задачата остава `AWAITING OWNER LEARNING REVIEW`, не `COMPLETE`, докато собственикът не потвърди, че модулът реално учи.

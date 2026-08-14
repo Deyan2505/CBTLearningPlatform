@@ -1,0 +1,30 @@
+@* Static SSR. Turns a source-grounded worksheet/handout/figure (e.g. SRC-041 Figure 5.1/5.2)
+   into our own accessible, responsive learning artifact — Week 6 v2 Deep Learning Blueprint
+   §8. Deliberately NOT a pixel-copy/screenshot of the original page: semantic HTML only
+   (ChildContent supplies a <dl> or <ol>, whichever shape the source figure actually has),
+   own visual "handout" identity (dashed border + eyebrow), reusable for any future chapter's
+   worksheets/forms, not specific to Week 6. *@
+
+<figure class="source-artifact" aria-labelledby="@_headingId">
+    <figcaption>
+        <span class="source-artifact__eyebrow">Възпроизведен учебен артефакт</span>
+        <h3 id="@_headingId">@Title</h3>
+    </figcaption>
+    <div class="source-artifact__body">
+        @ChildContent
+    </div>
+    <p class="source-artifact__source">@SourceLabel</p>
+</figure>
+
+@code {
+    private readonly string _headingId = $"source-artifact-{Guid.NewGuid():N}";
+
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public string SourceLabel { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
+}

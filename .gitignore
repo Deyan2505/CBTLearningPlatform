@@ -480,3 +480,8 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Local extracted source-corpus cache (SRC-041 chapter text extracted from the owner's local
+# PDF for deep-learning analysis) — copyrighted book text, never committed to version control.
+# See 00_PROJECT_OS/11_SOURCE_REGISTER.md for the real PDF location and extraction method.
+00_PROJECT_OS/_source_corpus/

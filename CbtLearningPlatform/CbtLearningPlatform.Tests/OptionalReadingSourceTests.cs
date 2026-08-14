@@ -71,7 +71,7 @@ public sealed class OptionalReadingSourceTests
         // number, so they must use a thematic RelevantSection instead of an invented "Глава N".
         Assert.Contains("Глава 1 — Въведение в когнитивно-поведенческата терапия", ReadPage("Sedmica1.razor"));
         Assert.Contains("Глава 3 — Когнитивна концептуализация", ReadPage("Sedmica3.razor"));
-        Assert.Contains("Глава 5 — Структура на терапевтичната сесия", ReadPage("Sedmica6.razor"));
+        Assert.Contains("Глава 5 — Структура на първата терапевтична сесия", ReadPage("Sedmica6.razor"));
 
         Assert.Contains("RelevantSection=\"Разпознаване на автоматичните мисли\"", ReadPage("Sedmica8.razor"));
         Assert.Contains("RelevantSection=\"Насочено откриване и сократически въпроси\"", ReadPage("Sedmica10.razor"));

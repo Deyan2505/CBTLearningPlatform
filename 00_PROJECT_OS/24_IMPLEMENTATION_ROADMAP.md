@@ -606,4 +606,64 @@ Sources used: `CourseCatalog.cs` (syllabus-derived metadata, kpt_syllabus.pdf re
 
 ## Systematic Curriculum Expansion — Phase C: Week 6 Implementation (Сесия 35, 2026-08-09)
 
-First position of the frozen build order (§J above) implemented. Full narrative in `10_SESSION_LOG.md` (Сесия 35). Summary: `Sedmica6.razor` built with zero new components/CSS (reuses `LearningSection`/`ProgressiveExplanation`/`DisclaimerCallout`/`SourceReferences`/`OptionalReadingSource`, `.category-compare`, `.concept-map__side-notes`); source contract held to SRC-041 Гл. 5 exactly (duration quote + general 3-part shape per GAP-010's "close to prototype" resolution) — the original prototype's BDI/BAI mood-check detail was found and deliberately excluded. `CourseCatalog.cs` Week 6 route set; `Kurs.razor` start-panel updated for 5 available weeks. New `Week6ContentSliceTests.cs` + minimal updates to 6 existing test files (available-week-count assertions). 372/372 tests, build 0/0, 15/15 routes 200. **Status: `WEEK 6 — COMPLETE`, uncommitted** (isolated from the separate, still-uncommitted Optional Reading Visual Refinement). Next authorized candidate from the frozen order: **Week 12** — not started automatically.
+First position of the frozen build order (§J above) implemented. Full narrative in `10_SESSION_LOG.md` (Сесия 35). Summary: `Sedmica6.razor` built with zero new components/CSS (reuses `LearningSection`/`ProgressiveExplanation`/`DisclaimerCallout`/`SourceReferences`/`OptionalReadingSource`, `.category-compare`, `.concept-map__side-notes`); source contract held to SRC-041 Гл. 5 exactly (duration quote + general 3-part shape per GAP-010's "close to prototype" resolution) — the original prototype's BDI/BAI mood-check detail was found and deliberately excluded. `CourseCatalog.cs` Week 6 route set; `Kurs.razor` start-panel updated for 5 available weeks. New `Week6ContentSliceTests.cs` + minimal updates to 6 existing test files (available-week-count assertions). 372/372 tests, build 0/0, 15/15 routes 200. **Status: `WEEK 6 — COMPLETE`, committed (hash `ac0d82e`)**. Next authorized candidate from the frozen order: **Week 12** — not started automatically.
+
+### O.1 Status
+
+`WEEK 6 — COMMITTED (ac0d82e)`. Optional Reading Visual Refinement closed separately, committed (`70d56cb` + `3bd527e`, Сесия 36).
+
+---
+
+## Systematic Curriculum Expansion — Phase C: Week 12 Implementation (Сесия 37, 2026-08-14)
+
+Second position of the frozen build order (§J above) implemented. Full narrative in `10_SESSION_LOG.md` (Сесия 37). Summary: `Sedmica12.razor` built with zero new components/CSS (reuses `LearningSection`/`LearningObjectives`/`ProgressiveExplanation`/`DisclaimerCallout`/`SourceReferences`/`OptionalReadingSource`, `.category-compare`, corrected-pattern `.learning-grid--balanced`); source contract held to SRC-041 Гл. 14 exactly — the three negative-core-belief categories (безпомощност/необичаемост/безполезност, Beck 1999 + J.S. Beck 2005), explicitly reconciled against Week 3's already-published "core beliefs are not inherently negative" claim rather than contradicting it. `CourseCatalog.cs` Week 12 route set; `Kurs.razor` start-panel deliberately **not** updated — Week 12 resolves to `CourseWeekStatus.AcademicOverview` via `DeriveStatus()` (its `CurriculumSafetyLevel.AcademicContextOnly`), not `Available`, despite having a real route, so it does not join the five-week "Откъде да започнете" list; it appears only in the hub timeline with a working link and an "Академичен обзор" badge. New `Week12ContentSliceTests.cs` (21 facts) + minimal updates to 6 existing test files (route-null exception for the now-routed-but-not-Available Week 12). 396/396 tests, build 0/0, 9/9 routes 200. **Status: `WEEK 12 — COMPLETE`, uncommitted.** Next authorized candidate from the frozen order: **Week 7** — not started automatically. Deployment remains out of scope by design (local-first until a dedicated future phase).
+
+### O.2 Status
+
+`WEEK 12 — COMPLETE, UNCOMMITTED — AWAITING OWNER APPROVAL FOR SINGLE COMMIT`
+
+---
+
+## Deep Learning pivot — Week 6 v2 full rebuild (Сесия 38–39, 2026-08-14)
+
+**Direction change (Сесия 38):** owner paused the frozen curriculum build order after reviewing
+Weeks 6/8/10/12 and judged them too short/shallow for the platform's real goal — deep, systematic,
+source-faithful CBT learning, not brief web pages. `Week 12` implementation is **not abandoned**,
+just superseded in priority — it stays uncommitted, unchanged, ready to resume once the Deep
+Learning model is validated. New standard: a "week" must be a real, deep learning module, built
+from the **full text** of its source chapter, not a session-log one-line summary.
+
+**Blueprint phase (Сесия 38):** `WEEK6_v2_DEEP_LEARNING_BLUEPRINT.md` written and revised to v1.1
+(owner-approved, `READY FOR IMPLEMENTATION: YES`) — full narrative in `10_SESSION_LOG.md` Сесия 38.
+Key finding: SRC-041's full text existed only as a one-time chat paste (Сесия 3, 2026-07-29),
+never persisted to a file — the "100% FULLY REVIEWED" registry status was misleading for reuse
+purposes. Owner supplied the local PDF path; full Глава 5 text (printed стр. 59–79, ~41,600
+chars) extracted via `pypdf`, cached at `00_PROJECT_OS/_source_corpus/` (gitignored, never
+committed — copyrighted book text). 47 knowledge units identified, Chapter Coverage Matrix built,
+100% accounted for.
+
+**Implementation (Сесия 39):** `Sedmica6.razor` fully rebuilt per the blueprint — 14 sections
+(6.0–6.13), all 47 units represented, first-session precision applied throughout (Глава 5 = the
+FIRST session specifically; v1's own "стандартна сесия" generalization was a real, now-fixed
+source-fidelity defect). Three new, individually-justified reusable components: `WhatIfBox`
+(reproduces SRC-041's own recurring "Какво ако...?" device), `SourceArtifact` (Figures 5.1/5.2,
+own design, not pixel-copy), `ScenarioSimulator` (Interactive WebAssembly, data-driven,
+Level A Recognition / Level B Application / Level C branching multi-step Reasoning — component
+itself generic/reusable, Week-6 content supplied via parameters). New `.decision-branch` CSS
+pattern (real root-to-leaves branching diagram, replacing a flat `.category-compare` grid that
+was flagged as not a genuine branch). Case Lab: Мартин (Basic), Ирина (Intermediate — approved
+pilot longitudinal case), Радо (Challenging — also the Level C simulator's scenario basis). U08/U22
+(risk-screening content) included per the owner-approved `OBSERVATIONAL SAFETY BOUNDARY` contract
+— third-person only, no self-screening, no scoring, no input fields. 13 local knowledge checks +
+20-question final assessment (Q19 rewritten from platform-safety-policy to source-grounded CBT
+content per owner instruction), all with explanatory, source-cited feedback.
+
+**Tests:** new `Week6ContentSliceTests.cs` (full rewrite, 33 facts) + new `Week6NewComponentTests.cs`
+(17 facts) + `OptionalReadingSourceTests.cs` chapter-text update (1 line, first-session precision).
+**430/430 passing** (396 baseline + 34 net new). Build 0/0. 9/9 routes 200 on fresh instance.
+
+**Status:** `WEEK 6 v2 — IMPLEMENTED, AWAITING OWNER LEARNING REVIEW` (not `COMPLETE` — per the new
+Deep Learning Week DoD v2, `06_QA_STRATEGY.md`, owner learning review is the final gate, not
+automatic even with green tests/build/coverage). Uncommitted, isolated from the still-pending,
+still-uncommitted Week 12 diff. **Не започвай Week 12, Week 7, или redesign на друга седмица** —
+awaiting owner review of this module first.

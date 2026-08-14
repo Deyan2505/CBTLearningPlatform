@@ -1,0 +1,21 @@
+@* Static SSR. Reproduces SRC-041's own recurring "Какво ако...?" troubleshooting/reasoning
+   device (Week 6 v2 Deep Learning Blueprint §8) — the book itself uses this pattern
+   repeatedly across chapters, so this is a project-wide reusable component, not
+   Week-6-specific. Native <details>/<summary> for full keyboard/screen-reader support
+   without new JS — same foundation as ProgressiveExplanation, but visually distinct so
+   it always reads as this specific recurring pattern, not a generic "show more". *@
+
+<details class="what-if-box">
+    <summary><span class="what-if-box__prefix">Какво ако…</span>@Question</summary>
+    <div class="what-if-box__body">
+        @ChildContent
+    </div>
+</details>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Question { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
+}

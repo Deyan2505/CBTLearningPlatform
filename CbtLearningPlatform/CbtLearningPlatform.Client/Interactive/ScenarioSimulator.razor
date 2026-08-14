@@ -1,0 +1,307 @@
+@* Interactive WebAssembly island — Week 6 v2 Deep Learning Blueprint §9/§10.
+   Generic, data-driven, multi-level, multi-interaction simulator: Level A (Recognition —
+   identify-the-step / matching), Level B (Application — ordering / choose-next-step), Level
+   C (Reasoning — branching multi-step scenario). Week-specific content is supplied entirely
+   via [Parameter]s, never hardcoded here, so the same component is reusable by any future
+   Deep Learning Week. Keyboard-first throughout: level/mode switches and choices are native
+   <button>s, ordering uses Move-up/Move-down controls (no drag requirement), feedback panels
+   use aria-live="polite". No network calls, no browser storage, no scoring, no persistence —
+   all state is ephemeral in-memory UI state, reset on page reload. *@
+
+<div class="scenario-simulator">
+    <div class="scenario-simulator__header">
+        <h3>@Title</h3>
+        <p>@Description</p>
+    </div>
+
+    <div class="scenario-simulator__level-tabs" role="tablist" aria-label="Ниво на симулатора">
+        <button type="button" role="tab" aria-selected="@(_level == 0 ? "true" : "false")"
+                class="scenario-simulator__level-tab" @onclick="() => SetLevel(0)">Ниво A · Разпознаване</button>
+        <button type="button" role="tab" aria-selected="@(_level == 1 ? "true" : "false")"
+                class="scenario-simulator__level-tab" @onclick="() => SetLevel(1)">Ниво B · Приложение</button>
+        <button type="button" role="tab" aria-selected="@(_level == 2 ? "true" : "false")"
+                class="scenario-simulator__level-tab" @onclick="() => SetLevel(2)">Ниво C · Разсъждение</button>
+    </div>
+
+    @if (_level == 0)
+    {
+        <div class="scenario-simulator__mode-tabs" role="tablist" aria-label="Вид упражнение, Ниво A">
+            <button type="button" role="tab" aria-selected="@(_modeA == 0 ? "true" : "false")"
+                    class="scenario-simulator__mode-tab" @onclick="() => SetModeA(0)">Разпознай стъпката</button>
+            <button type="button" role="tab" aria-selected="@(_modeA == 1 ? "true" : "false")"
+                    class="scenario-simulator__mode-tab" @onclick="() => SetModeA(1)">Съпоставяне</button>
+        </div>
+
+        @if (_modeA == 0)
+        {
+            <div class="scenario-simulator__prompt">
+                <p><strong>Кратък откъс:</strong> @IdentifyItems[_identifyIndex].Excerpt</p>
+            </div>
+            <ul class="scenario-simulator__choices">
+                @for (int i = 0; i < StepLabels.Count; i++)
+                {
+                    int index = i;
+                    <li>
+                        <button type="button" class="scenario-simulator__choice"
+                                aria-pressed="@(_identifySelected == index ? "true" : "false")"
+                                @onclick="() => SelectIdentify(index)">
+                            <span class="cbt-diagram__step-number">@(index + 1)</span> @StepLabels[index]
+                        </button>
+                    </li>
+                }
+            </ul>
+            @if (_identifySelected is int selectedIndex)
+            {
+                bool isCorrect = StepLabels[selectedIndex] == IdentifyItems[_identifyIndex].CorrectStepLabel;
+                <div class="scenario-simulator__feedback @(isCorrect ? "is-correct" : "is-incorrect")" aria-live="polite">
+                    <p class="scenario-simulator__feedback-verdict">@(isCorrect ? "Вярно." : "Не съвсем.")</p>
+                    <p>@IdentifyItems[_identifyIndex].Explanation</p>
+                    <p class="scenario-simulator__feedback-source">Source: @IdentifyItems[_identifyIndex].SourceUnit</p>
+                </div>
+            }
+            <p>
+                <button type="button" class="btn btn-neutral" @onclick="NextIdentifyItem">Следващ откъс</button>
+                @(_identifyIndex + 1) / @IdentifyItems.Count
+            </p>
+        }
+        else
+        {
+            <div class="scenario-simulator__matching-grid">
+                @for (int i = 0; i < MatchingPairs.Count; i++)
+                {
+                    int rowIndex = i;
+                    <div class="card">
+                        <p>@MatchingPairs[rowIndex].Excerpt</p>
+                        <div class="scenario-simulator__choices">
+                            @foreach (string label in MatchingLabelOptions)
+                            {
+                                string labelCopy = label;
+                                <button type="button" class="scenario-simulator__choice"
+                                        aria-pressed="@(_matchingSelections.GetValueOrDefault(rowIndex) == labelCopy ? "true" : "false")"
+                                        @onclick="() => SelectMatch(rowIndex, labelCopy)">@labelCopy</button>
+                            }
+                        </div>
+                        @if (_matchingChecked)
+                        {
+                            bool rowCorrect = _matchingSelections.GetValueOrDefault(rowIndex) == MatchingPairs[rowIndex].StepLabel;
+                            <p class="scenario-simulator__feedback-verdict">@(rowCorrect ? "Вярно." : $"Правилната стъпка е: {MatchingPairs[rowIndex].StepLabel}")</p>
+                        }
+                    </div>
+                }
+            </div>
+            <button type="button" class="btn btn-violet" @onclick="() => _matchingChecked = true">Провери съпоставянето</button>
+        }
+    }
+    else if (_level == 1)
+    {
+        <div class="scenario-simulator__mode-tabs" role="tablist" aria-label="Вид упражнение, Ниво B">
+            <button type="button" role="tab" aria-selected="@(_modeB == 0 ? "true" : "false")"
+                    class="scenario-simulator__mode-tab" @onclick="() => SetModeB(0)">Подреждане</button>
+            <button type="button" role="tab" aria-selected="@(_modeB == 1 ? "true" : "false")"
+                    class="scenario-simulator__mode-tab" @onclick="() => SetModeB(1)">Следваща стъпка</button>
+        </div>
+
+        @if (_modeB == 0)
+        {
+            <ol class="scenario-simulator__order-list">
+                @for (int i = 0; i < _order.Count; i++)
+                {
+                    int position = i;
+                    int stepIndex = _order[position];
+                    <li class="scenario-simulator__order-item">
+                        <span>@OrderingSteps[stepIndex].Text</span>
+                        <span class="scenario-simulator__order-controls">
+                            <button type="button" class="btn btn-neutral" aria-label="Премести нагоре" disabled="@(position == 0)" @onclick="() => MoveUp(position)">↑</button>
+                            <button type="button" class="btn btn-neutral" aria-label="Премести надолу" disabled="@(position == _order.Count - 1)" @onclick="() => MoveDown(position)">↓</button>
+                        </span>
+                        @if (_orderChecked)
+                        {
+                            <span>@((position == OrderingSteps[stepIndex].CorrectPosition) ? "✓" : "✗")</span>
+                        }
+                    </li>
+                }
+            </ol>
+            <button type="button" class="btn btn-violet" @onclick="() => _orderChecked = true">Провери подредбата</button>
+        }
+        else
+        {
+            <div class="scenario-simulator__prompt">
+                <p>@NextStepScenario.Situation</p>
+            </div>
+            <ul class="scenario-simulator__choices">
+                @for (int i = 0; i < NextStepScenario.Choices.Count; i++)
+                {
+                    int choiceIndex = i;
+                    <li>
+                        <button type="button" class="scenario-simulator__choice"
+                                aria-pressed="@(_nextStepSelected == choiceIndex ? "true" : "false")"
+                                @onclick="() => _nextStepSelected = choiceIndex">@NextStepScenario.Choices[choiceIndex].Label</button>
+                    </li>
+                }
+            </ul>
+            @if (_nextStepSelected is int nsi)
+            {
+                NextStepChoice choice = NextStepScenario.Choices[nsi];
+                <div class="scenario-simulator__feedback @(choice.IsCorrect ? "is-correct" : "is-incorrect")" aria-live="polite">
+                    <p class="scenario-simulator__feedback-verdict">@(choice.IsCorrect ? "Обосновано действие." : "Не най-доброто действие тук.")</p>
+                    <p>@choice.Reasoning</p>
+                    <p class="scenario-simulator__feedback-source">Source: @choice.SourceUnit · <a href="@choice.BackLinkAnchor">@choice.BackLinkLabel</a></p>
+                </div>
+            }
+        }
+    }
+    else
+    {
+        BranchNode node = BranchNodes.Single(n => n.Id == _currentNodeId);
+        <div class="scenario-simulator__prompt">
+            <p>@node.Narrative</p>
+        </div>
+
+        @if (node.Options.Count == 0)
+        {
+            <div class="scenario-simulator__feedback is-correct" aria-live="polite">
+                <p class="scenario-simulator__feedback-verdict">Край на сценария.</p>
+                <p>@node.Summary</p>
+            </div>
+            <button type="button" class="btn btn-neutral" @onclick="ResetBranch">Започни отначало</button>
+        }
+        else
+        {
+            <ul class="scenario-simulator__choices">
+                @for (int i = 0; i < node.Options.Count; i++)
+                {
+                    int optionIndex = i;
+                    <li>
+                        <button type="button" class="scenario-simulator__choice"
+                                aria-pressed="@(_selectedOption == optionIndex ? "true" : "false")"
+                                @onclick="() => _selectedOption = optionIndex">@node.Options[optionIndex].Label</button>
+                    </li>
+                }
+            </ul>
+            @if (_selectedOption is int soi)
+            {
+                BranchOption option = node.Options[soi];
+                <div class="scenario-simulator__feedback @(option.IsRecommended ? "is-correct" : "is-incorrect")" aria-live="polite">
+                    <p class="scenario-simulator__feedback-verdict">@option.Consequence</p>
+                    <p>@option.Reasoning</p>
+                    <p class="scenario-simulator__feedback-source">Source: @option.SourceUnit</p>
+                </div>
+                <button type="button" class="btn btn-violet" @onclick="() => Advance(option.NextNodeId)">Продължи</button>
+            }
+        }
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public string Description { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<string> StepLabels { get; set; } = [];
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<RecognitionItem> IdentifyItems { get; set; } = [];
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<MatchingPair> MatchingPairs { get; set; } = [];
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<OrderingStep> OrderingSteps { get; set; } = [];
+
+    [Parameter, EditorRequired]
+    public NextStepScenario NextStepScenario { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public string BranchStartNodeId { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<BranchNode> BranchNodes { get; set; } = [];
+
+    private int _level;
+    private int _modeA;
+    private int _modeB;
+
+    private int _identifyIndex;
+    private int? _identifySelected;
+
+    private readonly Dictionary<int, string?> _matchingSelections = [];
+    private bool _matchingChecked;
+
+    private List<int> _order = [];
+    private bool _orderChecked;
+
+    private int? _nextStepSelected;
+
+    private string _currentNodeId = "";
+    private int? _selectedOption;
+
+    private IEnumerable<string> MatchingLabelOptions => MatchingPairs.Select(p => p.StepLabel).Distinct();
+
+    protected override void OnParametersSet()
+    {
+        if (_order.Count != OrderingSteps.Count)
+        {
+            _order = [.. Enumerable.Range(0, OrderingSteps.Count).OrderBy(i => (i * 7 + 3) % OrderingSteps.Count)];
+        }
+
+        if (string.IsNullOrEmpty(_currentNodeId))
+        {
+            _currentNodeId = BranchStartNodeId;
+        }
+    }
+
+    private void SetLevel(int level) => _level = level;
+    private void SetModeA(int mode) => _modeA = mode;
+    private void SetModeB(int mode) => _modeB = mode;
+
+    private void SelectIdentify(int index) => _identifySelected = index;
+
+    private void NextIdentifyItem()
+    {
+        _identifyIndex = (_identifyIndex + 1) % IdentifyItems.Count;
+        _identifySelected = null;
+    }
+
+    private void SelectMatch(int rowIndex, string label)
+    {
+        _matchingSelections[rowIndex] = label;
+        _matchingChecked = false;
+    }
+
+    private void MoveUp(int position)
+    {
+        if (position == 0)
+        {
+            return;
+        }
+
+        (_order[position - 1], _order[position]) = (_order[position], _order[position - 1]);
+        _orderChecked = false;
+    }
+
+    private void MoveDown(int position)
+    {
+        if (position == _order.Count - 1)
+        {
+            return;
+        }
+
+        (_order[position + 1], _order[position]) = (_order[position], _order[position + 1]);
+        _orderChecked = false;
+    }
+
+    private void Advance(string nextNodeId)
+    {
+        _currentNodeId = nextNodeId;
+        _selectedOption = null;
+    }
+
+    private void ResetBranch()
+    {
+        _currentNodeId = BranchStartNodeId;
+        _selectedOption = null;
+    }
+}
