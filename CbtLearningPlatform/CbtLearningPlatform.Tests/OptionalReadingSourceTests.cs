@@ -10,7 +10,7 @@ public sealed class OptionalReadingSourceTests
 {
     private static readonly string[] WeekPagesWithOptionalReading =
     [
-        "Sedmica1.razor", "Sedmica3.razor", "Sedmica8.razor", "Sedmica10.razor"
+        "Sedmica1.razor", "Sedmica3.razor", "Sedmica6.razor", "Sedmica8.razor", "Sedmica10.razor"
     ];
 
     [Fact]
@@ -24,6 +24,7 @@ public sealed class OptionalReadingSourceTests
     [Theory]
     [InlineData("Sedmica1.razor")]
     [InlineData("Sedmica3.razor")]
+    [InlineData("Sedmica6.razor")]
     [InlineData("Sedmica8.razor")]
     [InlineData("Sedmica10.razor")]
     public void EveryValidatedWeek_UsesTheOptionalReadingSource(string fileName)
@@ -70,6 +71,7 @@ public sealed class OptionalReadingSourceTests
         // number, so they must use a thematic RelevantSection instead of an invented "Глава N".
         Assert.Contains("Глава 1 — Въведение в когнитивно-поведенческата терапия", ReadPage("Sedmica1.razor"));
         Assert.Contains("Глава 3 — Когнитивна концептуализация", ReadPage("Sedmica3.razor"));
+        Assert.Contains("Глава 5 — Структура на терапевтичната сесия", ReadPage("Sedmica6.razor"));
 
         Assert.Contains("RelevantSection=\"Разпознаване на автоматичните мисли\"", ReadPage("Sedmica8.razor"));
         Assert.Contains("RelevantSection=\"Насочено откриване и сократически въпроси\"", ReadPage("Sedmica10.razor"));

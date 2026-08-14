@@ -1,0 +1,206 @@
+@* ACADEMIC/CLINICAL REVIEW PENDING internally — no staffed reviewer yet (RISK-010), not shown
+   as an uppercase status in the public UI (Week 1 owner-review correction lesson applied).
+   SYSTEMATIC CURRICULUM EXPANSION, Phase B, Batch A: "Guided Practice" archetype (secondary:
+   Concept and Diagram) — an informational, third-person walkthrough of what a typical CBT
+   session looks like, not a technique the reader applies to themselves. Curriculum topic from
+   kpt_syllabus.pdf (Week 6) — map only, never verbatim text.
+   Content basis: SRC-041 (Judith Beck), Глава 5 — confirmed twice in Project OS: (a) session log
+   narrates Гл.5 = "Структура на първата терапевтична сесия" with the verbatim duration quote;
+   (b) GAP-010 (15_GAPS_AND_CONFLICTS.md) closes on "книгата потвърждава 45-минутни сесии и
+   3-частна структура (близко до прототипа)". Only that confirmed shape is used here — no stage
+   list beyond it is source-verified, so none is invented (source question, not filled by
+   assumption). The original prototype's own 3-part breakdown (code_artifact.html) names a mood
+   check via "BDI/BAI" — a diagnostic instrument — deliberately excluded; replaced with a
+   generic, non-clinical "how the past week has gone" check-in.
+   Lineage note: 14_EXISTING_PROTOTYPE_AUDIT.md originally marked "структурата на сесията" as
+   DROP (therapist-with-client framing, no self-guided fit). The frozen CourseCatalog.cs Week 6
+   entry resolves that by reframing the whole page as an informational overview, not
+   self-therapy instruction — same pattern already used for Week 4's assessment overview.
+   Zero new components, zero new CSS: reuses LearningSection/ProgressiveExplanation/
+   DisclaimerCallout/SourceReferences/OptionalReadingSource, .category-compare (3-way, already
+   general-purpose per its own CSS comment) and .concept-map__side-notes (2-card contrast). *@
+@page "/kurs/sedmica-6"
+
+<PageTitle>Седмица 6: Структура на терапевтичната сесия — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--format">Демонстрация</span>
+        </div>
+        <p><em>Как изглежда типична КПТ сесия отвън — информационен преглед, не инструкция за самотерапия</em></p>
+        <p>
+            Тази седмица разглежда общата форма на стандартна сесия по когнитивно-поведенческа терапия —
+            защо сесиите имат структура, колко обичайно траят и какво отличава образователен преглед от
+            практическа инструкция за самостоятелна употреба.
+        </p>
+        <LearningObjectives Objectives="@_objectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-6#struktura">Защо сесиите имат структура</a>
+        <a href="/kurs/sedmica-6#tri-chasti">Трите части на сесията</a>
+        <a href="/kurs/sedmica-6#pregled-instrukcia">Преглед или инструкция</a>
+        <a href="/kurs/sedmica-6#proverka">Проверка</a>
+        <a href="/kurs/sedmica-6#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    <LearningSection Role="theory" RoleLabel="Теория">
+        <h2 id="struktura" tabindex="-1">01 · Защо сесиите имат структура</h2>
+        <p>
+            Стандартните сесии по когнитивно-поведенческа терапия следват последователна, позната форма
+            от сесия до сесия, вместо да протичат като свободен, неструктуриран разговор. Тази предвидима
+            форма помага времето на сесията да се използва последователно в рамките на established подход.
+        </p>
+        <p>
+            Описаното по-долу представя общата форма отстрани — как изглежда типична сесия за наблюдател,
+            не стъпки, които читателят се насърчава да приложи сам върху себе си.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="visual" RoleLabel="Визуален модел">
+        <h2 id="tri-chasti" tabindex="-1">02 · Трите части на сесията</h2>
+        <p class="concept-map__feedback">Повечето стандартни сесии по когнитивно-поведенческа терапия траят около 45–50 минути.</p>
+        <div class="category-compare">
+            <div class="category-compare__item">
+                <p class="category-compare__label">Начало (~5–10 мин.)</p>
+                <p>Кратко проследяване как е протекла изминалата седмица, преглед на предишната договорка и определяне на фокуса за деня.</p>
+            </div>
+            <div class="category-compare__item">
+                <p class="category-compare__label">Среда (~30–35 мин.)</p>
+                <p>Работа по определения фокус — често чрез въпроси, които разглеждат една мисъл или ситуация по-отблизо.</p>
+            </div>
+            <div class="category-compare__item">
+                <p class="category-compare__label">Край (~5–10 мин.)</p>
+                <p>Кратко обобщение на разговора, следваща стъпка за периода до следващата среща и обратна връзка.</p>
+            </div>
+        </div>
+        <p>
+            Тази трипластова форма е обща рамка, не строг протокол — конкретното съдържание на всяка част
+            варира според случая.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Граница">
+        <h2 id="pregled-instrukcia" tabindex="-1">03 · Преглед или инструкция</h2>
+        <div class="concept-map__side-notes">
+            <div class="card">
+                <h3>Информационен преглед (тази страница)</h3>
+                <ul>
+                    <li>описва как изглежда типична сесия за наблюдател;</li>
+                    <li>говори в трето лице за установена практика;</li>
+                    <li>не иска и не съхранява лична информация.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Инструкция за самотерапия (не това)</h3>
+                <ul>
+                    <li>би казвала на читателя стъпка по стъпка какво да направи върху себе си;</li>
+                    <li>би заменяла реална сесия с терапевт;</li>
+                    <li>би изисквала лична преценка на състояние без специалист.</li>
+                </ul>
+            </div>
+        </div>
+        <p>Разликата е съществена: разбирането как работи нещо не е същото като да го прилагаш върху себе си без насочване.</p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Рефлексия">
+        <h2 id="proverka" tabindex="-1">04 · Проверка на разбирането</h2>
+        <p>Изберете отговор, след което разгънете обяснението. Проверката не се оценява и не запазва отговори.</p>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Въпрос 1.</strong> Приблизително колко трае стандартна сесия?</p>
+                <p>А. 15–20 минути<br />Б. 45–50 минути<br />В. 90 минути</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Повечето стандартни сесии траят около 45–50 минути.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 2.</strong> Тази страница представя ли инструкция за самостоятелна употреба?</p>
+                <p>А. Да, стъпка по стъпка<br />Б. Не — информационен преглед отстрани<br />В. Само за терапевти</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Страницата описва как изглежда типична сесия, не насочва читателя да я прилага сам върху себе си.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Изводи">
+        <h2 id="izvori" tabindex="-1">05 · Обобщение, академичен контекст и източници</h2>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div>
+                <h3>Какво да запомните</h3>
+                <ul>
+                    <li>Сесиите следват предвидима, а не свободна форма.</li>
+                    <li>Стандартна сесия трае около 45–50 минути.</li>
+                    <li>Общата форма има начало, среда и край.</li>
+                    <li>Прегледът е информационен, не инструкция за самотерапия.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Академичен контекст</h3>
+                <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
+                    <p>
+                        Структурата и продължителността на стандартната сесия са систематично представени в
+                        трудовете на Джудит С. Бек, като продължителност на цялостното лечение варира в
+                        зависимост от случая.
+                    </p>
+                    <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
+                </ProgressiveExplanation>
+            </div>
+
+            <div>
+                <DisclaimerCallout Text="Тази страница представя информационен преглед на общата форма на КПТ сесия. Тя не обучава за самостоятелно провеждане на терапия и не заменя професионална психологическа или медицинска помощ." />
+            </div>
+
+            <div>
+                <h3>Източници и следващи стъпки</h3>
+                <p>
+                    <a href="/kurs/sedmica-8">Седмица 8 — Автоматични мисли и емоции</a><br />
+                    <a href="/kurs/sedmica-10">Седмица 10 — Сократически въпроси и съвместно изследване</a><br />
+                    <a href="/kurs">← Обратно към 15-седмичния курс</a>
+                </p>
+                <SourceReferences Citations="@_citations" />
+            </div>
+        </div>
+
+        <OptionalReadingSource
+            Title="Когнитивно-поведенческа терапия: Основи и отвъд"
+            Author="Джудит С. Бек"
+            Edition="2-ро издание, Guilford Press, 2011 (оригинално заглавие: Cognitive Behavior Therapy: Basics and Beyond)"
+            RelevantSection="Глава 5 — Структура на терапевтичната сесия"
+            Description="Главата представя типичната продължителност и общата тристепенна форма на стандартна сесия в оригиналния академичен контекст." />
+    </LearningSection>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 6);
+
+    private readonly IReadOnlyList<string> _objectives =
+    [
+        "Разбирате защо типичните сесии имат обща структура, не свободен разговор.",
+        "Запознавате се с обичайната продължителност на стандартна сесия (около 45–50 минути).",
+        "Разпознавате трите общи части на типична сесия — начало, среда и край.",
+        "Различавате информационен преглед от инструкция за самотерапия."
+    ];
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — Глава 5, структура на терапевтичната сесия.",
+        "Учебната последователност на тази седмица е използвана само за тематична ориентация, без институционални твърдения."
+    ];
+}

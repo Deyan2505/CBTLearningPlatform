@@ -336,3 +336,274 @@
 ```
 
 Фаза 6 (администрация) и Фаза 9 (следващи версии) остават извън тази верига — Deferred, изпълняват се след успешен MVP launch.
+
+---
+
+## Systematic Curriculum Expansion — Architecture Map (Phase A, Сесия 35, 2026-08-08)
+
+**Status: `SYSTEMATIC CURRICULUM EXPANSION MAP READY — OWNER REVIEW REQUIRED`. Planning-only — no new route/component/page/commit in this phase.**
+
+Sources used: `CourseCatalog.cs` (syllabus-derived metadata, kpt_syllabus.pdf reference), the Simulator Opportunity Matrix above (Сесия 18), `11_SOURCE_REGISTER.md` (SRC-041 entry + GAP-006/008/009/010/011), `10_SESSION_LOG.md` chapter-reading narrations (Сесия 3 and continuations — the only chapters treated as source-confirmed are ones with specific narrated content, not the registry's blanket "100% reviewed" claim, matching the precedent already set for Week 8/10's `OptionalReadingSource` integration), `23_CLINICAL_SAFETY_BOUNDARIES.md`, and the four validated archetypes (Week 1/3/8/10). No new curriculum themes invented; no general CBT knowledge substituted for syllabus/source content.
+
+**Chapters treated as source-confirmed (session-log-narrated, not just registry-claimed):** Гл. 1 (история, 10-те принципа, обзор на сесия), Гл. 2 (обзор на лечението), Гл. 3 (когнитивна концептуализация — вече цитирана за Седмица 3/11), Гл. 4 (оценъчна сесия), Гл. 5 (структура на първата сесия, "45–50 минути"), Гл. 6 (поведенческа активация), Гл. 7 (само началото), Гл. 11 (12-те когнитивни изкривявания, Фигура 11.2), Гл. 14 (основни вярвания, 3-те категории). Всичко извън този списък за конкретна седмица е маркирано `CONTENT DETAIL — NEEDS SOURCE VERIFICATION` по-долу, независимо от регистровото твърдение за 100% прочит на книгата.
+
+### 11-Week Matrix
+
+| Седмица | Тема (syllabus) | Primary archetype | Secondary pattern | Interaction? | Визуализации (макс. 3) | Source status | Safety/review | Сложност | Зависимости |
+|---|---|---|---|---|---|---|---|---|---|
+| **2** | Когнитивна терапия на Бек и REBT на Елис | Theory and History | Concept and Diagram (comparison) | NO — статичен comparison table; timeline reuse от Седмица 1 | Comparison table, extended timeline | Гл. 1 (обща история) confirmed; **GAP-008 open** — конфликт между два comparison frame-а (SRC-001 vs SRC-006), трябва избор/съчетаване с цитат преди писане | PublicCore, без клиничен риск | LOW | Седмица 1 (reuse HistoricalTimeline) |
+| **4** | Клинична оценка и когнитивна концептуализация | Concept and Diagram | Theory and History | NO — matrix: ACADEMIC ONLY; забранено въвеждане по дизайн | Process/concept diagram (общи категории, без форма за попълване) | **Гл. 4 confirmed** | AcademicContextOnly; assessment concepts — "как специалистът концептуализира", никога "оцени себе си"; проф. преглед при всеки бъдещ разширен вариант | LOW–MEDIUM | Reuse Седмица 3 concept-map patterns |
+| **5** | Принципи на КПТ и терапевтичен съюз | Concept and Diagram | Guided Practice | YES — лек, reuse на Седмица-10 comparison-card pattern (collaborative vs directive) | 10-principles card grid, collaborative-vs-directive comparison | **Гл. 1 confirmed за 10-те принципа**; alliance sub-topic — NEEDS SOURCE VERIFICATION | PublicWithAdaptation, лека клинична чувствителност (alliance framing) | LOW–MEDIUM | Седмица 1 (Гл.1 overlap), Седмица 10 (pattern reuse) |
+| **6** | Структура на терапевтичната сесия | Guided Practice | Concept and Diagram | YES — минимален, progressive-disclosure walkthrough (без нов компонент) | Session-stage flow diagram, structure card list | **Гл. 5 confirmed** ("45–50 минути", GAP-010 разрешен) | PublicWithAdaptation; explicit "информационен преглед, не self-therapy instruction" | LOW–MEDIUM | Седмица 5, Седмица 10 (guided-sequence reuse) |
+| **7** | Поведенческа активация | Simulator Workspace | Concept and Diagram | YES — САМО fixed-example variant, не личен planner | Behavior-mood cycle diagram, fixed-example comparison cards | **Гл. 6 confirmed** (заглавието съвпада) | PublicWithAdaptation; проф. преглед изискван само за реалния planner (избягван тук) | MEDIUM (нов компонент, reuse на CbtChainSimulator архитектура) | Седмица 8 (simulator pattern) |
+| **9** | Когнитивни изкривявания и дневник на мислите | Simulator Workspace | Guided Practice | YES за distortion-matching (reuse CategorizationCheck); NO за thought record — остава статичен worked example, никога fillable форма | 12-distortion card grid, static worked-example "record" table | **Гл. 11 confirmed** (12 изкривявания, Фиг. 11.2, GAP-006/009 разрешени); точната глава за thought-record структура — NEEDS SOURCE VERIFICATION | PublicWithAdaptation; **CLINICAL SAFETY PROFILE — HIGH CARE**: тънка граница safe/unsafe, изисква изрично owner потвърждение на дизайна | MEDIUM–HIGH (най-съдържателна седмица) | Седмица 8, Седмица 10 (твърди prerequisites) |
+| **11** | Междинни вярвания | Concept and Diagram | Guided Practice (лек, non-self-application) | YES, LOW-RISK ONLY — static-first; matrix изключва downward-arrow tool | Zoom-in hierarchy diagram (extend CognitiveHierarchyExplorer), recurring-pattern hub diagram | **Гл. 3 confirmed за дефиницията**; под-типовете (rules/attitudes/assumptions) — NEEDS SOURCE VERIFICATION | `ProfessionalReviewRequired`; граничи със self-assessment — трето лице framing задължително | MEDIUM–HIGH | Седмица 3 (hard prerequisite), полза от Седмица 9 |
+| **12** | Основни вярвания и схеми | Concept and Diagram | Theory and History (academic framing) | NO — matches AcademicOnly | Deepest-layer hierarchy diagram, 3-category card grid | **Гл. 14 confirmed** — най-силна источникова седмица от 11-те | AcademicContextOnly; строго трето лице | LOW–MEDIUM | Седмица 3, Седмица 11 (build след 11) |
+| **13** | Вземане на решения и поведенчески техники | Concept and Diagram | Simulator Workspace (scoped само до decision-balance/responsibility-pie) | YES само за decision-balance/responsibility-pie (fixed-example); NO абсолютно за exposure planner | Decision-balance concept diagram, responsibility-pie concept diagram, graduated-exposure static staircase (concept only) | **Няма потвърдена глава за никоя под-тема** — най-слабо източникова седмица | `NotEligibleForSelfGuidedSimulator` — най-строгото ниво в системата; **MAXIMUM CARE**; exposure под-темата изисква отделно owner решение | HIGH (смесени safety нива в една седмица) | Седмица 7, Седмица 8 |
+| **14** | Домашна работа, приключване и превенция на рецидив | Concept and Diagram | Guided Practice (лек) | NO — matches StaticVisualization; изключва relapse-risk predictor | Illustrative maintenance-curve (non-predictive), structured plan-elements card list | Не потвърдена конкретна глава — NEEDS SOURCE VERIFICATION | `ProfessionalReviewRequired`; никога personal risk assessment | MEDIUM | Седмица 6 (narrative closure) |
+| **15** | Трета вълна и възстановително-ориентирана терапия | Theory and History | Concept and Diagram (approach comparison) | NO — matches AcademicOnly; изключва CT-R simulator | Extended historical timeline (reuse HistoricalTimeline), approach-comparison cards | **GAP-011 open** — конфликт в годините на "трите вълни"; SRC-041 (2011) вероятно мълчи по CT-R терминология → OptionalReadingSource може да изисква друг източник | AcademicContextOnly, ниска клинична чувствителност | LOW | Седмица 1/2 (timeline continuation) |
+
+### C. Duplication Audit (Week 8/9/10/11/12)
+
+- **Седмица 8** (built): модел Ситуация→Мисъл→Емоция→Поведение; разграничение мисъл/емоция (CategorizationCheck); interpretation branching.
+- **Седмица 9** (planned): 12-те когнитивни изкривявания (НОВО); структурата на thought record като илюстративен worked example (НОВО); изрично надгражда разграничението от Седмица 8, не го преповтаря.
+- **Седмица 10** (built): Сократически въпроси; факт vs предположение vs заключение; декатастрофизиране; балансиран отговор; алтернативни обяснения.
+- **Седмица 11** (planned): междинни вярвания специфично (rules/attitudes/assumptions) — задълбочава йерархията от Седмица 3, нов ъгъл — повтарящ се патерн от автоматични мисли (не единична мисъл) → underlying belief.
+- **Седмица 12** (planned): основни вярвания/схеми специфично — най-дълбокото ниво, надгражда Седмица 11.
+
+**Заключение:** без реално дублиране, при условие че Седмица 9 остане строго за изкривяванията+record-структурата, а Седмица 11/12 останат строго за съответното ниво на йерархията.
+
+### D. Clinical Safety Map (Week 4–7 + 9/11/13/14)
+
+| Седмица | Assessment concepts | Терапевтичен съюз | Session structure | Behavioral activation | Case formulation | Symptom/risk references | Ниво на грижа |
+|---|---|---|---|---|---|---|---|
+| 4 | Да (концептуално, трето лице) | Не | Не | Не | Да (обзорно) | Не | HIGH — assessment framing |
+| 5 | Не | Да | Не | Не | Не | Не | LOW–MEDIUM |
+| 6 | Не | Не | Да | Не | Не | Не | MEDIUM — "не self-therapy instruction" |
+| 7 | Не | Не | Не | Да (fixed-example само) | Не | Не | MEDIUM — personal-data риск ако не остане fixed-example |
+| 9 | Не | Не | Не | Не | Не | Не (само labels) | HIGH — тънка граница safe/unsafe за thought-record |
+| 11 | Граничи (self-identification риск) | Не | Не | Не | Не | Не | HIGH — ProfessionalReviewRequired |
+| 13 | Не | Не | Не | Да (decision/exposure) | Не | Потенциално (exposure) | MAXIMUM — NotEligibleForSelfGuidedSimulator |
+| 14 | Не | Не | Не | Не | Не | Граничи (relapse) | HIGH — ProfessionalReviewRequired |
+
+Забранени за всички изброени: self-diagnostic tools, suicide-risk tools, clinical screening questionnaires, personal symptom scoring, self-treatment protocols, free-text patient cases. Клиничните процедури се представят като "как специалистът концептуализира/структурира", никога "направете това върху себе си" (per `23_CLINICAL_SAFETY_BOUNDARIES.md`).
+
+### E. Recommended Implementation Order (1→11)
+
+1. Седмица 2 — LOW, reuse-heavy, продължава Седмица 1 директно.
+2. Седмица 5 — LOW–MEDIUM, силен източник (Гл. 1), reuse на Седмица-10 patterns.
+3. Седмица 6 — LOW–MEDIUM, силен източник (Гл. 5), логично след 5.
+4. Седмица 4 — по-висока safety чувствителност — построена след 3 доказани ниско-рискови седмици.
+5. Седмица 7 — MEDIUM, първи нов interactive компонент в тази фаза.
+6. Седмица 9 — MEDIUM–HIGH, изисква 8 и 10 вече готови (удовлетворено).
+7. Седмица 11 — MEDIUM–HIGH, ProfessionalReviewRequired, изисква Седмица 3.
+8. Седмица 12 — LOW–MEDIUM, най-силен източник, логично след 11.
+9. Седмица 15 — LOW, поставена след cognitive-model батча заради GAP-011 нужда.
+10. Седмица 13 — HIGH, най-риск-скопирана и най-слабо източникова — построена след доказаните по-леки седмици.
+11. Седмица 14 — MEDIUM, ProfessionalReviewRequired, логично затваря целия curriculum narrative — построена последна.
+
+### F. Batch Plan
+
+**BATCH A — Foundation Continuity** (Седмица 2, 5, 6). Rationale: разширяват вече валидирани архетипи с минимум нови компоненти; завършват сравнителната част на Модул 1 + по-голямата, безопасна част на Модул 2. Dependencies: Седмица 1, Седмица 10. Review gate: стандартен content review.
+
+**BATCH B — Clinical-Adjacent Process** (Седмица 4, 7). Rationale: и двете засягат clinician-perspective процес, изискващи внимателно "как специалистът, не как ти" framing — групирани за един clinical-safety review pass. Dependencies: Batch A, Седмица 8. Review gate: задължителен `23_CLINICAL_SAFETY_BOUNDARIES.md` §8 преглед.
+
+**BATCH C — Beliefs & Distortions Deepening** (Седмица 9, 11, 12). Rationale: надграждат една и съща йерархия, носят най-висок duplication риск плюс ProfessionalReviewRequired (11) — групирани за единен reviewer pass. Dependencies: Седмица 3, 8, 10. Review gate: задължителен професионален преглед за Седмица 11; препоръчан за целия батч.
+
+**BATCH D — Final Integration & Restricted Topics** (Седмица 15, 13, 14). Rationale: Седмица 15 затваря историческата линия; Седмица 13 носи най-строгото safety ниво и вероятно се нуждае от РАЗДЕЛЕН преглед (безопасна decision-tools част срещу блокираната exposure част); Седмица 14 затваря curriculum narrative-а. Dependencies: практически цялото предходно съдържание. Review gate: задължителен професионален преглед за 13/14; exposure под-обхватът на 13 изисква отделно, изрично owner решение.
+
+### G. New Archetype Candidates
+
+**NONE.** Всичките 11 оставащи седмици се map-ват удобно върху четирите вече валидирани архетипа (понякога primary+secondary) — не е установена фундаментална учебна нужда, непокрита от Theory and History / Concept and Diagram / Simulator Workspace / Guided Practice.
+
+### H. Source Gaps — Consolidated (изисква прочит/потвърждение преди coding)
+
+- **Седмица 2:** GAP-008 (REBT-vs-CBT frame конфликт, open).
+- **Седмица 5:** потвърждение за "терапевтичен съюз" sub-topic отвъд общото Гл.1 покритие.
+- **Седмица 9:** точната глава/фигура за структурата на thought record.
+- **Седмица 11:** под-класификацията на междинни вярвания (rules/attitudes/assumptions).
+- **Седмица 13:** цялото съдържание — decision balance, responsibility pie, graduated exposure — без потвърдена глава.
+- **Седмица 14:** глава за домашна работа/приключване/превенция на рецидив.
+- **Седмица 15:** GAP-011 (годините на "трите вълни") + дали SRC-041 изобщо покрива "трета вълна"/CT-R.
+
+### I. Project OS changes (тази стъпка)
+
+- `24_IMPLEMENTATION_ROADMAP.md` — добавен този раздел (Architecture Map, Phase A).
+- `02_CURRENT_STATUS.md` — текущата стъпка отбелязана като `SYSTEMATIC CURRICULUM EXPANSION — PLANNING`.
+- Без нов Project OS файл, без нов ADR, без промяна на `04_CHANGELOG.md` (планиране само, не имплементиран feature).
+
+### J. Status
+
+`SYSTEMATIC CURRICULUM EXPANSION MAP READY — OWNER REVIEW REQUIRED`
+
+---
+
+## Systematic Curriculum Expansion — Source Gap Closure + Build Order Freeze (Phase B, Сесия 35 продължение, 2026-08-09)
+
+**Status: `SOURCE GAPS REVIEWED — IMPLEMENTATION ORDER READY FOR OWNER APPROVAL`. Planning-only — no new route/component/page/commit in this phase.** Rule applied throughout: "FULLY REVIEWED" в `11_SOURCE_REGISTER.md` е регистров статус за цялата книга, не автоматично доказателство за конкретна глава/теза за дадена седмица — само сесия-лог наративи с конкретно съдържание се третират като confirmed (същият стандарт от Phase A).
+
+### A. GAP-008 / Week 2
+
+- **Status:** `CONSTRAINED` (не BLOCKING, не пълно RESOLVED — няма единствена "правилна" рамка за REBT-vs-CBT сравнение, но темата е безопасно ограничима).
+- **Allowed claims (cross-source потвърдени):** Елис разработва REBT през 1950-те, преди Бек да разработи CBT през 1960-те (SRC-023); REBT често се класифицира като форма/предшественик на по-широкото CBT семейство (SRC-011); двата подхода споделят фокус върху промяна на неполезни мисловни модели; академичен източник (SRC-030, Cambridge Core) изрично препоръчва съчетаване на двете рамки, не избор на "правилната".
+- **Claims requiring qualification:** точните conception years отвъд декадно ниво (1950-те/1960-те) — не се цитират конкретни години без директна source опора за самата година; изборът на кои "измерения на сравнение" да се представят изисква editorial избор в началото на реалното писане, информиран от 3-те налични вторични рамки (SRC-006 философска, SRC-030 академична, SRC-011 практическа), не механично копиране на нито една.
+- **Claims excluded:** прототипната 4-измерна рамка (централен термин/патогенеза/стил/тестване) — непотвърдена от нито един прегледан вторичен източник; всякакво "една школа заменя/побеждава другата" framing; третиране на REBT и Beck CBT като идентични.
+- **Confirmed sources:** SRC-006, SRC-011, SRC-012, SRC-023, SRC-030 (вторични, cross-checked, ползвани по изключението "SRC-041 мълчи по темата", `23_CLINICAL_SAFETY_BOUNDARIES.md` §9).
+- **Unresolved items:** точната comparison-dimension структура за реалния текст — editorial решение при писане, не архитектурен blocker.
+- **Статус:** `READY`.
+
+### B. Week 5 source status
+
+- **Потвърдено:** Гл. 1 явно съдържа "10-те принципа" (сесия-лог, дословен запис). "Collaborative empiricism" вече е установен, source-backed термин в проекта (потвърден и цитиран за Седмица 10) — пряко релевантен академичен анкор за "терапевтичен съюз/сътрудничество" темата на Седмица 5, макар и без собствен отделен глава-номер locator.
+- **Непотвърдено:** точна страница/фигура специфично за думата "alliance"/"съюз" — не е отделно наративно потвърдена в session log, отвъд общото Гл.1 покритие.
+- **WEEK 5 CONTENT CONTRACT:** 10-те принципа — цитируеми директно от Гл. 1; "сътрудничество" се представя чрез установения термин collaborative empiricism (не нов, непотвърден claim), без специфични твърдения, изискващи отделен locator.
+- **Статус:** `READY` (не PARTIALLY — Гл. 1 покрива основното съдържание; softness-ът е само в точния citation locator за една дума, не структурен риск).
+
+### C. Week 9 safe content contract
+
+- **SAFE EDUCATIONAL CONTENT (позволено):** 12-те когнитивни изкривявания като etiketi + fixed илюстративни примери (Гл. 11, Фиг. 11.2, потвърдено); "anatomy of a record" — статична, worked-example структура показваща какви полета съществуват и как се свързват (ситуация/мисъл/доказателство/алтернатива), **без потребителски вход никъде**; distortion-matching упражнение върху fixed примери (reuse на `CategorizationCheck` pattern).
+- **PERSONAL THERAPEUTIC WORKSHEET BEHAVIOR (изрично изключено):** personal free-text thought record; symptom scoring; съхранени лични записи (localStorage/IndexedDB); therapy-like self-guidance ("попълни своята мисъл тук"). Session log потвърждава multi-session standing prohibition ("не се стартира thought record упражнение") — повтарящо се изрично изключение в 9+ отделни сесии, най-силният сигнал в целия проект за extra care на тази граница.
+- **Разграничение от Седмица 8/10:** Седмица 9 не преповтаря мисъл/емоция разграничението (8) нито факт/заключение метода (10) — добавя единствено НОВАТА distortion-таксономия + илюстративната record-структура.
+- **Source status:** Гл. 11 confirmed (изкривяванията); точната глава/фигура за record-структурата остава `NEEDS SOURCE VERIFICATION`.
+- **Статус:** `PARTIALLY READY` — coding не започва без изрично owner потвърждение на "static worked-example only" дизайн решението, дори след source verification.
+
+### D. Week 11 belief-source contract
+
+- **Потвърдено:** Гл. 3 ("The Cognitive Model") е потвърден основен източник за йерархията автоматична мисъл→междинно вярване→основно вярване (сесия-лог, вече цитирано и за Седмица 3). Модул 2 (Урок 2) съзнателно пропусна междинни/основни вярвания precisely за да запази обхвата за бъдещата Седмица 11/12 (документирано решение, Сесия 19) — потвърждава, че тази седмица е genuinely новото място за темата, не дублиране.
+- **Непотвърдено:** конкретната под-класификация на междинни вярвания (rules/attitudes/assumptions като 3 различни под-типа) — не е source-confirmed от session log; **не се създава taxonomy от памет**.
+- **WEEK 11 CONTENT CONTRACT:** дефиниция на междинно вярване + връзка с повтарящ се патерн от автоматични мисли — цитируеми от Гл. 3; под-типовете (ако въобще се включат) чакат отделна source-верификация; downward-arrow tool и self-application framing остават изрично изключени (matrix).
+- **Professional review:** остава `REQUIRED` (CourseCatalog flag, непроменено).
+- **Статус:** `PARTIALLY READY`.
+
+### E. Week 13 strict safety contract
+
+**Curriculum rule заключена:** `NotEligibleForSelfGuidedSimulator` — най-строгото ниво в системата, прилага се безусловно.
+
+- **A. SAFE EDUCATIONAL / DECISION-TOOL CONTENT (INCLUDED):** decision-balance концептуална диаграма (fixed example); responsibility-pie концептуална диаграма (fixed example); graduated-exposure ПРИНЦИП като статична стълба/continuum диаграма (обяснение на идеята, не инструмент).
+- **B. PROFESSIONAL-PROCEDURE CONTENT (EXCLUDED от тази фаза):** self-directed exposure procedure; personal risk/task generator; graded exposure planner; free-text personal experiment builder — **нито едно от тези не се имплементира** без отделен професионален преглед.
+- **REQUIRES PROFESSIONAL REVIEW:** цялата exposure под-тема, дори в чисто концептуалната си форма, преди публикуване.
+- **Source status:** `NEEDS SOURCE VERIFICATION` — няма потвърдена глава за никоя под-тема (decision balance, responsibility pie, или exposure principle). Най-слабо източникова седмица от всичките 11.
+- **Статус:** `NOT READY` — изисква source-reading pass ПРЕДИ coding да започне, plus отделно owner go/no-go за exposure под-обхвата.
+
+### F. Week 14 source status
+
+- **Потвърдено:** нищо конкретно — темата (домашна работа, приключване, превенция на рецидив) не се появява в нито един narrated session-log reading pass.
+- **Curriculum-only:** темата съществува в CourseCatalog (syllabus-derived), но без source locator.
+- **Изисква:** нов reading pass на SRC-041 (вероятно късни глави, извън вече прочетените 1,2,3,4,5,6,7-начало,11,14) преди content contract да може да се финализира. Не се измисля глава номер.
+- **WEEK 14 CONTENT CONTRACT:** не може да бъде изведен пълноценно преди source verification; предварителна safety рамка (без relapse-risk predictor, без personal plan builder) остава в сила от Phase A.
+- **Статус:** `NOT READY`.
+
+### G. GAP-011 / Week 15
+
+- **GAP-011 статус:** `CONSTRAINED` за "вълновото" рамкиране (3 независими прегледани източника — SRC-014, SRC-023, SRC-025 — потвърждават самия модел; нито един не съвпада с прототипните точни години → правило: никога точните прототипни години, само диапазони съвместими с прегледаните източници, или пропускане на спорни точни години).
+- **SOURCE-CONFIRMED:** съществуването на "вълново" рамкиране на КПТ традицията (3 независими вторични източника).
+- **SYLLABUS-DERIVED:** заглавието "Трета вълна и възстановително-ориентирана терапия" (CourseCatalog).
+- **NEEDS ADDITIONAL SOURCE:** "възстановително-ориентирана терапия"/CT-R терминологията — не потвърдена от НИКОЙ прегледан източник; SRC-041 (2011, 2-ро изд.) хронологично малко вероятно да покрива тази по-късна терминология — **не се приписва на SRC-041**.
+- **Статус:** `CONSTRAINED` (вълни) / `OPEN — needs additional source` (CT-R под-тема, скопирана отделно, не блокира вълновата половина).
+
+### H. Weeks 4/6/7/12 verification
+
+| Седмица | SOURCE READY | Основание |
+|---|---|---|
+| 4 | **YES** | Гл. 4 ("Оценъчна сесия") наративно потвърдена, session log |
+| 6 | **YES** | Гл. 5 потвърдена дословно ("45–50 минути"), GAP-010 вече Closed |
+| 7 | **YES** | Гл. 6 ("Поведенческа активация") — заглавието директно съвпада, потвърдена |
+| 12 | **YES** | Гл. 14 потвърдена с точно съдържание (3-те категории), най-силна от всичките 11 |
+
+Няма нов gap, открит за тези четири седмици.
+
+### I. Remaining blocking gaps
+
+**Няма пълно WEEK-LEVEL blocking gap** след constraint-ването на GAP-008 и GAP-011. Остават обаче два `NOT READY` статуса (Седмица 13, Седмица 14), изискващи source-reading pass ПРЕДИ coding да започне за тях конкретно — това е pre-coding gate за тези две седмици, не blocker за целия build order (те просто седят последни в новия ред по-долу).
+
+### J. Final implementation order (заменя реда от Phase A — не запазен механично)
+
+1. **Седмица 6** — най-чист source match (дословен цитат), reuse на доказан Guided Practice archetype, нисък архитектурен риск.
+2. **Седмица 12** — най-силен източник от всичките 11 (Гл. 14), AcademicOnly, нула нова интерактивност.
+3. **Седмица 7** — потвърден източник (Гл. 6), нов компонент но reuse на доказана Simulator архитектура (Седмица 8).
+4. **Седмица 4** — потвърден източник (Гл. 4), по-висока safety чувствителност — построена след 3 доказани седмици.
+5. **Седмица 5** — READY, лек interaction, reuse на Седмица-10 patterns.
+6. **Седмица 2** — READY, но изисква cross-source synthesis (GAP-008 constrained) — editorial-тежка, не source-тежка.
+7. **Седмица 9** — PARTIALLY READY, изисква Седмица 8+10 (удовлетворено); построена след повече "reps" заради тънката safe/unsafe граница.
+8. **Седмица 11** — PARTIALLY READY, ProfessionalReviewRequired, полза от Седмица 9-ия pattern concept (изрично поискана зависимост).
+9. **Седмица 15** — CONSTRAINED (вълни), CT-R под-тема скопирана отделно; естествено затваря историческата линия.
+10. **Седмица 13** — NOT READY, най-строг safety tier — построена след всички по-леки седмици доказани.
+11. **Седмица 14** — NOT READY, ProfessionalReviewRequired, логично затваря целия curriculum narrative.
+
+*Забележка:* позиции 7–8 (Седмица 9, 11) са две последователни MEDIUM–HIGH сложност седмици — умишлено изключение от строгата low/medium/high редукция, директно защото собственикът изрично поиска "Week 9 преди 11/12, ако съдържателната ѝ функция е prerequisite" (§12) — приоритет на content dependency пред чисто редуване на сложност.
+
+### K. Final batches
+
+**BATCH A — Clean Source, Zero Synthesis** (Седмица 6, 12, 7)
+- Why grouped: единствен, чист confirmed chapter за всяка; нула отворени GAP-та; нула editorial synthesis нужда.
+- Source readiness: READY (и трите).
+- Dependency: Седмица 10 (pattern reuse за 6), Седмица 8 (simulator архитектура за 7).
+- Review gate: стандартен content review; без елевиран clinical gate.
+- Definition of done: page live, tests green, content-review checklist подписан, без ескалация към проф. преглед.
+
+**BATCH B — Clinical Care + Source Synthesis** (Седмица 4, 5, 2)
+- Why grouped: всяка изисква точно един допълнителен editorial pass — Седмица 4 (safety framing "специалист, не ти"), Седмица 5 (alliance-term нюанс), Седмица 2 (GAP-008 cross-source синтез) — различно от Batch A-ото "просто транскрибирай главата".
+- Source readiness: READY (и трите, с отбелязани нюанси).
+- Dependency: Седмица 1 (timeline reuse за 2), обща Модул 2 последователност.
+- Review gate: `23_CLINICAL_SAFETY_BOUNDARIES.md` §8 проверка за Седмица 4; изрично owner sign-off на избраната GAP-008 comparison рамка за Седмица 2.
+- Definition of done: page live + tests + (Седмица 4) safety framing документиран преглед + (Седмица 2) GAP-008 статус в `15_GAPS_AND_CONFLICTS.md` актуализиран спрямо реално използваната рамка.
+
+**BATCH C — Belief Hierarchy Deepening, High Care** (Седмица 9, 11)
+- Why grouped: и двете носят най-тънката safe/unsafe граница в целия каталог + пряка зависимост от Batch A/B основите (3/8/10).
+- Source readiness: PARTIALLY READY (и двете).
+- Dependency: Седмица 3, 8, 10 (удовлетворени); Седмица 9 преди Седмица 11 в самия batch.
+- Review gate: ЗАДЪЛЖИТЕЛЕН професионален преглед за Седмица 11 (CourseCatalog flag); изрично owner design-confirmation gate за Седмица 9 ПРЕДИ coding, не само преди publish.
+- Definition of done: и двете live, tests green, Седмица 11 с документиран проф. преглед, Седмица 9 с автоматизиран тест, потвърждаващ 0 free-text/storage механизми в реалния код.
+
+**BATCH D — Restricted / Weakest-Sourced / Final** (Седмица 15, 13, 14)
+- Why grouped: изискват най-много ново четене на SRC-041 преди content да може да се финализира + носят най-рестриктивните safety нива в целия curriculum.
+- Source readiness: Седмица 15 CONSTRAINED (вълни)/NOT READY (CT-R); Седмица 13 NOT READY; Седмица 14 NOT READY.
+- Dependency: практически целият предходен curriculum narrative.
+- Review gate: ЗАДЪЛЖИТЕЛЕН професионален преглед за Седмица 13 и 14; exposure под-обхватът на 13 изисква ОТДЕЛНО, изрично owner решение, независимо от останалата седмица; CT-R под-темата на 15 или се пропуска от MVP обхвата, или изрично чака нов източник.
+- Definition of done: Седмица 15 live само с вълновата половина (dates в диапазони); Седмица 13 live само с decision-tools под-обхвата, exposure-планер изрично НЕ построен с документирано owner решение; Седмица 14 live само след нов reading pass, потвърждаващ конкретна глава, plus проф. преглед.
+
+### L. First implementation candidate
+
+**FIRST IMPLEMENTATION CANDIDATE: WEEK 6**
+
+- **Source ready:** Гл. 5 потвърдена дословно ("Повечето стандартни сесии по когнитивна поведенческа терапия траят около 45–50 минути") — най-силният единичен цитат-match извън Седмица 12.
+- **Archetype known:** Guided Practice — вече валидиран, доказан архетип (Седмица 10), директно приложим за "структура на сесия" walkthrough.
+- **Low architectural risk:** не изисква нов интерактивен компонент — progressive disclosure (native `<details>`) и статични diagram patterns стигат, reuse-heavy.
+- **Curriculum dependency appropriate:** логично следва Седмица 5 (принципи преди структура), не блокирана от нищо неготово.
+
+**Не е имплементирана в тази стъпка.**
+
+### M. Optional Reading mapping
+
+| Седмица | Optional Reading статус |
+|---|---|
+| 2 | **PENDING** — SRC-041 не покрива REBT задълбочено; нужно решение дали да се цитира вторичен източник (напр. SRC-030) вместо обичайния SRC-041 pattern |
+| 4 | **CONFIRMED CHAPTER** — Гл. 4 |
+| 5 | **CONFIRMED CHAPTER** — Гл. 1 |
+| 6 | **CONFIRMED CHAPTER** — Гл. 5 |
+| 7 | **CONFIRMED CHAPTER** — Гл. 6 |
+| 9 | **CONFIRMED CHAPTER** (Гл. 11, само за изкривяванията) / **PENDING** (record-структура) |
+| 11 | **CONFIRMED CHAPTER** (Гл. 3, само за дефиницията) / **PENDING** (под-типове) |
+| 12 | **CONFIRMED CHAPTER** — Гл. 14 |
+| 13 | **PENDING** — няма потвърдена глава за никоя под-тема |
+| 14 | **PENDING** — няма потвърдена глава |
+| 15 | **PENDING** (вълни — вероятно вторичен източник, не SRC-041) / **NOT NEEDED от SRC-041** (CT-R — хронологично невъзможно) |
+
+Публичен URL остава отделен, непроменен въпрос — `PUBLIC SOURCE URL — PENDING VERIFICATION` за SRC-041 остава в сила от Сесия 34.
+
+### N. Project OS changes (тази стъпка)
+
+- `24_IMPLEMENTATION_ROADMAP.md` — добавен този раздел (Source Gap Closure + Build Order Freeze, Phase B).
+- `15_GAPS_AND_CONFLICTS.md` — GAP-008 и GAP-011 актуализирани от `Open` на `Constrained` статус, с точна обосновка и реф. към новите content contracts.
+- `02_CURRENT_STATUS.md` — текущата стъпка отбелязана съответно.
+- Без нов Project OS файл, без нов ADR, без промяна на `04_CHANGELOG.md`, без седмица маркирана `COMPLETE`.
+
+### O. Status
+
+`SOURCE GAPS REVIEWED — IMPLEMENTATION ORDER READY FOR OWNER APPROVAL`
+
+---
+
+## Systematic Curriculum Expansion — Phase C: Week 6 Implementation (Сесия 35, 2026-08-09)
+
+First position of the frozen build order (§J above) implemented. Full narrative in `10_SESSION_LOG.md` (Сесия 35). Summary: `Sedmica6.razor` built with zero new components/CSS (reuses `LearningSection`/`ProgressiveExplanation`/`DisclaimerCallout`/`SourceReferences`/`OptionalReadingSource`, `.category-compare`, `.concept-map__side-notes`); source contract held to SRC-041 Гл. 5 exactly (duration quote + general 3-part shape per GAP-010's "close to prototype" resolution) — the original prototype's BDI/BAI mood-check detail was found and deliberately excluded. `CourseCatalog.cs` Week 6 route set; `Kurs.razor` start-panel updated for 5 available weeks. New `Week6ContentSliceTests.cs` + minimal updates to 6 existing test files (available-week-count assertions). 372/372 tests, build 0/0, 15/15 routes 200. **Status: `WEEK 6 — COMPLETE`, uncommitted** (isolated from the separate, still-uncommitted Optional Reading Visual Refinement). Next authorized candidate from the frozen order: **Week 12** — not started automatically.

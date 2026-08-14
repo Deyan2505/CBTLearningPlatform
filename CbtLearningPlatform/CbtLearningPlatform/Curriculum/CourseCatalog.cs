@@ -18,7 +18,7 @@ public sealed record CourseWeekDefinition(
 /// module grouping (Модул I–IV), not an invented structure.</summary>
 public sealed record CourseModule(int Number, string Title, string WeekRangeLabel, string Description);
 
-/// <summary>Single source of truth for the 15-week curriculum reference. Only Weeks 1, 3, 8 and 10 have
+/// <summary>Single source of truth for the 15-week curriculum reference. Only Weeks 1, 3, 6, 8 and 10 have
 /// a real Route so far — every other week is intentionally InPreparation/AcademicOverview/ProfessionalReviewRequired
 /// with Route=null, so the hub never links to a page that doesn't exist.</summary>
 public static class CourseCatalog
@@ -95,7 +95,7 @@ public static class CourseCatalog
         Week(6, "Как работи КПТ и терапевтичният процес",
             "Структура на терапевтичната сесия",
             "Информационен преглед как изглежда типична КПТ сесия — не инструкция за самотерапия.",
-            CurriculumSafetyLevel.PublicWithAdaptation, route: null,
+            CurriculumSafetyLevel.PublicWithAdaptation, route: "/kurs/sedmica-6",
             objectives:
             [
                 "Разбирате общата структура на типична КПТ сесия.",
