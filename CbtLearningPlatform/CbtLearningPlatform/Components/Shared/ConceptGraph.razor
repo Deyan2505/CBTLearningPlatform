@@ -2,9 +2,10 @@
    automatic thoughts, core beliefs, Ирина, or Week 6. It only reads GraphRenderNode/GraphRenderEdge,
    produced by MindMapAdapter/ConceptMapAdapter/CaseConceptualizationAdapter. Static SSR by default — no
    @rendermode here, so it inherits whatever the host page uses (owner decision: Static SSR default,
-   COGNITIVE_LEARNING_ARCHITECTURE_v1.md §21). The visual canvas and the <details> text fallback below both
-   read the SAME Model.Nodes/Model.Edges in the same render pass — there is no second, hand-authored copy of
-   the content that could drift out of sync (§13/§19). *@
+   COGNITIVE_LEARNING_ARCHITECTURE_v1.md §21). MindMap mode delegates to the recursive MindMapBranch
+   child component — a real spatial tree (root, then arbitrary-depth <details>-based branches), not a
+   card grid; ConceptMap/CaseMap mode keeps the chain-with-connector layout, unchanged by the visual
+   correction pass. *@
 @namespace CbtLearningPlatform.Components.Shared
 @using CbtLearningPlatform.Curriculum
 
@@ -18,33 +19,28 @@
     @if (Model.Mode == ConceptGraphMode.MindMap)
     {
         var root = Model.Nodes.FirstOrDefault(n => n.ParentId is null);
-        var children = Model.Nodes.Where(n => n.ParentId is not null).ToList();
+        var primaryBranches = Model.Nodes.Where(n => n.ParentId == root?.Id).ToList();
 
-        <div class="concept-graph__canvas concept-graph__canvas--mindmap">
+        <div class="mindmap-tree">
             @if (root is not null)
             {
-                <div class="concept-graph__root">@root.Label</div>
-                <svg class="concept-graph__root-connector" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
-                    <path d="M50 0 V20" fill="none" stroke="currentColor" stroke-width="2" />
-                </svg>
+                <div class="mindmap-root">@root.Label</div>
             }
-            <div class="concept-graph__cluster-grid">
-                @foreach (var node in children)
+            <ul class="mindmap-branch__children mindmap-branch__children--top">
+                @foreach (var node in primaryBranches)
                 {
-                    <div class="concept-graph__node concept-graph__node--@StateClass(node.DisplayState)">
-                        <span class="concept-graph__node-label">@node.Label</span>
-                        @if (!string.IsNullOrWhiteSpace(node.ShortDefinition))
-                        {
-                            <span class="concept-graph__node-definition">@node.ShortDefinition</span>
-                        }
-                        @if (!string.IsNullOrWhiteSpace(node.Anchor))
-                        {
-                            <a class="concept-graph__node-link" href="@node.Anchor">Виж секцията →</a>
-                        }
-                    </div>
+                    <li>
+                        <MindMapBranch Node="node" AllNodes="Model.Nodes" Depth="1" />
+                    </li>
                 }
-            </div>
+            </ul>
         </div>
+
+        @* The tree above IS the accessible representation — native <details>/<summary> disclosure,
+           real nested <ul>/<li>, one screen-reader-navigable structure. A second, flattened text
+           description would duplicate it, not back it up, so MindMap mode skips the generic
+           fallback below (used by ConceptMap/CaseMap, whose chain+cross-reference layout benefits
+           from a plain-prose alternative). *@
     }
     else
     {
@@ -112,30 +108,30 @@
                 </ul>
             </div>
         }
-    }
 
-    <details class="concept-graph__fallback">
-        <summary>Текстово описание на картата</summary>
-        <ul class="concept-graph__fallback-list">
-            @foreach (var node in Model.Nodes)
-            {
-                var outgoing = Model.Edges.Where(e => e.FromId == node.Id).ToList();
-                <li>
-                    <strong>@node.Label</strong>@(!string.IsNullOrWhiteSpace(node.ShortDefinition) ? $" — {node.ShortDefinition}" : "")
-                    @if (outgoing.Count > 0)
-                    {
-                        <ul>
-                            @foreach (var edge in outgoing)
-                            {
-                                var target = Model.Nodes.FirstOrDefault(n => n.Id == edge.ToId);
-                                <li>@(edge.Label ?? "свързано с") → @(target?.Label ?? edge.ToId)</li>
-                            }
-                        </ul>
-                    }
-                </li>
-            }
-        </ul>
-    </details>
+        <details class="concept-graph__fallback">
+            <summary>Текстово описание на картата</summary>
+            <ul class="concept-graph__fallback-list">
+                @foreach (var node in Model.Nodes)
+                {
+                    var outgoing = Model.Edges.Where(e => e.FromId == node.Id).ToList();
+                    <li>
+                        <strong>@node.Label</strong>@(!string.IsNullOrWhiteSpace(node.ShortDefinition) ? $" — {node.ShortDefinition}" : "")
+                        @if (outgoing.Count > 0)
+                        {
+                            <ul>
+                                @foreach (var edge in outgoing)
+                                {
+                                    var target = Model.Nodes.FirstOrDefault(n => n.Id == edge.ToId);
+                                    <li>@(edge.Label ?? "свързано с") → @(target?.Label ?? edge.ToId)</li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            </ul>
+        </details>
+    }
 </section>
 
 @code {

@@ -18,7 +18,30 @@
 
 ## Текуща стъпка
 
-`WEEK 6 COGNITIVE REFERENCE IMPLEMENTATION — AWAITING OWNER REVIEW` /
+`MIND MAP VISUAL STANDARD — IMPLEMENTED, AWAITING OWNER VISUAL APPROVAL` (Сесия 43, 2026-08-22).
+Owner visual review на Сесия 42 откри конкретен проблем: MindMap семантиката беше правилна, но
+визуалното представяне (responsive card grid) не отговаряше на "истинска mind map" — приложен
+reference screenshot като cognitive/visual benchmark (не за копиране 1:1). Коригирано: MindMap
+режимът на `ConceptGraph.razor` вече рендерира **истинско пространствено дърво**, не card grid —
+нов рекурсивен `Components/Shared/MindMapBranch.razor` (root → primary branches → secondary
+concepts, arbitrary depth, native `<details>`/`<summary>` disclosure, collapsed by default). Curved
+branch connectors чрез CSS border+border-radius "elbow" техника (не SVG paths) — изрично решение,
+обосновано в кода: SVG координати биха изисквали JS recompute при всяко expand/collapse, докато CSS
+техниката е винаги коректна (произлиза от live box model), без нужда от WASM. Depth изразен чрез
+size/weight/padding, не само цвят. `MindMapAdapter` разширен с cycle detection (защита срещу
+infinite recursion в рекурсивния renderer). Седмица 6 MindMap данните преструктурирани в реална
+3-нивова йерархия (root → Цели/Начало/Среда/Край/Гъвкавост → техните concepts) — същото вече
+одобрено съдържание, само реорганизирано; "Гъвкавост" клонът преизползва точните 3 leaves на
+съществуващия `.decision-branch` (не дублирано съдържание). ConceptMap/CaseMap режимите — напълно
+непроменени, потвърдено чрез regression QA. **470/470 теста** (458 + 12 нови — cycle detection,
+arbitrary depth, deterministic child order, domain-ignorance на `MindMapBranch`, toggle/navigation
+separation, collapsed-by-default). Build 0/0. 8/8 routes `200`. Structural QA потвърди: 2 mindmap
+инстанции (Preview/Review) с еднакъв root label, 8 collapsed `<details class="mindmap-branch">`
+(4 branches × 2 инстанции), 8 aria-hidden chevrons, всички labels присъстват. **Structural QA only**
+— собственически pixel-level visual review остава задължителен. Некомитнато — предстои единствен
+commit, изолиран от Седмица 12.
+
+Предходен checkpoint — `WEEK 6 COGNITIVE REFERENCE IMPLEMENTATION — AWAITING OWNER REVIEW` /
 `PROJECT-WIDE COGNITIVE ARCHITECTURE — REFERENCE VALIDATION IN PROGRESS` (Сесия 42, 2026-08-22).
 Owner-authorized implementation на `COGNITIVE_LEARNING_ARCHITECTURE_v1.md` v1.1, строго Phases 1–3
 (semantic models, `ConceptGraph` rendering engine, Седмица 6 reference implementation) — **без**
@@ -170,6 +193,13 @@ U08/U22 включени по owner-approved `OBSERVATIONAL SAFETY BOUNDARY` д�
 
 ## Последна завършена задача
 
+Mind Map Visual Standard — Correction Pass (Сесия 43, 2026-08-22): MindMap режимът на
+`ConceptGraph.razor` пренаписан от responsive card grid на истинско пространствено дърво
+(`MindMapBranch.razor`, рекурсивен, native `<details>` disclosure, CSS elbow connectors, depth чрез
+typography). Седмица 6 MindMap данните — реална 3-нивова йерархия. ConceptMap/CaseMap непроменени.
+470/470 теста, build 0/0. `AWAITING OWNER VISUAL APPROVAL`. Некомитнато. Детайли в
+`10_SESSION_LOG.md` (Сесия 43).
+
 Week 6 Cognitive Reference Implementation — Phases 1-3 (Сесия 42, 2026-08-22): семантични модели
 (MindMap/ConceptMap/CaseConceptualization) + domain-ignorant `ConceptGraph` renderer + Седмица 6
 reference use cases (Preview/Review Mind Map, надградена Concept Map с реални cross-links, Ирина
@@ -289,17 +319,17 @@ Final Layout Defect Correction (Сесия 23, 2026-08-04): собственик
 
 ## Следваща препоръчана задача
 
-Собственически visual + learning review на Седмицата 6 cognitive reference implementation
-(`/kurs/sedmica-6`) — Phase 4 gate преди Phase 5 (global Course Map + CBT Knowledge Map на
-`/kurs/karta`). Успоредно, все още чака: собственически learning review на самото Week 6 v2
-съдържание (по-ранния, все още отворен review от Сесия 39). Замразеният curriculum build order
-(Седмица 12 некомитната, Седмица 7 следваща) остава на PAUSE до и двата review-та. Не се строи
-`/kurs/karta`, не се прави retrofit на други седмици, не се започва Week 7 без ново извикване.
-Deployment остава извън обхват. `KEEP RAZOR FOR MVP` в сила.
+Собственически pixel-level visual преглед на `/kurs/sedmica-6` MindMap-а (Сесия 43 correction) —
+потвърждение, че дървото реално чете като mind map, не само структурно коректно е. Успоредно, все
+още чакат: Phase 4 review на цялата Седмица 6 cognitive reference implementation (Сесия 42) и
+по-ранният learning review на самото Week 6 v2 съдържание (Сесия 39). Замразеният curriculum build
+order (Седмица 12 некомитната, Седмица 7 следваща) остава на PAUSE до всичките. Не се строи
+`/kurs/karta`, не се прави retrofit, не се започва Week 7. Deployment извън обхват. `KEEP RAZOR FOR
+MVP` в сила.
 
 ## Последна актуализация
 
-2026-08-22 — Сесия 42, Week 6 Cognitive Reference Implementation (Phases 1-3).
+2026-08-22 — Сесия 43, Mind Map Visual Standard — Correction Pass.
 
 ## Общ приблизителен прогрес
 

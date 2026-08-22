@@ -1,0 +1,78 @@
+@* Recursive node renderer for ConceptGraph's MindMap mode — a real spatial tree, not a card grid.
+   Domain-ignorant, same contract as ConceptGraph.razor: only reads GraphRenderNode. A node with no
+   children renders as a plain leaf; a node with children renders as a native <details>/<summary>
+   branch (collapsed by default — overview first, detail on demand) containing a nested <ul> of
+   child MindMapBranch instances, recursing to arbitrary depth. Curved connector lines are pure CSS
+   (border + border-radius "elbow" on .mindmap-branch__children/li, see app.css) rather than SVG —
+   deliberately: an SVG path's coordinates would need JavaScript to recompute every time a <details>
+   element opens/closes and its siblings shift position, while the CSS technique is always correct
+   because it's derived from the live box model, with zero coordinate math, and still reads as a
+   genuinely curved (not right-angle) branch line. *@
+@namespace CbtLearningPlatform.Components.Shared
+@using CbtLearningPlatform.Curriculum
+
+@{
+    var children = AllNodes.Where(n => n.ParentId == Node.Id).ToList();
+    var depthClass = $"mindmap-node--depth-{Math.Min(Depth, 3)}";
+}
+
+@if (children.Count == 0)
+{
+    <div class="mindmap-node @depthClass mindmap-node--leaf concept-graph__node--@StateClass(Node.DisplayState)">
+        <span class="concept-graph__node-label">@Node.Label</span>
+        @if (!string.IsNullOrWhiteSpace(Node.ShortDefinition))
+        {
+            <span class="concept-graph__node-definition">@Node.ShortDefinition</span>
+        }
+        @if (!string.IsNullOrWhiteSpace(Node.Anchor))
+        {
+            <a class="concept-graph__node-link" href="@Node.Anchor">Виж секцията →</a>
+        }
+    </div>
+}
+else
+{
+    <details class="mindmap-branch">
+        <summary class="mindmap-branch__summary @depthClass concept-graph__node--@StateClass(Node.DisplayState)">
+            <span class="mindmap-branch__chevron" aria-hidden="true"></span>
+            <span class="concept-graph__node-label">@Node.Label</span>
+        </summary>
+        <div class="mindmap-branch__body">
+            @if (!string.IsNullOrWhiteSpace(Node.ShortDefinition))
+            {
+                <span class="concept-graph__node-definition">@Node.ShortDefinition</span>
+            }
+            @if (!string.IsNullOrWhiteSpace(Node.Anchor))
+            {
+                <a class="concept-graph__node-link" href="@Node.Anchor">Виж секцията →</a>
+            }
+            <ul class="mindmap-branch__children">
+                @foreach (var child in children)
+                {
+                    <li>
+                        <MindMapBranch Node="child" AllNodes="AllNodes" Depth="Depth + 1" />
+                    </li>
+                }
+            </ul>
+        </div>
+    </details>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public GraphRenderNode Node { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<GraphRenderNode> AllNodes { get; set; } = default!;
+
+    [Parameter]
+    public int Depth { get; set; } = 1;
+
+    private static string StateClass(ConceptState? state) => state switch
+    {
+        ConceptState.Upcoming => "upcoming",
+        ConceptState.Revisited => "revisited",
+        ConceptState.Introduced => "introduced",
+        _ => "instance"
+    };
+}

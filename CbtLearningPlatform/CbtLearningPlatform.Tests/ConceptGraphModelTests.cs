@@ -83,6 +83,91 @@ public sealed class ConceptGraphModelTests
     }
 
     [Fact]
+    public void MindMapAdapter_ThrowsOnParentCycle()
+    {
+        // A→B→A — would otherwise recurse forever in MindMapBranch.razor at render time.
+        MindMapModel model = new("t", "s",
+        [
+            new("a", "A", "b", null, null, ConceptState.Introduced),
+            new("b", "B", "a", null, null, ConceptState.Introduced)
+        ]);
+
+        Assert.Throws<InvalidOperationException>(() => MindMapAdapter.ToRenderModel(model));
+    }
+
+    [Fact]
+    public void MindMapAdapter_SupportsArbitraryDepth()
+    {
+        MindMapModel model = new("t", "s",
+        [
+            new("root", "Root", null, null, null, ConceptState.Introduced),
+            new("l1", "Level 1", "root", null, null, ConceptState.Introduced),
+            new("l2", "Level 2", "l1", null, null, ConceptState.Introduced),
+            new("l3", "Level 3", "l2", null, null, ConceptState.Introduced)
+        ]);
+
+        GraphRenderModel render = MindMapAdapter.ToRenderModel(model);
+
+        Assert.Equal(4, render.Nodes.Count);
+        Assert.Equal("l2", render.Nodes.Single(n => n.Id == "l3").ParentId);
+    }
+
+    [Fact]
+    public void MindMapAdapter_ChildOrderIsDeterministic_MatchesInputOrder()
+    {
+        MindMapModel model = new("t", "s",
+        [
+            new("root", "Root", null, null, null, ConceptState.Introduced),
+            new("second", "Second", "root", null, null, ConceptState.Introduced),
+            new("first", "First", "root", null, null, ConceptState.Introduced)
+        ]);
+
+        GraphRenderModel render = MindMapAdapter.ToRenderModel(model);
+        var childIds = render.Nodes.Where(n => n.ParentId == "root").Select(n => n.Id).ToList();
+
+        Assert.Equal(["second", "first"], childIds);
+    }
+
+    [Fact]
+    public void MindMapAdapter_LeafNodeWithNoChildren_IsValid()
+    {
+        MindMapModel model = new("t", "s",
+        [
+            new("root", "Root", null, null, null, ConceptState.Introduced),
+            new("leaf", "Leaf", "root", null, null, ConceptState.Introduced)
+        ]);
+
+        GraphRenderModel render = MindMapAdapter.ToRenderModel(model);
+
+        Assert.DoesNotContain(render.Nodes, n => n.Id == "leaf" && render.Nodes.Any(other => other.ParentId == "leaf"));
+    }
+
+    [Fact]
+    public void RealWeek6MindMap_HasThreeLevelHierarchyAndNoCycles()
+    {
+        // Guards the actual Week 6 dataset that ships on the page (Mind Map Visual Standard
+        // correction pass) — a real tree, not a flat root+children list.
+        GraphRenderModel render = MindMapAdapter.ToRenderModel(BuildRealWeek6MindMapForTest());
+
+        var byId = render.Nodes.ToDictionary(n => n.Id);
+        int MaxDepth(string id, int depth) =>
+            render.Nodes.Where(n => n.ParentId == id).Select(c => MaxDepth(c.Id, depth + 1)).DefaultIfEmpty(depth).Max();
+
+        Assert.Equal(2, MaxDepth("root", 0)); // root(0) -> primary branch(1) -> concept(2)
+        Assert.Single(render.Nodes, n => n.ParentId is null);
+    }
+
+    private static MindMapModel BuildRealWeek6MindMapForTest() => new("t", "s",
+    [
+        new("root", "Структура на първата сесия", null, null, null, ConceptState.Introduced),
+        new("goals", "Цели на сесията", "root", null, null, ConceptState.Introduced),
+        new("nachalo", "Начало", "root", null, null, ConceptState.Introduced),
+        new("agenda", "Дневен ред", "nachalo", null, null, ConceptState.Introduced),
+        new("gavkavost", "Гъвкавост", "root", null, null, ConceptState.Introduced),
+        new("risk-patient", "Риск за пациента или други", "gavkavost", null, null, ConceptState.Introduced)
+    ]);
+
+    [Fact]
     public void ConceptMapAdapter_AllRelationEndpointsReferenceExistingNodes()
     {
         ConceptMapModel model = new("t", "s",

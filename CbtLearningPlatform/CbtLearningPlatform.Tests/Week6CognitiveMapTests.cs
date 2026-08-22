@@ -42,6 +42,100 @@ public sealed class Week6CognitiveMapTests
     }
 
     [Fact]
+    public void Week6Page_MindMapHasExpectedPrimaryBranches()
+    {
+        // Mind Map Visual Standard correction pass: a real hierarchy, not a flat root+children list.
+        string source = ReadPage("Sedmica6.razor");
+
+        foreach (string branchId in new[] { "\"goals\"", "\"nachalo\"", "\"sreda\"", "\"kray\"", "\"gavkavost\"" })
+        {
+            Assert.Contains(branchId, source);
+        }
+
+        // Each non-leaf primary branch has at least one child pointing back to it as ParentId.
+        foreach (string parentId in new[] { "\"nachalo\"", "\"sreda\"", "\"kray\"", "\"gavkavost\"" })
+        {
+            Assert.Contains($", {parentId},", source);
+        }
+    }
+
+    [Fact]
+    public void Week6Page_GavkavostBranchMirrorsExistingDecisionBranchLeaves()
+    {
+        // Reuses the already-approved .decision-branch content as Mind Map children instead of
+        // duplicating new text — same three reasons, same wording basis.
+        string source = ReadPage("Sedmica6.razor");
+
+        Assert.Contains("Риск за пациента или други", source);
+        Assert.Contains("Силно емоционално претоварване", source);
+        Assert.Contains("Риск за терапевтичния алианс", source);
+    }
+
+    [Fact]
+    public void Week6Page_MindMapHasNoSectionNumberNodeLabels()
+    {
+        string source = ReadPage("Sedmica6.razor");
+        int mindMapStart = source.IndexOf("BuildWeek6MindMap()", StringComparison.Ordinal);
+        int mindMapEnd = source.IndexOf("private static ConceptMapModel", StringComparison.Ordinal);
+        string mindMapSection = source[mindMapStart..mindMapEnd];
+
+        Assert.DoesNotContain("\"6.0\"", mindMapSection);
+        Assert.DoesNotContain("\"6.1\"", mindMapSection);
+        Assert.DoesNotContain("\"6.12\"", mindMapSection);
+    }
+
+    [Fact]
+    public void ConceptGraphComponent_MindMapIsARealTree_NotACardGrid()
+    {
+        string source = ReadPublicMarkup("ConceptGraph.razor");
+
+        Assert.DoesNotContain("concept-graph__cluster-grid", source);
+        Assert.Contains("<MindMapBranch", source);
+        Assert.Contains("mindmap-tree", source);
+        Assert.Contains("mindmap-root", source);
+    }
+
+    [Fact]
+    public void MindMapBranchComponent_UsesNativeDisclosure_CollapsedByDefault()
+    {
+        string source = ReadPublicMarkup("MindMapBranch.razor");
+
+        Assert.Contains("<details class=\"mindmap-branch\">", source); // no `open` attribute — collapsed by default
+        Assert.DoesNotContain("open=\"true\"", source);
+        Assert.DoesNotContain("open=\"@true\"", source);
+        Assert.Contains("<summary", source);
+        Assert.Contains("mindmap-branch__chevron", source);
+    }
+
+    [Fact]
+    public void MindMapBranchComponent_SeparatesToggleFromNavigation()
+    {
+        // Clicking the branch label toggles expand/collapse (native <summary> behavior); navigating
+        // to the actual section is a separate, explicit link inside the revealed body — never the
+        // same clickable target, avoiding the ambiguity the owner flagged (§27).
+        string source = ReadPublicMarkup("MindMapBranch.razor");
+
+        int summaryStart = source.IndexOf("<summary", StringComparison.Ordinal);
+        int summaryEnd = source.IndexOf("</summary>", StringComparison.Ordinal);
+        string summaryBlock = source[summaryStart..summaryEnd];
+        string afterSummary = source[summaryEnd..];
+
+        Assert.DoesNotContain("<a ", summaryBlock);
+        Assert.Contains("concept-graph__node-link", afterSummary);
+    }
+
+    [Fact]
+    public void MindMapBranchComponent_IsDomainIgnorant()
+    {
+        string source = ReadPublicMarkup("MindMapBranch.razor");
+
+        foreach (string forbidden in new[] { "Week6", "Седмица 6", "Ирина", "автоматична мисъл", "core belief" })
+        {
+            Assert.DoesNotContain(forbidden, source, StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
+    [Fact]
     public void Week6Page_ConceptMapContainsFullBeckModelAsCrossLinkedNodes()
     {
         string source = ReadPage("Sedmica6.razor");

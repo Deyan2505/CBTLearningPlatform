@@ -871,22 +871,39 @@
     private static readonly GraphRenderModel _irinaCaseMapRender = CaseConceptualizationAdapter.ToRenderModel(
         CaseCatalog.Irina, CaseCatalog.IrinaObservations.Single(o => o.WeekNumber == 6));
 
+    // Mind Map Visual Standard correction pass: a real 3-level hierarchy (root → 5 primary branches →
+    // their child concepts), not a flat root+10-children list — reorganizes the same, already-approved
+    // Week 6 knowledge clusters (no new content); "Гъвкавост" mirrors the exact 3 leaves already shown
+    // by the .decision-branch diagram in 6.2, reused here as a branch rather than duplicated content.
     private static MindMapModel BuildWeek6MindMap() => new(
         "Седмица 6 — знаниеви клъстери",
         "Мисловна карта на структурата на първата терапевтична сесия, групирана по клъстери от знание, не по номер на секция.",
         [
-            new("root", "Седмица 6: Структура на първата сесия", null, null, null, ConceptState.Introduced),
-            new("goals", "Цели на първата сесия", "root", "Шестте цели, постигани от структурата.", "/kurs/sedmica-6#struktura", ConceptState.Introduced),
-            new("agenda", "Задаване на дневния ред", "root", "Първата от 10-те стъпки.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
-            new("mood-check", "Проверка на настроението", "root", "Устен разказ + стандартизирани въпросници.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
-            new("update", "Придобиване на актуализация", "root", "Нови събития от последната среща — вкл. позитивни.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
-            new("diagnosis", "Дискусия за диагнозата", "root", "Нежаргонно описание, психообразование.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
-            new("deviation", "Критерии за отклонение от структурата", "root", "Три легитимни основания.", "/kurs/sedmica-6#deep-dive", ConceptState.Introduced),
-            new("problems-goals", "От проблеми към цели", "root", "Неясни описания → 2–3 конкретни проблема.", "/kurs/sedmica-6#beck-praktika", ConceptState.Introduced),
-            new("cognitive-model", "Обучение за когнитивния модел", "root", "Ситуация→Мисъл→Реакция, преподадена на пациента.", "/kurs/sedmica-6#beck-praktika",
+            new("root", "Структура на първата сесия", null, null, null, ConceptState.Introduced),
+
+            new("goals", "Цели на сесията", "root", "Шестте цели, постигани от структурата.", "/kurs/sedmica-6#struktura", ConceptState.Introduced),
+
+            new("nachalo", "Начало", "root", null, "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
+            new("agenda", "Дневен ред", "nachalo", "Първата от 10-те стъпки.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
+            new("mood-check", "Проверка на настроението", "nachalo", "Устен разказ + стандартизирани въпросници.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
+            new("update", "Актуализация", "nachalo", "Нови събития от последната среща — вкл. позитивни.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
+            new("diagnosis", "Обсъждане на диагнозата", "nachalo", "Нежаргонно описание, психообразование.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
+
+            new("sreda", "Среда", "root", null, "/kurs/sedmica-6#beck-praktika", ConceptState.Introduced),
+            new("problems-goals", "Проблеми → цели", "sreda", "Неясни описания → 2–3 конкретни проблема.", "/kurs/sedmica-6#beck-praktika", ConceptState.Introduced),
+            new("cognitive-model", "Когнитивен модел", "sreda", "Ситуация→Мисъл→Реакция, преподадена на пациента.", "/kurs/sedmica-6#beck-praktika",
                 ConceptStateResolver.Derive(3, [6], CourseCatalog.Weeks)),
-            new("homework", "Домашна работа", "root", "Списък със задачи, реалистично оценени по време.", "/kurs/sedmica-6#kray", ConceptState.Introduced),
-            new("feedback", "Обратна връзка", "root", "Доклад за терапия — проверка на алианса.", "/kurs/sedmica-6#kray", ConceptState.Introduced)
+            new("problem-work", "Работа по проблем", "sreda", "Начало на дискусия по конкретен проблем, ако има време.", "/kurs/sedmica-6#beck-praktika", ConceptState.Introduced),
+
+            new("kray", "Край", "root", null, "/kurs/sedmica-6#kray", ConceptState.Introduced),
+            new("summary", "Обобщение", "kray", "Обобщава ключовите точки, проверява разбирането.", "/kurs/sedmica-6#kray", ConceptState.Introduced),
+            new("homework", "Домашна работа", "kray", "Списък със задачи, реалистично оценени по време.", "/kurs/sedmica-6#kray", ConceptState.Introduced),
+            new("feedback", "Обратна връзка", "kray", "Доклад за терапия — проверка на алианса.", "/kurs/sedmica-6#kray", ConceptState.Introduced),
+
+            new("gavkavost", "Гъвкавост", "root", "Кога терапевтът легитимно се отклонява от плана.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
+            new("risk-patient", "Риск за пациента или други", "gavkavost", "Пациентът е в риск или поставя другиго в риск.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
+            new("risk-focus", "Силно емоционално претоварване", "gavkavost", "Пациентът е твърде разстроен, за да се фокусира.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
+            new("risk-alliance", "Риск за терапевтичния алианс", "gavkavost", "Необсъждането застрашава връзката и завръщането на пациента.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced)
         ]);
 
     private static ConceptMapModel BuildWeek6ConceptMap()

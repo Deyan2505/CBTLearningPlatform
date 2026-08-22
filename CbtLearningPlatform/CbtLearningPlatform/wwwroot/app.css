@@ -2624,16 +2624,14 @@ h3[tabindex="-1"]:focus-visible {
 }
 
 /* ConceptGraph — domain-ignorant rendering engine for Mind Map / Concept Map / Case Map
-   (COGNITIVE_LEARNING_ARCHITECTURE_v1.md §8/§9/§10). MindMap mode reuses .decision-branch's
-   root-then-children SVG-connector technique, generalized from a fixed 3 leaves to N clusters via
-   a responsive auto-fit grid (continuous desktop→tablet→mobile reflow, not three hand-coded
-   breakpoints — the node count here is small enough that this stays legible at every width without
-   a bespoke layout per tier). ConceptMap/CaseMap mode reuses .concept-map__flow's vertical
-   chain-with-connector technique (kept vertical at every width, same reasoning as the existing
-   .concept-map__flow default: long Bulgarian labels wrap awkwardly in a horizontal row), extended
-   with a visible relation-label span between nodes and a separate "cross-reference" list for edges
-   this instance only points at, not elaborates. No new color tokens — same 6 semantic accent roles
-   as the rest of the site; curriculum state is never color-only (also named in the fallback list). */
+   (COGNITIVE_LEARNING_ARCHITECTURE_v1.md §8/§9/§10). ConceptMap/CaseMap mode reuses
+   .concept-map__flow's vertical chain-with-connector technique (kept vertical at every width, same
+   reasoning as the existing .concept-map__flow default: long Bulgarian labels wrap awkwardly in a
+   horizontal row), extended with a visible relation-label span between nodes and a separate
+   "cross-reference" list for edges this instance only points at, not elaborates. No new color
+   tokens — same 6 semantic accent roles as the rest of the site; curriculum state is never
+   color-only (also named in the fallback list). MindMap mode's tree styling is below, after the
+   shared .concept-graph__node* rules it reuses for leaf/branch content. */
 .concept-graph {
     margin: var(--space-4) 0;
     padding: var(--space-4);
@@ -2650,33 +2648,6 @@ h3[tabindex="-1"]:focus-visible {
     margin: 0 0 var(--space-4);
     color: var(--color-text-secondary);
     font-size: 0.9rem;
-}
-
-.concept-graph__root {
-    display: block;
-    width: fit-content;
-    margin: 0 auto;
-    padding: var(--space-3) var(--space-5);
-    border: 2px solid var(--accent-primary-border);
-    border-radius: var(--radius-sm);
-    background: var(--accent-primary-surface);
-    color: var(--accent-primary);
-    font-weight: 700;
-    text-align: center;
-}
-
-.concept-graph__root-connector {
-    display: block;
-    width: 2px;
-    height: var(--space-5);
-    margin: 0 auto;
-    color: var(--color-border);
-}
-
-.concept-graph__cluster-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: var(--space-3);
 }
 
 .concept-graph__chain {
@@ -2777,6 +2748,179 @@ h3[tabindex="-1"]:focus-visible {
 
 .concept-graph__fallback-list ul {
     margin: var(--space-1) 0 0;
+}
+
+/* Mind Map — a real spatial tree (visual benchmark correction pass), not a card grid. Root is the
+   single visually-dominant anchor; primary/secondary branches are native <details>/<summary>
+   (MindMapBranch.razor), collapsed by default — overview first, detail on demand, no WASM needed
+   for the expand/collapse itself. Depth is expressed through size/weight/indentation, never color
+   alone. Connector lines are a classic CSS-only "elbow" technique (border + border-radius on the
+   children <ul>/<li>) instead of SVG paths — deliberately: SVG coordinates would need JavaScript to
+   stay correct whenever a <details> opens/closes and its siblings reflow; the CSS technique can't
+   go stale because it comes from the same box model as the boxes it connects, and still reads as a
+   genuinely curved (not right-angle) branch, matching the reference benchmark's spatial-hierarchy
+   and curved-branch qualities without copying its colors/typography/exact geometry. */
+.mindmap-tree {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.mindmap-root {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    padding: var(--space-4) var(--space-5);
+    border: 2px solid var(--accent-primary-border);
+    border-radius: var(--radius-md);
+    background: var(--accent-primary-surface);
+    color: var(--accent-primary);
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-align: center;
+}
+
+.mindmap-branch__children {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* The top-level list (root's direct children) needs no trunk/elbow — it already sits directly
+   under the visually-dominant root. Every deeper level gets the connector treatment. */
+.mindmap-branch__children:not(.mindmap-branch__children--top) {
+    margin-left: 0.75rem;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--color-border);
+}
+
+.mindmap-branch__children:not(.mindmap-branch__children--top) > li {
+    position: relative;
+    padding-top: var(--space-3);
+}
+
+.mindmap-branch__children:not(.mindmap-branch__children--top) > li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -1.25rem;
+    width: 1.25rem;
+    height: 1.7rem;
+    border-left: 2px solid var(--color-border);
+    border-bottom: 2px solid var(--color-border);
+    border-bottom-left-radius: 12px;
+}
+
+/* Masks the parent trunk line below the last child's own elbow, so it doesn't visually run past
+   where the branching actually stops. */
+.mindmap-branch__children:not(.mindmap-branch__children--top) > li:last-child::after {
+    content: "";
+    position: absolute;
+    top: 1.7rem;
+    bottom: 0;
+    left: -1.27rem;
+    width: 3px;
+    background: var(--color-surface);
+}
+
+.mindmap-branch__children--top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-top: var(--space-2);
+}
+
+.mindmap-node,
+.mindmap-branch__summary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: var(--color-info-bg);
+}
+
+.mindmap-node {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+}
+
+.mindmap-branch__summary {
+    cursor: pointer;
+    list-style: none;
+    width: fit-content;
+}
+
+.mindmap-branch__summary::-webkit-details-marker {
+    display: none;
+}
+
+.mindmap-branch__chevron {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(-45deg);
+    transition: transform 0.15s ease;
+}
+
+details[open] > .mindmap-branch__summary .mindmap-branch__chevron {
+    transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mindmap-branch__chevron {
+        transition: none;
+    }
+}
+
+.mindmap-branch__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+}
+
+/* Depth expressed through size/weight, not color alone — applied to whichever element carries the
+   visible label at that depth (leaf node or branch summary). */
+.mindmap-node--depth-1.mindmap-node,
+.mindmap-branch__summary.mindmap-node--depth-1 {
+    font-size: 1.02rem;
+    font-weight: 700;
+}
+
+.mindmap-node--depth-2.mindmap-node,
+.mindmap-branch__summary.mindmap-node--depth-2 {
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: var(--space-1) var(--space-3);
+}
+
+.mindmap-node--depth-3.mindmap-node,
+.mindmap-branch__summary.mindmap-node--depth-3 {
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: var(--space-1) var(--space-2);
+    border-width: 1px;
+}
+
+@media (max-width: 480px) {
+    .mindmap-branch__children:not(.mindmap-branch__children--top) {
+        margin-left: 0.5rem;
+        padding-left: 0.9rem;
+    }
+
+    .mindmap-branch__children:not(.mindmap-branch__children--top) > li::before {
+        width: 0.9rem;
+        left: -0.9rem;
+    }
+
+    .mindmap-branch__children:not(.mindmap-branch__children--top) > li:last-child::after {
+        left: -0.92rem;
+    }
 }
 
 /* Scenario Simulator — Interactive WebAssembly island (blueprint §9/§10). Level tabs

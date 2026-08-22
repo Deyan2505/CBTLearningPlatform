@@ -30,17 +30,35 @@ public sealed record GraphRenderModel(
 
 public static class MindMapAdapter
 {
-    /// <summary>Validates before mapping — a single-parent tree with a dangling ParentId reference is a
-    /// content-authoring mistake, not a valid Mind Map (COGNITIVE_LEARNING_ARCHITECTURE_v1.md §5).</summary>
+    /// <summary>Validates before mapping — a single-parent tree with a dangling ParentId reference, or a
+    /// parent cycle, is a content-authoring mistake, not a valid Mind Map
+    /// (COGNITIVE_LEARNING_ARCHITECTURE_v1.md §5). The cycle check matters now that MindMapBranch.razor
+    /// genuinely recurses to arbitrary depth — an undetected cycle would recurse forever at render time.</summary>
     public static GraphRenderModel ToRenderModel(MindMapModel model)
     {
-        var ids = model.Nodes.Select(n => n.Id).ToHashSet();
+        var byId = model.Nodes.ToDictionary(n => n.Id);
 
         foreach (var node in model.Nodes)
         {
-            if (node.ParentId is not null && !ids.Contains(node.ParentId))
+            if (node.ParentId is not null && !byId.ContainsKey(node.ParentId))
             {
                 throw new InvalidOperationException($"MindMapNode '{node.Id}' references a ParentId '{node.ParentId}' that does not exist in the model.");
+            }
+        }
+
+        foreach (var node in model.Nodes)
+        {
+            var visited = new HashSet<string> { node.Id };
+            var current = node;
+
+            while (current.ParentId is not null)
+            {
+                if (!visited.Add(current.ParentId))
+                {
+                    throw new InvalidOperationException($"MindMapNode '{node.Id}' sits on a parent cycle through '{current.ParentId}'.");
+                }
+
+                current = byId[current.ParentId];
             }
         }
 
