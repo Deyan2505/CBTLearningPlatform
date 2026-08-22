@@ -289,7 +289,7 @@ public sealed class Week6CognitiveMapTests
         Assert.Contains("@supports not (container-type: inline-size)", css);
 
         int containerRuleStart = css.IndexOf("@container (min-width: 700px)", StringComparison.Ordinal);
-        int containerRuleRegionEnd = Math.Min(containerRuleStart + 1500, css.Length);
+        int containerRuleRegionEnd = Math.Min(containerRuleStart + 2500, css.Length);
         string containerRuleBody = css[containerRuleStart..containerRuleRegionEnd];
 
         Assert.Contains(".mindmap-tree", containerRuleBody);
@@ -307,6 +307,64 @@ public sealed class Week6CognitiveMapTests
         Assert.DoesNotContain("concept-graph__node-definition", source);
         Assert.DoesNotContain("Виж секцията", source);
         Assert.DoesNotContain("ShortDefinition", source);
+    }
+
+    [Fact]
+    public void MindMap_NavigationAffordancesAreSecondaryUntilInteraction()
+    {
+        // Owner polish pass 3 (§9-§10): the concept label reads first; the link chrome (persistent
+        // underline, full opacity) only appears on hover/focus — never removed entirely, so
+        // keyboard/focus users can still always tell a node is navigable (§10, §18).
+        string css = ReadCss();
+
+        Assert.Contains(".mindmap-branch__goto {", css);
+        Assert.Contains("text-decoration: none;", css);
+        Assert.Contains(".mindmap-branch__goto:hover,\n.mindmap-branch__goto:focus-visible {", css);
+        Assert.Contains("a.mindmap-node:hover .concept-graph__node-label,\na.mindmap-node:focus-visible .concept-graph__node-label {", css);
+    }
+
+    [Fact]
+    public void MindMap_PrimaryBranchesHaveDistinctSurface_FromChildConcepts()
+    {
+        // §7: one consistent, calm surface/border treatment for the whole depth-1 tier (Цели/
+        // Начало/Среда/Край/Гъвкавост) — not a different color per branch — so a primary branch
+        // reads as its own territory before a learner looks at its children.
+        string css = ReadCss();
+
+        int depth1Start = css.IndexOf(".mindmap-node--depth-1.mindmap-node,", StringComparison.Ordinal);
+        int depth1End = css.IndexOf(".mindmap-node--depth-2.mindmap-node,", StringComparison.Ordinal);
+        string depth1Rule = css[depth1Start..depth1End];
+
+        Assert.Contains("border-width: 2px;", depth1Rule);
+        Assert.Contains("background: var(--color-surface);", depth1Rule);
+    }
+
+    [Fact]
+    public void MindMap_TopLevelTrunkIsThinnerThanEachBranchsOwnElbow()
+    {
+        // §4/§6: the shared root->branches trunk is deliberately de-emphasized (thin, quiet guide),
+        // while each branch's own curved connector is bolder — so branches read as radiating their
+        // own line from root, not as entries pinned to one dominant vertical rail.
+        string css = ReadCss();
+
+        Assert.Contains("border-left: 1px solid var(--color-border);", css); // the trunk
+        Assert.Contains("border-bottom-left-radius: 24px;", css); // each branch's own, gentler elbow
+    }
+
+    [Fact]
+    public void Week6Page_GoalsClusterRemainsALeaf_SourceFidelityDocumented()
+    {
+        // §11 of the polish pass: the source states "six goals" but only ever enumerates them as
+        // one continuous, semicolon-separated sentence (one clause bundles multiple sub-aims) — not
+        // as six independently-labeled concepts. Splitting it into 6 child nodes would require
+        // inventing short labels the approved text never gives them, so "Цели на сесията" stays
+        // Option A (a leaf), not Option B (a branch) — documented here as a regression guard.
+        string source = ReadPage("Sedmica6.razor");
+
+        int goalsNodeIndex = source.IndexOf("new(\"goals\",", StringComparison.Ordinal);
+        Assert.True(goalsNodeIndex >= 0, "The 'goals' MindMap node should still exist.");
+
+        Assert.DoesNotContain(", \"goals\",", source); // no node declares ParentId == "goals"
     }
 
     private static int CountOccurrences(string source, string needle)

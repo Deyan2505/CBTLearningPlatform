@@ -2879,21 +2879,52 @@ details[open] > .mindmap-branch__summary .mindmap-branch__chevron {
     }
 }
 
-/* Distinct from the toggle — its own small, muted control, not a repeated full-sentence CTA. */
+/* Distinct from the toggle — its own small, muted control, not a repeated full-sentence CTA.
+   Navigation-as-secondary (owner polish pass 3, §9-§10): no persistent underline, reduced opacity by
+   default — the concept label reads first, the link affordance surfaces on hover/focus, never
+   hidden entirely (keyboard/focus users always see it). */
 .mindmap-branch__goto {
     flex-shrink: 0;
     margin-left: auto;
     padding-left: var(--space-2);
     color: var(--color-text-secondary);
     font-weight: 700;
+    font-size: 0.85em;
+    text-decoration: none;
+    opacity: 0.6;
 }
 
-/* Depth expressed through size/weight, not color alone — applied to whichever element carries the
-   visible label at that depth (leaf node or branch summary). */
+.mindmap-branch__goto:hover,
+.mindmap-branch__goto:focus-visible {
+    text-decoration: underline;
+    opacity: 1;
+}
+
+/* Leaf nodes with an anchor are themselves the link — same "secondary until interacted with"
+   treatment, so the label (not the link chrome) is what a learner reads first. */
+a.mindmap-node {
+    text-decoration: none;
+    color: inherit;
+}
+
+a.mindmap-node:hover .concept-graph__node-label,
+a.mindmap-node:focus-visible .concept-graph__node-label {
+    text-decoration: underline;
+}
+
+/* Depth expressed through size/weight/surface, not color alone — applied to whichever element
+   carries the visible label at that depth (leaf node or branch summary). Depth-1 (primary branches:
+   Цели/Начало/Среда/Край/Гъвкавост) gets a calmer, more substantial surface than the info-bg "chip"
+   look shared by deeper concept nodes — one consistent treatment for the whole tier, not a
+   different color per branch — so each primary branch reads as its own cognitive territory before
+   a learner even looks at its children (owner polish pass 3, §7). */
 .mindmap-node--depth-1.mindmap-node,
 .mindmap-branch__summary.mindmap-node--depth-1 {
     font-size: 1.02rem;
     font-weight: 700;
+    padding: var(--space-3) var(--space-4);
+    border-width: 2px;
+    background: var(--color-surface);
 }
 
 .mindmap-node--depth-2.mindmap-node,
@@ -2943,13 +2974,18 @@ details[open] > .mindmap-branch__summary .mindmap-branch__chevron {
         gap: 1.5rem;
     }
 
+    /* Owner polish pass 3 (§4/§6): the shared trunk is deliberately thin and quiet — it's just a
+       guide, not the dominant line — while each branch's own elbow below is bold and gently curved,
+       so every primary branch reads as radiating its own line from the root, not as an entry pinned
+       to one rigid rail. Bigger gap between branch rows gives each its own territory (§12/§14). */
     .mindmap-tree > .mindmap-branch__children--top {
         flex: 1 1 auto;
         padding-top: 0;
         position: relative;
         margin-left: 0.75rem;
-        padding-left: 1.5rem;
-        border-left: 2px solid var(--color-border);
+        padding-left: 1.75rem;
+        border-left: 1px solid var(--color-border);
+        gap: var(--space-5);
     }
 
     .mindmap-tree > .mindmap-branch__children--top > li {
@@ -2961,20 +2997,20 @@ details[open] > .mindmap-branch__summary .mindmap-branch__chevron {
         content: "";
         position: absolute;
         top: 0;
-        left: -1.5rem;
-        width: 1.5rem;
-        height: 1.7rem;
-        border-left: 2px solid var(--color-border);
-        border-bottom: 2px solid var(--color-border);
-        border-bottom-left-radius: 14px;
+        left: -1.75rem;
+        width: 1.75rem;
+        height: 2rem;
+        border-left: 3px solid var(--color-border);
+        border-bottom: 3px solid var(--color-border);
+        border-bottom-left-radius: 24px;
     }
 
     .mindmap-tree > .mindmap-branch__children--top > li:last-child::after {
         content: "";
         position: absolute;
-        top: 1.7rem;
+        top: 2rem;
         bottom: 0;
-        left: -1.52rem;
+        left: -1.76rem;
         width: 3px;
         background: var(--color-surface);
     }
