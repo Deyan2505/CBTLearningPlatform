@@ -72,7 +72,39 @@
 7. Промените са описани в handoff доклад и в `10_SESSION_LOG.md`.
 8. Няма съзнателно скрит недовършен проблем.
 
-## Deep Learning Week — Definition of Done v2 (Сесия 39, 2026-08-14)
+## Deep Learning Week — Definition of Done v3 (Сесия 42, 2026-08-22)
+
+Заменя v2's точка 8 ("минимум 3 истински графични учебни визуализации") с две gates, одобрени в
+`00_PROJECT_OS/_blueprints/COGNITIVE_LEARNING_ARCHITECTURE_v1.md` v1.1 §16/§17/§18. Точки 1–7 и
+9–22 от v2 остават непроменени (виж следващия раздел). Точка 8 вече е:
+
+**8а. Cognitive Representation Coverage** — заменя механичното броене с преценка:
+1. Всеки major knowledge cluster е изрично оценен за най-подходящата представяне — документирано
+   решение, не подразбирано.
+2. Ключовите отношения (не йерархия) имат Concept Map поддръжка.
+3. Ключовата йерархия има Mind Map поддръжка — Preview + Review състояние на една и съща структура.
+4. Последователните процеси са Process Diagrams.
+5. Условната логика е Decision Tree.
+6. Major разграничения имат Comparison Matrix.
+7. Memory Anchor се използва само когато има ясна mnemonic function — без задължителен минимум
+   или максимум (0, 1 или 2 могат да бъдат напълно правилни).
+8. Визуалите остават source-grounded.
+9. Нула декоративен визуален шум — всеки визуал проследим до конкретна учебна функция.
+10. Accessibility fallback присъства за всеки graph/tree/network визуал, генериран от **същите**
+    данни като визуала (не втора, ръчно поддържана версия).
+
+**8б. Retrieval Practice Coverage** — нов gate: всеки major knowledge cluster е оценен за подходящ
+retrieval method (attempt-before-reveal / reconstruct / label-blank-map / ordering /
+explain-before-reveal). Не е нужно всеки cluster да има собствено упражнение, но решението трябва
+да е съзнателно, документирано (одитна таблица Cluster×Recognition/Retrieval/Application/Reasoning).
+Retrieval не трябва системно да е нула през целия модул. `<details>`/`<summary>` сам по себе си
+**не** се брои за retrieval, освен ако не предхожда изрична recall/reconstruct/predict/explain
+подкана — само reveal на готово обяснение е recognition/explanation, не retrieval.
+
+Първо приложение: Седмица 6 reference implementation (Сесия 42) — виж
+`10_SESSION_LOG.md` за пълния одит.
+
+## Deep Learning Week — Definition of Done v2 (Сесия 39, 2026-08-14, ИСТОРИЧЕСКИ — заменена от v3 по-горе)
 
 Собственически одобрен нов стандарт (`WEEK6_v2_DEEP_LEARNING_BLUEPRINT.md` v1.1 §13/§20/§23),
 допълва — не заменя — общия Definition of Done по-горе, специфично за седмиците от

@@ -100,6 +100,14 @@
             последователно; 6.8–6.9 предлагат практика върху него; 6.11 е финалната сериозна проверка.
             Материалът е достатъчно обемен за 2–3 отделни сесии на учене през седмицата, не наведнъж.
         </p>
+
+        <h3>Мисловна карта на седмицата — преглед</h3>
+        <p>
+            Nodes-овете по-долу са <strong>знаниевите клъстери</strong> на седмицата, не номерата на
+            секциите — секцийните линкове са само навигация към мястото, където всеки клъстер се
+            обяснява, не самото знание.
+        </p>
+        <ConceptGraph ComponentId="week6-mindmap-preview" Model="@_week6MindMapRender" />
     </LearningSection>
 
     <LearningSection Role="theory" RoleLabel="Теория">
@@ -335,7 +343,11 @@
 
     <LearningSection Role="theory" RoleLabel="Понятия">
         <h2 id="poniatiya" tabindex="-1">6.3 · Ключови понятия</h2>
-        <p>11 термина от главата — всеки с дефиниция, обяснение на достъпен език и пример. Разгънете, за да видите пълното обяснение (флашкарта в текстов вид).</p>
+        <p>
+            11 термина от главата — всеки с дефиниция, обяснение на достъпен език и пример.
+            <strong>Retrieval practice:</strong> преди да разгънеш всяка карта, опитай да обясниш термина
+            със свои думи — чак тогава разгъни, за да сравниш с пълното обяснение (флашкарта в текстов вид).
+        </p>
         <div class="learning-grid learning-grid--balanced">
             <div class="card">
                 <details class="progressive-explanation"><summary>Задаване на дневния ред</summary>
@@ -463,13 +475,7 @@
             през ума ти точно сега?") или да отдели част от сесията за директно психообразование.
         </p>
 
-        <ol class="concept-map__flow" aria-label="Пример: обяд с колеги">
-            <li class="concept-map__node">Ситуация: на обяд със съученици</li>
-            <li class="concept-map__connector" aria-hidden="true">↓</li>
-            <li class="concept-map__node">Автоматична мисъл: „Те са много по-умни от мен. Вероятно ще се проваля в курса.“</li>
-            <li class="concept-map__connector" aria-hidden="true">↓</li>
-            <li class="concept-map__node concept-map__node--highlight">Реакция: тъга</li>
-        </ol>
+        <ConceptGraph ComponentId="week6-concept-map" Model="@_week6ConceptMapRender" />
         <p>
             Терапевтът затвърждава разбирането с втори пример от същата среща — пациентката вижда усмихната
             жена в чакалнята, помисля "тя не е като мен, никога повече няма да бъда така" и отново се
@@ -686,6 +692,10 @@
                         <p><strong>Б.</strong> Точно този тип въпрос превръща неясна цел в конкретно, поведенчески измеримо описание — терапевтът не приема неясната формулировка "както е" (грешка А) и не пита обвинително "защо" (грешка В).</p>
                     </div>
                 </details>
+
+                <p><strong>Case Conceptualization Map</strong> — само вече показаните в тази седмица елементи, не пълна история:</p>
+                <ConceptGraph ComponentId="irina-case-map" Model="@_irinaCaseMapRender" />
+
                 <p class="concept-map__feedback">Ирина е одобрен pilot longitudinal case — може да се появи отново в бъдещи седмици, само където реално пасва на съдържанието.</p>
             </div>
 
@@ -767,6 +777,38 @@
     <LearningSection Role="academic" RoleLabel="Изводи">
         <h2 id="review-map" tabindex="-1">6.12 · Карта за повторение</h2>
 
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Преди да разгънеш картата, опитай да си спомниш кои са основните знаниеви клъстери на
+                    седмицата и как се свързват — чак тогава разгъни, за да сравниш.
+                </p>
+                <ConceptGraph ComponentId="week6-mindmap-review" Model="@_week6MindMapRender" />
+            </div>
+        </details>
+
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Retrieval practice: подреди без да гледаш назад</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Подредете тези четири стъпки от <strong>началото</strong> на първата сесия в правилния
+                    ред, преди да разгънете отговора: <em>Обсъди диагнозата</em> · <em>Задай дневния ред</em>
+                    · <em>Получи актуализация</em> · <em>Провери настроението</em>.
+                </p>
+                <details>
+                    <summary>Покажи верния ред</summary>
+                    <ol>
+                        <li>Задай дневния ред</li>
+                        <li>Провери настроението</li>
+                        <li>Получи актуализация</li>
+                        <li>Обсъди диагнозата</li>
+                    </ol>
+                    <p><a href="/kurs/sedmica-6#struktura">Виж пълната 10-степенна структура в 6.1 →</a></p>
+                </details>
+            </div>
+        </details>
+
         <div class="learning-grid learning-grid--balanced">
             <div>
                 <h3>Какво да запомните</h3>
@@ -820,6 +862,56 @@
 
 @code {
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 6);
+
+    // Cognitive Learning Architecture v1.1 reference implementation (Phases 1-3): semantic models
+    // built once, adapted to the domain-ignorant ConceptGraph renderer. Preview and Review reuse the
+    // SAME _week6MindMapRender instance — two states of one knowledge structure, not two maps.
+    private static readonly GraphRenderModel _week6MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek6MindMap());
+    private static readonly GraphRenderModel _week6ConceptMapRender = ConceptMapAdapter.ToRenderModel(BuildWeek6ConceptMap(), CourseCatalog.Weeks);
+    private static readonly GraphRenderModel _irinaCaseMapRender = CaseConceptualizationAdapter.ToRenderModel(
+        CaseCatalog.Irina, CaseCatalog.IrinaObservations.Single(o => o.WeekNumber == 6));
+
+    private static MindMapModel BuildWeek6MindMap() => new(
+        "Седмица 6 — знаниеви клъстери",
+        "Мисловна карта на структурата на първата терапевтична сесия, групирана по клъстери от знание, не по номер на секция.",
+        [
+            new("root", "Седмица 6: Структура на първата сесия", null, null, null, ConceptState.Introduced),
+            new("goals", "Цели на първата сесия", "root", "Шестте цели, постигани от структурата.", "/kurs/sedmica-6#struktura", ConceptState.Introduced),
+            new("agenda", "Задаване на дневния ред", "root", "Първата от 10-те стъпки.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
+            new("mood-check", "Проверка на настроението", "root", "Устен разказ + стандартизирани въпросници.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
+            new("update", "Придобиване на актуализация", "root", "Нови събития от последната среща — вкл. позитивни.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
+            new("diagnosis", "Дискусия за диагнозата", "root", "Нежаргонно описание, психообразование.", "/kurs/sedmica-6#nachalo", ConceptState.Introduced),
+            new("deviation", "Критерии за отклонение от структурата", "root", "Три легитимни основания.", "/kurs/sedmica-6#deep-dive", ConceptState.Introduced),
+            new("problems-goals", "От проблеми към цели", "root", "Неясни описания → 2–3 конкретни проблема.", "/kurs/sedmica-6#beck-praktika", ConceptState.Introduced),
+            new("cognitive-model", "Обучение за когнитивния модел", "root", "Ситуация→Мисъл→Реакция, преподадена на пациента.", "/kurs/sedmica-6#beck-praktika",
+                ConceptStateResolver.Derive(3, [6], CourseCatalog.Weeks)),
+            new("homework", "Домашна работа", "root", "Списък със задачи, реалистично оценени по време.", "/kurs/sedmica-6#kray", ConceptState.Introduced),
+            new("feedback", "Обратна връзка", "root", "Доклад за терапия — проверка на алианса.", "/kurs/sedmica-6#kray", ConceptState.Introduced)
+        ]);
+
+    private static ConceptMapModel BuildWeek6ConceptMap()
+    {
+        IReadOnlyList<int> revisitedBySix = [6];
+
+        return new(
+            "Ситуация → Мисъл → Реакция (пример: обяд с колеги)",
+            "Как терапевтът улавя когнитивния модел в реално време от спонтанен пример на пациента.",
+            [
+                new("situation", "Ситуация", "Обяд със съученици.", 3, revisitedBySix, null),
+                new("thought", "Автоматична мисъл", "„Те са много по-умни от мен. Вероятно ще се проваля в курса.“", 3, revisitedBySix, null),
+                new("emotion", "Емоция", "Тъга.", 3, revisitedBySix, null),
+                new("body", "Телесна реакция", "Разгърнато в пълния модел на Седмица 8 — не част от този конкретен пример.", 8, [], "/kurs/sedmica-8#karta-na-temata", IsCrossReference: true),
+                new("behavior", "Поведение", "Разгърнато в пълния модел на Седмица 8 — не част от този конкретен пример.", 8, [], "/kurs/sedmica-8#karta-na-temata", IsCrossReference: true),
+                new("beliefs", "Междинни и основни вярвания", "По-дълбоките нива на когнитивния модел.", 3, [11, 12], "/kurs/sedmica-3", IsCrossReference: true)
+            ],
+            [
+                new("situation", "thought", RelationType.LeadsTo, "поражда"),
+                new("thought", "emotion", RelationType.LeadsTo, "поражда"),
+                new("emotion", "body", RelationType.Precedes, "продължава в пълния модел на"),
+                new("body", "behavior", RelationType.LeadsTo, "влияе върху"),
+                new("thought", "beliefs", RelationType.Precedes, "задълбочено в")
+            ]);
+    }
 
     private readonly IReadOnlyList<string> _objectives =
     [

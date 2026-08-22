@@ -1,0 +1,165 @@
+@* Domain-ignorant rendering engine (COGNITIVE_LEARNING_ARCHITECTURE_v1.md §9) — knows nothing about
+   automatic thoughts, core beliefs, Ирина, or Week 6. It only reads GraphRenderNode/GraphRenderEdge,
+   produced by MindMapAdapter/ConceptMapAdapter/CaseConceptualizationAdapter. Static SSR by default — no
+   @rendermode here, so it inherits whatever the host page uses (owner decision: Static SSR default,
+   COGNITIVE_LEARNING_ARCHITECTURE_v1.md §21). The visual canvas and the <details> text fallback below both
+   read the SAME Model.Nodes/Model.Edges in the same render pass — there is no second, hand-authored copy of
+   the content that could drift out of sync (§13/§19). *@
+@namespace CbtLearningPlatform.Components.Shared
+@using CbtLearningPlatform.Curriculum
+
+<section class="concept-graph concept-graph--@ModeClass" aria-labelledby="@_titleId">
+    <h4 id="@_titleId" class="concept-graph__title">@Model.Title</h4>
+    @if (!string.IsNullOrWhiteSpace(Model.ScreenReaderSummary))
+    {
+        <p class="concept-graph__summary">@Model.ScreenReaderSummary</p>
+    }
+
+    @if (Model.Mode == ConceptGraphMode.MindMap)
+    {
+        var root = Model.Nodes.FirstOrDefault(n => n.ParentId is null);
+        var children = Model.Nodes.Where(n => n.ParentId is not null).ToList();
+
+        <div class="concept-graph__canvas concept-graph__canvas--mindmap">
+            @if (root is not null)
+            {
+                <div class="concept-graph__root">@root.Label</div>
+                <svg class="concept-graph__root-connector" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+                    <path d="M50 0 V20" fill="none" stroke="currentColor" stroke-width="2" />
+                </svg>
+            }
+            <div class="concept-graph__cluster-grid">
+                @foreach (var node in children)
+                {
+                    <div class="concept-graph__node concept-graph__node--@StateClass(node.DisplayState)">
+                        <span class="concept-graph__node-label">@node.Label</span>
+                        @if (!string.IsNullOrWhiteSpace(node.ShortDefinition))
+                        {
+                            <span class="concept-graph__node-definition">@node.ShortDefinition</span>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(node.Anchor))
+                        {
+                            <a class="concept-graph__node-link" href="@node.Anchor">Виж секцията →</a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        var primary = Model.Nodes.Where(n => !n.IsCrossReference).ToList();
+        var crossRefs = Model.Nodes.Where(n => n.IsCrossReference).ToList();
+
+        <ol class="concept-graph__chain">
+            @for (var i = 0; i < primary.Count; i++)
+            {
+                var node = primary[i];
+                <li class="concept-graph__chain-node">
+                    <div class="concept-graph__node concept-graph__node--@StateClass(node.DisplayState)">
+                        <span class="concept-graph__node-label">@node.Label</span>
+                        @if (!string.IsNullOrWhiteSpace(node.ShortDefinition))
+                        {
+                            <span class="concept-graph__node-definition">@node.ShortDefinition</span>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(node.Anchor))
+                        {
+                            <a class="concept-graph__node-link" href="@node.Anchor">Виж секцията →</a>
+                        }
+                    </div>
+                </li>
+                @if (i < primary.Count - 1)
+                {
+                    var edge = Model.Edges.FirstOrDefault(e => e.FromId == node.Id && e.ToId == primary[i + 1].Id);
+                    <li class="concept-graph__chain-connector">
+                        <span class="concept-graph__chain-arrow" aria-hidden="true">↓</span>
+                        @if (!string.IsNullOrWhiteSpace(edge?.Label))
+                        {
+                            <span class="concept-graph__chain-edge-label">@edge!.Label</span>
+                        }
+                    </li>
+                }
+            }
+        </ol>
+
+        @if (crossRefs.Count > 0)
+        {
+            <div class="concept-graph__cross-refs">
+                <p class="concept-graph__cross-refs-label">Свързано, разгърнато другаде:</p>
+                <ul>
+                    @foreach (var node in crossRefs)
+                    {
+                        var edge = Model.Edges.FirstOrDefault(e => e.ToId == node.Id);
+                        <li>
+                            @if (!string.IsNullOrWhiteSpace(edge?.Label))
+                            {
+                                <span class="concept-graph__edge-label">@edge!.Label</span>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(node.Anchor))
+                            {
+                                <a href="@node.Anchor">@node.Label</a>
+                            }
+                            else
+                            {
+                                <strong>@node.Label</strong>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(node.ShortDefinition))
+                            {
+                                <span class="concept-graph__node-definition"> — @node.ShortDefinition</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    }
+
+    <details class="concept-graph__fallback">
+        <summary>Текстово описание на картата</summary>
+        <ul class="concept-graph__fallback-list">
+            @foreach (var node in Model.Nodes)
+            {
+                var outgoing = Model.Edges.Where(e => e.FromId == node.Id).ToList();
+                <li>
+                    <strong>@node.Label</strong>@(!string.IsNullOrWhiteSpace(node.ShortDefinition) ? $" — {node.ShortDefinition}" : "")
+                    @if (outgoing.Count > 0)
+                    {
+                        <ul>
+                            @foreach (var edge in outgoing)
+                            {
+                                var target = Model.Nodes.FirstOrDefault(n => n.Id == edge.ToId);
+                                <li>@(edge.Label ?? "свързано с") → @(target?.Label ?? edge.ToId)</li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        </ul>
+    </details>
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public GraphRenderModel Model { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public string ComponentId { get; set; } = default!;
+
+    private string _titleId => $"{ComponentId}-title";
+
+    private string ModeClass => Model.Mode switch
+    {
+        ConceptGraphMode.MindMap => "mindmap",
+        ConceptGraphMode.ConceptMap => "conceptmap",
+        ConceptGraphMode.CaseMap => "casemap",
+        _ => "mindmap"
+    };
+
+    private static string StateClass(ConceptState? state) => state switch
+    {
+        ConceptState.Upcoming => "upcoming",
+        ConceptState.Revisited => "revisited",
+        ConceptState.Introduced => "introduced",
+        _ => "instance"
+    };
+}

@@ -119,7 +119,7 @@ public sealed class Week6ContentSliceTests
         Assert.Contains("<SourceReferences", source);
         Assert.Contains("<OptionalReadingSource", source);
         Assert.Contains("class=\"guided-practice-sequence\"", source);
-        Assert.Contains("class=\"concept-map__flow\"", source);
+        Assert.Contains("<ConceptGraph", source);
     }
 
     [Fact]

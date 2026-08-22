@@ -18,7 +18,83 @@
 
 ## Текуща стъпка
 
-`WEEK 6 v2 — DEEP LEARNING REBUILD — IMPLEMENTED, AWAITING OWNER LEARNING REVIEW` (Сесия 39,
+`WEEK 6 COGNITIVE REFERENCE IMPLEMENTATION — AWAITING OWNER REVIEW` /
+`PROJECT-WIDE COGNITIVE ARCHITECTURE — REFERENCE VALIDATION IN PROGRESS` (Сесия 42, 2026-08-22).
+Owner-authorized implementation на `COGNITIVE_LEARNING_ARCHITECTURE_v1.md` v1.1, строго Phases 1–3
+(semantic models, `ConceptGraph` rendering engine, Седмица 6 reference implementation) — **без**
+глобалната `/kurs/karta`, **без** Course Map/Knowledge Map, **без** retrofit на други седмици,
+**без** Седмица 7. Нови файлове: `Curriculum/ConceptGraphModels.cs` (MindMap/ConceptMap domain
+модели + `ConceptState`/`ConceptStateResolver`), `Curriculum/CaseConceptualizationModels.cs`
+(`CaseCatalog` с Ирина, само Week-6-потвърдени полета), `Curriculum/ConceptGraphAdapters.cs`
+(domain → чисто презентационен `GraphRenderModel`, adapter слой), `Components/Shared/ConceptGraph.razor`
+(domain-ignorant renderer, Static SSR по подразбиране, MindMap/ConceptMap/CaseMap режими,
+accessible fallback генериран от същите данни като визуала). Седмица 6: Weekly Mind Map
+Preview (6.0) + Review (6.12) — **един и същ** `_week6MindMapRender`, Review гейтнат зад
+attempt-before-reveal `<details>`; Concept Map в 6.5 надградена от плоска 3-node верига до
+ConceptGraph с реални cross-links към вече съществуващия пълен модел на Седмица 8 и вярванията на
+Седмица 3 (нищо ново измислено); Case Conceptualization Map за Ирина в 6.8 (само Situation/
+Behavior/InterventionLink — единствените Week-6-потвърдени полета); 2 retrieval-practice добавки
+(explain-before-reveal при терминологията, reconstruct-the-order при Review Map, чист SSR/
+`<details>`, не extracted WASM widget). Deep Learning DoD v2 → **v3** приложен в
+`06_QA_STRATEGY.md` (механичното "минимум 3 визуализации" заменено с Cognitive Representation
+Coverage + нов Retrieval Practice Coverage gate). **458/458 теста** (430 baseline + 28 нови), build
+0/0 (0 warnings), 8/8 routes `200` на прясна инстанция (`/`, `/kpt`, `/kurs`, Седмици 1/3/6/8/10),
+structural HTML QA потвърди коректно рендериране на всичките 4 ConceptGraph инстанции — **structural
+visual QA only**, собственически визуален/learning review остава задължителен преди Phase 4.
+Некомитнато в момента на писане — предстои единствен implementation commit, изолиран от все още
+некомитнатата Седмица 12. Пълни детайли в `10_SESSION_LOG.md` (Сесия 42).
+
+Предходен checkpoint — `PROJECT-WIDE COGNITIVE LEARNING ARCHITECTURE v1.1 — REVISION PASS COMPLETE, READY FOR
+IMPLEMENTATION PROMPT: YES` (Сесия 41, 2026-08-21). Собственикът прегледа v1 (Сесия 40) —
+`APPROVED IN PRINCIPLE — REVISION REQUIRED BEFORE IMPLEMENTATION`. Фундаментална корекция: **Course
+structure ≠ Knowledge structure** — v1's единствена "Global CBT Master Mind Map" (седмица-като-node)
+разделена на **Course Map** (навигационна: Modules→Weeks, работи директно с вече съществуващите
+`CourseWeekDefinition`/`CourseModule`) и **CBT Knowledge Map** (концептуална: concepts→relationships,
+седмица/модул стават метаданни върху concept node, не равностоен node). `ConceptGraph.razor`
+потвърден като rendering engine, но НЕ като единствен семантичен модел — три отделни domain модела
+(`MindMapModel`/`ConceptMapModel`/`CaseConceptualizationModel`) захранват renderer-а през adapter
+слой. Weekly Mind Map коригиран — nodes са knowledge clusters/concepts (agenda/mood-check/diagnosis
+discussion), не визуален Table of Contents от секции; Preview/Review вече са две състояния на една
+структура, не два модела. Curriculum-state semantics преименувани (`Locked`/`Available`/`Reinforced`
+→ `Upcoming`/`Introduced`/`Revisited`) — платформата няма persistent learner-progress engine и не
+намеква, че има. Retrieval Practice издигнат в самостоятелна architecture секция, с нова
+Recognition/Retrieval/Application/Reasoning таксономия, илюстрирана с реален (не измислен) coverage
+одит на Седмица 6 (retrieval систематично отсъства в теоретичните секции 6.2/6.3/6.5, но не е нула
+цялостно благодарение на симулатора). DoD v3 вече с ДВЕ gates (Cognitive Representation Coverage +
+нов Retrieval Practice Coverage), механичните количества премахнати (memory anchor "maximum ~1"
+заменено с "само при ясна mnemonic function"). Owner decisions затворени: `/kurs/karta` permanent
+navigation; Static SSR default + progressive WASM; build order Phase 1–7 (Week 6 reference преди
+global rollout, Week 7 остава frozen); retroactive metadata само след Week 6 reference approval,
+source-confirmed. Blueprint актуализиран на място:
+`00_PROJECT_OS/_blueprints/COGNITIVE_LEARNING_ARCHITECTURE_v1.md` (v1.1). Никакъв `.razor`/CSS/тест/
+`CourseCatalog.cs` файл не е пипан; Week 6 v2, Week 7, Week 12 остават точно както бяха; няма commit.
+
+Предходен checkpoint — `PROJECT-WIDE COGNITIVE LEARNING ARCHITECTURE v1 — ARCHITECTURE PROPOSAL, AWAITING OWNER REVIEW`
+(Сесия 40, 2026-08-21). Owner review на Week 6 v2 установи фундаментален проблем — платформата е
+систематично text-first въпреки Deep Learning DoD v2's "минимум 3 визуализации" правило; проблемът е
+project-wide, не Week-6-специфичен. Собственикът изрично забрани Visual Enhancement само за Week 6,
+начало на Седмица 7, и всякаква implementation в тази сесия — само architecture/specification.
+Пълен диагностичен прочит на `Sedmica6.razor` (928 реда), `CourseCatalog.cs`, CSS pattern inventory
+(120 съвпадения concept-map/category-compare/decision-branch/guided-practice-sequence и др.), целия
+Interactive component каталог, плюс `06_QA_STRATEGY.md`/`18_INFORMATION_ARCHITECTURE.md`/
+`21_CONTENT_AND_DATA_MODEL.md`/`24_IMPLEMENTATION_ROADMAP.md`/`20_TECHNOLOGY_DECISION.md`/
+`09_BACKLOG.md`. Находка: дефицитът не е брой визуали (Седмица 6 v2 вече изпълнява DoD-а формално) —
+той е (а) липса на един generic, преизползваем graph-rendering компонент (шест bespoke Interactive
+компонента съществуват, нула споделена "map" абстракция), и (б) липса на course-level ниво над
+отделната седмица, на което mind map/concept map/case map да живеят. Написан пълен 25-секционен
+blueprint: `00_PROJECT_OS/_blueprints/COGNITIVE_LEARNING_ARCHITECTURE_v1.md` — Master Mind Map
+architecture, Weekly Mind Map standard, Concept Map system (архитектурно разграничен от Mind Map —
+tree срещу graph layout), Visual Representation Taxonomy, Memory Anchor/Process/Decision/Comparison
+system, Guided Discovery/Retrieval Practice/Cumulative Review архитектура, Longitudinal Case system
+(Ирина) + Case Conceptualization Map, Component architecture proposal (1 нов generic `ConceptGraph`
+компонент + 2 малки metadata catalog-а + разширение на `.decision-branch`/`.concept-map__flow` —
+изрично **без** нова JS graph библиотека), Week 6 gap analysis (не приложена — отделен бъдещ
+prompt), Deep Learning DoD v3 proposal (заменя само механичното "минимум 3 визуализации" правило с
+Cognitive Representation Coverage checklist), Project OS impact карта, implementation sequence, и
+отворени собственически решения. `READY FOR OWNER REVIEW: YES`. Никакъв `.razor`/CSS/тест/
+`CourseCatalog.cs` файл не е пипан; Week 6 v2 и Week 12 остават точно както бяха; няма git commit.
+
+Предходен checkpoint — `WEEK 6 v2 — DEEP LEARNING REBUILD — IMPLEMENTED, AWAITING OWNER LEARNING REVIEW` (Сесия 39,
 2026-08-14). **Собственикът обяви фундаментална промяна на посоката** (Сесия 38) — замразеният
 curriculum build order е поставен на PAUSE: досегашните седмици (6/8/10/12) са преценени като
 прекалено кратки/повърхностни за реалната цел на платформата (дълбоко, систематично, source-faithful
@@ -93,6 +169,27 @@ U08/U22 включени по owner-approved `OBSERVATIONAL SAFETY BOUNDARY` д�
 - **Следваща стъпка** — собственически learning review на Седмица 6 v2. Не Седмица 7, не Седмица 12 продължение, не redesign на друга седмица.
 
 ## Последна завършена задача
+
+Week 6 Cognitive Reference Implementation — Phases 1-3 (Сесия 42, 2026-08-22): семантични модели
+(MindMap/ConceptMap/CaseConceptualization) + domain-ignorant `ConceptGraph` renderer + Седмица 6
+reference use cases (Preview/Review Mind Map, надградена Concept Map с реални cross-links, Ирина
+Case Map, 2 retrieval-practice добавки). DoD v2→v3. 458/458 теста, build 0/0. `AWAITING OWNER
+REVIEW` — не `COMPLETE`. Некомитнато. Пълни детайли в `10_SESSION_LOG.md` (Сесия 42).
+
+Project-Wide Cognitive Learning Architecture v1.1 — Revision Pass (Сесия 41, 2026-08-21):
+собственическа ревизия на v1 приложена изцяло — Course Map/Knowledge Map разделени, три domain
+модела заменят генеричния Node/Edge риск, Weekly Mind Map коригиран (concepts, не section TOC),
+curriculum-state semantics преименувани, Retrieval Practice издигнат в самостоятелна архитектура с
+нова 4-категорийна таксономия, DoD v3 с две gates, всички собственически решения затворени.
+`READY FOR IMPLEMENTATION PROMPT: YES`. Никакъв код пипнат, няма commit. Пълни детайли в
+`10_SESSION_LOG.md` (Сесия 41).
+
+Project-Wide Cognitive Learning Architecture v1 (Сесия 40, 2026-08-21): собственически поискана
+architecture-only задача след Week 6 v2 owner review — платформата е диагностицирана като
+систематично text-first, не Week-6-специфичен проблем. Пълен 25-секционен blueprint написан
+(`00_PROJECT_OS/_blueprints/COGNITIVE_LEARNING_ARCHITECTURE_v1.md`), изведен от директен прочит на
+реалния код, не от примерна таксономия. `READY FOR OWNER REVIEW: YES`. Никакъв код/CSS/тест пипнат,
+Week 6 v2 и Week 12 недокоснати, няма commit. Пълни детайли в `10_SESSION_LOG.md` (Сесия 40).
 
 Week 6 v2 Deep Learning Rebuild — Implementation (Сесия 39, 2026-08-14): пълен rebuild на Седмица 6
 по owner-approved blueprint v1.1 — 14 секции, 47/47 knowledge units, нов multi-level branching
@@ -192,14 +289,17 @@ Final Layout Defect Correction (Сесия 23, 2026-08-04): собственик
 
 ## Следваща препоръчана задача
 
-Собственически learning review на Седмица 6 v2 (`/kurs/sedmica-6`, локален URL в handoff-а на Сесия
-39) — потвърждение, че модулът реално учи, преди тя да бъде маркирана `COMPLETE` и commit-ната.
-Замразеният curriculum build order (Седмица 12 некомитната, Седмица 7 следваща) остава на PAUSE до
-това решение. Deployment остава извън обхват до отделна бъдеща фаза. `KEEP RAZOR FOR MVP` остава в сила.
+Собственически visual + learning review на Седмицата 6 cognitive reference implementation
+(`/kurs/sedmica-6`) — Phase 4 gate преди Phase 5 (global Course Map + CBT Knowledge Map на
+`/kurs/karta`). Успоредно, все още чака: собственически learning review на самото Week 6 v2
+съдържание (по-ранния, все още отворен review от Сесия 39). Замразеният curriculum build order
+(Седмица 12 некомитната, Седмица 7 следваща) остава на PAUSE до и двата review-та. Не се строи
+`/kurs/karta`, не се прави retrofit на други седмици, не се започва Week 7 без ново извикване.
+Deployment остава извън обхват. `KEEP RAZOR FOR MVP` в сила.
 
 ## Последна актуализация
 
-2026-08-14 — Сесии 38–39, Deep Learning pivot + Week 6 v2 Implementation.
+2026-08-22 — Сесия 42, Week 6 Cognitive Reference Implementation (Phases 1-3).
 
 ## Общ приблизителен прогрес
 

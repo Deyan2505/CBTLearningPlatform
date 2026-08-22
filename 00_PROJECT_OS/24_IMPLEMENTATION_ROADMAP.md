@@ -667,3 +667,53 @@ Deep Learning Week DoD v2, `06_QA_STRATEGY.md`, owner learning review is the fin
 automatic even with green tests/build/coverage). Uncommitted, isolated from the still-pending,
 still-uncommitted Week 12 diff. **Не започвай Week 12, Week 7, или redesign на друга седмица** —
 awaiting owner review of this module first.
+
+### Cognitive Learning Architecture — Reference Implementation, Phases 1-3 (Сесия 42, 2026-08-22)
+
+- **Повод:** owner-authorized implementation of `00_PROJECT_OS/_blueprints/COGNITIVE_LEARNING_ARCHITECTURE_v1.md`
+  v1.1 (`READY FOR IMPLEMENTATION PROMPT: YES`) — Phases 1-3 only (semantic models/contracts,
+  `ConceptGraph` rendering engine, Week 6 reference implementation), followed by an owner review
+  gate before Phase 4 (global Course Map / CBT Knowledge Map on `/kurs/karta`) begins.
+- **Phase 1 — Semantic models:** `Curriculum/ConceptGraphModels.cs` (`MindMapNode`/`MindMapModel`,
+  `ConceptNode`/`ConceptRelation`/`ConceptMapModel`, `ConceptState` enum + `ConceptStateResolver`
+  mirroring `CurriculumLabels.DeriveStatus()`), `Curriculum/CaseConceptualizationModels.cs`
+  (`CaseCharacter`/`CaseObservation`/`CaseConceptualizationModel` + `CaseCatalog` holding Ирина's
+  single Week 6 observation — no invented future history).
+- **Phase 2 — Rendering engine:** `Curriculum/ConceptGraphAdapters.cs` (`GraphRenderNode`/
+  `GraphRenderEdge`/`GraphRenderModel`, `MindMapAdapter`/`ConceptMapAdapter`/
+  `CaseConceptualizationAdapter` — domain models never reach the renderer directly) +
+  `Components/Shared/ConceptGraph.razor` (Static SSR, no `@rendermode`; MindMap/ConceptMap/CaseMap
+  modes; accessible `<details>` fallback generated from the same `Model.Nodes`/`Model.Edges` the
+  visual canvas reads, per architecture §13/§19). New `.concept-graph` CSS block in `app.css`,
+  reusing the `.decision-branch` SVG-connector technique and the `.concept-map__flow` vertical-chain
+  technique — no new graph library.
+- **Phase 3 — Week 6 reference implementation:** Weekly Mind Map (Preview in 6.0, Review in 6.12 —
+  both bind the *same* `_week6MindMapRender` instance, gated by an attempt-before-reveal `<details>`
+  for Review); Concept Map in 6.5 upgraded from a flat 3-node `.concept-map__flow` chain to a
+  ConceptGraph instance with real cross-links (Телесна реакция/Поведение → Седмица 8's already-built
+  full model; Междинни/основни вярвания → Седмица 3) — nothing invented, only pointers to curriculum
+  that already exists; Case Conceptualization Map for Ирина in 6.8 (only `Situation`/`Behavior`/
+  `InterventionLink` populated — the only fields Week 6's own text actually establishes for her);
+  two retrieval-practice additions (explain-before-reveal prompt on the 11-term flashcard grid;
+  attempt-before-reveal reconstruct-the-order widget in 6.12, SSR-only via nested `<details>`, not
+  an extracted WASM widget — Static SSR stays the default per owner decision, architecture §21/§28).
+- **Tests:** new `ConceptGraphModelTests.cs` (14 facts — resolver logic, adapter validity, dangling-
+  parent guard, Case Map progressive-disclosure guarantee, Ирина no-invented-history guard) + new
+  `Week6CognitiveMapTests.cs` (14 facts — Preview/Review share one model, concept-map cross-links,
+  Ирина case map, retrieval-opportunity presence, ConceptGraph accessibility contract) +
+  `Week6ContentSliceTests.cs` updated (1 assertion: `.concept-map__flow` → `<ConceptGraph`, since
+  the old flat chain was merged into the new component, not left duplicated). **458/458 passing**
+  (430 baseline + 28 net new). Build 0/0, 0 warnings. Fresh-instance smoke: `/`, `/kpt`, `/kurs`,
+  `/kurs/sedmica-1`, `/kurs/sedmica-3`, `/kurs/sedmica-8`, `/kurs/sedmica-10`, `/kurs/sedmica-6` all
+  `200`. Structural HTML inspection (no browser/screenshot tool in this environment) confirmed all
+  4 ConceptGraph instances render with correct, unique ids, correct node/edge content, and no bare
+  fragment anchors — **structural visual QA only**, owner must confirm the real visual/learning
+  quality.
+- **Status:** `WEEK 6 COGNITIVE REFERENCE IMPLEMENTATION — AWAITING OWNER REVIEW`. Project-wide
+  architecture status: `REFERENCE VALIDATION IN PROGRESS` — Phase 4 (owner visual + learning
+  review) is the gate before Phase 5 (global Course Map / CBT Knowledge Map) begins. **Explicitly
+  not built in this step:** `/kurs/karta`, global Course Map, global CBT Knowledge Map, retrofit of
+  Weeks 1/3/8/10/12, Week 7. Deep Learning DoD v2 → v3 applied in `06_QA_STRATEGY.md` (mechanical
+  "minimum 3 visuals" replaced by Cognitive Representation Coverage + new Retrieval Practice
+  Coverage gates). Uncommitted at write time — pending the single implementation commit described
+  in `10_SESSION_LOG.md` (Сесия 42), isolated from the still-pending, still-uncommitted Week 12 diff.
