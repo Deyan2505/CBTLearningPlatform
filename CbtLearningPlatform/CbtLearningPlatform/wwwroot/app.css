@@ -2750,16 +2750,21 @@ h3[tabindex="-1"]:focus-visible {
     margin: var(--space-1) 0 0;
 }
 
-/* Mind Map — a real spatial tree (visual benchmark correction pass), not a card grid. Root is the
-   single visually-dominant anchor; primary/secondary branches are native <details>/<summary>
-   (MindMapBranch.razor), collapsed by default — overview first, detail on demand, no WASM needed
-   for the expand/collapse itself. Depth is expressed through size/weight/indentation, never color
-   alone. Connector lines are a classic CSS-only "elbow" technique (border + border-radius on the
-   children <ul>/<li>) instead of SVG paths — deliberately: SVG coordinates would need JavaScript to
-   stay correct whenever a <details> opens/closes and its siblings reflow; the CSS technique can't
-   go stale because it comes from the same box model as the boxes it connects, and still reads as a
-   genuinely curved (not right-angle) branch, matching the reference benchmark's spatial-hierarchy
-   and curved-branch qualities without copying its colors/typography/exact geometry. */
+/* Mind Map — a real spatial tree (owner visual correction, pass 2), not a card grid and not just an
+   outline. SAME markup, SAME MindMapModel, two responsive representations, no duplicated data:
+   narrow containers get the vertical outline tree (kept from pass 1 — accessibility/mobile
+   default); wide containers (@container, matching the .guided-practice-sequence convention) reflow
+   the identical <details>/<ul> structure into left-to-right spatial branching, root on the left,
+   primary branches fanning right, their children fanning further right — by switching flex-direction
+   from column to row, nothing else. Depth is expressed through size/weight/padding, never color
+   alone. Connectors stay the CSS-only "elbow" technique (border + border-radius) at every width —
+   deliberately not SVG: SVG coordinates would need JavaScript to recompute whenever a <details>
+   opens/closes and siblings shift, while the CSS technique is derived from the live box model and
+   can't go stale, and the elbow shape reads as genuinely curved in either orientation. Nodes are
+   compact by design — label only, no inline sub-description (the linked section already carries the
+   fuller explanation); a leaf with an anchor IS its own link, unambiguous since it has nothing to
+   expand. A branch's <summary> toggles expand/collapse; its small .mindmap-branch__goto "→" is a
+   distinct, separately-styled navigation control. */
 .mindmap-tree {
     display: flex;
     flex-direction: column;
@@ -2784,11 +2789,16 @@ h3[tabindex="-1"]:focus-visible {
     list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
 }
 
-/* The top-level list (root's direct children) needs no trunk/elbow — it already sits directly
-   under the visually-dominant root. Every deeper level gets the connector treatment. */
+/* The top-level list (root's direct children) needs no trunk/elbow in narrow/vertical mode — it
+   already sits directly under the visually-dominant root. Every deeper level, and the top level
+   once wide mode turns root+branches into a row (below), gets the connector treatment. */
 .mindmap-branch__children:not(.mindmap-branch__children--top) {
+    position: relative;
     margin-left: 0.75rem;
     padding-left: 1.25rem;
     border-left: 2px solid var(--color-border);
@@ -2796,7 +2806,7 @@ h3[tabindex="-1"]:focus-visible {
 
 .mindmap-branch__children:not(.mindmap-branch__children--top) > li {
     position: relative;
-    padding-top: var(--space-3);
+    padding-top: var(--space-1);
 }
 
 .mindmap-branch__children:not(.mindmap-branch__children--top) > li::before {
@@ -2824,9 +2834,6 @@ h3[tabindex="-1"]:focus-visible {
 }
 
 .mindmap-branch__children--top {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
     padding-top: var(--space-2);
 }
 
@@ -2841,12 +2848,6 @@ h3[tabindex="-1"]:focus-visible {
     background: var(--color-info-bg);
 }
 
-.mindmap-node {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-1);
-}
-
 .mindmap-branch__summary {
     cursor: pointer;
     list-style: none;
@@ -2859,6 +2860,7 @@ h3[tabindex="-1"]:focus-visible {
 
 .mindmap-branch__chevron {
     display: inline-block;
+    flex-shrink: 0;
     width: 0.5rem;
     height: 0.5rem;
     border-right: 2px solid currentColor;
@@ -2877,11 +2879,13 @@ details[open] > .mindmap-branch__summary .mindmap-branch__chevron {
     }
 }
 
-.mindmap-branch__body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    margin-top: var(--space-2);
+/* Distinct from the toggle — its own small, muted control, not a repeated full-sentence CTA. */
+.mindmap-branch__goto {
+    flex-shrink: 0;
+    margin-left: auto;
+    padding-left: var(--space-2);
+    color: var(--color-text-secondary);
+    font-weight: 700;
 }
 
 /* Depth expressed through size/weight, not color alone — applied to whichever element carries the
@@ -2920,6 +2924,148 @@ details[open] > .mindmap-branch__summary .mindmap-branch__chevron {
 
     .mindmap-branch__children:not(.mindmap-branch__children--top) > li:last-child::after {
         left: -0.92rem;
+    }
+}
+
+/* --- Wide containers: left-to-right spatial branching. Same rules whether reached via native
+   container query or the @supports fallback (matches the .guided-practice-sequence convention
+   already established on this project). Root becomes the leftmost, vertically-centered anchor;
+   .mindmap-branch (a <details>) becomes a flex row so its children-<ul> sits to the right of its
+   <summary> instead of below it — recursively, so depth grows left-to-right, not top-to-bottom.
+   The trunk+elbow connector technique is unchanged, just now bridging a row instead of a column;
+   the top level (root → primary branches) gets the same treatment here, since root is no longer
+   directly above the list. */
+@container (min-width: 700px) {
+    .mindmap-tree {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .mindmap-tree > .mindmap-branch__children--top {
+        flex: 1 1 auto;
+        padding-top: 0;
+        position: relative;
+        margin-left: 0.75rem;
+        padding-left: 1.5rem;
+        border-left: 2px solid var(--color-border);
+    }
+
+    .mindmap-tree > .mindmap-branch__children--top > li {
+        position: relative;
+        padding-top: 0;
+    }
+
+    .mindmap-tree > .mindmap-branch__children--top > li::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -1.5rem;
+        width: 1.5rem;
+        height: 1.7rem;
+        border-left: 2px solid var(--color-border);
+        border-bottom: 2px solid var(--color-border);
+        border-bottom-left-radius: 14px;
+    }
+
+    .mindmap-tree > .mindmap-branch__children--top > li:last-child::after {
+        content: "";
+        position: absolute;
+        top: 1.7rem;
+        bottom: 0;
+        left: -1.52rem;
+        width: 3px;
+        background: var(--color-surface);
+    }
+
+    .mindmap-branch {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .mindmap-branch__children:not(.mindmap-branch__children--top) {
+        margin-left: 0;
+        padding-left: 1.5rem;
+    }
+
+    .mindmap-branch__children:not(.mindmap-branch__children--top) > li::before {
+        left: -1.5rem;
+        width: 1.5rem;
+    }
+
+    .mindmap-branch__children:not(.mindmap-branch__children--top) > li:last-child::after {
+        left: -1.52rem;
+    }
+}
+
+@supports not (container-type: inline-size) {
+    @media (min-width: 700px) {
+        .mindmap-tree {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .mindmap-tree > .mindmap-branch__children--top {
+            flex: 1 1 auto;
+            padding-top: 0;
+            position: relative;
+            margin-left: 0.75rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--color-border);
+        }
+
+        .mindmap-tree > .mindmap-branch__children--top > li {
+            position: relative;
+            padding-top: 0;
+        }
+
+        .mindmap-tree > .mindmap-branch__children--top > li::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -1.5rem;
+            width: 1.5rem;
+            height: 1.7rem;
+            border-left: 2px solid var(--color-border);
+            border-bottom: 2px solid var(--color-border);
+            border-bottom-left-radius: 14px;
+        }
+
+        .mindmap-tree > .mindmap-branch__children--top > li:last-child::after {
+            content: "";
+            position: absolute;
+            top: 1.7rem;
+            bottom: 0;
+            left: -1.52rem;
+            width: 3px;
+            background: var(--color-surface);
+        }
+
+        .mindmap-branch {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .mindmap-branch__children:not(.mindmap-branch__children--top) {
+            margin-left: 0;
+            padding-left: 1.5rem;
+        }
+
+        .mindmap-branch__children:not(.mindmap-branch__children--top) > li::before {
+            left: -1.5rem;
+            width: 1.5rem;
+        }
+
+        .mindmap-branch__children:not(.mindmap-branch__children--top) > li:last-child::after {
+            left: -1.52rem;
+        }
     }
 }
 

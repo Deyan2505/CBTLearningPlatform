@@ -18,7 +18,28 @@
 
 ## Текуща стъпка
 
-`MIND MAP VISUAL STANDARD — IMPLEMENTED, AWAITING OWNER VISUAL APPROVAL` (Сесия 43, 2026-08-22).
+`DESKTOP SPATIAL MIND MAP — IMPLEMENTED, OWNER PIXEL REVIEW REQUIRED` (Сесия 44, 2026-08-22). Owner
+pixel-review на Сесия 43 потвърди: резултатът е "GOOD HIERARCHICAL OUTLINE TREE", но не "FINISHED
+SPATIAL MIND MAP" — всички primary branches вертикално един под друг, child nodes indented list,
+геометрията не кодира spatial hierarchy, node-овете приличат на content cards, "Виж секцията →"
+дублирано визуално навсякъде. Коригирано **без нов компонент, без WASM, без дублирани данни**: **същата**
+`MindMapBranch.razor` markup вече рефлоу-ва респонсивно през чист CSS — тесни контейнери (mobile,
+непроменено) остават vertical outline tree; широки контейнери (`@container (min-width: 700px)` плюс `@supports` fallback, точно като
+`.guided-practice-sequence`-ия прецедент) превключват `<details>`
+от block (summary над body) на `flex-direction:row` (summary | children-column вдясно) — root вляво,
+primary branches central column, secondary concepts дясна колона, чрез рекурсивно същия механизъм
+(root→branches идентичен на branch→children). Curved elbow connector техниката (border+border-radius)
+остава непроменена геометрично, само gap-ът между summary/children е направен равен на elbow-ото
+хоризонтално разстояние (`1.5rem`), за да прилепва визуално без нужда от допълнителен bridge елемент.
+Node-овете вече са компактни — премахнат `ShortDefinition` inline текст и повтарящото се "Виж
+секцията →" изречение; заменени с малка, отделна `.mindmap-branch__goto` "→" връзка (branch) или
+целият leaf node като линк (leaf) — toggle (label+chevron) и navigate (goto/leaf link) остават
+различими controls. **472/472 теста** (470 + 2 нови — desktop spatial CSS hook, compact-node
+guard). Build 0/0. ConceptMap/CaseMap потвърдено непокътнати. 8/8 routes `200`. **Structural QA
+only** — технически статус изрично `IMPLEMENTED — OWNER PIXEL REVIEW REQUIRED`, не "visual pass".
+Некомитнато — предстои единствен commit, изолиран от Седмица 12.
+
+Предходен checkpoint — `MIND MAP VISUAL STANDARD — IMPLEMENTED, AWAITING OWNER VISUAL APPROVAL` (Сесия 43, 2026-08-22).
 Owner visual review на Сесия 42 откри конкретен проблем: MindMap семантиката беше правилна, но
 визуалното представяне (responsive card grid) не отговаряше на "истинска mind map" — приложен
 reference screenshot като cognitive/visual benchmark (не за копиране 1:1). Коригирано: MindMap
@@ -193,6 +214,14 @@ U08/U22 включени по owner-approved `OBSERVATIONAL SAFETY BOUNDARY` д�
 
 ## Последна завършена задача
 
+Desktop Spatial Mind Map — Correction Pass 2 (Сесия 44, 2026-08-22): същата `MindMapBranch.razor`
+markup вече рефлоу-ва през `@container`/`@supports` CSS в истинска left-to-right spatial branching
+на широки контейнери (root ляво, primary branches средна колона, secondary concepts дясна колона),
+запазвайки vertical outline tree на mobile — нула нови компоненти, нула WASM, нула дублирани данни.
+Node-овете компактни (label + малка отделна `→` navigate връзка, вместо повтарящо се "Виж
+секцията →" изречение и inline definition текст). 472/472 теста, build 0/0. `OWNER PIXEL REVIEW
+REQUIRED`. Некомитнато. Детайли в `10_SESSION_LOG.md` (Сесия 44).
+
 Mind Map Visual Standard — Correction Pass (Сесия 43, 2026-08-22): MindMap режимът на
 `ConceptGraph.razor` пренаписан от responsive card grid на истинско пространствено дърво
 (`MindMapBranch.razor`, рекурсивен, native `<details>` disclosure, CSS elbow connectors, depth чрез
@@ -319,17 +348,17 @@ Final Layout Defect Correction (Сесия 23, 2026-08-04): собственик
 
 ## Следваща препоръчана задача
 
-Собственически pixel-level visual преглед на `/kurs/sedmica-6` MindMap-а (Сесия 43 correction) —
-потвърждение, че дървото реално чете като mind map, не само структурно коректно е. Успоредно, все
-още чакат: Phase 4 review на цялата Седмица 6 cognitive reference implementation (Сесия 42) и
-по-ранният learning review на самото Week 6 v2 съдържание (Сесия 39). Замразеният curriculum build
-order (Седмица 12 некомитната, Седмица 7 следваща) остава на PAUSE до всичките. Не се строи
-`/kurs/karta`, не се прави retrofit, не се започва Week 7. Deployment извън обхват. `KEEP RAZOR FOR
-MVP` в сила.
+Собственически pixel-level visual преглед на desktop widescreen render-а на `/kurs/sedmica-6`
+MindMap-а (Сесия 44) — потвърждение, че на широк екран картата реално се възприема пространствено
+(root→branches→concepts), не само структурно вярна е. Успоредно, все още чакат: Phase 4 review на
+цялата Седмица 6 cognitive reference implementation (Сесия 42) и по-ранният learning review на
+самото Week 6 v2 съдържание (Сесия 39). Замразеният curriculum build order остава на PAUSE до
+всичките. Не се строи `/kurs/karta`, не се прави retrofit, не се започва Week 7. Deployment извън
+обхват. `KEEP RAZOR FOR MVP` в сила.
 
 ## Последна актуализация
 
-2026-08-22 — Сесия 43, Mind Map Visual Standard — Correction Pass.
+2026-08-22 — Сесия 44, Desktop Spatial Mind Map — Correction Pass 2.
 
 ## Общ приблизителен прогрес
 

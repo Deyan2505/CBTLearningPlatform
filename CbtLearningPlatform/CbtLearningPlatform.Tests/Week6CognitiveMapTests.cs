@@ -110,18 +110,27 @@ public sealed class Week6CognitiveMapTests
     [Fact]
     public void MindMapBranchComponent_SeparatesToggleFromNavigation()
     {
-        // Clicking the branch label toggles expand/collapse (native <summary> behavior); navigating
-        // to the actual section is a separate, explicit link inside the revealed body — never the
-        // same clickable target, avoiding the ambiguity the owner flagged (§27).
+        // Visual correction pass 2 (§9-§12): the label+chevron toggle expand/collapse; the compact
+        // "→" goto affordance is a distinct, separately-classed control (.mindmap-branch__goto),
+        // not merged into the label itself — clicking it still navigates correctly even though it
+        // sits inside <summary>, since the browser is about to leave the page regardless of the
+        // incidental toggle. A leaf node (nothing to expand) is unambiguous: the whole node IS the
+        // link, with no separate toggle to confuse it with.
         string source = ReadPublicMarkup("MindMapBranch.razor");
 
         int summaryStart = source.IndexOf("<summary", StringComparison.Ordinal);
         int summaryEnd = source.IndexOf("</summary>", StringComparison.Ordinal);
         string summaryBlock = source[summaryStart..summaryEnd];
-        string afterSummary = source[summaryEnd..];
 
-        Assert.DoesNotContain("<a ", summaryBlock);
-        Assert.Contains("concept-graph__node-link", afterSummary);
+        Assert.Contains("mindmap-branch__chevron", summaryBlock);
+        Assert.Contains("concept-graph__node-label", summaryBlock);
+        Assert.Contains("mindmap-branch__goto", summaryBlock);
+
+        int labelIndex = summaryBlock.IndexOf("concept-graph__node-label", StringComparison.Ordinal);
+        int gotoIndex = summaryBlock.IndexOf("mindmap-branch__goto", StringComparison.Ordinal);
+        Assert.True(labelIndex < gotoIndex, "The goto link must be a distinct element after the label, not merged into it.");
+
+        Assert.Contains("<a class=\"mindmap-node", source); // leaf-with-anchor: the whole node is the link
     }
 
     [Fact]
@@ -266,6 +275,40 @@ public sealed class Week6CognitiveMapTests
         Assert.Contains("concept-graph__chain", source); // shared ConceptMap/CaseMap rendering path
     }
 
+    [Fact]
+    public void MindMap_HasDesktopSpatialLayout_DrivenByTheSameMarkup()
+    {
+        // Owner visual correction pass 2: a wide-container rule reflows the identical
+        // <details>/<ul> tree from a vertical outline into left-to-right spatial branching — same
+        // GraphRenderModel, same MindMapBranch markup, no second component/dataset (§3 of the
+        // correction). Container-query-first with a @supports fallback, matching the
+        // .guided-practice-sequence convention already established on this project.
+        string css = ReadCss();
+
+        Assert.Contains("@container (min-width: 700px)", css);
+        Assert.Contains("@supports not (container-type: inline-size)", css);
+
+        int containerRuleStart = css.IndexOf("@container (min-width: 700px)", StringComparison.Ordinal);
+        int containerRuleRegionEnd = Math.Min(containerRuleStart + 1500, css.Length);
+        string containerRuleBody = css[containerRuleStart..containerRuleRegionEnd];
+
+        Assert.Contains(".mindmap-tree", containerRuleBody);
+        Assert.Contains("flex-direction: row", containerRuleBody);
+        Assert.Contains(".mindmap-branch {", containerRuleBody);
+    }
+
+    [Fact]
+    public void MindMapNode_HasNoInlineSubDescription_CompactLabelOnly()
+    {
+        // §9-§11 of the correction pass: nodes are compact — label only, no repeated inline
+        // definition text or full-sentence "Виж секцията →" CTA duplicated in every node.
+        string source = ReadPublicMarkup("MindMapBranch.razor");
+
+        Assert.DoesNotContain("concept-graph__node-definition", source);
+        Assert.DoesNotContain("Виж секцията", source);
+        Assert.DoesNotContain("ShortDefinition", source);
+    }
+
     private static int CountOccurrences(string source, string needle)
     {
         int count = 0;
@@ -300,5 +343,11 @@ public sealed class Week6CognitiveMapTests
         string source = ReadComponent(fileName);
         int commentEnd = source.IndexOf("*@", StringComparison.Ordinal);
         return commentEnd >= 0 ? source[(commentEnd + 2)..] : source;
+    }
+
+    private static string ReadCss()
+    {
+        string wwwrootDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "wwwroot");
+        return File.ReadAllText(Path.Combine(wwwrootDirectory, "app.css"));
     }
 }

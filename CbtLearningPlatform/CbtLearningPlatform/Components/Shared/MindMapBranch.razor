@@ -1,60 +1,64 @@
-@* Recursive node renderer for ConceptGraph's MindMap mode — a real spatial tree, not a card grid.
-   Domain-ignorant, same contract as ConceptGraph.razor: only reads GraphRenderNode. A node with no
-   children renders as a plain leaf; a node with children renders as a native <details>/<summary>
-   branch (collapsed by default — overview first, detail on demand) containing a nested <ul> of
-   child MindMapBranch instances, recursing to arbitrary depth. Curved connector lines are pure CSS
-   (border + border-radius "elbow" on .mindmap-branch__children/li, see app.css) rather than SVG —
-   deliberately: an SVG path's coordinates would need JavaScript to recompute every time a <details>
-   element opens/closes and its siblings shift position, while the CSS technique is always correct
-   because it's derived from the live box model, with zero coordinate math, and still reads as a
-   genuinely curved (not right-angle) branch line. *@
+@* Recursive node renderer for ConceptGraph's MindMap mode — same GraphRenderNode data, two
+   responsive representations, no duplication (COGNITIVE_LEARNING_ARCHITECTURE_v1.md §8/§9, owner
+   visual correction pass 2). Narrow containers: a vertical outline tree (details/summary stacked,
+   children indented below — kept exactly as the prior pass, still the mobile/accessibility-first
+   representation). Wide containers (@container min-width, see app.css): the SAME markup reflows
+   into a left-to-right spatial branching layout — <details> becomes a flex row (summary | its
+   children-column), so children fan out to the right of their parent instead of stacking below it.
+   No JavaScript/WASM: the reflow is pure CSS, and the curved "elbow" connector technique (border +
+   border-radius, see app.css) doesn't care which direction the flex row runs, so it stays correct
+   at every width without recomputing coordinates.
+
+   Nodes are compact by design (§9 of the correction pass): label only, no inline sub-description —
+   the fuller explanation already lives in the linked section itself, not duplicated here. A leaf
+   node with an anchor is a single link (unambiguous — nothing to expand). A branch's <summary>
+   toggles expand/collapse; a separate small "→" affordance (.mindmap-branch__goto) is the actual
+   navigation control, distinguishable from the toggle even though both sit inside <summary> — a
+   click on the link still navigates correctly regardless of the incidental toggle, since the
+   browser is about to leave the page anyway. *@
 @namespace CbtLearningPlatform.Components.Shared
 @using CbtLearningPlatform.Curriculum
 
 @{
     var children = AllNodes.Where(n => n.ParentId == Node.Id).ToList();
     var depthClass = $"mindmap-node--depth-{Math.Min(Depth, 3)}";
+    var stateClass = $"concept-graph__node--{StateClass(Node.DisplayState)}";
 }
 
 @if (children.Count == 0)
 {
-    <div class="mindmap-node @depthClass mindmap-node--leaf concept-graph__node--@StateClass(Node.DisplayState)">
-        <span class="concept-graph__node-label">@Node.Label</span>
-        @if (!string.IsNullOrWhiteSpace(Node.ShortDefinition))
-        {
-            <span class="concept-graph__node-definition">@Node.ShortDefinition</span>
-        }
-        @if (!string.IsNullOrWhiteSpace(Node.Anchor))
-        {
-            <a class="concept-graph__node-link" href="@Node.Anchor">Виж секцията →</a>
-        }
-    </div>
+    if (!string.IsNullOrWhiteSpace(Node.Anchor))
+    {
+        <a class="mindmap-node @depthClass mindmap-node--leaf @stateClass" href="@Node.Anchor">
+            <span class="concept-graph__node-label">@Node.Label</span>
+        </a>
+    }
+    else
+    {
+        <div class="mindmap-node @depthClass mindmap-node--leaf @stateClass">
+            <span class="concept-graph__node-label">@Node.Label</span>
+        </div>
+    }
 }
 else
 {
     <details class="mindmap-branch">
-        <summary class="mindmap-branch__summary @depthClass concept-graph__node--@StateClass(Node.DisplayState)">
+        <summary class="mindmap-branch__summary @depthClass @stateClass">
             <span class="mindmap-branch__chevron" aria-hidden="true"></span>
             <span class="concept-graph__node-label">@Node.Label</span>
-        </summary>
-        <div class="mindmap-branch__body">
-            @if (!string.IsNullOrWhiteSpace(Node.ShortDefinition))
-            {
-                <span class="concept-graph__node-definition">@Node.ShortDefinition</span>
-            }
             @if (!string.IsNullOrWhiteSpace(Node.Anchor))
             {
-                <a class="concept-graph__node-link" href="@Node.Anchor">Виж секцията →</a>
+                <a class="mindmap-branch__goto" href="@Node.Anchor" aria-label="Отвори секция: @Node.Label">→</a>
             }
-            <ul class="mindmap-branch__children">
-                @foreach (var child in children)
-                {
-                    <li>
-                        <MindMapBranch Node="child" AllNodes="AllNodes" Depth="Depth + 1" />
-                    </li>
-                }
-            </ul>
-        </div>
+        </summary>
+        <ul class="mindmap-branch__children">
+            @foreach (var child in children)
+            {
+                <li>
+                    <MindMapBranch Node="child" AllNodes="AllNodes" Depth="Depth + 1" />
+                </li>
+            }
+        </ul>
     </details>
 }
 
