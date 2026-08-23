@@ -743,3 +743,37 @@ awaiting owner review of this module first.
   relationships/introduced-revisited metadata/cross-week links/anchors) — **not started**, requires
   a separate, new owner-authorized implementation task. Phase 6 (retrofit of routed weeks) and Phase
   7 (resume Week 7) remain frozen behind it, per the original Phase 1-7 sequence.
+
+### Phase 5 — Global Course + Knowledge Maps — IMPLEMENTED (Сесия 47, 2026-08-22)
+
+- **New route `/kurs/karta`**, two modes selected via `?mode=course` (default) / `?mode=knowledge`,
+  read with `[SupplyParameterFromQuery]` — a full server-rendered navigation between two real,
+  deep-linkable URLs, zero JS/WASM for the switch itself. Static SSR throughout.
+- **Course Map** (`Curriculum/CourseMapBuilder.cs`): derives its `MindMapModel` entirely from
+  `CourseCatalog.Modules`/`CourseCatalog.Weeks` at build time — no second, hand-maintained dataset.
+  Root ("15-седмичен курс") → 4 modules → 15 weeks; `ConceptState.Introduced` = has a real `Route`
+  (reachable), `ConceptState.Upcoming` = `Route == null` — curriculum reachability, never learner
+  progress. Cross-module prerequisite links are deliberately not drawn (Mind Map mode is a strict
+  single-parent tree; that concern belongs to the Knowledge Map instead).
+- **CBT Knowledge Map** (`Curriculum/KnowledgeMapCatalog.cs`): a small, honest `ConceptMapModel` — 10
+  concepts / 12 relations, every one verified against the actual, already-routed page content of
+  Weeks 3, 6, 8, 10 (real anchors: `#situacia-znachenie`, `#tri-niva`, `#karta-na-temata`,
+  `#poniatiya`, `#izsledvane`; Week 12 contributes only as a Revisited week for "Основно вярване",
+  never as an IntroducedWeek). Week 1 deliberately contributes no concept (purely historical/
+  narrative content). A real source-fidelity nuance surfaced during grounding: Week 3's own
+  "Ситуация→значение" chain uses "Автоматично значение" and a combined "Емоционална и телесна
+  реакция" — Emotion and Body reaction only become separately-named concepts in Week 8's diagram, so
+  their `IntroducedWeek` is correctly 8, not 3 (Week 6's own, separately-locked concept map is
+  unaffected — not retroactively "corrected").
+- **Zero changes to the locked Week 6 reference or to `ConceptGraph.razor`/`MindMapBranch.razor`** —
+  both maps reuse the existing renderer exactly as Week 6 left it. `Kurs.razor` gained one visible
+  link to `/kurs/karta` (§18 requirement); a Week 6 → `/kurs/karta` back-link was **not** added (§19
+  — would require touching the locked file), logged here as a future retrofit item instead.
+- **Tests:** new `GlobalMapsTests.cs` (19 facts — Course Map derivation/state/hierarchy validity,
+  Knowledge Map ID/endpoint/anchor/week-reference validity, route/page structural checks). **495/495
+  passing** (476 baseline + 19 new). Build 0/0. Fresh-instance smoke: 10/10 routes `200`, including
+  both `/kurs/karta` modes. Week 6 regression confirmed intact (identical root label, identical node
+  count). **Structural QA only** — no browser/screenshot tooling in this environment.
+- **Status:** `GLOBAL COURSE + KNOWLEDGE MAPS — IMPLEMENTED, AWAITING OWNER VISUAL + LEARNING
+  REVIEW`. Not committed at write time. Explicitly not done in this step: retrofit of Weeks
+  1/3/8/10/12 pages, Week 7, any change to Week 6, GAP-013 resolution, any new graph library.

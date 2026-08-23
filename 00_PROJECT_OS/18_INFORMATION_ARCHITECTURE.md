@@ -62,6 +62,14 @@
 │       `SocraticDialogueExplorer` (wholesale reuse на `.cbt-diagram`, 0 нови CSS класа). Останалата
 │       визуализация reuse-ва вече доказани static patterns (`.concept-map__flow`,
 │       `.concept-map__side-notes`, `.category-compare`) — 0 нови компонента за тях
+│       [Сесия 47, Cognitive Learning Architecture Phase 5] Нов route `/kurs/karta` — "Карти на
+│       курса и знанието", два режима избирани чрез `?mode=course` (по подразбиране) /
+│       `?mode=knowledge`, `[SupplyParameterFromQuery]`, нула JS/WASM. Course Map: root → 4 модула →
+│       15 седмици, изведени изцяло от `CourseCatalog` (`Curriculum/CourseMapBuilder.cs`). CBT
+│       Knowledge Map: 10 concepts/12 relations от вече routed Седмици 3/6/8/10
+│       (`Curriculum/KnowledgeMapCatalog.cs`). И двете reuse-ват изцяло непроменения LOCKED
+│       `ConceptGraph.razor`/`MindMapBranch.razor` (Mind Map режим за Course Map, Concept Map режим
+│       за Knowledge Map) — 0 нов rendering компонент. Видим линк от `/kurs` hub-а
 ├── Ресурсна библиотека (/resursi)
 │   ├── Статия (/resursi/{article-slug})
 │   └── (бъдещо, P2: История на КПТ — US-018b)

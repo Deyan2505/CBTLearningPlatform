@@ -18,7 +18,26 @@
 
 ## Текуща стъпка
 
-`WEEK 6 COGNITIVE REFERENCE IMPLEMENTATION — OWNER APPROVED` / `MIND MAP VISUAL STANDARD —
+`GLOBAL COURSE + KNOWLEDGE MAPS — IMPLEMENTED, AWAITING OWNER VISUAL + LEARNING REVIEW` (Сесия 47,
+2026-08-22). Phase 5 на `COGNITIVE_LEARNING_ARCHITECTURE_v1.md` — нов route `/kurs/karta`, два
+различни режима (`?mode=course` по подразбиране / `?mode=knowledge`), избирани чрез два реални
+server-rendered линка (`[SupplyParameterFromQuery]`, нула JS/WASM за самия switch). **Course Map:**
+root ("15-седмичен курс") → 4 модула → 15 седмици, изведени изцяло от `CourseCatalog` (нов
+`Curriculum/CourseMapBuilder.cs`, без втори hardcoded списък) — routed седмици = `Introduced`
+(достъпни), unrouted = `Upcoming` (приглушени, curriculum reachability, не learner progress).
+**CBT Knowledge Map:** нов `Curriculum/KnowledgeMapCatalog.cs` — 10 concepts / 12 relations,
+**всеки грундиран в реално прочетено съдържание** на вече routed страници (Седмици 3/6/8/10,
+верифицирани real anchors: `#situacia-znachenie`/`#tri-niva`/`#karta-na-temata`/`#poniatiya`/
+`#izsledvane`) — Седмица 1 съзнателно изключена (чисто наративно съдържание, няма преизползваем
+concept), Седмица 12 се появява само като `Revisited`, никога като `IntroducedWeek`. И двете карти
+преизползват **напълно непроменен** `ConceptGraph.razor`/`MindMapBranch.razor` (LOCKED Week 6
+standard) — нула нов rendering код, нула промяна по Week 6. **495/495 теста** (476 + 19 нови).
+Build 0/0. 10/10 routes `200` на прясна инстанция, включително двата `/kurs/karta` режима. Week 6
+regression потвърдена непокътната. **Structural QA only** — собственически visual review остава
+задължителен. Некомитнато — предстои единствен commit, изолиран от Седмица 12. GAP-013 не е
+адресиран (извън обхват). Седмица 7/12/retrofit — не са пипнати.
+
+Предходен checkpoint — `WEEK 6 COGNITIVE REFERENCE IMPLEMENTATION — OWNER APPROVED` / `MIND MAP VISUAL STANDARD —
 LOCKED` (Сесия 46, 2026-08-22, documentation closeout). Собственикът прегледа `/kurs/sedmica-6` в
 реален browser и одобри финално. **LOCKED като project-wide reference standard** (не се polish-ва
 повече без нова собственическа забележка): desktop spatial parent→child Mind Map; mobile vertical
@@ -259,6 +278,13 @@ U08/U22 включени по owner-approved `OBSERVATIONAL SAFETY BOUNDARY` д�
 
 ## Последна завършена задача
 
+Global Course + Knowledge Maps Implementation — Phase 5 (Сесия 47, 2026-08-22): нов `/kurs/karta`
+route с Course Map (изведена от `CourseCatalog`) и CBT Knowledge Map (нов, source-грундиран
+`KnowledgeMapCatalog.cs`, 10 concepts/12 relations от Седмици 3/6/8/10). Реюзва напълно непроменения
+LOCKED `ConceptGraph`/`MindMapBranch`. 495/495 теста, build 0/0. `AWAITING OWNER VISUAL + LEARNING
+REVIEW`. Week 6 недокоснат (regression потвърдена). Некомитнато. Детайли в `10_SESSION_LOG.md`
+(Сесия 47).
+
 Documentation Closeout — Week 6 Cognitive Reference Implementation Owner Approved (Сесия 46,
 2026-08-22): собственически финален browser review на `/kurs/sedmica-6` — одобрено. Mind Map Visual
 Standard **LOCKED** като project-wide reference (10-точков списък, виж "Текуща стъпка"). Project-wide
@@ -409,17 +435,18 @@ Final Layout Defect Correction (Сесия 23, 2026-08-04): собственик
 
 ## Следваща препоръчана задача
 
-**Отделна, нова задача (не в тази сесия):** `COURSE MAP + CBT KNOWLEDGE MAP IMPLEMENTATION` — Phase
-5 на `COGNITIVE_LEARNING_ARCHITECTURE_v1.md`, нов route `/kurs/karta`, два различни режима (Course
-Map / CBT Knowledge Map — виж "Текуща стъпка" по-горе за пълните обекти на всеки режим). Изисква
-отделно собственическо извикване. Замразеният curriculum build order (Седмица 12 некомитната,
-Седмица 7 следваща) остава на PAUSE до Phase 5 приключи или до отделно собственическо решение да се
-възобнови build order-а независимо. Не се пипа Седмица 6 reference implementation повече (LOCKED).
-Не се строи Седмица 7. Deployment извън обхват. `KEEP RAZOR FOR MVP` в сила.
+Собственически visual + learning review на `/kurs/karta` (и двата режима) — потвърждение, че Course
+Map реално отговаря на "къде съм в курса?" и Knowledge Map на "как са свързани знанията?", преди
+Phase 5 да се маркира `PASSED`. Успоредно, GAP-013 остава отворен (не адресиран тази сесия) за
+бъдещ source-fidelity pass. Замразеният curriculum build order (Седмица 12 некомитната, Седмица 7
+следваща) остава на PAUSE. Не се пипа Седмица 6 (LOCKED). Не се строи Седмица 7. Не се прави
+retrofit на Седмици 1/3/8/10/12 (изрично извън обхват на Phase 5 — те само предоставиха вече
+съществуващо съдържание за Knowledge Map-а, страниците им не са променени). Deployment извън обхват.
+`KEEP RAZOR FOR MVP` в сила.
 
 ## Последна актуализация
 
-2026-08-22 — Сесия 46, Documentation Closeout (Week 6 Cognitive Reference Implementation — Owner Approved).
+2026-08-22 — Сесия 47, Global Course + Knowledge Maps Implementation (Phase 5).
 
 ## Общ приблизителен прогрес
 

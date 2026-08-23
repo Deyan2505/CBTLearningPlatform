@@ -43,6 +43,28 @@
 
 **Изрично НЕ включва:** пълен lesson текст (остава в Razor страници, `KEEP RAZOR FOR MVP` непроменено), лични данни, clinical scoring, user progress, персонализирани препоръки. `Status` (публичен, 4-стойностен) винаги се извежда от `SafetyLevel` + `Route` чрез `CurriculumLabels.DeriveStatus()` — никога не се задава ръчно отделно, за да не се разсинхронизира с safety класификацията.
 
+## Добавка (2026-08-22, Сесии 42/47) — Cognitive Learning Architecture metadata модели
+
+Типизирани C# metadata модели за Mind Map / Concept Map / Case Map (`COGNITIVE_LEARNING_ARCHITECTURE_v1.md`,
+Phases 1-3 и 5) — както `CourseWeekDefinition` по-горе, малки, строго типизирани catalog-и в кода, не
+Markdown/JSON. **Тази добавка затваря документален пропуск от Сесия 42** (моделите съществуваха в
+кода от тогава, но не бяха записани тук — Сесия 42 изрично отложи IA/Content-Model актуализация до
+собственическо одобрение, което вече е налице, Сесия 46).
+
+| Модел | Файл | Предназначение | Ключови полета | Чувствителни данни? | Версиониране |
+|---|---|---|---|---|---|
+| **MindMapNode** / **MindMapModel** | `Curriculum/ConceptGraphModels.cs` | Single-parent hierarchy (Weekly Mind Map, Course Map) | Id, Label, ParentId, ShortDefinition, Anchor, State | Не | Git |
+| **ConceptNode** / **ConceptRelation** / **ConceptMapModel** | `Curriculum/ConceptGraphModels.cs` | Multi-parent network (Concept Map, CBT Knowledge Map) | Id, Label, Definition, IntroducedWeek, RevisitedWeeks, Anchor, IsCrossReference · FromId, ToId, RelationType, RelationLabel, Direction | Не | Git |
+| **ConceptState** (enum) + **ConceptStateResolver** | `Curriculum/ConceptGraphModels.cs` | Curriculum-lifecycle state — `Upcoming`/`Introduced`/`Revisited`, изведено от `CourseCatalog`, никога learner-progress | N/A (enum + чиста функция) | Не | Git |
+| **CaseCharacter** / **CaseObservation** / **CaseConceptualizationModel** | `Curriculum/CaseConceptualizationModels.cs` | Фиктивен longitudinal case (Ирина) — всяко поле опционално, progressive disclosure | Id, Name, Level · CaseId, WeekNumber, Situation/Thought/Emotion/Body/Behavior/Distortion/IntermediateBelief/CoreBelief/InterventionLink (всички nullable) | Не — фиктивен персонаж, без реални лични данни | Git |
+| **GraphRenderNode** / **GraphRenderEdge** / **GraphRenderModel** | `Curriculum/ConceptGraphAdapters.cs` | Чисто презентационен изход на adapter-ите — консумиран единствено от `ConceptGraph.razor` | Id, Label, ShortDefinition, Anchor, DisplayState, ParentId, IsCrossReference · FromId, ToId, Label, Direction | Не | Няма — регенериран при всеки render, не съхраняван |
+| **CourseMapBuilder.Build()** | `Curriculum/CourseMapBuilder.cs` | Чиста функция, извежда `MindMapModel` за `/kurs/karta` **изцяло от `CourseCatalog`** — не отделен модел/съхранение | N/A (връща `MindMapModel`) | Не | Git (извежда се, не се съхранява отделно) |
+| **KnowledgeMapCatalog.Build()** | `Curriculum/KnowledgeMapCatalog.cs` | Малък, source-грундиран `ConceptMapModel` за глобалната CBT Knowledge Map (10 concepts/12 relations от Седмици 3/6/8/10) | N/A (връща `ConceptMapModel`) | Не | Git |
+
+**Изрично НЕ включва:** learner progress, personal data, clinical scoring — same boundary as
+`CourseWeekDefinition`. `ConceptState` никога не се задава ръчно за learner-специфичен смисъл — винаги
+изведено от кои седмици реално са routed, огледало на `CurriculumLabels.DeriveStatus()`.
+
 ## Ключово архитектурно решение
 
 **ProgressRecord е единственият модел с потенциално чувствителни данни в MVP**, и той **никога не напуска браузъра на потребителя** (local storage, ADR-002). Няма сървърна база данни, следователно няма сървърно съхранени лични данни за изтичане или неправомерен достъп в MVP архитектурата.

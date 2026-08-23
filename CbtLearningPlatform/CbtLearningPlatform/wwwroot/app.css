@@ -3105,6 +3105,34 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
     }
 }
 
+/* Karta mode switch (/kurs/karta, Phase 5) — two plain, full server-navigation links, not a JS tab
+   widget: each mode is its own real, deep-linkable URL (?mode=course/knowledge), so a real <nav>
+   with aria-current is both simpler and more correct than a client-side toggle. */
+.karta-mode-switch {
+    display: flex;
+    gap: var(--space-4);
+    margin: var(--space-4) 0 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.karta-mode-switch a {
+    padding: var(--space-2) var(--space-1);
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    border-bottom: 2px solid transparent;
+    font-weight: 600;
+}
+
+.karta-mode-switch a[aria-current="page"] {
+    color: var(--accent-primary);
+    border-bottom-color: var(--accent-primary-border);
+}
+
+.karta-mode-switch a:hover,
+.karta-mode-switch a:focus-visible {
+    color: var(--color-text-primary);
+}
+
 /* Scenario Simulator — Interactive WebAssembly island (blueprint §9/§10). Level tabs
    are native buttons (not <select>), matching .cbt-diagram's step-select convention;
    each level's own sub-view reuses the same visual language (cards, aria-live
