@@ -18,7 +18,27 @@
 
 ## Текуща стъпка
 
-`MIND MAP FINAL VISUAL POLISH — IMPLEMENTED, OWNER PIXEL APPROVAL REQUIRED` (Сесия 45, 2026-08-22).
+`WEEK 6 COGNITIVE REFERENCE IMPLEMENTATION — OWNER APPROVED` / `MIND MAP VISUAL STANDARD —
+LOCKED` (Сесия 46, 2026-08-22, documentation closeout). Собственикът прегледа `/kurs/sedmica-6` в
+реален browser и одобри финално. **LOCKED като project-wide reference standard** (не се polish-ва
+повече без нова собственическа забележка): desktop spatial parent→child Mind Map; mobile vertical
+expandable tree; compact memory nodes; primary vs. secondary visual hierarchy; branch
+expand/collapse; navigation secondary спрямо learning representation; semantic-model-driven
+rendering; SSR-first architecture; Mind Map ≠ Concept Map разграничение; Case Map като domain-specific
+semantic representation. Последен одобрен commit: `4ea9619`. **Project-wide Cognitive Learning
+Architecture (`COGNITIVE_LEARNING_ARCHITECTURE_v1.md` v1.1) reference validation: `PASSED`** —
+Phase 4 gate (owner visual+learning review на reference implementation-а) е премината.
+**Content QA note (не блокира одобрението, GAP-013 в `15_GAPS_AND_CONFLICTS.md`):** Седмица 6
+текстът твърди "шест цели", но реално изброява само 5 ясно отделими клаузи — не е поправено с
+предположение, оставено за директна сверка със SRC-041 Глава 5 при бъдещ source-fidelity pass.
+**Следваща оторизирана фаза:** Phase 5 — `COURSE MAP + CBT KNOWLEDGE MAP` на нов route `/kurs/karta`,
+с ДВА различни режима (Course Map: "къде съм в курса" — модули/седмици/prerequisites/статус; CBT
+Knowledge Map: "как са свързани знанията" — concepts/labeled relationships/introduced-revisited
+metadata/cross-week връзки) — **не е започната в тази сесия**, изисква отделно ново извикване.
+Никакъв код не е пипнат тази сесия (само документация). Не е започната Седмица 7, не е пипната
+Седмица 12, няма retrofit.
+
+Предходен checkpoint — `MIND MAP FINAL VISUAL POLISH — IMPLEMENTED, OWNER PIXEL APPROVAL REQUIRED` (Сесия 45, 2026-08-22).
 Owner potвърди, че Сесия 44 вече Е mind map (не card grid, не outline), но posочи polish проблеми:
 (1) primary branches все още се закачат за една обща вертикална линия — усещане за navigation
 spine; (2) connector-ите твърде ортогонални/технически; (3) node label + `→` изглеждат като меню;
@@ -239,6 +259,15 @@ U08/U22 включени по owner-approved `OBSERVATIONAL SAFETY BOUNDARY` д�
 
 ## Последна завършена задача
 
+Documentation Closeout — Week 6 Cognitive Reference Implementation Owner Approved (Сесия 46,
+2026-08-22): собственически финален browser review на `/kurs/sedmica-6` — одобрено. Mind Map Visual
+Standard **LOCKED** като project-wide reference (10-точков списък, виж "Текуща стъпка"). Project-wide
+Cognitive Learning Architecture reference validation `PASSED`. GAP-013 добавен в
+`15_GAPS_AND_CONFLICTS.md` (Седмица 6 "шест цели" срещу 5 намерени клаузи — не блокира, за бъдещ
+source-fidelity pass). Следваща оторизирана фаза: Course Map + CBT Knowledge Map на `/kurs/karta` —
+не започната тази сесия. Само документация пипната, никакъв код. Детайли в `10_SESSION_LOG.md`
+(Сесия 46).
+
 Mind Map Final Visual Polish (Сесия 45, 2026-08-22): чисто CSS полиране — тънък/приглушен shared
 trunk срещу удебелен/по-заоблен собствен elbow на всеки branch (премахва "vertical highway"
 усещането), navigation вече secondary (без persistent underline), depth-1 branches с калм но по-
@@ -380,16 +409,17 @@ Final Layout Defect Correction (Сесия 23, 2026-08-04): собственик
 
 ## Следваща препоръчана задача
 
-Собственически финален pixel-level visual преглед на полирания `/kurs/sedmica-6` MindMap (Сесия 45)
-— потвърждение по "sitemap or mind map?"/spatial-memory acceptance тестовете от собствената задача.
-Успоредно, все още чакат: Phase 4 review на цялата Седмица 6 cognitive reference implementation
-(Сесия 42) и по-ранният learning review на самото Week 6 v2 съдържание (Сесия 39). Замразеният
-curriculum build order остава на PAUSE до всичките. Не се строи `/kurs/karta`, не се прави retrofit,
-не се започва Week 7. Deployment извън обхват. `KEEP RAZOR FOR MVP` в сила.
+**Отделна, нова задача (не в тази сесия):** `COURSE MAP + CBT KNOWLEDGE MAP IMPLEMENTATION` — Phase
+5 на `COGNITIVE_LEARNING_ARCHITECTURE_v1.md`, нов route `/kurs/karta`, два различни режима (Course
+Map / CBT Knowledge Map — виж "Текуща стъпка" по-горе за пълните обекти на всеки режим). Изисква
+отделно собственическо извикване. Замразеният curriculum build order (Седмица 12 некомитната,
+Седмица 7 следваща) остава на PAUSE до Phase 5 приключи или до отделно собственическо решение да се
+възобнови build order-а независимо. Не се пипа Седмица 6 reference implementation повече (LOCKED).
+Не се строи Седмица 7. Deployment извън обхват. `KEEP RAZOR FOR MVP` в сила.
 
 ## Последна актуализация
 
-2026-08-22 — Сесия 45, Mind Map Final Visual Polish.
+2026-08-22 — Сесия 46, Documentation Closeout (Week 6 Cognitive Reference Implementation — Owner Approved).
 
 ## Общ приблизителен прогрес
 

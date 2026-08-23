@@ -673,7 +673,10 @@ awaiting owner review of this module first.
 - **Повод:** owner-authorized implementation of `00_PROJECT_OS/_blueprints/COGNITIVE_LEARNING_ARCHITECTURE_v1.md`
   v1.1 (`READY FOR IMPLEMENTATION PROMPT: YES`) — Phases 1-3 only (semantic models/contracts,
   `ConceptGraph` rendering engine, Week 6 reference implementation), followed by an owner review
-  gate before Phase 4 (global Course Map / CBT Knowledge Map on `/kurs/karta`) begins.
+  gate before Phase 5 (global Course Map / CBT Knowledge Map on `/kurs/karta`) begins. [Corrected
+  Сесия 46 — this line originally said "Phase 4" here, inconsistent with the Phase numbering used
+  in this same entry's own Status line below; Phase 4 is the owner review gate itself, Phase 5 is
+  the global maps.]
 - **Phase 1 — Semantic models:** `Curriculum/ConceptGraphModels.cs` (`MindMapNode`/`MindMapModel`,
   `ConceptNode`/`ConceptRelation`/`ConceptMapModel`, `ConceptState` enum + `ConceptStateResolver`
   mirroring `CurriculumLabels.DeriveStatus()`), `Curriculum/CaseConceptualizationModels.cs`
@@ -717,3 +720,26 @@ awaiting owner review of this module first.
   "minimum 3 visuals" replaced by Cognitive Representation Coverage + new Retrieval Practice
   Coverage gates). Uncommitted at write time — pending the single implementation commit described
   in `10_SESSION_LOG.md` (Сесия 42), isolated from the still-pending, still-uncommitted Week 12 diff.
+
+### Phase 4 Gate — Owner Visual + Learning Review — PASSED (Сесии 43–46, 2026-08-22)
+
+- Three visual-correction iterations followed the Phase 1-3 reference implementation above, each a
+  separate, narrowly-scoped session, each committed independently: Сесия 43 (`30f39e4`, outline-tree
+  MindMap rendering replacing the card grid), Сесия 44 (`5b7c0ec`, left-to-right desktop spatial
+  reflow via `@container`/`@supports`, same markup/data, no new component), Сесия 45 (`4ea9619`,
+  connector/navigation-affordance polish). No semantic model, adapter, ConceptMap, CaseMap, or Week
+  6 source content changed across any of the three — visual/CSS layer only, confirmed by regression
+  QA at each step.
+- **Сесия 46 — owner reviewed `/kurs/sedmica-6` in a real browser and approved.** Locked as the
+  project-wide visual/architecture reference standard (full LOCKED list in `02_CURRENT_STATUS.md`).
+  Last approved commit: `4ea9619`.
+- **Phase 4 gate: `PASSED`.** Project-wide Cognitive Learning Architecture reference validation:
+  `PASSED`. Deep Learning DoD v3 (`06_QA_STRATEGY.md`) stands confirmed as applied.
+- **Open, non-blocking content QA item:** GAP-013 (`15_GAPS_AND_CONFLICTS.md`) — Week 6's own text
+  claims "six goals" but enumerates only 5 clauses; needs a direct re-check against SRC-041 Chapter
+  5 in a future source-fidelity pass. Not invented, not fixed by guesswork, does not block this gate.
+- **Next authorized phase: Phase 5 — Course Map + CBT Knowledge Map on `/kurs/karta`**, two distinct
+  modes (Course Map: modules/weeks/prerequisites/status/routes; CBT Knowledge Map: concepts/labeled
+  relationships/introduced-revisited metadata/cross-week links/anchors) — **not started**, requires
+  a separate, new owner-authorized implementation task. Phase 6 (retrofit of routed weeks) and Phase
+  7 (resume Week 7) remain frozen behind it, per the original Phase 1-7 sequence.
