@@ -55,4 +55,27 @@ public static class KnowledgeMapCatalog
             new("intermediate-belief", "core-belief", RelationType.Precedes, "задълбочено в"),
             new("automatic-thought", "socratic-question", RelationType.Supports, "изследва се чрез")
         ]);
+
+    /// <summary>Presentation-only spatial grouping for the Network layout — NOT a CBT taxonomy, and not a
+    /// field on ConceptNode. Derived purely from which of the 12 relations above already link these concepts
+    /// densely to each other: situation/automatic-thought/emotion/body-reaction/behavior/cognitive-model are
+    /// all connected to one another (the LeadsTo chain plus the 5 IsPartOf edges into cognitive-model);
+    /// intermediate-belief/core-belief are connected only to each other and to automatic-thought;
+    /// therapeutic-alliance has no relations at all and socratic-question has exactly one (from
+    /// automatic-thought) — those two sit apart from the dense chain. automatic-thought itself is the single
+    /// bridge node with edges reaching all three groups, which is exactly why it renders with the most visible
+    /// outgoing chips rather than needing a separate "hub" designation.</summary>
+    public static IReadOnlyDictionary<string, string> Clusters { get; } = new Dictionary<string, string>
+    {
+        ["situation"] = "Когнитивна верига",
+        ["automatic-thought"] = "Когнитивна верига",
+        ["emotion"] = "Когнитивна верига",
+        ["body-reaction"] = "Когнитивна верига",
+        ["behavior"] = "Когнитивна верига",
+        ["cognitive-model"] = "Когнитивна верига",
+        ["intermediate-belief"] = "Вярвания",
+        ["core-belief"] = "Вярвания",
+        ["therapeutic-alliance"] = "Терапевтичен процес",
+        ["socratic-question"] = "Терапевтичен процес"
+    };
 }

@@ -2644,6 +2644,12 @@ h3[tabindex="-1"]:focus-visible {
     margin: 0 0 var(--space-2);
 }
 
+.concept-graph__title-secondary {
+    font-size: 0.75em;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+}
+
 .concept-graph__summary {
     margin: 0 0 var(--space-4);
     color: var(--color-text-secondary);
@@ -2748,6 +2754,83 @@ h3[tabindex="-1"]:focus-visible {
 
 .concept-graph__fallback-list ul {
     margin: var(--space-1) 0 0;
+}
+
+/* ConceptMap Network layout — spatial correction pass for maps whose nodes have several relations at
+   once (the global CBT Knowledge Map), unlike Week 6's small linear ConceptMap which keeps the Chain
+   layout above untouched. Real CSS Grid columns (auto-fit reflow — no media query needed for the
+   mobile stack), each a presentation cluster; every relation renders as a chip on its source card, so
+   a node is never capped at one visible connection. */
+.concept-graph__network {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--space-5);
+    align-items: start;
+    margin-bottom: var(--space-4);
+}
+
+.concept-graph__cluster-label {
+    margin: 0 0 var(--space-3);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-text-secondary);
+}
+
+.concept-graph__network-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.concept-graph__network-list > li {
+    position: relative;
+}
+
+.concept-graph__network-list > li + li {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+}
+
+.concept-graph__network-list > li + li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 1.5rem;
+    width: 2px;
+    height: var(--space-3);
+    background: var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+.concept-graph__network-node {
+    padding: var(--space-2) var(--space-3);
+}
+
+.concept-graph__network-edges {
+    list-style: none;
+    margin: var(--space-2) 0 0;
+    padding: 0 0 0 var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    border-left: 2px solid var(--color-border);
+}
+
+.concept-graph__network-edge {
+    font-size: 0.8rem;
+}
+
+.concept-graph__network-edge--cross {
+    font-style: italic;
+}
+
+.concept-graph__network-edge--cross::before {
+    content: "↗ ";
 }
 
 /* Mind Map — a real spatial tree (owner visual correction, pass 2), not a card grid and not just an

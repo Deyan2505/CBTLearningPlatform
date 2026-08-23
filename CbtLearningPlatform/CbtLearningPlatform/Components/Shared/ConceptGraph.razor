@@ -42,6 +42,90 @@
            fallback below (used by ConceptMap/CaseMap, whose chain+cross-reference layout benefits
            from a plain-prose alternative). *@
     }
+    else if (Model.Layout == ConceptGraphLayout.Network)
+    {
+        @* Spatial network layout (owner correction pass — the chain+cross-ref-list layout below could not
+           show a node's several incoming/outgoing relations at once). Nodes are grouped into presentation
+           clusters (GraphRenderNode.Cluster, supplied by the adapter, meaningless to this component) laid
+           out as CSS Grid columns — real desktop width, not one narrow vertical strip. Every relation is
+           rendered as a labeled chip directly on its source node's own card, so a node with five incoming
+           edges is fully visible instead of capped at one connector, and a relation whose target sits in a
+           different cluster gets a distinct "cross" style plus a same-page anchor jump to that card. The
+           connecting line between stacked cards in one cluster is decorative (reusing the mind map's proven
+           CSS-elbow technique, no SVG/coordinate math) — it reinforces that the cluster is one connected
+           group; the relation LABEL itself lives in the adjacent chip, not on the line. CSS Grid's own
+           auto-fit reflow (no extra media query needed) collapses clusters to a single stacked column on
+           narrow viewports. *@
+        var clusterOrder = Model.Nodes.Select(n => n.Cluster ?? "").Distinct().ToList();
+
+        <div class="concept-graph__network">
+            @foreach (var cluster in clusterOrder)
+            {
+                var clusterNodes = Model.Nodes.Where(n => (n.Cluster ?? "") == cluster).ToList();
+                <div class="concept-graph__cluster">
+                    @if (!string.IsNullOrWhiteSpace(cluster))
+                    {
+                        <h5 class="concept-graph__cluster-label">@cluster</h5>
+                    }
+                    <ul class="concept-graph__network-list">
+                        @foreach (var node in clusterNodes)
+                        {
+                            var outgoing = Model.Edges.Where(e => e.FromId == node.Id).ToList();
+                            <li>
+                                <div id="@($"{ComponentId}-node-{node.Id}")" class="concept-graph__node concept-graph__network-node concept-graph__node--@StateClass(node.DisplayState)">
+                                    @if (!string.IsNullOrWhiteSpace(node.Anchor))
+                                    {
+                                        <a class="concept-graph__node-label" href="@node.Anchor">@node.Label</a>
+                                    }
+                                    else
+                                    {
+                                        <span class="concept-graph__node-label">@node.Label</span>
+                                    }
+                                    @if (outgoing.Count > 0)
+                                    {
+                                        <ul class="concept-graph__network-edges">
+                                            @foreach (var edge in outgoing)
+                                            {
+                                                var target = Model.Nodes.FirstOrDefault(n => n.Id == edge.ToId);
+                                                var crossCluster = target is not null && (target.Cluster ?? "") != (node.Cluster ?? "");
+                                                <li class="concept-graph__network-edge@(crossCluster ? " concept-graph__network-edge--cross" : "")">
+                                                    <span class="concept-graph__edge-label">@edge.Label</span>
+                                                    <a href="@($"#{ComponentId}-node-{edge.ToId}")">@(target?.Label ?? edge.ToId)</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+
+        <details class="concept-graph__fallback">
+            <summary>Текстово описание на картата</summary>
+            <ul class="concept-graph__fallback-list">
+                @foreach (var node in Model.Nodes)
+                {
+                    var outgoing = Model.Edges.Where(e => e.FromId == node.Id).ToList();
+                    <li>
+                        <strong>@node.Label</strong>@(!string.IsNullOrWhiteSpace(node.ShortDefinition) ? $" — {node.ShortDefinition}" : "")
+                        @if (outgoing.Count > 0)
+                        {
+                            <ul>
+                                @foreach (var edge in outgoing)
+                                {
+                                    var target = Model.Nodes.FirstOrDefault(n => n.Id == edge.ToId);
+                                    <li>@(edge.Label ?? "свързано с") → @(target?.Label ?? edge.ToId)</li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            </ul>
+        </details>
+    }
     else
     {
         var primary = Model.Nodes.Where(n => !n.IsCrossReference).ToList();

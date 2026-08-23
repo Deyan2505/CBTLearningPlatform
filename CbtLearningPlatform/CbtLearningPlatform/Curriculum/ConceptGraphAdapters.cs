@@ -2,10 +2,18 @@ namespace CbtLearningPlatform.Curriculum;
 
 public enum ConceptGraphMode { MindMap, ConceptMap, CaseMap }
 
+/// <summary>How ConceptMap-mode content is laid out. Chain is the original single-thread-plus-cross-ref-list
+/// layout (Week 6's small local map — left untouched). Network is the spatial, clustered, multi-edge layout
+/// for maps where nodes genuinely have several incoming/outgoing relations (the global CBT Knowledge Map).
+/// A pure rendering choice — it carries no CBT meaning, so it lives beside the render primitives, not inside
+/// ConceptMapModel/ConceptNode.</summary>
+public enum ConceptGraphLayout { Chain, Network }
+
 /// <summary>Purely presentational — produced fresh by an adapter on every render, never stored or hand-authored
 /// as a second copy of the content. ConceptGraph.razor reads only this shape; it never sees MindMapModel/
 /// ConceptMapModel/CaseConceptualizationModel directly, so it cannot know what a "core belief" or "Ирина" is
-/// (COGNITIVE_LEARNING_ARCHITECTURE_v1.md §8/§9).</summary>
+/// (COGNITIVE_LEARNING_ARCHITECTURE_v1.md §8/§9). Cluster is likewise a presentation-only grouping hint (null
+/// for every mode except Network-layout ConceptMap) — the renderer groups by it without knowing what it means.</summary>
 public sealed record GraphRenderNode(
     string Id,
     string Label,
@@ -13,7 +21,8 @@ public sealed record GraphRenderNode(
     string? Anchor,
     ConceptState? DisplayState,
     string? ParentId,
-    bool IsCrossReference);
+    bool IsCrossReference,
+    string? Cluster = null);
 
 public sealed record GraphRenderEdge(
     string FromId,
@@ -26,7 +35,8 @@ public sealed record GraphRenderModel(
     string ScreenReaderSummary,
     ConceptGraphMode Mode,
     IReadOnlyList<GraphRenderNode> Nodes,
-    IReadOnlyList<GraphRenderEdge> Edges);
+    IReadOnlyList<GraphRenderEdge> Edges,
+    ConceptGraphLayout Layout = ConceptGraphLayout.Chain);
 
 public static class MindMapAdapter
 {
@@ -73,7 +83,15 @@ public static class MindMapAdapter
 
 public static class ConceptMapAdapter
 {
-    public static GraphRenderModel ToRenderModel(ConceptMapModel model, IReadOnlyList<CourseWeekDefinition> weeks) => new(
+    /// <summary>Layout and clusters are optional, additive parameters — Week 6's existing 2-argument call site
+    /// keeps compiling unchanged and keeps getting Chain layout with no clustering, exactly its current
+    /// behavior. Clusters, when supplied, is a presentation-only concept-id → cluster-label lookup owned by the
+    /// caller's own catalog (e.g. KnowledgeMapCatalog), never a new field on ConceptNode itself.</summary>
+    public static GraphRenderModel ToRenderModel(
+        ConceptMapModel model,
+        IReadOnlyList<CourseWeekDefinition> weeks,
+        ConceptGraphLayout layout = ConceptGraphLayout.Chain,
+        IReadOnlyDictionary<string, string>? clusters = null) => new(
         model.Title,
         model.ScreenReaderSummary,
         ConceptGraphMode.ConceptMap,
@@ -84,8 +102,10 @@ public static class ConceptMapAdapter
             n.Anchor,
             ConceptStateResolver.Derive(n.IntroducedWeek, n.RevisitedWeeks, weeks),
             ParentId: null,
-            n.IsCrossReference)).ToList(),
-        model.Relations.Select(r => new GraphRenderEdge(r.FromId, r.ToId, r.RelationLabel, r.Direction)).ToList());
+            n.IsCrossReference,
+            Cluster: clusters is not null && clusters.TryGetValue(n.Id, out var cluster) ? cluster : null)).ToList(),
+        model.Relations.Select(r => new GraphRenderEdge(r.FromId, r.ToId, r.RelationLabel, r.Direction)).ToList(),
+        layout);
 }
 
 public static class CaseConceptualizationAdapter

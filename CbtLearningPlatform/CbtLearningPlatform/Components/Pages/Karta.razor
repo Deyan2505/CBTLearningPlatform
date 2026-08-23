@@ -30,7 +30,7 @@
     @if (IsKnowledgeMode)
     {
         <LearningSection Role="theory" RoleLabel="Карта на знанието">
-            <h2 id="znanie" tabindex="-1">CBT Knowledge Map</h2>
+            <h2 id="znanie" tabindex="-1">Карта на знанието по КПТ <span class="concept-graph__title-secondary">(CBT Knowledge Map)</span></h2>
             <p>
                 Отговаря на въпроса „как са свързани знанията по КПТ?“. Nodes-овете тук са
                 <strong>concepts</strong>, не седмици — седмицата, в която е въведен всеки концепт, е
@@ -68,5 +68,9 @@
     private bool IsKnowledgeMode => string.Equals(Mode, "knowledge", StringComparison.OrdinalIgnoreCase);
 
     private static readonly GraphRenderModel _courseMapRender = MindMapAdapter.ToRenderModel(CourseMapBuilder.Build());
-    private static readonly GraphRenderModel _knowledgeMapRender = ConceptMapAdapter.ToRenderModel(KnowledgeMapCatalog.Build(), CourseCatalog.Weeks);
+    private static readonly GraphRenderModel _knowledgeMapRender = ConceptMapAdapter.ToRenderModel(
+        KnowledgeMapCatalog.Build(),
+        CourseCatalog.Weeks,
+        ConceptGraphLayout.Network,
+        KnowledgeMapCatalog.Clusters);
 }
