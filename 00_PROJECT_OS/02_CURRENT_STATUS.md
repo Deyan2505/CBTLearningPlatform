@@ -18,7 +18,18 @@
 
 ## Текуща стъпка
 
-`PROJECT-WIDE COGNITIVE LEARNING ROLLOUT — AUDIT & MIGRATION PLAN` (Сесия 50, 2026-08-23). Owner
+`WEEK 3 — DEEP SOURCE + COVERAGE AUDIT` (Сесия 51, 2026-08-23). Read-only audit, `Sedmica3.razor`
+недокоснат. Глава 3 на SRC-041 ("Когнитивна концептуализация", printed стр. 29-45) извлечена по
+Week 6 метода → `_source_corpus/SRC-041_ch03_bg_extracted.txt` (gitignored). **43 Knowledge Units**,
+Coverage Matrix: 18 Included / 17 Missing / 3 Deferred / 3 Excluded — **не 100% coverage**.
+Най-голямата липса: ~40% от главата е case example ("Сали"), нула еквивалент на текущата страница.
+**Migration class потвърден: B** (не граничен случай). Owner decision surfaced: адаптирай Сали
+директно или разшири Ирина с еквивалентен worked example — не решено тук. Резултат: нов
+`00_PROJECT_OS/_blueprints/WEEK_03_SOURCE_COVERAGE_AUDIT_v1.md`, `READY FOR OWNER REVIEW: YES`.
+Следваща стъпка: owner review, после Week 8 audit (същия формат), после реален implementation.
+**Никакъв код не е пипнат.** Седмица 7/8/12 — недокоснати.
+
+Предходен checkpoint — `PROJECT-WIDE COGNITIVE LEARNING ROLLOUT — AUDIT & MIGRATION PLAN` (Сесия 50, 2026-08-23). Owner
 финално одобри: **Course Map — `OWNER APPROVED / LOCKED`**; **CBT Knowledge Map — `OWNER APPROVED`,
 project-wide reference standard** за network-стил concept maps (real drawn SVG relations, не chain/
 chips); **Week 6 Cognitive Reference Implementation — `OWNER APPROVED`** (непроменено от Сесия 46);

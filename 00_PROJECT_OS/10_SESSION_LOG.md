@@ -1275,3 +1275,21 @@
 - **Променени файлове:** `02_CURRENT_STATUS.md`, `10_SESSION_LOG.md` (този запис), `24_IMPLEMENTATION_ROADMAP.md`. Нищо друго.
 - **Git:** документален commit, изолиран от все още некомитнатата Седмица 12 работа (read-only анализирана, не редактирана).
 - **Следваща стъпка:** собственически rollout review на новия blueprint. **НЕ implementation. НЕ Седмица 7. НЕ retrofit.**
+
+---
+
+## Сесия 51 — Week 3 Deep Source + Coverage Audit — 2026-08-23
+
+- **Повод:** owner одобри `COGNITIVE_LEARNING_ROLLOUT_PLAN_v1.md` като работна основа; Minimum Stability Gate преди Седмица 7 изисква source/coverage pass на Седмица 3 и Седмица 8 — тази сесия покрива Седмица 3. **Read-only** — `Sedmica3.razor` не е пипнат, нула implementation.
+- **Source извличане:** Глава 3 на SRC-041 (в тази конкретна българска редакция озаглавена "Когнитивна концептуализация", printed стр. 29-45, PDF стр. 51-67), извлечена по вече доказания Week 6 метод (`pypdf`, +22 offset) — 35,788 знака, 17 страници. Записана в `_source_corpus/SRC-041_ch03_bg_extracted.txt` (gitignored, огледало на `SRC-041_ch05_bg_extracted.txt`'s прецедент), `README_EXTRACTION_METHOD.md` обновен.
+- **Находка на title-precision:** `Sedmica3.razor`'s header коментар цитира "Ch. 3 'The Cognitive Model'" — реалната глава в тази книга/издание е озаглавена "Когнитивна концептуализация" (терапевтичен процес, в рамките на който когнитивния модел е представен като теоретична основа). Дребна неточност, не блокираща, флагната за коригиране при бъдещ implementation pass.
+- **43 Knowledge Units** извлечени от пълния текст на главата. **Coverage Matrix:** 18 Included (обикновено опростени спрямо source-а), 17 Missing, 3 Deferred (принадлежат на Седмица 4/8/9 по дизайн), 3 Excluded with reason. **Coverage status: частично покрито, не 100%.**
+- **Най-голямата единична липса:** ~40% от главата е посветена на пълния case example на "Сали" (произход на основните вярвания, coping стратегии, контраст между два житейски периода, diathesis-stress каскада) — текущата страница има **нула** case-based приложение въпреки че source-ът е построен точно около такъв пример. Други реални липси: пълен worked example, threading всичките 3 нива в едно (Фигура 3.2 еквивалент); терапевтична обосновка "защо автоматични мисли първо"; по-сложният/каскаден модел (Фигура 3.3); 3-подтиповата терминология на междинните вярвания (Нагласа/Правило/Предположение).
+- **Terminology Map находка:** "Когнитивна триада" на страницата вече е правилно source-ната към ДРУГИ registered sources, не към тази глава — потвърдено коректно, не проблем. "Автоматична vs. рефлексивна обработка" секцията, обаче, **не се среща в тази глава изобщо** и няма изричен secondary citation на страницата — флагнато като needs-citation-resolution находка, не измислено съдържание, но неясно source-нато.
+- **Migration scope потвърден:** **Class B upgrade**, потвърдено (не граничен случай, както предполагаше по-ранния page-only rollout audit) — липсващото съдържание е структурният гръбнак на самата глава, не козметика.
+- **Owner decision surfaced:** дали да се адаптира Сали директно (по-висок copyright-чувствителност риск за детайлен narrative) или да се разшири вече одобрения pilot case Ирина с еквивалентен worked example — не решено тук, изрично оставено на owner (връзка към вече отворения `COGNITIVE_LEARNING_ROLLOUT_PLAN_v1.md` §24 т.6).
+- **Резултат:** нов `00_PROJECT_OS/_blueprints/WEEK_03_SOURCE_COVERAGE_AUDIT_v1.md`. `READY FOR OWNER REVIEW: YES`.
+- **Създадени файлове:** `00_PROJECT_OS/_blueprints/WEEK_03_SOURCE_COVERAGE_AUDIT_v1.md`. `_source_corpus/SRC-041_ch03_bg_extracted.txt` (gitignored, не в git история).
+- **Променени файлове:** `10_SESSION_LOG.md` (този запис), `_source_corpus/README_EXTRACTION_METHOD.md` (gitignored). Никакъв `.razor`/CSS/тест/`CourseCatalog.cs` файл не е пипнат. Седмица 8/7/12 — недокоснати.
+- **Git:** документален commit, изолиран от все още некомитнатата Седмица 12 работа.
+- **Следваща стъпка:** owner review на audit-а; след одобрение — паралелна задача **Week 8 Deep Source + Coverage Audit** (същия формат), после реален Class B implementation за Седмица 3 (отделна, нова оторизирана задача). **НЕ implementation. НЕ Седмица 7. НЕ Седмица 8 все още. НЕ Седмица 12.**
