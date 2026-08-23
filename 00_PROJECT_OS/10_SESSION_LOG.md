@@ -1239,3 +1239,39 @@
 - **Променени файлове:** `Components/Pages/Kurs.razor` (1 нов линк), `wwwroot/app.css` (нов `.karta-mode-switch` блок), `02_CURRENT_STATUS.md`, `10_SESSION_LOG.md` (този запис). `ConceptGraph.razor`/`MindMapBranch.razor`/`Sedmica6.razor`/domain модел файловете от Сесия 42-45 — **напълно непипнати**. Никакви Week 1/3/7/8/10/12 файлове пипнати. GAP-013 не е решен.
 - **Git:** останало некомитнато в края на тази сесия — предстои единствен commit, изолиран от все още некомитнатата, изцяло отделна Седмица 12 работа.
 - **Следваща стъпка:** собственически visual + learning review на `/kurs/karta` (и двата режима). **НЕ retrofit. НЕ Седмица 7. НЕ промяна на locked Week 6.**
+
+---
+
+## Сесия 48 — CBT Knowledge Map: Spatial Network Correction Pass — 2026-08-23
+
+- **Повод:** owner одобри Course Map, но отхвърли Knowledge Map-ата визуална форма — "vertical concept chain + cross-reference bullet list", не "spatial knowledge network". Coренна причина: `ConceptGraph.razor`'s ConceptMap branch четеше edges чрез `FirstOrDefault`, ограничавайки всеки node до максимум една видима връзка (`automatic-thought` реално има 4 изходящи relations).
+- **Архитектурна промяна:** нов `ConceptGraphLayout { Chain, Network }` — additive, defaulted параметър на `GraphRenderModel`/`ConceptMapAdapter.ToRenderModel`, така че Week 6's съществуващ 2-аргументен call site продължава да компилира без промяна (винаги получава `Chain`, идентично на преди). Knowledge Map-ът опция за `Network`: nodes групирани в presentation-only clusters (`GraphRenderNode.Cluster`, изведени от `KnowledgeMapCatalog`, извън `ConceptNode`) като CSS Grid колони; всяко изходящо relation — chip с label, не едно-единствено.
+- **Тестове:** 11 нови (baseline 495/495 → **506/506**). Build 0/0. Runtime QA: 12 relation chips рендерирани коректно (10 нормални + 2 маркирани cross-cluster), заглавието вече "Карта на знанието по КПТ" (българско primary) с "(CBT Knowledge Map)" като subtle secondary span.
+- **Резултат:** `READY FOR OWNER KNOWLEDGE-MAP PIXEL REVIEW: YES`. Commit `2498036`.
+- **Променени файлове:** `Components/Pages/Karta.razor`, `Components/Shared/ConceptGraph.razor`, `Curriculum/ConceptGraphAdapters.cs`, `Curriculum/KnowledgeMapCatalog.cs`, `wwwroot/app.css`, `CbtLearningPlatform.Tests/GlobalMapsTests.cs`. Course Map/Week 6/Week 12 — непипнати.
+- **Следваща стъпка:** owner pixel review. Оказа се недостатъчна — виж Сесия 49.
+
+---
+
+## Сесия 49 — CBT Knowledge Map: Final Spatial Edge Pass — 2026-08-23
+
+- **Повод:** втори owner review — clusters/desktop width/10-concepts-12-relations вече правилни, но релациите все още бяха **текст вътре в картите** ("задълбочено в Междинно вярване" като ред в `automatic-thought`'s card), не визуални връзки в пространството.
+- **Архитектурна промяна:** `GraphRenderNode` получи presentation-only `NetworkColumn`/`NetworkRow` (малки grid координати, не пиксели — все още извън `ConceptNode`), изведени от нов `KnowledgeMapCatalog.NetworkLayout` (замества предишния прост `Clusters` string dictionary). `ConceptGraph.razor`'s нов `BuildCanvas()` изчислява точна pixel геометрия чрез чиста сървърна аритметика (SSR, нула DOM measurement, нула WASM) и рендерира: absolutely-positioned node cards (само label, нула relation текст вътре) + едно SVG с 12 cubic-bezier пътя — same-column съседни редове (5-стъпковата верига, чифтът вярвания) като кратки вертикални криви, adjacent-column (веригата към `cognitive-model` hub) като кратки хоризонтални криви, 2-те relations, пресичащи 2+ колони (`automatic-thought`→`intermediate-belief`, `automatic-thought`→`socratic-question`), като дъги над цялата диаграма. Arrow markers за посока; labels на реалния bezier midpoint. Под 641px — отделно, по-просто stacked "Входящи:/Изходящи:" текстово представяне (owner изрично разреши relation текст на mobile).
+- **Открит и коригиран бъг по време на runtime verification:** inline CSS `style` атрибутите първоначално пропускаха `px` единица (`width:1048` вместо `width:1048px`) — браузърът щеше тихо да игнорира декларацията. Коригирано с отделен `CssPx()` helper (за style атрибути) срещу `Px()` (за SVG width/height атрибути, които не изискват единица).
+- **Тестове:** пренаписани/добавени за новата архитектура (baseline 506/506 → **510/510**). Build 0/0. Runtime verification срещу реален рендериран HTML потвърди точната геометрия математически (всичките 12 `<path>` координати проверени ръчно срещу очакваната формула).
+- **Резултат:** `READY FOR FINAL OWNER KNOWLEDGE-MAP APPROVAL: YES`. Commit `67aec83`.
+- **Променени файлове:** същите 6 файла като Сесия 48. Course Map/Week 6/Week 12 — непипнати.
+- **Следваща стъпка:** owner финален pixel review — **PASSED** (виж Сесия 50).
+
+---
+
+## Сесия 50 — Documentation Closeout + Project-Wide Cognitive Learning Rollout Audit — 2026-08-23
+
+- **Повод:** owner финално одобри Course Map (LOCKED), CBT Knowledge Map (одобрена като project-wide reference standard за network-стил concept maps), и обяви "Global Cognitive Maps Phase" — `PASSED`. Задачата: (1) минимален documentation closeout, (2) read-only project-wide audit на реално routed седмици + migration blueprint. **Никакъв `.razor`/CSS/`CourseCatalog.cs`/`KnowledgeMapCatalog.cs`/тест файл не е пипнат тази сесия** — чисто планиране.
+- **Documentation closeout:** `02_CURRENT_STATUS.md` (нов checkpoint), `10_SESSION_LOG.md` (Сесии 48-50, този запис включително), `24_IMPLEMENTATION_ROADMAP.md` (Phase 5 маркирана `OWNER APPROVED`). GAP-013 — недокоснат, остава `Open`, никаква шеста цел не е измислена.
+- **Audit метод:** `CourseCatalog.cs` прочетен директно — реално routed седмици (committed state): **1, 3, 6, 8, 10**. Седмица 12 е routed само в **некомитнатото working tree** (route добавен, но не commit-нат) — включена в audit-а, но изрично маркирана като reflecting uncommitted content, файловете ѝ останаха read-only. Всичките 6 `.razor` файла прочетени изцяло (не само тестове/summary/CourseCatalog metadata) — Седмица 6 допълнително проверена чрез targeted grep на вече добре познатата от Сесии 40-47 структура (mind map preview/review, concept map, case map, simulator, 13 embedded checks + 20-question final assessment).
+- **Резултат:** нов blueprint `00_PROJECT_OS/_blueprints/COGNITIVE_LEARNING_ROLLOUT_PLAN_v1.md` — executive diagnosis, per-week audit (5 old-generation weeks + Week 6 reference + uncommitted Week 12), migration classification (A-E), prioritization, batches, Minimum Stability Gate преди Седмица 7, source extraction/retrieval/assessment/visual rollout strategies, deprecated old MVP workflow, нов 20-стъпков Deep Learning Week workflow, risk register, owner decisions required.
+- **Създадени файлове:** `00_PROJECT_OS/_blueprints/COGNITIVE_LEARNING_ROLLOUT_PLAN_v1.md`.
+- **Променени файлове:** `02_CURRENT_STATUS.md`, `10_SESSION_LOG.md` (този запис), `24_IMPLEMENTATION_ROADMAP.md`. Нищо друго.
+- **Git:** документален commit, изолиран от все още некомитнатата Седмица 12 работа (read-only анализирана, не редактирана).
+- **Следваща стъпка:** собственически rollout review на новия blueprint. **НЕ implementation. НЕ Седмица 7. НЕ retrofit.**

@@ -777,3 +777,18 @@ awaiting owner review of this module first.
 - **Status:** `GLOBAL COURSE + KNOWLEDGE MAPS — IMPLEMENTED, AWAITING OWNER VISUAL + LEARNING
   REVIEW`. Not committed at write time. Explicitly not done in this step: retrofit of Weeks
   1/3/8/10/12 pages, Week 7, any change to Week 6, GAP-013 resolution, any new graph library.
+
+### Phase 5 — Owner Approved (Сесии 48-49, 2026-08-22/23)
+
+- Owner review found the Knowledge Map's visual form did not qualify as a spatial network. Two
+  correction passes, both keeping exactly 10 concepts / 12 relations and zero change to Course
+  Map/Week 6: (1) `ConceptGraphLayout.Network` — cluster-grouped node cards with relation chips
+  (commit `2498036`); (2) final pass — real SVG cubic-bezier curves drawn between node cards
+  (deterministic SSR pixel geometry, zero DOM measurement, zero WASM), node cards reduced to label
+  only (commit `67aec83`). Full detail: `10_SESSION_LOG.md` Сесии 48-49.
+- **Phase 5 status: `OWNER APPROVED`.** Course Map `LOCKED`; CBT Knowledge Map `OWNER APPROVED` as
+  the project-wide reference standard for network-style concept maps.
+- **Phase 6 (retrofit of already-routed weeks)** is reframed by Сесия 50 into a full
+  `PROJECT-WIDE COGNITIVE LEARNING ROLLOUT` — see the new
+  `_blueprints/COGNITIVE_LEARNING_ROLLOUT_PLAN_v1.md` for the per-week audit, migration
+  classification (A-E), and the Minimum Stability Gate required before Phase 7 (Week 7) resumes.

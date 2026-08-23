@@ -18,7 +18,22 @@
 
 ## Текуща стъпка
 
-`GLOBAL COURSE + KNOWLEDGE MAPS — IMPLEMENTED, AWAITING OWNER VISUAL + LEARNING REVIEW` (Сесия 47,
+`PROJECT-WIDE COGNITIVE LEARNING ROLLOUT — AUDIT & MIGRATION PLAN` (Сесия 50, 2026-08-23). Owner
+финално одобри: **Course Map — `OWNER APPROVED / LOCKED`**; **CBT Knowledge Map — `OWNER APPROVED`,
+project-wide reference standard** за network-стил concept maps (real drawn SVG relations, не chain/
+chips); **Week 6 Cognitive Reference Implementation — `OWNER APPROVED`** (непроменено от Сесия 46);
+**Global Cognitive Maps Phase (Phase 5) — `PASSED`**. Одобрен финален Knowledge Map commit: `67aec83`
+(предшестван от корекционен commit `2498036` — виж Сесии 48-49 в `10_SESSION_LOG.md`: първата
+корекция премести relations от единичен `FirstOrDefault` chain към chips, но owner откри, че chips
+все още са текст вътре в картите; финалната версия рисува всяка от 12-те relations като реална SVG
+крива между node карти, deterministic SSR геометрия, нула DOM measurement, нула WASM). **510/510**
+теста, build 0/0. Текущата задача е **read-only audit + planning**, не implementation: пълен одит на
+реално routed седмици (1, 3, 6, 8, 10 — committed; 12 — само в uncommitted working tree, read-only
+анализирана) срещу вече доказания Week 6 + global-maps standard, с migration classification (A-E) и
+конкретен blueprint. Резултат: нов `00_PROJECT_OS/_blueprints/COGNITIVE_LEARNING_ROLLOUT_PLAN_v1.md`.
+**Никакъв код не е пипнат тази сесия.** GAP-013 остава `Open`, недокоснат. Седмица 7 — не е започната.
+
+Предходен checkpoint — `GLOBAL COURSE + KNOWLEDGE MAPS — IMPLEMENTED, AWAITING OWNER VISUAL + LEARNING REVIEW` (Сесия 47,
 2026-08-22). Phase 5 на `COGNITIVE_LEARNING_ARCHITECTURE_v1.md` — нов route `/kurs/karta`, два
 различни режима (`?mode=course` по подразбиране / `?mode=knowledge`), избирани чрез два реални
 server-rendered линка (`[SupplyParameterFromQuery]`, нула JS/WASM за самия switch). **Course Map:**
