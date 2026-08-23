@@ -2756,21 +2756,47 @@ h3[tabindex="-1"]:focus-visible {
     margin: var(--space-1) 0 0;
 }
 
-/* ConceptMap Network layout — spatial correction pass for maps whose nodes have several relations at
-   once (the global CBT Knowledge Map), unlike Week 6's small linear ConceptMap which keeps the Chain
-   layout above untouched. Real CSS Grid columns (auto-fit reflow — no media query needed for the
-   mobile stack), each a presentation cluster; every relation renders as a chip on its source card, so
-   a node is never capped at one visible connection. */
-.concept-graph__network {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    gap: var(--space-5);
-    align-items: start;
+/* ConceptMap Network layout — final spatial-edge pass. Every ConceptRelation is a real drawn SVG curve
+   between two node cards (server-computed, no DOM measurement, no JS) rather than text inside a card.
+   .concept-graph__network-canvas holds absolutely-positioned node divs plus one absolutely-positioned
+   SVG of edge paths, all placed from the SAME pixel math (ConceptGraph.razor's BuildCanvas), so they can
+   never drift apart. Week 6's own small linear ConceptMap keeps the unrelated Chain layout above,
+   untouched. Below 641px the canvas is swapped for a simpler stacked incoming/outgoing text list — fixed
+   pixel SVG geometry doesn't reflow to a narrow viewport, so mobile gets its own representation instead
+   of a shrunk copy of the desktop one. */
+.concept-graph__network-canvas {
+    position: relative;
     margin-bottom: var(--space-4);
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.concept-graph__network-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.concept-graph__network-path {
+    fill: none;
+    stroke: var(--color-text-secondary);
+    stroke-width: 1.75;
+}
+
+.concept-graph__network-path--cross {
+    stroke: var(--accent-primary-border);
+    stroke-dasharray: 6 4;
+}
+
+.concept-graph__network-arrowhead {
+    fill: var(--color-text-secondary);
 }
 
 .concept-graph__cluster-label {
-    margin: 0 0 var(--space-3);
+    position: absolute;
+    top: 0;
+    margin: 0;
     font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -2778,59 +2804,70 @@ h3[tabindex="-1"]:focus-visible {
     color: var(--color-text-secondary);
 }
 
-.concept-graph__network-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+.concept-graph__cluster-label--mobile {
+    position: static;
+    margin: 0 0 var(--space-2);
 }
 
-.concept-graph__network-list > li {
-    position: relative;
-}
-
-.concept-graph__network-list > li + li {
-    margin-top: var(--space-3);
-    padding-top: var(--space-3);
-}
-
-.concept-graph__network-list > li + li::before {
-    content: "";
+.concept-graph__network-edge-label {
     position: absolute;
-    top: 0;
-    left: 1.5rem;
-    width: 2px;
-    height: var(--space-3);
-    background: var(--color-border);
-    border-radius: var(--radius-sm);
+    transform: translate(-50%, -100%);
+    background: var(--color-surface);
+    padding: 0 var(--space-1);
+    font-size: 0.72rem;
+    font-style: italic;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
 }
 
-.concept-graph__network-node {
+.concept-graph__network-node-absolute {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
     padding: var(--space-2) var(--space-3);
 }
 
-.concept-graph__network-edges {
-    list-style: none;
+.concept-graph__network-node-absolute .concept-graph__node-label {
+    text-decoration: none;
+}
+
+.concept-graph__network-node-absolute a.concept-graph__node-label:hover,
+.concept-graph__network-node-absolute a.concept-graph__node-label:focus-visible {
+    text-decoration: underline;
+}
+
+.concept-graph__network-mobile {
+    display: none;
+}
+
+.concept-graph__network-mobile-node {
+    margin-bottom: var(--space-3);
+}
+
+.concept-graph__network-mobile-heading {
     margin: var(--space-2) 0 0;
-    padding: 0 0 0 var(--space-2);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-    border-left: 2px solid var(--color-border);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-secondary);
 }
 
-.concept-graph__network-edge {
-    font-size: 0.8rem;
+.concept-graph__network-mobile-list {
+    margin: var(--space-1) 0 0;
+    padding-left: 1.1rem;
+    font-size: 0.85rem;
 }
 
-.concept-graph__network-edge--cross {
-    font-style: italic;
-}
+@media (max-width: 640px) {
+    .concept-graph__network-canvas {
+        display: none;
+    }
 
-.concept-graph__network-edge--cross::before {
-    content: "↗ ";
+    .concept-graph__network-mobile {
+        display: block;
+    }
 }
 
 /* Mind Map — a real spatial tree (owner visual correction, pass 2), not a card grid and not just an

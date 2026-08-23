@@ -56,26 +56,34 @@ public static class KnowledgeMapCatalog
             new("automatic-thought", "socratic-question", RelationType.Supports, "изследва се чрез")
         ]);
 
-    /// <summary>Presentation-only spatial grouping for the Network layout — NOT a CBT taxonomy, and not a
-    /// field on ConceptNode. Derived purely from which of the 12 relations above already link these concepts
-    /// densely to each other: situation/automatic-thought/emotion/body-reaction/behavior/cognitive-model are
-    /// all connected to one another (the LeadsTo chain plus the 5 IsPartOf edges into cognitive-model);
-    /// intermediate-belief/core-belief are connected only to each other and to automatic-thought;
-    /// therapeutic-alliance has no relations at all and socratic-question has exactly one (from
-    /// automatic-thought) — those two sit apart from the dense chain. automatic-thought itself is the single
-    /// bridge node with edges reaching all three groups, which is exactly why it renders with the most visible
-    /// outgoing chips rather than needing a separate "hub" designation.</summary>
-    public static IReadOnlyDictionary<string, string> Clusters { get; } = new Dictionary<string, string>
+    /// <summary>Presentation-only spatial layout for the Network renderer — NOT a CBT taxonomy, and not a
+    /// field on ConceptNode. Column/Row are small grid coordinates (not pixels) the renderer turns into exact
+    /// SSR-computed positions, so relation lines can be drawn as real curves without any client-side DOM
+    /// measurement. Three cluster groups, derived from which of the 12 relations above already connect these
+    /// concepts to each other:
+    ///  - "Когнитивна верига" spans two columns: column 0 is the five-step sequential chain (situation →
+    ///    automatic-thought → emotion → body-reaction → behavior, rows 0-4); column 1 holds cognitive-model
+    ///    alone (row 2, vertically centered) as the single node all five IsPartOf relations converge into — a
+    ///    hub, not a sixth chain step, so it sits beside the chain rather than stacked below it.
+    ///  - "Вярвания" (column 2): intermediate-belief (row 0) → core-belief (row 1), the only two concepts
+    ///    connected to each other by the Precedes relations.
+    ///  - "Терапевтичен процес" (column 3): therapeutic-alliance (row 0, no relations at all) and
+    ///    socratic-question (row 1, exactly one relation, from automatic-thought) — two outliers with no
+    ///    relation to each other, grouped here because neither belongs to either dense sub-graph.
+    /// automatic-thought (column 0, row 1) is the only node whose relations reach outside its own column pair —
+    /// to intermediate-belief and to socratic-question — which is exactly why the renderer draws those two as
+    /// long, arcing cross-cluster curves rather than short in-column ones.</summary>
+    public static IReadOnlyDictionary<string, ConceptNetworkPosition> NetworkLayout { get; } = new Dictionary<string, ConceptNetworkPosition>
     {
-        ["situation"] = "Когнитивна верига",
-        ["automatic-thought"] = "Когнитивна верига",
-        ["emotion"] = "Когнитивна верига",
-        ["body-reaction"] = "Когнитивна верига",
-        ["behavior"] = "Когнитивна верига",
-        ["cognitive-model"] = "Когнитивна верига",
-        ["intermediate-belief"] = "Вярвания",
-        ["core-belief"] = "Вярвания",
-        ["therapeutic-alliance"] = "Терапевтичен процес",
-        ["socratic-question"] = "Терапевтичен процес"
+        ["situation"] = new("Когнитивна верига", 0, 0),
+        ["automatic-thought"] = new("Когнитивна верига", 0, 1),
+        ["emotion"] = new("Когнитивна верига", 0, 2),
+        ["body-reaction"] = new("Когнитивна верига", 0, 3),
+        ["behavior"] = new("Когнитивна верига", 0, 4),
+        ["cognitive-model"] = new("Когнитивна верига", 1, 2),
+        ["intermediate-belief"] = new("Вярвания", 2, 0),
+        ["core-belief"] = new("Вярвания", 2, 1),
+        ["therapeutic-alliance"] = new("Терапевтичен процес", 3, 0),
+        ["socratic-question"] = new("Терапевтичен процес", 3, 1)
     };
 }

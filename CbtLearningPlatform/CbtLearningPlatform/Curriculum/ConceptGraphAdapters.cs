@@ -9,11 +9,18 @@ public enum ConceptGraphMode { MindMap, ConceptMap, CaseMap }
 /// ConceptMapModel/ConceptNode.</summary>
 public enum ConceptGraphLayout { Chain, Network }
 
+/// <summary>Presentation-only spatial hint for Network layout — a small grid coordinate, never an absolute
+/// pixel position, and never a field on ConceptNode. Column/Row let the renderer draw deterministic SSR
+/// curves between exact node positions without any client-side DOM measurement. Cluster is the human-readable
+/// group label (e.g. "Когнитивна верига") that owns one or more columns.</summary>
+public sealed record ConceptNetworkPosition(string Cluster, int Column, int Row);
+
 /// <summary>Purely presentational — produced fresh by an adapter on every render, never stored or hand-authored
 /// as a second copy of the content. ConceptGraph.razor reads only this shape; it never sees MindMapModel/
 /// ConceptMapModel/CaseConceptualizationModel directly, so it cannot know what a "core belief" or "Ирина" is
-/// (COGNITIVE_LEARNING_ARCHITECTURE_v1.md §8/§9). Cluster is likewise a presentation-only grouping hint (null
-/// for every mode except Network-layout ConceptMap) — the renderer groups by it without knowing what it means.</summary>
+/// (COGNITIVE_LEARNING_ARCHITECTURE_v1.md §8/§9). Cluster/NetworkColumn/NetworkRow are likewise presentation-only
+/// hints (null for every mode except Network-layout ConceptMap) — the renderer draws from them without knowing
+/// what they mean.</summary>
 public sealed record GraphRenderNode(
     string Id,
     string Label,
@@ -22,7 +29,9 @@ public sealed record GraphRenderNode(
     ConceptState? DisplayState,
     string? ParentId,
     bool IsCrossReference,
-    string? Cluster = null);
+    string? Cluster = null,
+    int? NetworkColumn = null,
+    int? NetworkRow = null);
 
 public sealed record GraphRenderEdge(
     string FromId,
@@ -83,27 +92,34 @@ public static class MindMapAdapter
 
 public static class ConceptMapAdapter
 {
-    /// <summary>Layout and clusters are optional, additive parameters — Week 6's existing 2-argument call site
-    /// keeps compiling unchanged and keeps getting Chain layout with no clustering, exactly its current
-    /// behavior. Clusters, when supplied, is a presentation-only concept-id → cluster-label lookup owned by the
-    /// caller's own catalog (e.g. KnowledgeMapCatalog), never a new field on ConceptNode itself.</summary>
+    /// <summary>Layout and layout-positions are optional, additive parameters — Week 6's existing 2-argument
+    /// call site keeps compiling unchanged and keeps getting Chain layout with no spatial hints, exactly its
+    /// current behavior. Positions, when supplied, are a presentation-only concept-id → grid-coordinate lookup
+    /// owned by the caller's own catalog (e.g. KnowledgeMapCatalog.NetworkLayout), never a field on ConceptNode.</summary>
     public static GraphRenderModel ToRenderModel(
         ConceptMapModel model,
         IReadOnlyList<CourseWeekDefinition> weeks,
         ConceptGraphLayout layout = ConceptGraphLayout.Chain,
-        IReadOnlyDictionary<string, string>? clusters = null) => new(
+        IReadOnlyDictionary<string, ConceptNetworkPosition>? positions = null) => new(
         model.Title,
         model.ScreenReaderSummary,
         ConceptGraphMode.ConceptMap,
-        model.Nodes.Select(n => new GraphRenderNode(
-            n.Id,
-            n.Label,
-            n.Definition,
-            n.Anchor,
-            ConceptStateResolver.Derive(n.IntroducedWeek, n.RevisitedWeeks, weeks),
-            ParentId: null,
-            n.IsCrossReference,
-            Cluster: clusters is not null && clusters.TryGetValue(n.Id, out var cluster) ? cluster : null)).ToList(),
+        model.Nodes.Select(n =>
+        {
+            ConceptNetworkPosition? position = null;
+            positions?.TryGetValue(n.Id, out position);
+            return new GraphRenderNode(
+                n.Id,
+                n.Label,
+                n.Definition,
+                n.Anchor,
+                ConceptStateResolver.Derive(n.IntroducedWeek, n.RevisitedWeeks, weeks),
+                ParentId: null,
+                n.IsCrossReference,
+                Cluster: position?.Cluster,
+                NetworkColumn: position?.Column,
+                NetworkRow: position?.Row);
+        }).ToList(),
         model.Relations.Select(r => new GraphRenderEdge(r.FromId, r.ToId, r.RelationLabel, r.Direction)).ToList(),
         layout);
 }

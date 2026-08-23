@@ -238,13 +238,13 @@ public sealed class GlobalMapsTests
     }
 
     [Fact]
-    public void KnowledgeMap_EveryConceptHasAPresentationCluster_NoOrphans()
+    public void KnowledgeMap_EveryConceptHasANetworkPosition_NoOrphans()
     {
         ConceptMapModel model = KnowledgeMapCatalog.Build();
 
         foreach (ConceptNode node in model.Nodes)
         {
-            Assert.True(KnowledgeMapCatalog.Clusters.ContainsKey(node.Id), $"'{node.Label}' has no presentation cluster assigned.");
+            Assert.True(KnowledgeMapCatalog.NetworkLayout.ContainsKey(node.Id), $"'{node.Label}' has no network layout position assigned.");
         }
     }
 
@@ -254,7 +254,7 @@ public sealed class GlobalMapsTests
         // "Когнитивна верига" and "Вярвания" are grouped because their members are actually connected
         // to each other by real relations above — not an invented taxonomy layered on top.
         ConceptMapModel model = KnowledgeMapCatalog.Build();
-        var byCluster = KnowledgeMapCatalog.Clusters.GroupBy(kv => kv.Value).ToDictionary(g => g.Key, g => g.Select(kv => kv.Key).ToHashSet());
+        var byCluster = KnowledgeMapCatalog.NetworkLayout.GroupBy(kv => kv.Value.Cluster).ToDictionary(g => g.Key, g => g.Select(kv => kv.Key).ToHashSet());
 
         foreach (string denseCluster in new[] { "Когнитивна верига", "Вярвания" })
         {
@@ -272,7 +272,7 @@ public sealed class GlobalMapsTests
         // most one relation in the whole map — exactly why they read as loosely-connected outliers
         // rather than belonging in either dense cluster.
         ConceptMapModel model = KnowledgeMapCatalog.Build();
-        var processMembers = KnowledgeMapCatalog.Clusters.Where(kv => kv.Value == "Терапевтичен процес").Select(kv => kv.Key).ToHashSet();
+        var processMembers = KnowledgeMapCatalog.NetworkLayout.Where(kv => kv.Value.Cluster == "Терапевтичен процес").Select(kv => kv.Key).ToHashSet();
 
         foreach (string memberId in processMembers)
         {
@@ -282,16 +282,56 @@ public sealed class GlobalMapsTests
     }
 
     [Fact]
-    public void KnowledgeMapRender_UsesNetworkLayout_WithClustersPropagatedOntoRenderNodes()
+    public void KnowledgeMap_OnlyAutomaticThoughtsTwoRelationsCrossTwoOrMoreColumns()
     {
-        GraphRenderModel render = ConceptMapAdapter.ToRenderModel(KnowledgeMapCatalog.Build(), CourseCatalog.Weeks, ConceptGraphLayout.Network, KnowledgeMapCatalog.Clusters);
+        // §6/§9 of the final edge pass: relations spanning 2+ columns get routed as long arcing curves
+        // above the diagram instead of short in-column/adjacent-column curves. Exactly automatic-thought
+        // → intermediate-belief and automatic-thought → socratic-question qualify — pinning this down
+        // catches a future data change that silently adds/removes a long-range relation.
+        ConceptMapModel model = KnowledgeMapCatalog.Build();
+        var positions = KnowledgeMapCatalog.NetworkLayout;
 
-        Assert.Equal(ConceptGraphLayout.Network, render.Layout);
-        Assert.All(render.Nodes, n => Assert.False(string.IsNullOrWhiteSpace(n.Cluster)));
+        var longRange = model.Relations
+            .Where(r => Math.Abs(positions[r.ToId].Column - positions[r.FromId].Column) >= 2)
+            .Select(r => (r.FromId, r.ToId))
+            .OrderBy(r => r.ToId, StringComparer.Ordinal)
+            .ToList();
+
+        Assert.Equal([("automatic-thought", "intermediate-belief"), ("automatic-thought", "socratic-question")], longRange);
     }
 
     [Fact]
-    public void Week6ConceptMapRender_StillDefaultsToChainLayout_NoClusterAssigned()
+    public void KnowledgeMapRender_UsesNetworkLayout_WithPositionsPropagatedOntoRenderNodes()
+    {
+        GraphRenderModel render = ConceptMapAdapter.ToRenderModel(KnowledgeMapCatalog.Build(), CourseCatalog.Weeks, ConceptGraphLayout.Network, KnowledgeMapCatalog.NetworkLayout);
+
+        Assert.Equal(ConceptGraphLayout.Network, render.Layout);
+        Assert.All(render.Nodes, n => Assert.False(string.IsNullOrWhiteSpace(n.Cluster)));
+        Assert.All(render.Nodes, n => Assert.NotNull(n.NetworkColumn));
+        Assert.All(render.Nodes, n => Assert.NotNull(n.NetworkRow));
+    }
+
+    [Fact]
+    public void KnowledgeMapRender_EveryRelationHasBothEndpointsPositioned_SoNoneAreSilentlyDropped()
+    {
+        // ConceptGraph.razor's BuildCanvas only ever skips an edge when one endpoint lacks a network
+        // position — asserting every relation's two endpoints are positioned guarantees the desktop
+        // canvas draws all 12 relations as visual edges, not a subset (§24: "не губи relation тихо").
+        GraphRenderModel render = ConceptMapAdapter.ToRenderModel(KnowledgeMapCatalog.Build(), CourseCatalog.Weeks, ConceptGraphLayout.Network, KnowledgeMapCatalog.NetworkLayout);
+        var positionedIds = render.Nodes.Where(n => n.NetworkColumn is not null && n.NetworkRow is not null).Select(n => n.Id).ToHashSet();
+
+        Assert.Equal(10, positionedIds.Count);
+        Assert.Equal(12, render.Edges.Count);
+        foreach (GraphRenderEdge edge in render.Edges)
+        {
+            Assert.Contains(edge.FromId, positionedIds);
+            Assert.Contains(edge.ToId, positionedIds);
+            Assert.False(string.IsNullOrWhiteSpace(edge.Label), $"Relation {edge.FromId} to {edge.ToId} has no label to draw on its edge.");
+        }
+    }
+
+    [Fact]
+    public void Week6ConceptMapRender_StillDefaultsToChainLayout_NoNetworkPositionAssigned()
     {
         // Week 6's own call site only ever passes (model, weeks) — the two new parameters are
         // additive with defaults specifically so this keeps compiling and behaving unchanged.
@@ -300,6 +340,8 @@ public sealed class GlobalMapsTests
 
         Assert.Equal(ConceptGraphLayout.Chain, render.Layout);
         Assert.All(render.Nodes, n => Assert.Null(n.Cluster));
+        Assert.All(render.Nodes, n => Assert.Null(n.NetworkColumn));
+        Assert.All(render.Nodes, n => Assert.Null(n.NetworkRow));
     }
 
     [Fact]
@@ -315,39 +357,63 @@ public sealed class GlobalMapsTests
     }
 
     [Fact]
-    public void ConceptGraphComponent_NetworkNodesShowEveryOutgoingEdge_NotJustOne()
+    public void ConceptGraphComponent_NetworkDrawsRealSvgCurvesWithArrowheads_ForEveryEdge()
     {
-        // The rejected layout used FirstOrDefault, capping every node at one visible connection —
-        // the fix must enumerate ALL outgoing edges for a node, not look up a single one.
+        // The owner rejected both the FirstOrDefault chain AND the follow-up chip-list — relation
+        // meaning must live on a drawn <path>, not text inside a node card.
         string source = ReadComponent("ConceptGraph.razor");
-        int networkBranchStart = source.IndexOf("Model.Layout == ConceptGraphLayout.Network", StringComparison.Ordinal);
-        int chainBranchStart = source.IndexOf("var primary = Model.Nodes.Where(n => !n.IsCrossReference)", StringComparison.Ordinal);
-        string networkBranch = source[networkBranchStart..chainBranchStart];
 
-        Assert.Contains("Model.Edges.Where(e => e.FromId == node.Id)", networkBranch);
-        Assert.DoesNotContain("Model.Edges.FirstOrDefault", networkBranch);
+        Assert.Contains("<path d=\"@edge.PathData\"", source);
+        Assert.Contains("marker-end=", source);
+        Assert.Contains("orient=\"auto-start-reverse\"", source);
+        Assert.Contains("BuildCanvas(Model)", source);
+        Assert.Contains("canvas.Edges", source);
     }
 
     [Fact]
-    public void ConceptGraphComponent_NetworkNodesAreCompact_NoPersistentGotoCta()
+    public void ConceptGraphComponent_NetworkNodeCardsCarryNoRelationText()
     {
-        // Same compactness principle as the approved Mind Map standard: the concept label itself is
-        // the link, not an additional persistent "Виж секцията →" call to action.
+        // The node div template must not iterate Model.Edges — once a relation is drawn as an edge,
+        // its text must not also be repeated inside the node card.
         string source = ReadComponent("ConceptGraph.razor");
-        int networkBranchStart = source.IndexOf("Model.Layout == ConceptGraphLayout.Network", StringComparison.Ordinal);
-        int chainBranchStart = source.IndexOf("var primary = Model.Nodes.Where(n => !n.IsCrossReference)", StringComparison.Ordinal);
-        string networkBranch = source[networkBranchStart..chainBranchStart];
+        int nodesLoopStart = source.IndexOf("@foreach (var node in canvas.Nodes)", StringComparison.Ordinal);
+        int mobileSectionStart = source.IndexOf("concept-graph__network-mobile\">", StringComparison.Ordinal);
+        string nodeCardTemplate = source[nodesLoopStart..mobileSectionStart];
 
-        Assert.DoesNotContain("Виж секцията", networkBranch);
+        Assert.DoesNotContain("Model.Edges", nodeCardTemplate);
+        Assert.DoesNotContain("Виж секцията", nodeCardTemplate);
     }
 
     [Fact]
-    public void KartaPage_KnowledgeMapUsesNetworkLayoutAndPassesClusters()
+    public void ConceptGraphComponent_LongRangeRelationsArcAboveTheDiagram()
+    {
+        string source = ReadComponent("ConceptGraph.razor");
+
+        Assert.Contains("columnSpan >= 2", source);
+        Assert.Contains("longRangeIndex", source);
+    }
+
+    [Fact]
+    public void ConceptGraphComponent_HasAMobileIncomingOutgoingRepresentation()
+    {
+        // Mobile keeps a stacked representation, but unlike the desktop canvas it explicitly
+        // separates a concept's incoming relations from its outgoing ones as plain text.
+        string source = ReadComponent("ConceptGraph.razor");
+
+        Assert.Contains("concept-graph__network-mobile", source);
+        Assert.Contains("Входящи:", source);
+        Assert.Contains("Изходящи:", source);
+        Assert.Contains("Model.Edges.Where(e => e.ToId == node.Id)", source);
+        Assert.Contains("Model.Edges.Where(e => e.FromId == node.Id)", source);
+    }
+
+    [Fact]
+    public void KartaPage_KnowledgeMapUsesNetworkLayoutAndPassesPositions()
     {
         string source = ReadPage("Karta.razor");
 
         Assert.Contains("ConceptGraphLayout.Network", source);
-        Assert.Contains("KnowledgeMapCatalog.Clusters", source);
+        Assert.Contains("KnowledgeMapCatalog.NetworkLayout", source);
     }
 
     [Fact]
