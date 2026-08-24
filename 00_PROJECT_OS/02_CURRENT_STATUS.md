@@ -18,7 +18,22 @@
 
 ## Текуща стъпка
 
-`WEEK 3 v2 — FINAL UI + TERMINOLOGY POLISH` (Сесия 54, 2026-08-24). Content/architecture вече PASS
+`WEEK 3 — TARGETED DIAGRAM GEOMETRY FIX` (Сесия 55, 2026-08-24). Geometry-only pass след Сесия 54 —
+content/architecture остава PASS, Mind Map/coverage/semantic relations недокоснати. **Section 09:**
+нов `.trigger-inputs` bordered box отделя trigger-примерите от каскадата; каскадата вече хоризонтална
+на 900px+ (реизползва Section 07's `--horizontal` модификатор) с нова widescreen loop-back SVG (дипва
+надолу и се връща от последния към първия node), label вече постоянно хоризонтален текст (премахнат
+`vertical-rl`). **Sally map:** прередизайнирана, не rescale-ната — `sali-situation` вече на СЪЩИЯ ред
+като `sali-thought` (паралелна двойка, не подниво на вярванията); canvas 840px→**536px** (verified).
+9 nodes/10 relations непроменени. **Section 03 ROOT CAUSE fix:** базовият `.concept-map__node` (inline
+-flex, shrink-to-fit) нямаше собствено centering — fix-нат на ниво базов `.concept-map__flow` клас
+(`flex column + align-items:center`), подобрява ВСЯКА употреба сайт-wide, не само Section 03. Заглавие
+"От ситуация до значение" → "От ситуация до автоматична мисъл" (терминологична яснота). §4 verification:
+Section 07/Triad/Section 13/Sources/no-English-leakage — всичките потвърдени непокътнати. **518/518**
+теста (0 нови), build 0/0 (Debug+Release). Резултат: `STRUCTURAL QA COMPLETE — OWNER PIXEL REVIEW
+REQUIRED`. Server: `http://localhost:5131/kurs/sedmica-3`. **Седмица 7/8/12 — недокоснати.**
+
+Предходен checkpoint — `WEEK 3 v2 — FINAL UI + TERMINOLOGY POLISH` (Сесия 54, 2026-08-24). Content/architecture вече PASS
 (Сесия 53) — тази сесия е чист presentation polish по owner screenshot findings, Mind Map/43-43
 coverage/Sally архитектура недокоснати. **Terminology:** "Автоматично значение" (секция 03) уеднаквено
 на "Автоматична мисъл" — проверено директно срещу source extraction-а, главата никога не използва

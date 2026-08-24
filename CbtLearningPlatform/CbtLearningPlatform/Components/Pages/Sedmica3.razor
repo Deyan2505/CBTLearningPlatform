@@ -59,7 +59,7 @@
         <a href="/kurs/sedmica-3#karta-sedmicata">Карта на седмицата</a>
         <a href="/kurs/sedmica-3#tri-niva">Три нива</a>
         <a href="/kurs/sedmica-3#izsledvane">Изследвайте нивата</a>
-        <a href="/kurs/sedmica-3#situacia-znachenie">От ситуация до значение</a>
+        <a href="/kurs/sedmica-3#situacia-znachenie">От ситуация до автоматична мисъл</a>
         <a href="/kurs/sedmica-3#triada">Когнитивна триада</a>
         <a href="/kurs/sedmica-3#filtar">Схема като филтър</a>
         <a href="/kurs/sedmica-3#sali-hierarhia">Случаят на Сали</a>
@@ -112,7 +112,7 @@
 
     <div class="learning-grid learning-grid--content-visual">
         <LearningSection Role="visual" RoleLabel="Визуален модел">
-            <h2 id="situacia-znachenie" tabindex="-1">03 · От ситуация до значение</h2>
+            <h2 id="situacia-znachenie" tabindex="-1">03 · От ситуация до автоматична мисъл</h2>
             <ol class="concept-map__flow">
                 <li class="concept-map__node">Ситуация</li>
                 <li class="concept-map__connector" aria-hidden="true">↓</li>
@@ -309,34 +309,36 @@
             реалността точно. Мисленето, настроението, поведението, физиологията и средата могат
             взаимно да се влияят — реакцията от една стъпка може да стане ситуацията за следващата.
         </p>
-        <p>Ситуацията, която задейства верига от мисли, не е винаги дискретно външно събитие — може да бъде и:</p>
-        <div class="key-idea-strip">
-            <span class="key-idea">Поток от мисли</span>
-            <span class="key-idea">Спомен</span>
-            <span class="key-idea">Образ</span>
-            <span class="key-idea">Самата емоция</span>
-            <span class="key-idea">Собственото поведение</span>
-            <span class="key-idea">Физическо усещане</span>
+        <div class="trigger-inputs">
+            <p class="trigger-inputs__label">Какво може да бъде ситуация/задействащ вход</p>
+            <div class="key-idea-strip">
+                <span class="key-idea">Поток от мисли</span>
+                <span class="key-idea">Спомен</span>
+                <span class="key-idea">Образ</span>
+                <span class="key-idea">Самата емоция</span>
+                <span class="key-idea">Собственото поведение</span>
+                <span class="key-idea">Физическо усещане</span>
+            </div>
         </div>
         <div class="cascade-loop">
-            <ol class="concept-map__flow cascade-loop__flow">
-                <li class="concept-map__node">Физиологичен сигнал (напр. ускорен пулс)</li>
+            <ol class="concept-map__flow concept-map__flow--horizontal cascade-loop__flow">
+                <li class="concept-map__node">Физиологичен сигнал</li>
                 <li class="concept-map__connector" aria-hidden="true">↓</li>
-                <li class="concept-map__node">Автоматична мисъл за самия сигнал</li>
+                <li class="concept-map__node">Автоматична мисъл за сигнала</li>
                 <li class="concept-map__connector" aria-hidden="true">↓</li>
                 <li class="concept-map__node">Емоция</li>
                 <li class="concept-map__connector" aria-hidden="true">↓</li>
                 <li class="concept-map__node concept-map__node--highlight">Ново усещане</li>
             </ol>
-            <svg class="cascade-loop__connector" viewBox="0 0 60 300" preserveAspectRatio="none" aria-hidden="true">
+            <svg class="cascade-loop__connector" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
                 <defs>
                     <marker id="cascade-loop-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                         <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
                     </marker>
                 </defs>
-                <path d="M15,285 C55,285 55,15 15,15" fill="none" stroke="currentColor" stroke-width="2" marker-end="url(#cascade-loop-arrow)" />
+                <path d="M380,2 C380,58 20,58 20,2" fill="none" stroke="currentColor" stroke-width="2" marker-end="url(#cascade-loop-arrow)" />
             </svg>
-            <span class="cascade-loop__label">става следваща "ситуация" ↺</span>
+            <span class="cascade-loop__label">Ново усещане може да стане следваща "ситуация" ↺</span>
         </div>
         <p>Кратък пример: забелязвате учестено сърцебиене → мислите "какво не е наред с мен?" → тревожност нараства → напрежението в тялото се усеща по-силно → нова мисъл при все по-силния сигнал.</p>
         <details class="progressive-explanation">
@@ -581,28 +583,30 @@
             new("posledovatelnost-node", "Защо автоматични мисли първо", "root", null, "/kurs/sedmica-3#posledovatelnost", ConceptState.Introduced)
         ]);
 
-    // v2 polish (owner review): the 4 edges converging on sali-thought from column 1
-    // (attitude/rule/assumption/situation) read as too congested at the engine's default
-    // adjacent-row spacing. Rows are presentation-only data owned by this page, not the shared
-    // ConceptGraph engine (its CardHeight/RowGap constants are untouched — the global Knowledge
-    // Map they also drive stays exactly as owner-approved). Every row below is the original
-    // 0/1/2/3 layout multiplied by 3, preserving the same relative alignment (core/thought/rule/
-    // behavior still share a row; attitude/emotion still share a row; assumption/physio still
-    // share a row) while tripling the vertical gap between converging/diverging edges, so labels
-    // no longer sit stacked close together in the same narrow column gap.
+    // v2 geometry fix (owner review): the previous ×3 row spacing (0/3/6/9) fixed the label
+    // congestion but grew the canvas to 840px — too tall for a moderate, compact map. Rows are
+    // presentation-only data owned by this page, not the shared ConceptGraph engine (its
+    // CardHeight/RowGap constants are untouched — the global Knowledge Map they also drive stays
+    // exactly as owner-approved). Redesigned, not just re-scaled: sali-situation now sits at the
+    // SAME row as sali-thought (a clean, direct horizontal pairing — "situation" reads as a
+    // parallel input beside the thought it triggers, not a fourth item stacked under the three
+    // beliefs) with one skipped row (3) between it and the belief cluster above, so it visually
+    // separates from Нагласа/Правило/Предположение instead of reading as a sub-level of them. The
+    // three belief→thought edges keep graduated vertical distances (rows 0/1/2 into row 4), which
+    // already spreads their labels without needing the belief cluster itself spread out further.
     // SaliNetworkLayout must be declared before _saliHierarchyRender — static field initializers
     // run in declaration order, and ToRenderModel needs the dictionary already built, not null.
     private static readonly IReadOnlyDictionary<string, ConceptNetworkPosition> SaliNetworkLayout = new Dictionary<string, ConceptNetworkPosition>
     {
-        ["sali-core"] = new("", 0, 3),
+        ["sali-core"] = new("", 0, 1),
         ["sali-attitude"] = new("", 1, 0),
-        ["sali-rule"] = new("", 1, 3),
-        ["sali-assumption"] = new("", 1, 6),
-        ["sali-situation"] = new("", 1, 9),
-        ["sali-thought"] = new("", 2, 3),
-        ["sali-emotion"] = new("", 3, 0),
-        ["sali-behavior"] = new("", 3, 3),
-        ["sali-physio"] = new("", 3, 6)
+        ["sali-rule"] = new("", 1, 1),
+        ["sali-assumption"] = new("", 1, 2),
+        ["sali-situation"] = new("", 1, 4),
+        ["sali-thought"] = new("", 2, 4),
+        ["sali-emotion"] = new("", 3, 3),
+        ["sali-behavior"] = new("", 3, 4),
+        ["sali-physio"] = new("", 3, 5)
     };
 
     private static readonly GraphRenderModel _saliHierarchyRender = ConceptMapAdapter.ToRenderModel(
