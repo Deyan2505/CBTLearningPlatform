@@ -18,7 +18,21 @@
 
 ## Текуща стъпка
 
-`WEEK 3 AUDIT QA FIX + V2 MIGRATION BLUEPRINT` (Сесия 52, 2026-08-24). Owner откри QA blocker в
+`WEEK 3 v2 — DEEP LEARNING IMPLEMENTATION` (Сесия 53, 2026-08-24). Реален код по
+`WEEK_03_V2_MIGRATION_BLUEPRINT.md`: `Sedmica3.razor` разширен (не пренаписан) — запазени 01-04/07 и
+двата load-bearing anchor-а (`#situacia-znachenie`/`#tri-niva`, реферирани от `KnowledgeMapCatalog.cs`);
+добавени Weekly Mind Map preview/review (locked Week 6 pattern), "Случаят на Сали" (retold, не
+verbatim, populated 9-node/10-edge `ConceptGraphLayout.Network` map, изцяло локален — нищо ново в
+`KnowledgeMapCatalog.cs`), Attitude/Rule/Assumption таблица, treatment-sequencing rationale,
+cascading-model секция, 2 нови assessment въпроса (общо 6). **SOURCE UNRESOLVED резолюция:**
+"automatic vs. reflexive processing" — 0 съвпадения в `11_SOURCE_REGISTER.md`, премахнато (не
+измислен source). Самокоригиран бъг по време на runtime QA: static field declaration order (fixed).
+**518/518** теста, build 0/0 (Debug + Release). Runtime QA срещу decoded HTML потвърди точна SVG
+геометрия (1048×384px canvas, 9 nodes, 10 edges) — по-силна от предишен "structural only" QA, но
+все още без browser/screenshot инструмент. Резултат: `IMPLEMENTED — AWAITING OWNER LEARNING REVIEW`.
+Server: `http://localhost:5131/kurs/sedmica-3`. **Седмица 7/8/12 — недокоснати.**
+
+Предходен checkpoint — `WEEK 3 AUDIT QA FIX + V2 MIGRATION BLUEPRINT` (Сесия 52, 2026-08-24). Owner откри QA blocker в
 Сесия 51's Coverage Matrix (43 units декларирани, но статусите сумираха само 41 — U01-U04 никога не
 получиха ред, U33 беше двойно броен). Коригирано: **10 Included / 23 Missing / 9 Deferred / 1
 Excluded = 43, Unaccounted 0** — корекцията прави Class B заключението по-силно (Missing нарасна от

@@ -2,17 +2,39 @@
    as an uppercase status in the public UI (Week 1 owner-review correction lesson applied).
    CONTENT-DRIVEN TEMPLATE VALIDATION, Slice 2: "Concept and Diagram" archetype — distinct from
    Week 1's "Theory and History" and Week 8's "Simulator Workspace". Curriculum topic from
-   kpt_syllabus.pdf (Week 3) — map only, never verbatim text. Content basis: SRC-041 (Judith
-   Beck), Ch. 3 "The Cognitive Model" (automatic thoughts, intermediate/core beliefs, schema)
-   plus the classic Beck cognitive triad (self/world/future, confirmed by multiple registered
-   sources — 11_SOURCE_REGISTER.md SRC-025/035/037). Reconciled syllabus claims (10_SESSION_LOG.md,
-   this session): core beliefs are not framed as inherently negative/pathological; "schema as
-   filter" is explicitly labeled a teaching metaphor, not a literal mechanism; "automatic" is not
-   equated with "irrational"; reflective processing is not framed as guaranteed-correct.
-   Two interactive islands (CognitiveHierarchyExplorer, SchemaFilterDemonstration) — both reuse
-   proven patterns (.cbt-diagram step-select; a small toggle+list), no generic diagram/node-editor
-   framework. Knowledge check and thought-vs-belief check reuse native <details>/<summary>
-   (Week 1 pattern), not a second quiz engine. *@
+   kpt_syllabus.pdf (Week 3) — map only, never verbatim text.
+
+   v2 DEEP LEARNING MIGRATION (WEEK_03_V2_MIGRATION_BLUEPRINT.md, Class B) — grounded in a full
+   read of SRC-041 Ch. 3, actually titled "Когнитивна концептуализация" in this edition (not
+   literally "The Cognitive Model" as v1's comment claimed — a title-precision correction, same
+   chapter/content). 43 Knowledge Units extracted; Coverage Matrix: 10 Included / 23 Missing / 9
+   Deferred (Week 4/8/9's scope by design) / 1 Excluded (book-internal cross-reference outside
+   this chapter's extraction). v2 adds the chapter's own worked case example ("Sally" — retold/
+   summarized in this page's own words, never long verbatim passages, per owner instruction),
+   populated as a real multi-edge Concept Map (ConceptGraphLayout.Network — the owner-approved
+   spatial-edge standard, entirely local to this page's own @code, not added to the global
+   KnowledgeMapCatalog); the three named intermediate-belief subtypes (Attitude/Rule/Assumption);
+   the treatment-sequencing rationale (why automatic thoughts are addressed before core beliefs);
+   the "more complex/cascading model" caveat (the simple chain is a simplification); and a Weekly
+   Mind Map preview/review pair (same MindMapModel rendered twice, mirroring the locked Week 6
+   standard exactly). SOURCE UNRESOLVED ITEM RESOLVED: v1's "automatic vs. reflexive processing"
+   comparison does not appear anywhere in Ch. 3 and had no cited secondary source anywhere in
+   11_SOURCE_REGISTER.md (checked directly, no match) — removed rather than invented; its anchor
+   slot is reused for the new Sally section instead. No concept/relation added to
+   KnowledgeMapCatalog.cs in this pass — the owner has not separately confirmed the audit's
+   candidate concepts (Cognitive Triad, Attitude/Rule/Assumption, diathesis-stress), so this page
+   deepens the 10 concepts already in the global map without adding new ones to it.
+
+   Content basis: SRC-041 (Judith Beck), Ch. 3 (automatic thoughts, intermediate/core beliefs,
+   schema, the Sally worked example) plus the classic Beck cognitive triad (self/world/future,
+   confirmed by multiple registered sources — 11_SOURCE_REGISTER.md SRC-025/035/037). Reconciled
+   syllabus claims (10_SESSION_LOG.md, Session 31): core beliefs are not framed as inherently
+   negative/pathological; "schema as filter" is explicitly labeled a teaching metaphor, not a
+   literal mechanism; "automatic" is not equated with "irrational".
+   Two interactive islands (CognitiveHierarchyExplorer, SchemaFilterDemonstration) — unchanged
+   from v1, both reuse proven patterns, no generic diagram/node-editor framework, no new WASM
+   component added in v2. Knowledge check and thought-vs-belief check reuse native
+   <details>/<summary> (Week 1 pattern), not a second quiz engine. *@
 @page "/kurs/sedmica-3"
 
 <PageTitle>Седмица 3: Архитектура на когнитивния модел — 15-седмичен курс — КПТ Академия</PageTitle>
@@ -34,20 +56,29 @@
     </div>
 
     <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-3#karta-sedmicata">Карта на седмицата</a>
         <a href="/kurs/sedmica-3#tri-niva">Три нива</a>
         <a href="/kurs/sedmica-3#izsledvane">Изследвайте нивата</a>
         <a href="/kurs/sedmica-3#situacia-znachenie">От ситуация до значение</a>
         <a href="/kurs/sedmica-3#triada">Когнитивна триада</a>
         <a href="/kurs/sedmica-3#filtar">Схема като филтър</a>
-        <a href="/kurs/sedmica-3#obrabotka">Обработка на информация</a>
+        <a href="/kurs/sedmica-3#sali-hierarhia">Случаят на Сали</a>
         <a href="/kurs/sedmica-3#karta">Как се свързват нивата</a>
+        <a href="/kurs/sedmica-3#posledovatelnost">Защо автоматични мисли първо</a>
+        <a href="/kurs/sedmica-3#kaskaden-model">По-сложен модел</a>
         <a href="/kurs/sedmica-3#obarkvaniya">Чести обърквания</a>
         <a href="/kurs/sedmica-3#proverka">Проверка</a>
+        <a href="/kurs/sedmica-3#karta-povtorenie">Карта за повторение</a>
         <a href="/kurs/sedmica-3#izvori">Източници</a>
     </nav>
 </div>
 
 <div class="workspace">
+    <LearningSection Role="theory" RoleLabel="Карта на седмицата">
+        <h2 id="karta-sedmicata" tabindex="-1">00 · Карта на седмицата</h2>
+        <ConceptGraph ComponentId="week3-mindmap-preview" Model="@_week3MindMapRender" />
+    </LearningSection>
+
     <LearningSection Role="theory" RoleLabel="Визуален модел">
         <h2 id="tri-niva" tabindex="-1">01 · Три нива на мисленето</h2>
         <ol class="learning-path-diagram" aria-label="Три нива на когнитивния модел">
@@ -132,66 +163,185 @@
             информацията да получава повече значение, а друга да бъде пренебрегвана или обяснявана по
             различен начин. По-долу е един фиксиран, неутрален сценарий — не въвеждане на лична ситуация.
         </p>
+        <p>
+            По-конкретно: <strong>потвърждаващи</strong> дадено вярване данни обикновено се приемат
+            веднага, докато <strong>неопровергаващи</strong> го данни лесно се отхвърлят, обясняват по
+            заобиколен начин или просто остават незабелязани — самият човек не прави това нарочно.
+        </p>
         <SchemaFilterDemonstration @rendermode="InteractiveWebAssembly" />
     </LearningSection>
 
-    <div class="learning-grid learning-grid--balanced">
-        <LearningSection Role="theory" RoleLabel="Сравнение">
-            <h2 id="obrabotka" tabindex="-1">06 · Автоматична и рефлексивна обработка</h2>
-            <div class="learning-grid learning-grid--balanced">
-                <div class="card">
-                    <h3>Автоматична обработка</h3>
-                    <ul>
-                        <li>бърза;</li>
-                        <li>изисква малко съзнателно усилие;</li>
-                        <li>използва познати модели и асоциации;</li>
-                        <li>полезна в много ежедневни ситуации;</li>
-                        <li>може да пропусне част от контекста.</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <h3>Рефлексивна обработка</h3>
-                    <ul>
-                        <li>по-бавна;</li>
-                        <li>изисква повече внимание;</li>
-                        <li>позволява сравнение на повече информация;</li>
-                        <li>може да преразгледа първоначалната интерпретация;</li>
-                        <li>не гарантира безгрешен резултат.</li>
-                    </ul>
-                </div>
-            </div>
-            <ol class="concept-map__flow">
-                <li class="concept-map__node">Първа интерпретация</li>
-                <li class="concept-map__connector" aria-hidden="true">↓</li>
-                <li class="concept-map__node">Пауза и разглеждане на допълнителни данни</li>
-                <li class="concept-map__connector" aria-hidden="true">↓</li>
-                <li class="concept-map__node">Потвърждение, уточнение или промяна на първоначалния извод</li>
-            </ol>
-        </LearningSection>
+    <LearningSection Role="example" RoleLabel="Случай">
+        <h2 id="sali-hierarhia" tabindex="-1">06 · Случаят на Сали: работена йерархия</h2>
+        <p>
+            "Сали" е примерът, който основният учебник на курса (Джудит Бек, Глава 3) използва през
+            цялата книга, за да покаже как трите нива работят заедно в един реален случай — не
+            инструкция за самооценка, а онагледяване на модела с конкретни данни вместо абстрактни
+            етикети.
+        </p>
+        <p>
+            Като дете Сали постоянно се сравнявала с по-успешния си по-голям брат и получавала чести
+            критики от майка си. С времето формирала основното вярване "Аз съм некомпетентна" —
+            вярване, което подбирало кои преживявания да ѝ направят впечатление: пропуските се
+            запомняли, а успехите се обяснявали с късмет или с лекотата на задачата. Насърчаващ баща и
+            няколко добри учители поддържали и по-позитивно вярване — "разумно съм компетентна" —
+            активно през по-голямата част от времето, докато не изпаднала в депресия.
+        </p>
+        <p>
+            От тези преживявания произлезли и по-конкретни нагласи и правила: "Ужасно е да пропиляваш
+            потенциала си", "Винаги трябва да давам най-доброто от себе си". В гимназията те ѝ пречели
+            да опита нови неща — например не кандидатствала за училищния вестник, макар да я
+            интересувал, защото предполагала, че няма да пише достатъчно добре.
+        </p>
+        <p>
+            <strong>Ключовото наблюдение:</strong> едни и същи основни вярвания давали различни
+            резултати в различни периоди. В гимназията, когато доминирало по-позитивното вярване,
+            автоматичните ѝ мисли били сравнително реалистични — влязла в отбора по софтбол и си
+            помислила: "Това е страхотно." В първата година в колежа, когато депресията активирала
+            негативното вярване, подобна по вид ситуация водела до съвсем различни мисли: "Не съм
+            добра. Вероятно дори няма да мога да се справя."
+        </p>
+        <p>
+            Защо точно тогава? Според модела "диатеза-стрес" (Бек, 1967), склонност към негативни
+            вярвания често остава латентна, докато не се съчетае с подходящи стресови събития. За Сали
+            това били началото на колежа, сравнението с връстници с повече предварителни кредити и
+            трудности в конкретни курсове — комбинация, която активирала вече съществуващото ѝ
+            уязвимо вярване.
+        </p>
+        <ConceptGraph ComponentId="week3-sali-hierarchy" Model="@_saliHierarchyRender" />
 
-        <LearningSection Role="visual" RoleLabel="Визуален модел">
-            <h2 id="karta" tabindex="-1">07 · Как се свързват нивата</h2>
-            <ol class="concept-map__flow">
-                <li class="concept-map__node">Основно вярване</li>
-                <li class="concept-map__connector" aria-hidden="true">↓</li>
-                <li class="concept-map__node">Междинно правило или предположение</li>
-                <li class="concept-map__connector" aria-hidden="true">↓</li>
-                <li class="concept-map__node">Ситуация</li>
-                <li class="concept-map__connector" aria-hidden="true">↓</li>
-                <li class="concept-map__node concept-map__node--highlight">Автоматична мисъл</li>
-                <li class="concept-map__connector" aria-hidden="true">↓</li>
-                <li class="concept-map__node">Емоция / телесна реакция / поведение</li>
-            </ol>
-            <p class="concept-map__feedback">
-                Новият опит може да подсили или да постави под въпрос съществуващото вярване (↺) — връзките не
-                са механични и еднопосочни. От една мисъл не може надеждно да се заключи какво е основното
-                вярване на човека; тази диаграма не е инструмент за самодиагностика.
+        <h3>Нагласа, правило, предположение — три различни вида междинно вярване</h3>
+        <p>Книгата разграничава три вида междинно вярване. Примерите по-долу са от нейния собствен worked example (не на Сали):</p>
+        <div class="comparison-matrix-wrapper">
+            <table class="comparison-matrix">
+                <caption>Три вида междинно вярване</caption>
+                <thead>
+                    <tr><th scope="col">Вид</th><th scope="col">Естество</th><th scope="col">Пример</th></tr>
+                </thead>
+                <tbody>
+                    <tr><th scope="row">Нагласа</th><td>Оценъчно отношение</td><td>"Страшно е да се провалиш."</td></tr>
+                    <tr><th scope="row">Правило</th><td>Императивна норма за поведение</td><td>"Откажи се, ако предизвикателството изглежда твърде голямо."</td></tr>
+                    <tr><th scope="row">Предположение</th><td>Условно "ако — тогава" вярване</td><td>"Ако се опитам да направя нещо трудно, ще се проваля. Ако избегна да го направя, всичко ще е наред."</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Изберете кой вид междинно вярване е всяко от следните твърдения, после разгънете обяснението.</p>
+        <div class="concept-map__side-notes">
+            <div class="card">
+                <p>"Ще се проваля, ако не се представя перфектно."</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи класификацията</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Предположение</strong> — условна "ако — тогава" форма.</p>
+                    </div>
+                </details>
+            </div>
+            <div class="card">
+                <p>"Никога не бива да показвам слабост пред другите."</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи класификацията</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Правило</strong> — императивна норма за поведение.</p>
+                    </div>
+                </details>
+            </div>
+            <div class="card">
+                <p>"Ужасно е да не бъдеш харесван от всички."</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи класификацията</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Нагласа</strong> — оценъчно отношение, не условие и не норма за действие.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="visual" RoleLabel="Визуален модел">
+        <h2 id="karta" tabindex="-1">07 · Как се свързват нивата</h2>
+        <ol class="concept-map__flow">
+            <li class="concept-map__node">Основно вярване</li>
+            <li class="concept-map__connector" aria-hidden="true">↓</li>
+            <li class="concept-map__node">Междинно правило или предположение</li>
+            <li class="concept-map__connector" aria-hidden="true">↓</li>
+            <li class="concept-map__node">Ситуация</li>
+            <li class="concept-map__connector" aria-hidden="true">↓</li>
+            <li class="concept-map__node concept-map__node--highlight">Автоматична мисъл</li>
+            <li class="concept-map__connector" aria-hidden="true">↓</li>
+            <li class="concept-map__node">Емоция / телесна реакция / поведение</li>
+        </ol>
+        <p class="concept-map__feedback">
+            Новият опит може да подсили или да постави под въпрос съществуващото вярване (↺) — връзките не
+            са механични и еднопосочни. От една мисъл не може надеждно да се заключи какво е основното
+            вярване на човека; тази диаграма не е инструмент за самодиагностика.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Обосновка">
+        <h2 id="posledovatelnost" tabindex="-1">08 · Защо терапията започва с автоматични мисли</h2>
+        <ProgressiveExplanation SummaryLabel="Покажи пълното обяснение">
+            <p>
+                Ако основните вярвания са причината, защо терапията не тръгва директно с тях? Няколко
+                причини, изведени от самия модел:
             </p>
-        </LearningSection>
-    </div>
+            <ul>
+                <li>По-лесно е да разпознаеш изкривяване в една конкретна мисъл, отколкото в широко
+                    самопредставяне за себе си.</li>
+                <li>Повторено облекчение на нивото на автоматичните мисли постепенно изгражда
+                    откритост към разглеждане на по-дълбоки вярвания.</li>
+                <li>Твърде ранно оспорване на дълбоко вкоренено вярване рискува терапевтичния алианс —
+                    човекът може да се почувства неразбран или отхвърлен.</li>
+                <li>По-дълбоката модификация на основните вярвания идва по-късно в лечението, но именно
+                    тя намалява риска от рецидив в дългосрочен план.</li>
+            </ul>
+            <p>
+                Ключова преформулировка, която терапията учи: фактът, че вярваш в нещо, не означава, че
+                е вярно — дори когато вярването се усеща напълно сигурно.
+            </p>
+        </ProgressiveExplanation>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Граница на модела">
+        <h2 id="kaskaden-model" tabindex="-1">09 · По-сложен модел: когато веригата не е права линия</h2>
+        <p>
+            Простата верига "Ситуация → Мисъл → Реакция" е полезно опростяване, но не винаги описва
+            реалността точно. Мисленето, настроението, поведението, физиологията и средата могат
+            взаимно да се влияят — реакцията от една стъпка може да стане ситуацията за следващата.
+        </p>
+        <p>Ситуацията, която задейства верига от мисли, не е винаги дискретно външно събитие — може да бъде и:</p>
+        <div class="key-idea-strip">
+            <span class="key-idea">Поток от мисли</span>
+            <span class="key-idea">Спомен</span>
+            <span class="key-idea">Образ</span>
+            <span class="key-idea">Самата емоция</span>
+            <span class="key-idea">Собственото поведение</span>
+            <span class="key-idea">Физическо усещане</span>
+        </div>
+        <ol class="concept-map__flow">
+            <li class="concept-map__node">Физиологичен сигнал (напр. ускорен пулс)</li>
+            <li class="concept-map__connector" aria-hidden="true">↓</li>
+            <li class="concept-map__node">Автоматична мисъл за самия сигнал</li>
+            <li class="concept-map__connector" aria-hidden="true">↓</li>
+            <li class="concept-map__node">Емоция</li>
+            <li class="concept-map__connector" aria-hidden="true">↓</li>
+            <li class="concept-map__node concept-map__node--highlight">Новото усещане става следваща "ситуация" ↺</li>
+        </ol>
+        <p>Кратък пример: забелязвате учестено сърцебиене → мислите "какво не е наред с мен?" → тревожност нараства → напрежението в тялото се усеща по-силно → нова мисъл при все по-силния сигнал.</p>
+        <details class="progressive-explanation">
+            <summary>Проверка: проста верига или каскада?</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    "Забелязвам бързо сърцебиене, помислям си 'какво не е наред с мен', тревожа се
+                    повече, сърцето бие още по-бързо." Това е <strong>каскада</strong>, не проста
+                    верига — физиологичната реакция от една стъпка става тригер за следващата мисъл.
+                </p>
+            </div>
+        </details>
+    </LearningSection>
 
     <LearningSection Role="example" RoleLabel="Сравнение">
-        <h2 id="obarkvaniya" tabindex="-1">08 · Чести обърквания</h2>
+        <h2 id="obarkvaniya" tabindex="-1">10 · Чести обърквания</h2>
         <p>Изберете как бихте класифицирали всяка фраза, после разгънете обяснението.</p>
 
         <div class="concept-map__side-notes">
@@ -232,7 +382,7 @@
     </LearningSection>
 
     <LearningSection Role="theory" RoleLabel="Рефлексия">
-        <h2 id="proverka" tabindex="-1">09 · Проверка на разбирането</h2>
+        <h2 id="proverka" tabindex="-1">11 · Проверка на разбирането</h2>
         <p>Изберете отговор, след което разгънете обяснението. Проверката не се оценява и не запазва отговори.</p>
 
         <div class="learning-grid learning-grid--balanced">
@@ -270,38 +420,77 @@
             </div>
 
             <div class="card">
-                <p><strong>Въпрос 4.</strong> Кое твърдение за рефлексивната обработка е най-точно?</p>
-                <p>А. Тя винаги дава правилния извод<br />Б. Тя позволява по-съзнателно разглеждане на информацията, но не гарантира безгрешен извод<br />В. Тя е винаги по-добра от автоматичната обработка</p>
+                <p><strong>Въпрос 4.</strong> Кое твърдение за "по-сложния модел" е най-точно?</p>
+                <p>А. Простата верига винаги описва точно случващото се<br />Б. Мисленето, емоцията, поведението и физиологията могат взаимно да се влияят — реакция от една стъпка може да стане ситуация за следващата<br />В. Каскадният модел важи само за физиологични сигнали</p>
                 <details class="progressive-explanation">
                     <summary>Покажи отговора</summary>
                     <div class="progressive-explanation__body">
-                        <p><strong>Б.</strong> Рефлексивната обработка позволява по-задълбочено разглеждане, но остава податлива на грешки.</p>
+                        <p><strong>Б.</strong> Простата линейна верига е полезно опростяване, не винаги точно описание. Source: <a href="/kurs/sedmica-3#kaskaden-model">09</a></p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 5.</strong> Кое от следните е пример за <strong>правило</strong>, не за нагласа или предположение?</p>
+                <p>А. "Ужасно е да се провалиш."<br />Б. "Никога не бива да се отказвам, независимо от трудността."<br />В. "Ако се проваля веднъж, ще се провалям винаги."</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Императивна норма за поведение — А е нагласа (оценка), В е предположение (условно "ако — тогава"). Source: <a href="/kurs/sedmica-3#sali-hierarhia">06</a></p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 6 (сценарий).</strong> Терапевт работи с пациент с дълбоко вкоренено основно вярване "Не струвам нищо." Защо терапевтът вероятно ще започне с автоматичните мисли на пациента, а не директно ще оспори основното вярване?</p>
+                <p>А. Защото основните вярвания изобщо не могат да бъдат променени<br />Б. Защото твърде ранното оспорване на дълбоко вкоренено вярване рискува терапевтичния алианс, докато работата с автоматични мисли изгражда постепенна откритост<br />В. Защото автоматичните мисли са по-важни от основните вярвания</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Постепенният подход пази терапевтичната връзка, докато изгражда откритост към по-дълбока промяна. Source: <a href="/kurs/sedmica-3#posledovatelnost">08</a></p>
                     </div>
                 </details>
             </div>
         </div>
     </LearningSection>
 
+    <LearningSection Role="academic" RoleLabel="Изводи">
+        <h2 id="karta-povtorenie" tabindex="-1">12 · Карта за повторение</h2>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Преди да разгънеш картата, опитай да си спомниш кои са основните знаниеви клъстери на
+                    седмицата и как се свързват — чак тогава разгъни, за да сравниш.
+                </p>
+                <ConceptGraph ComponentId="week3-mindmap-review" Model="@_week3MindMapRender" />
+            </div>
+        </details>
+    </LearningSection>
+
     <div class="learning-grid learning-grid--balanced">
         <LearningSection Role="academic" RoleLabel="Изводи">
-            <h2 id="izvori" tabindex="-1">10 · Обобщение, академичен контекст и източници</h2>
+            <h2 id="izvori" tabindex="-1">13 · Обобщение, академичен контекст и източници</h2>
 
             <h3>Какво да запомните</h3>
             <ul>
                 <li>Мисленето може да бъде разглеждано на различни нива.</li>
                 <li>Автоматичните мисли са най-близо до конкретната ситуация.</li>
-                <li>Междинните вярвания включват нагласи, правила и предположения.</li>
+                <li>Междинните вярвания се разделят на нагласи, правила и предположения — три различими вида, не едно недиференцирано понятие.</li>
                 <li>Основните вярвания са по-общи представи.</li>
-                <li>Схемите могат да насочват вниманието и интерпретацията.</li>
-                <li>Автоматичната и рефлексивната обработка имат различни функции.</li>
+                <li>Схемите могат да насочват вниманието и интерпретацията — потвърждаващи данни се приемат веднага, а неопровергаващи данни лесно се пренебрегват или преинтерпретират.</li>
+                <li>Терапията обикновено започва с автоматичните мисли, а не директно с основните вярвания — постепенен подход, не защото основните вярвания са без значение.</li>
+                <li>Простата верига "Ситуация → Мисъл → Реакция" е полезно опростяване — реалните вериги понякога са каскади, не права линия.</li>
             </ul>
 
             <h3>Академичен контекст</h3>
             <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
                 <p>
-                    Йерархията автоматична мисъл → междинно вярване → основно вярване и когнитивната триада
-                    (себе си, света, бъдещето) се основават на когнитивния модел на Аарон Т. Бек и на
-                    систематичното му представяне в трудовете на Джудит С. Бек.
+                    Йерархията автоматична мисъл → междинно вярване → основно вярване, worked example-ът на
+                    Сали и моделът "диатеза-стрес" (Бек, 1967) са изведени от Глава 3 ("Когнитивна
+                    концептуализация") на основния учебник на курса. Когнитивната триада (себе си, света,
+                    бъдещето) е отделен, добре установен модел на Аарон Т. Бек, потвърден тук чрез независими
+                    вторични източници.
                 </p>
                 <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
             </ProgressiveExplanation>
@@ -336,17 +525,97 @@
     private readonly IReadOnlyList<string> _objectives =
     [
         "Различавате автоматични мисли, междинни вярвания и основни вярвания.",
-        "Обяснявате как трите нива могат да бъдат свързани.",
+        "Обяснявате как трите нива могат да бъдат свързани, чрез конкретен, populated пример.",
+        "Различавате нагласа, правило и предположение като три отделни вида междинно вярване.",
         "Разпознавате когнитивната триада като исторически модел за депресивните преживявания.",
-        "Обяснявате метафората \"схема като филтър\".",
-        "Различавате автоматична от рефлексивна обработка.",
+        "Обяснявате метафората \"схема като филтър\" и разликата между потвърждаващи и неопровергаващи данни.",
+        "Обяснявате защо терапията обикновено започва с автоматичните мисли, не директно с основните вярвания.",
+        "Разпознавате кога веригата Ситуация→Мисъл→Реакция е опростяване на по-сложна, каскадна последователност.",
         "Разбирате, че по-дълбоко ниво не означава непременно заболяване или необратима характеристика."
     ];
 
     private readonly IReadOnlyList<string> _citations =
     [
-        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — глава за когнитивния модел, междинните и основните вярвания.",
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\", Глава 3 (\"Когнитивна концептуализация\") — когнитивния модел, междинните и основните вярвания, worked example-а на Сали.",
+        "Аарон Т. Бек (1967) — моделът \"диатеза-стрес\" за латентни негативни вярвания, активирани от съответстващи стресори.",
         "Аарон Т. Бек — когнитивен модел за депресията и когнитивната триада (себе си, света, бъдещето).",
         "Учебната последователност на тази седмица е използвана само за тематична ориентация, без институционални твърдения."
     ];
+
+    // v2: local, page-specific data — never added to the global KnowledgeMapCatalog (owner has
+    // not separately confirmed these as global concepts). Mirrors Week 6's own
+    // BuildWeek6MindMap()/BuildWeek6ConceptMap() pattern exactly.
+    private static readonly GraphRenderModel _week3MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek3MindMap());
+
+    private static MindMapModel BuildWeek3MindMap() => new(
+        "Архитектура на когнитивния модел",
+        "Основните знаниеви клъстери на седмицата и как се свързват помежду си.",
+        [
+            new("root", "Архитектура на когнитивния модел", null, null, null, ConceptState.Introduced),
+
+            new("tri-nivа", "Три нива на мисленето", "root", null, "/kurs/sedmica-3#tri-niva", ConceptState.Introduced),
+            new("avtomatichna-misal", "Автоматична мисъл", "tri-nivа", "Бърза, ситуативна, лесна за забелязване.", "/kurs/sedmica-3#tri-niva", ConceptState.Introduced),
+            new("mezhdinno-vyarvane", "Междинно вярване", "tri-nivа", "Нагласа, правило или предположение.", "/kurs/sedmica-3#sali-hierarhia", ConceptState.Introduced),
+            new("osnovno-vyarvane", "Основно вярване", "tri-nivа", "Общи, дълбоки представи за себе си, другите, света.", "/kurs/sedmica-3#tri-niva", ConceptState.Introduced),
+
+            new("model", "Когнитивен модел", "root", null, "/kurs/sedmica-3#situacia-znachenie", ConceptState.Introduced),
+            new("situatsia-node", "Ситуация → мисъл → реакция", "model", null, "/kurs/sedmica-3#situacia-znachenie", ConceptState.Introduced),
+            new("kaskaden-node", "По-сложен, каскаден модел", "model", "Веригата не винаги е права линия.", "/kurs/sedmica-3#kaskaden-model", ConceptState.Introduced),
+
+            new("shema", "Схема като филтър", "root", "Потвърждаващи vs. неопровергаващи данни.", "/kurs/sedmica-3#filtar", ConceptState.Introduced),
+            new("triada", "Когнитивна триада", "root", "Аз, светът, бъдещето.", "/kurs/sedmica-3#triada", ConceptState.Introduced),
+
+            new("sali", "Случаят на Сали", "root", null, "/kurs/sedmica-3#sali-hierarhia", ConceptState.Introduced),
+            new("sali-proizhod", "Произход на вярванията", "sali", null, "/kurs/sedmica-3#sali-hierarhia", ConceptState.Introduced),
+            new("sali-kontrast", "Два периода, различни мисли", "sali", "Едно и също вярване, различна активация.", "/kurs/sedmica-3#sali-hierarhia", ConceptState.Introduced),
+
+            new("posledovatelnost-node", "Защо автоматични мисли първо", "root", null, "/kurs/sedmica-3#posledovatelnost", ConceptState.Introduced)
+        ]);
+
+    // v2: populated worked-example Concept Map (Sally) — ConceptGraphLayout.Network, the
+    // owner-approved spatial-edge standard. Local to this page; not part of KnowledgeMapCatalog.
+    // SaliNetworkLayout must be declared before _saliHierarchyRender — static field initializers
+    // run in declaration order, and ToRenderModel needs the dictionary already built, not null.
+    private static readonly IReadOnlyDictionary<string, ConceptNetworkPosition> SaliNetworkLayout = new Dictionary<string, ConceptNetworkPosition>
+    {
+        ["sali-core"] = new("", 0, 1),
+        ["sali-attitude"] = new("", 1, 0),
+        ["sali-rule"] = new("", 1, 1),
+        ["sali-assumption"] = new("", 1, 2),
+        ["sali-situation"] = new("", 1, 3),
+        ["sali-thought"] = new("", 2, 1),
+        ["sali-emotion"] = new("", 3, 0),
+        ["sali-behavior"] = new("", 3, 1),
+        ["sali-physio"] = new("", 3, 2)
+    };
+
+    private static readonly GraphRenderModel _saliHierarchyRender = ConceptMapAdapter.ToRenderModel(
+        BuildSaliConceptMap(), CourseCatalog.Weeks, ConceptGraphLayout.Network, SaliNetworkLayout);
+
+    private static ConceptMapModel BuildSaliConceptMap() => new(
+        "Работена йерархия: случаят на Сали",
+        "Как основно вярване, междинни вярвания, ситуация и автоматична мисъл заедно оформят реакцията — един конкретен, populated пример.",
+        [
+            new("sali-core", "Основно вярване", "\"Аз съм некомпетентна.\"", 3, [], null),
+            new("sali-attitude", "Нагласа", "\"Ужасно е да пропиляваш потенциала си.\"", 3, [], null),
+            new("sali-rule", "Правило", "\"Винаги трябва да давам най-доброто от себе си.\"", 3, [], null),
+            new("sali-assumption", "Предположение", "\"Ако работя усилено, мога да преодолея недостатъците си.\"", 3, [], null),
+            new("sali-situation", "Ситуация", "Първата седмица в колежа — връстници говорят за предварителни кредити.", 3, [], null),
+            new("sali-thought", "Автоматична мисъл", "\"Толкова изостава от тях.\"", 3, [], null),
+            new("sali-emotion", "Емоция", "Тъга, несигурност.", 3, [], null),
+            new("sali-behavior", "Поведение", "Оттегляне, свръхучене без резултат.", 3, [], null),
+            new("sali-physio", "Физиологична реакция", "Умора, напрежение.", 3, [], null)
+        ],
+        [
+            new("sali-core", "sali-attitude", RelationType.LeadsTo, "оформя"),
+            new("sali-core", "sali-rule", RelationType.LeadsTo, "оформя"),
+            new("sali-core", "sali-assumption", RelationType.LeadsTo, "оформя"),
+            new("sali-attitude", "sali-thought", RelationType.LeadsTo, "оформя"),
+            new("sali-rule", "sali-thought", RelationType.LeadsTo, "оформя"),
+            new("sali-assumption", "sali-thought", RelationType.LeadsTo, "оформя"),
+            new("sali-situation", "sali-thought", RelationType.LeadsTo, "поражда"),
+            new("sali-thought", "sali-emotion", RelationType.LeadsTo, "поражда"),
+            new("sali-thought", "sali-behavior", RelationType.LeadsTo, "оформя"),
+            new("sali-thought", "sali-physio", RelationType.Supports, "съпътства се от")
+        ]);
 }

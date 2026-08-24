@@ -43,8 +43,14 @@ public sealed class Week3ContentSliceTests
 
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks.Where(w => !availableNumbers.Contains(w.Number)))
         {
-            Assert.Null(week.Route);
             Assert.NotEqual(CourseWeekStatus.Available, week.Status);
+
+            // Week 12 is AcademicContextOnly: it later gained a real, routed AcademicOverview
+            // page without becoming Available — every other non-available week still has no route.
+            if (week.Number != 12)
+            {
+                Assert.Null(week.Route);
+            }
         }
 
         Assert.Equal(10, CourseCatalog.Weeks.Count(w => !availableNumbers.Contains(w.Number)));
@@ -149,13 +155,104 @@ public sealed class Week3ContentSliceTests
     }
 
     [Fact]
-    public void Week3Page_AutomaticVsReflectiveComparison_ReflectiveNotFramedAsGuaranteedCorrect()
+    public void Week3Page_AutomaticVsReflectiveProcessing_RemovedAsSourceUnresolved()
+    {
+        // v1's "automatic vs. reflexive processing" comparison does not appear anywhere in
+        // SRC-041 Ch. 3 and had no cited secondary source in 11_SOURCE_REGISTER.md (checked
+        // directly for this v2 migration) — removed rather than invented, per explicit owner
+        // instruction not to fabricate a source. See WEEK_03_V2_MIGRATION_BLUEPRINT.md §9.
+        string source = ReadPage("Sedmica3.razor");
+
+        Assert.DoesNotContain("Автоматична обработка", source);
+        Assert.DoesNotContain("Рефлексивна обработка", source);
+    }
+
+    [Fact]
+    public void Week3Page_HasTheSallyWorkedCase_RetoldNotVerbatim()
     {
         string source = ReadPage("Sedmica3.razor");
 
-        Assert.Contains("Автоматична обработка", source);
-        Assert.Contains("Рефлексивна обработка", source);
-        Assert.Contains("не гарантира безгрешен резултат", source);
+        Assert.Contains("Случаят на Сали", source);
+        // The book's own long descriptive passages ("Като малко дете, тя възприемаше, че не може
+        // да направи нищо толкова добре, колкото брат ѝ" etc.) must not appear verbatim — the page
+        // retells the case in its own words, not a copied excerpt.
+        Assert.DoesNotContain("Като малко дете, тя възприемаше", source);
+        Assert.DoesNotContain("Направи ужасна работа, като", source);
+    }
+
+    [Fact]
+    public void Week3Page_HasThePopulatedSallyConceptMap_UsingNetworkLayout()
+    {
+        string source = ReadPage("Sedmica3.razor");
+
+        Assert.Contains("ComponentId=\"week3-sali-hierarchy\"", source);
+        Assert.Contains("ConceptGraphLayout.Network", source);
+        // Never added to the global map — owner has not separately confirmed these as concepts.
+        string curriculumDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Curriculum");
+        string knowledgeMapCatalogSource = File.ReadAllText(Path.Combine(curriculumDirectory, "KnowledgeMapCatalog.cs"));
+        Assert.DoesNotContain("sali-core", knowledgeMapCatalogSource);
+    }
+
+    [Fact]
+    public void Week3Page_HasIntermediateBeliefSubtypes()
+    {
+        string source = ReadPage("Sedmica3.razor");
+
+        Assert.Contains("Нагласа", source);
+        Assert.Contains("Правило", source);
+        Assert.Contains("Предположение", source);
+        Assert.Contains("Условно \"ако — тогава\" вярване", source);
+    }
+
+    [Fact]
+    public void Week3Page_HasTreatmentSequencingRationale()
+    {
+        string source = ReadPage("Sedmica3.razor");
+
+        Assert.Contains("id=\"posledovatelnost\"", source);
+        Assert.Contains("рискува терапевтичния алианс", source);
+    }
+
+    [Fact]
+    public void Week3Page_HasCascadingModelCaveat()
+    {
+        string source = ReadPage("Sedmica3.razor");
+
+        Assert.Contains("id=\"kaskaden-model\"", source);
+        Assert.Contains("полезно опростяване", source);
+        Assert.Contains("не винаги описва", source);
+    }
+
+    [Fact]
+    public void Week3Page_HasWeeklyMindMapPreviewAndReview_SameModelBothTimes()
+    {
+        string source = ReadPage("Sedmica3.razor");
+
+        Assert.Contains("ComponentId=\"week3-mindmap-preview\"", source);
+        Assert.Contains("ComponentId=\"week3-mindmap-review\"", source);
+        // Both instances render the exact same static model — one knowledge structure, two states.
+        Assert.Equal(2, System.Text.RegularExpressions.Regex.Matches(source, "Model=\"@_week3MindMapRender\"").Count);
+    }
+
+    [Fact]
+    public void Week3Page_MindMapReviewUsesExplainBeforeRevealPattern()
+    {
+        string source = ReadPage("Sedmica3.razor");
+        int reviewIndex = source.IndexOf("id=\"karta-povtorenie\"", StringComparison.Ordinal);
+        int nextSectionIndex = source.IndexOf("id=\"izvori\"", StringComparison.Ordinal);
+        string reviewBlock = source[reviewIndex..nextSectionIndex];
+
+        Assert.Contains("<details", reviewBlock);
+        Assert.Contains("опитай да си спомниш", reviewBlock);
+    }
+
+    [Fact]
+    public void Week3Page_HasSixKnowledgeCheckQuestions()
+    {
+        string source = ReadPage("Sedmica3.razor");
+
+        Assert.Contains("Въпрос 5.", source);
+        Assert.Contains("Въпрос 6", source);
     }
 
     [Fact]
@@ -298,8 +395,9 @@ public sealed class Week3ContentSliceTests
 
         string[] anchorIds =
         [
-            "tri-niva", "izsledvane", "situacia-znachenie", "triada", "filtar",
-            "obrabotka", "karta", "obarkvaniya", "proverka", "izvori"
+            "karta-sedmicata", "tri-niva", "izsledvane", "situacia-znachenie", "triada", "filtar",
+            "sali-hierarhia", "karta", "posledovatelnost", "kaskaden-model", "obarkvaniya",
+            "proverka", "karta-povtorenie", "izvori"
         ];
 
         foreach (string id in anchorIds)

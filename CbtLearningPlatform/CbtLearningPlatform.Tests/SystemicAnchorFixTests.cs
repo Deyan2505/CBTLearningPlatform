@@ -12,7 +12,7 @@ public sealed class SystemicAnchorFixTests
     [InlineData("Sedmica1.razor", "/kurs/sedmica-1",
         new[] { "nakratko", "istoricheska-linia", "nauchen-obrat", "predi-i-sled", "avtomatichni-misli-preview", "zashto-struktura", "publikacia-1979", "proverka", "izvori" })]
     [InlineData("Sedmica3.razor", "/kurs/sedmica-3",
-        new[] { "tri-niva", "izsledvane", "situacia-znachenie", "triada", "filtar", "obrabotka", "karta", "obarkvaniya", "proverka", "izvori" })]
+        new[] { "karta-sedmicata", "tri-niva", "izsledvane", "situacia-znachenie", "triada", "filtar", "sali-hierarhia", "karta", "posledovatelnost", "kaskaden-model", "obarkvaniya", "proverka", "karta-povtorenie", "izvori" })]
     [InlineData("Sedmica8.razor", "/kurs/sedmica-8",
         new[] { "nakratko", "karta-na-temata", "simulator", "sravnenie", "misal-ili-emociya", "palno-obyasnenie", "proverka", "izvori" })]
     public void WeekPage_SectionNavAnchorsAreRouteSafe_NoBareFragmentsRemain(string fileName, string routePrefix, string[] anchorIds)
