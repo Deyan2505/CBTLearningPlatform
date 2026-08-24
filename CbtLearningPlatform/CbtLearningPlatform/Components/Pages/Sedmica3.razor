@@ -116,7 +116,7 @@
             <ol class="concept-map__flow">
                 <li class="concept-map__node">Ситуация</li>
                 <li class="concept-map__connector" aria-hidden="true">↓</li>
-                <li class="concept-map__node concept-map__node--highlight">Автоматично значение</li>
+                <li class="concept-map__node concept-map__node--highlight">Автоматична мисъл</li>
                 <li class="concept-map__connector" aria-hidden="true">↓</li>
                 <li class="concept-map__node">Емоционална и телесна реакция</li>
                 <li class="concept-map__connector" aria-hidden="true">↓</li>
@@ -131,7 +131,7 @@
 
         <LearningSection Role="academic" RoleLabel="Академично">
             <h2 id="triada" tabindex="-1">04 · Когнитивната триада: Аз, светът и бъдещето</h2>
-            <div class="concept-map__side-notes">
+            <div class="concept-map__side-notes concept-map__side-notes--triad">
                 <div class="card">
                     <h3>Аз</h3>
                     <p>Как човек вижда себе си.</p>
@@ -211,7 +211,7 @@
         <ConceptGraph ComponentId="week3-sali-hierarchy" Model="@_saliHierarchyRender" />
 
         <h3>Нагласа, правило, предположение — три различни вида междинно вярване</h3>
-        <p>Книгата разграничава три вида междинно вярване. Примерите по-долу са от нейния собствен worked example (не на Сали):</p>
+        <p>Книгата разграничава три вида междинно вярване. Примерите по-долу са от собствения ѝ пример за Читател Е (не от случая на Сали):</p>
         <div class="comparison-matrix-wrapper">
             <table class="comparison-matrix">
                 <caption>Три вида междинно вярване</caption>
@@ -260,10 +260,10 @@
 
     <LearningSection Role="visual" RoleLabel="Визуален модел">
         <h2 id="karta" tabindex="-1">07 · Как се свързват нивата</h2>
-        <ol class="concept-map__flow">
+        <ol class="concept-map__flow concept-map__flow--horizontal">
             <li class="concept-map__node">Основно вярване</li>
             <li class="concept-map__connector" aria-hidden="true">↓</li>
-            <li class="concept-map__node">Междинно правило или предположение</li>
+            <li class="concept-map__node">Междинно вярване (нагласа, правило или предположение)</li>
             <li class="concept-map__connector" aria-hidden="true">↓</li>
             <li class="concept-map__node">Ситуация</li>
             <li class="concept-map__connector" aria-hidden="true">↓</li>
@@ -318,15 +318,26 @@
             <span class="key-idea">Собственото поведение</span>
             <span class="key-idea">Физическо усещане</span>
         </div>
-        <ol class="concept-map__flow">
-            <li class="concept-map__node">Физиологичен сигнал (напр. ускорен пулс)</li>
-            <li class="concept-map__connector" aria-hidden="true">↓</li>
-            <li class="concept-map__node">Автоматична мисъл за самия сигнал</li>
-            <li class="concept-map__connector" aria-hidden="true">↓</li>
-            <li class="concept-map__node">Емоция</li>
-            <li class="concept-map__connector" aria-hidden="true">↓</li>
-            <li class="concept-map__node concept-map__node--highlight">Новото усещане става следваща "ситуация" ↺</li>
-        </ol>
+        <div class="cascade-loop">
+            <ol class="concept-map__flow cascade-loop__flow">
+                <li class="concept-map__node">Физиологичен сигнал (напр. ускорен пулс)</li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node">Автоматична мисъл за самия сигнал</li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node">Емоция</li>
+                <li class="concept-map__connector" aria-hidden="true">↓</li>
+                <li class="concept-map__node concept-map__node--highlight">Ново усещане</li>
+            </ol>
+            <svg class="cascade-loop__connector" viewBox="0 0 60 300" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                    <marker id="cascade-loop-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+                    </marker>
+                </defs>
+                <path d="M15,285 C55,285 55,15 15,15" fill="none" stroke="currentColor" stroke-width="2" marker-end="url(#cascade-loop-arrow)" />
+            </svg>
+            <span class="cascade-loop__label">става следваща "ситуация" ↺</span>
+        </div>
         <p>Кратък пример: забелязвате учестено сърцебиене → мислите "какво не е наред с мен?" → тревожност нараства → напрежението в тялото се усеща по-силно → нова мисъл при все по-силния сигнал.</p>
         <details class="progressive-explanation">
             <summary>Проверка: проста верига или каскада?</summary>
@@ -468,55 +479,53 @@
         </details>
     </LearningSection>
 
-    <div class="learning-grid learning-grid--balanced">
-        <LearningSection Role="academic" RoleLabel="Изводи">
-            <h2 id="izvori" tabindex="-1">13 · Обобщение, академичен контекст и източници</h2>
+    <LearningSection Role="academic" RoleLabel="Изводи">
+        <h2 id="izvori" tabindex="-1">13 · Обобщение, академичен контекст и източници</h2>
 
-            <h3>Какво да запомните</h3>
-            <ul>
-                <li>Мисленето може да бъде разглеждано на различни нива.</li>
-                <li>Автоматичните мисли са най-близо до конкретната ситуация.</li>
-                <li>Междинните вярвания се разделят на нагласи, правила и предположения — три различими вида, не едно недиференцирано понятие.</li>
-                <li>Основните вярвания са по-общи представи.</li>
-                <li>Схемите могат да насочват вниманието и интерпретацията — потвърждаващи данни се приемат веднага, а неопровергаващи данни лесно се пренебрегват или преинтерпретират.</li>
-                <li>Терапията обикновено започва с автоматичните мисли, а не директно с основните вярвания — постепенен подход, не защото основните вярвания са без значение.</li>
-                <li>Простата верига "Ситуация → Мисъл → Реакция" е полезно опростяване — реалните вериги понякога са каскади, не права линия.</li>
-            </ul>
+        <h3>Какво да запомните</h3>
+        <ul>
+            <li>Мисленето може да бъде разглеждано на различни нива.</li>
+            <li>Автоматичните мисли са най-близо до конкретната ситуация.</li>
+            <li>Междинните вярвания се разделят на нагласи, правила и предположения — три различими вида, не едно недиференцирано понятие.</li>
+            <li>Основните вярвания са по-общи представи.</li>
+            <li>Схемите могат да насочват вниманието и интерпретацията — потвърждаващи данни се приемат веднага, а неопровергаващи данни лесно се пренебрегват или преинтерпретират.</li>
+            <li>Терапията обикновено започва с автоматичните мисли, а не директно с основните вярвания — постепенен подход, не защото основните вярвания са без значение.</li>
+            <li>Простата верига "Ситуация → Мисъл → Реакция" е полезно опростяване — реалните вериги понякога са каскади, не права линия.</li>
+        </ul>
 
-            <h3>Академичен контекст</h3>
-            <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
-                <p>
-                    Йерархията автоматична мисъл → междинно вярване → основно вярване, worked example-ът на
-                    Сали и моделът "диатеза-стрес" (Бек, 1967) са изведени от Глава 3 ("Когнитивна
-                    концептуализация") на основния учебник на курса. Когнитивната триада (себе си, света,
-                    бъдещето) е отделен, добре установен модел на Аарон Т. Бек, потвърден тук чрез независими
-                    вторични източници.
-                </p>
-                <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
-            </ProgressiveExplanation>
-
-            <DisclaimerCallout Text="Тази страница представя образователен модел на когнитивните нива. Тя не определя вашите вярвания, не поставя диагноза и не обучава за самостоятелно провеждане на терапия." />
-
-            <h3>Източници и следващи стъпки</h3>
+        <h3>Академичен контекст</h3>
+        <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
             <p>
-                <a href="/programa/modul-2">Модул 2 — Ситуация → Мисъл → Емоция → Поведение</a><br />
-                <a href="/programa/modul-2/avtomatichni-misli">Урок: Автоматични мисли</a><br />
-                <a href="/programa/modul-2/emocii-i-telesni-reaktsii">Урок: Емоции и телесни реакции</a><br />
-                <a href="/kurs/sedmica-1">Седмица 1 — Как се ражда когнитивната терапия</a><br />
-                <a href="/kurs/sedmica-8">Седмица 8 — Автоматични мисли и емоции</a><br />
-                <a href="/kurs">← Обратно към 15-седмичния курс</a>
+                Йерархията автоматична мисъл → междинно вярване → основно вярване, разработеният пример със
+                Сали и моделът "диатеза-стрес" (Бек, 1967) са изведени от Глава 3 ("Когнитивна
+                концептуализация") на основния учебник на курса. Когнитивната триада (себе си, света,
+                бъдещето) е отделен, добре установен модел на Аарон Т. Бек, потвърден тук чрез независими
+                вторични източници.
             </p>
+            <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
+        </ProgressiveExplanation>
 
-            <SourceReferences Citations="@_citations" />
+        <DisclaimerCallout Text="Тази страница представя образователен модел на когнитивните нива. Тя не определя вашите вярвания, не поставя диагноза и не обучава за самостоятелно провеждане на терапия." />
 
-            <OptionalReadingSource
-                Title="Когнитивно-поведенческа терапия: Основи и отвъд"
-                Author="Джудит С. Бек"
-                Edition="2-ро издание, Guilford Press, 2011 (оригинално заглавие: Cognitive Behavior Therapy: Basics and Beyond)"
-                RelevantSection="Глава 3 — Когнитивна концептуализация"
-                Description="Главата представя когнитивния модел и йерархията на вярванията — основни вярвания, междинни вярвания и автоматични мисли — в оригиналния им академичен контекст." />
-        </LearningSection>
-    </div>
+        <h3>Източници и следващи стъпки</h3>
+        <p>
+            <a href="/programa/modul-2">Модул 2 — Ситуация → Мисъл → Емоция → Поведение</a><br />
+            <a href="/programa/modul-2/avtomatichni-misli">Урок: Автоматични мисли</a><br />
+            <a href="/programa/modul-2/emocii-i-telesni-reaktsii">Урок: Емоции и телесни реакции</a><br />
+            <a href="/kurs/sedmica-1">Седмица 1 — Как се ражда когнитивната терапия</a><br />
+            <a href="/kurs/sedmica-8">Седмица 8 — Автоматични мисли и емоции</a><br />
+            <a href="/kurs">← Обратно към 15-седмичния курс</a>
+        </p>
+
+        <SourceReferences Citations="@_citations" />
+
+        <OptionalReadingSource
+            Title="Когнитивно-поведенческа терапия: Основи и отвъд"
+            Author="Джудит С. Бек"
+            Edition="2-ро издание, Guilford Press, 2011 (оригинално заглавие: Cognitive Behavior Therapy: Basics and Beyond)"
+            RelevantSection="Глава 3 — Когнитивна концептуализация"
+            Description="Главата представя когнитивния модел и йерархията на вярванията — основни вярвания, междинни вярвания и автоматични мисли — в оригиналния им академичен контекст." />
+    </LearningSection>
 </div>
 
 @code {
@@ -525,7 +534,7 @@
     private readonly IReadOnlyList<string> _objectives =
     [
         "Различавате автоматични мисли, междинни вярвания и основни вярвания.",
-        "Обяснявате как трите нива могат да бъдат свързани, чрез конкретен, populated пример.",
+        "Обяснявате как трите нива могат да бъдат свързани, чрез конкретен, подробно разработен пример.",
         "Различавате нагласа, правило и предположение като три отделни вида междинно вярване.",
         "Разпознавате когнитивната триада като исторически модел за депресивните преживявания.",
         "Обяснявате метафората \"схема като филтър\" и разликата между потвърждаващи и неопровергаващи данни.",
@@ -536,7 +545,7 @@
 
     private readonly IReadOnlyList<string> _citations =
     [
-        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\", Глава 3 (\"Когнитивна концептуализация\") — когнитивния модел, междинните и основните вярвания, worked example-а на Сали.",
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\", Глава 3 (\"Когнитивна концептуализация\") — когнитивния модел, междинните и основните вярвания, разработения пример със Сали.",
         "Аарон Т. Бек (1967) — моделът \"диатеза-стрес\" за латентни негативни вярвания, активирани от съответстващи стресори.",
         "Аарон Т. Бек — когнитивен модел за депресията и когнитивната триада (себе си, света, бъдещето).",
         "Учебната последователност на тази седмица е използвана само за тематична ориентация, без институционални твърдения."
@@ -572,21 +581,28 @@
             new("posledovatelnost-node", "Защо автоматични мисли първо", "root", null, "/kurs/sedmica-3#posledovatelnost", ConceptState.Introduced)
         ]);
 
-    // v2: populated worked-example Concept Map (Sally) — ConceptGraphLayout.Network, the
-    // owner-approved spatial-edge standard. Local to this page; not part of KnowledgeMapCatalog.
+    // v2 polish (owner review): the 4 edges converging on sali-thought from column 1
+    // (attitude/rule/assumption/situation) read as too congested at the engine's default
+    // adjacent-row spacing. Rows are presentation-only data owned by this page, not the shared
+    // ConceptGraph engine (its CardHeight/RowGap constants are untouched — the global Knowledge
+    // Map they also drive stays exactly as owner-approved). Every row below is the original
+    // 0/1/2/3 layout multiplied by 3, preserving the same relative alignment (core/thought/rule/
+    // behavior still share a row; attitude/emotion still share a row; assumption/physio still
+    // share a row) while tripling the vertical gap between converging/diverging edges, so labels
+    // no longer sit stacked close together in the same narrow column gap.
     // SaliNetworkLayout must be declared before _saliHierarchyRender — static field initializers
     // run in declaration order, and ToRenderModel needs the dictionary already built, not null.
     private static readonly IReadOnlyDictionary<string, ConceptNetworkPosition> SaliNetworkLayout = new Dictionary<string, ConceptNetworkPosition>
     {
-        ["sali-core"] = new("", 0, 1),
+        ["sali-core"] = new("", 0, 3),
         ["sali-attitude"] = new("", 1, 0),
-        ["sali-rule"] = new("", 1, 1),
-        ["sali-assumption"] = new("", 1, 2),
-        ["sali-situation"] = new("", 1, 3),
-        ["sali-thought"] = new("", 2, 1),
+        ["sali-rule"] = new("", 1, 3),
+        ["sali-assumption"] = new("", 1, 6),
+        ["sali-situation"] = new("", 1, 9),
+        ["sali-thought"] = new("", 2, 3),
         ["sali-emotion"] = new("", 3, 0),
-        ["sali-behavior"] = new("", 3, 1),
-        ["sali-physio"] = new("", 3, 2)
+        ["sali-behavior"] = new("", 3, 3),
+        ["sali-physio"] = new("", 3, 6)
     };
 
     private static readonly GraphRenderModel _saliHierarchyRender = ConceptMapAdapter.ToRenderModel(
@@ -594,7 +610,7 @@
 
     private static ConceptMapModel BuildSaliConceptMap() => new(
         "Работена йерархия: случаят на Сали",
-        "Как основно вярване, междинни вярвания, ситуация и автоматична мисъл заедно оформят реакцията — един конкретен, populated пример.",
+        "Как основно вярване, междинни вярвания, ситуация и автоматична мисъл заедно оформят реакцията — един конкретен, разработен пример.",
         [
             new("sali-core", "Основно вярване", "\"Аз съм некомпетентна.\"", 3, [], null),
             new("sali-attitude", "Нагласа", "\"Ужасно е да пропиляваш потенциала си.\"", 3, [], null),

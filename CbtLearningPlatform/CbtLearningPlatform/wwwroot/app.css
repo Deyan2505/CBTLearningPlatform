@@ -1583,6 +1583,94 @@ h3[tabindex="-1"]:focus-visible {
     }
 }
 
+/* Owner review (Week 3 v2 polish): "Как се свързват нивата" (5 nodes, 4 connectors) sat in the
+   default 26rem vertical column, using only a fraction of a wide container. Reusable modifier
+   (unlike --process's hard-coded nth-child snake) — opt in per instance, base .concept-map__flow
+   untouched for every other use on the site (Week 1/3/8/10, Module 2 lessons). At 900px+, the
+   same <ol> reflows into one horizontal row (flex, equal share per node) instead of a column;
+   below that it inherits the ordinary vertical .concept-map__flow behavior. */
+@media (min-width: 900px) {
+    .concept-map__flow--horizontal {
+        max-width: none;
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+    }
+
+    .concept-map__flow--horizontal .concept-map__node {
+        flex: 1 1 0;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .concept-map__flow--horizontal .concept-map__connector {
+        flex: 0 0 auto;
+        transform: rotate(-90deg);
+    }
+}
+
+/* Owner review (Week 3 v2 polish): the cognitive triad's 3 cards used the general-purpose
+   .concept-map__side-notes auto-fit grid, which only fit 2 columns at typical content width —
+   a lone third card wrapped to its own row, reading as an uneven grid rather than a triad.
+   Additive modifier (kept alongside the base class, not replacing it) forces exactly 3 equal
+   columns from 640px up; every other .concept-map__side-notes use (confusable-phrase cards,
+   Sally's classification exercise, etc.) keeps its own auto-fit behavior untouched. */
+@media (min-width: 640px) {
+    .concept-map__side-notes--triad {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Owner review (Week 3 v2 polish, Section 09 "по-сложен модел"): the cascading-model example
+   read as a straight vertical line even though its whole point is that the last state feeds back
+   into a new situation. A small, page-specific SVG loop (not part of the shared ConceptGraph
+   engine — that renderer is locked/approved and out of scope here) sits beside the existing
+   .concept-map__flow chain and draws one curved return path with an arrowhead from the last node
+   back up to the first. viewBox + preserveAspectRatio="none" makes the path stretch to match
+   whatever height the flex row settles on, so it never needs a hard-coded pixel height. */
+.cascade-loop {
+    display: flex;
+    align-items: stretch;
+    gap: var(--space-3);
+    max-width: 34rem;
+}
+
+.cascade-loop__flow {
+    flex: 1 1 auto;
+    margin-bottom: 0;
+}
+
+.cascade-loop__connector {
+    flex: 0 0 3rem;
+    width: 3rem;
+    color: var(--color-text-secondary);
+}
+
+.cascade-loop__label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    align-self: center;
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .cascade-loop {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    .cascade-loop__connector {
+        display: none;
+    }
+
+    .cascade-loop__label {
+        writing-mode: horizontal-tb;
+        text-align: center;
+    }
+}
+
 /* Owner review (Week 10): the previous 3-column/2-row grid (and the boustrophedon before it)
    both still read as ambiguous — a visible second row, an unclear 03→04 jump, an isolated 06.
    Simplified to exactly two modes, nothing in between: one full horizontal row when there's

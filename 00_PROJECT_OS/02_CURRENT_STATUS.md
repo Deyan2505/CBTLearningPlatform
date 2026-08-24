@@ -18,7 +18,25 @@
 
 ## Текуща стъпка
 
-`WEEK 3 v2 — DEEP LEARNING IMPLEMENTATION` (Сесия 53, 2026-08-24). Реален код по
+`WEEK 3 v2 — FINAL UI + TERMINOLOGY POLISH` (Сесия 54, 2026-08-24). Content/architecture вече PASS
+(Сесия 53) — тази сесия е чист presentation polish по owner screenshot findings, Mind Map/43-43
+coverage/Sally архитектура недокоснати. **Terminology:** "Автоматично значение" (секция 03) уеднаквено
+на "Автоматична мисъл" — проверено директно срещу source extraction-а, главата никога не използва
+"значение" като отделен термин. Секция 07's "Междинно правило или предположение" коригирано на
+"Междинно вярване (нагласа, правило или предположение)" — вече не противоречи на 3-подтиповата
+йерархия. **Localization:** 5 English-leakage instances ("worked example"/"populated пример")
+заменени с естествен български. **Sally map:** row spacing утроен (presentation-only данни на тази
+страница, не на споделения `ConceptGraph` engine) — canvas 1048×384→1048×840px, verified чрез decoded
+HTML, 9 nodes/10 relations непроменени. **Section 07/triad/cascading model:** три нови, additive CSS
+modifier класа (`--horizontal`, `--triad`, `.cascade-loop`), всеки scoped само към своята инстанция,
+base класовете (`.concept-map__flow`, `.concept-map__side-notes`) недокоснати за всички други weeks.
+**§8 ROOT CAUSE намерен:** секция 13 седеше сама в 2-колонен `.learning-grid--balanced` — единствено
+дете заема само 1-вата колонна писта (bug пренесен от v1, сега поправен систематично, не с hardcoded
+width). **518/518** теста (0 нови/премахнати), build 0/0 (Debug+Release). Резултат: `STRUCTURAL QA
+COMPLETE — OWNER PIXEL REVIEW REQUIRED`. Server: `http://localhost:5131/kurs/sedmica-3`. **Седмица
+7/8/12 — недокоснати.**
+
+Предходен checkpoint — `WEEK 3 v2 — DEEP LEARNING IMPLEMENTATION` (Сесия 53, 2026-08-24). Реален код по
 `WEEK_03_V2_MIGRATION_BLUEPRINT.md`: `Sedmica3.razor` разширен (не пренаписан) — запазени 01-04/07 и
 двата load-bearing anchor-а (`#situacia-znachenie`/`#tri-niva`, реферирани от `KnowledgeMapCatalog.cs`);
 добавени Weekly Mind Map preview/review (locked Week 6 pattern), "Случаят на Сали" (retold, не

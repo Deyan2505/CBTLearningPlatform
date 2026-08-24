@@ -261,7 +261,7 @@ public sealed class Week3ContentSliceTests
         string source = ReadPage("Sedmica3.razor");
 
         Assert.Contains("Основно вярване", source);
-        Assert.Contains("Междинно правило или предположение", source);
+        Assert.Contains("Междинно вярване (нагласа, правило или предположение)", source);
         Assert.Contains("не е инструмент за самодиагностика", source);
     }
 
