@@ -18,7 +18,19 @@
 
 ## Текуща стъпка
 
-`WEEK 3 — DEEP SOURCE + COVERAGE AUDIT` (Сесия 51, 2026-08-23). Read-only audit, `Sedmica3.razor`
+`WEEK 3 AUDIT QA FIX + V2 MIGRATION BLUEPRINT` (Сесия 52, 2026-08-24). Owner откри QA blocker в
+Сесия 51's Coverage Matrix (43 units декларирани, но статусите сумираха само 41 — U01-U04 никога не
+получиха ред, U33 беше двойно броен). Коригирано: **10 Included / 23 Missing / 9 Deferred / 1
+Excluded = 43, Unaccounted 0** — корекцията прави Class B заключението по-силно (Missing нарасна от
+17 на 23). Owner потвърди: Сали остава worked case (преразказана, не verbatim), Ирина остава
+отделен transfer-exercise case. Нов `00_PROJECT_OS/_blueprints/WEEK_03_V2_MIGRATION_BLUEPRINT.md` —
+пълна migration архитектура (Sally case, populated hierarchy Concept Map, intermediate-belief
+подтипове, treatment rationale, cascading model diagram, retrieval/assessment upgrade). Едно open
+item: "automatic vs. reflexive processing" маркирано `SOURCE UNRESOLVED` — owner решение нужно преди
+implementation. `READY FOR WEEK 3 IMPLEMENTATION: YES`. **Никакъв код не е пипнат.** Седмица
+7/8/12 — недокоснати.
+
+Предходен checkpoint — `WEEK 3 — DEEP SOURCE + COVERAGE AUDIT` (Сесия 51, 2026-08-23). Read-only audit, `Sedmica3.razor`
 недокоснат. Глава 3 на SRC-041 ("Когнитивна концептуализация", printed стр. 29-45) извлечена по
 Week 6 метода → `_source_corpus/SRC-041_ch03_bg_extracted.txt` (gitignored). **43 Knowledge Units**,
 Coverage Matrix: 18 Included / 17 Missing / 3 Deferred / 3 Excluded — **не 100% coverage**.

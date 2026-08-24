@@ -1293,3 +1293,17 @@
 - **Променени файлове:** `10_SESSION_LOG.md` (този запис), `_source_corpus/README_EXTRACTION_METHOD.md` (gitignored). Никакъв `.razor`/CSS/тест/`CourseCatalog.cs` файл не е пипнат. Седмица 8/7/12 — недокоснати.
 - **Git:** документален commit, изолиран от все още некомитнатата Седмица 12 работа.
 - **Следваща стъпка:** owner review на audit-а; след одобрение — паралелна задача **Week 8 Deep Source + Coverage Audit** (същия формат), после реален Class B implementation за Седмица 3 (отделна, нова оторизирана задача). **НЕ implementation. НЕ Седмица 7. НЕ Седмица 8 все още. НЕ Седмица 12.**
+
+---
+
+## Сесия 52 — Week 3 Audit QA Fix + v2 Migration Blueprint — 2026-08-24
+
+- **Повод:** owner одобри Сесия 51's audit по принцип, но откри QA blocker — Coverage Matrix-ът твърдеше 43 Knowledge Units, но статусите сумираха само 41 (18+17+3+3). Read-only — `Sedmica3.razor` недокоснат.
+- **Root cause, намерен чрез unit-по-unit recount:** U01–U04 бяха дефинирани в §2, но никога не получиха ред в Coverage Matrix-a; U33 беше едновременно вътре в диапазон "U32–U40" И в собствен отделен ред (двойно броене). Коригирано в `WEEK_03_SOURCE_COVERAGE_AUDIT_v1.md` §3 — всеки от 43-те units вече има точно един, изрично изброен статус. **Коригирани реални числа: 10 Included / 23 Missing / 9 Deferred / 1 Excluded with reason = 43. Unaccounted = 0.** Ефектът от корекцията прави Class B заключението по-силно, не по-слабо (Missing нарасна от заявените 17 на реални 23).
+- **Owner decisions, приети без preразглеждане:** Сали остава source-grounded worked case (не се заменя с Ирина); преразказва се/трансформира се, не се копира verbatim; Ирина остава отделен longitudinal case, само за transfer/application exercise, ако педагогически пасва.
+- **Резултат:** нов `00_PROJECT_OS/_blueprints/WEEK_03_V2_MIGRATION_BLUEPRINT.md` — final 43/43 coverage, Sally worked-case архитектура (преразказана, не verbatim), populated 3-level hierarchy Concept Map, intermediate-belief 3-подтипова терминология, treatment-sequencing rationale, simple-vs-cascading process diagram, terminology updates, retrieval/assessment upgrade план, точен migration scope (какво се запазва/разширява/добавя/не се пипа). "Automatic vs. reflexive processing" секцията маркирана изрично **`SOURCE UNRESOLVED`** — не се среща в Глава 3, няма цитиран secondary source, owner решение нужно преди implementation (3 опции предложени, не решени тук).
+- **Създадени файлове:** `00_PROJECT_OS/_blueprints/WEEK_03_V2_MIGRATION_BLUEPRINT.md`.
+- **Променени файлове:** `00_PROJECT_OS/_blueprints/WEEK_03_SOURCE_COVERAGE_AUDIT_v1.md` (QA fix), `10_SESSION_LOG.md` (този запис). Никакъв `.razor`/CSS/тест/`CourseCatalog.cs` файл не е пипнат. Седмица 7/8/12 — недокоснати.
+- **Резултат:** `READY FOR WEEK 3 IMPLEMENTATION: YES`.
+- **Git:** документален commit, изолиран от все още некомитнатата Седмица 12 работа.
+- **Следваща стъпка:** owner решение по §9's SOURCE UNRESOLVED item; после реален Week 3 v2 implementation (отделна, нова оторизирана задача) — може да започне успоредно с останалите items, докато automatic/reflexive processing решението чака. **НЕ implementation в тази сесия. НЕ Седмица 7/8/12.**
