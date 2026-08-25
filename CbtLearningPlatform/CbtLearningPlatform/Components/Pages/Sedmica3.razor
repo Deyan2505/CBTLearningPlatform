@@ -330,15 +330,17 @@
                 <li class="concept-map__connector" aria-hidden="true">↓</li>
                 <li class="concept-map__node concept-map__node--highlight">Ново усещане</li>
             </ol>
-            <svg class="cascade-loop__connector" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
-                <defs>
-                    <marker id="cascade-loop-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                        <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
-                    </marker>
-                </defs>
-                <path d="M380,2 C380,58 20,58 20,2" fill="none" stroke="currentColor" stroke-width="2" marker-end="url(#cascade-loop-arrow)" />
-            </svg>
-            <span class="cascade-loop__label">Ново усещане може да стане следваща "ситуация" ↺</span>
+            <div class="cascade-loop__return">
+                <svg class="cascade-loop__connector" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                        <marker id="cascade-loop-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+                        </marker>
+                    </defs>
+                    <path d="M280,4 Q150,22 20,4" fill="none" stroke="currentColor" stroke-width="2" marker-end="url(#cascade-loop-arrow)" />
+                </svg>
+                <span class="cascade-loop__label">може да стане нова ситуация/вход ↺</span>
+            </div>
         </div>
         <p>Кратък пример: забелязвате учестено сърцебиене → мислите "какво не е наред с мен?" → тревожност нараства → напрежението в тялото се усеща по-силно → нова мисъл при все по-силния сигнал.</p>
         <details class="progressive-explanation">
@@ -583,17 +585,18 @@
             new("posledovatelnost-node", "Защо автоматични мисли първо", "root", null, "/kurs/sedmica-3#posledovatelnost", ConceptState.Introduced)
         ]);
 
-    // v2 geometry fix (owner review): the previous ×3 row spacing (0/3/6/9) fixed the label
-    // congestion but grew the canvas to 840px — too tall for a moderate, compact map. Rows are
-    // presentation-only data owned by this page, not the shared ConceptGraph engine (its
-    // CardHeight/RowGap constants are untouched — the global Knowledge Map they also drive stays
-    // exactly as owner-approved). Redesigned, not just re-scaled: sali-situation now sits at the
-    // SAME row as sali-thought (a clean, direct horizontal pairing — "situation" reads as a
-    // parallel input beside the thought it triggers, not a fourth item stacked under the three
-    // beliefs) with one skipped row (3) between it and the belief cluster above, so it visually
-    // separates from Нагласа/Правило/Предположение instead of reading as a sub-level of them. The
-    // three belief→thought edges keep graduated vertical distances (rows 0/1/2 into row 4), which
-    // already spreads their labels without needing the belief cluster itself spread out further.
+    // v2 geometry fix (owner review, final pass): canvas size stays as-is (do not grow it further)
+    // — this pass only changes HOW edges arrive at sali-thought, not the overall scale. The engine
+    // (untouched, shared with the locked global Knowledge Map) draws an adjacent-column edge into a
+    // node's LEFT-middle point and a same-column edge into its TOP/bottom — every one of
+    // attitude/rule/assumption/situation was previously an adjacent-column edge, so all 4 arrived
+    // at the exact same left-middle point on sali-thought, however well their labels were spread.
+    // Moving sali-situation into thought's own column (2), one row above it, turns that single edge
+    // into a same-column vertical entry — it now visibly lands on thought's TOP, a genuinely
+    // distinct anchor point from the three beliefs' shared left-side entry, and reads even more
+    // clearly as "situation is a separate kind of input" than the previous same-row pairing did.
+    // The three belief→thought edges keep graduated row distances (0/1/2 into row 3) so their
+    // labels stay spread along the left entry, not stacked on each other.
     // SaliNetworkLayout must be declared before _saliHierarchyRender — static field initializers
     // run in declaration order, and ToRenderModel needs the dictionary already built, not null.
     private static readonly IReadOnlyDictionary<string, ConceptNetworkPosition> SaliNetworkLayout = new Dictionary<string, ConceptNetworkPosition>
@@ -602,11 +605,11 @@
         ["sali-attitude"] = new("", 1, 0),
         ["sali-rule"] = new("", 1, 1),
         ["sali-assumption"] = new("", 1, 2),
-        ["sali-situation"] = new("", 1, 4),
-        ["sali-thought"] = new("", 2, 4),
-        ["sali-emotion"] = new("", 3, 3),
-        ["sali-behavior"] = new("", 3, 4),
-        ["sali-physio"] = new("", 3, 5)
+        ["sali-situation"] = new("", 2, 2),
+        ["sali-thought"] = new("", 2, 3),
+        ["sali-emotion"] = new("", 3, 2),
+        ["sali-behavior"] = new("", 3, 3),
+        ["sali-physio"] = new("", 3, 4)
     };
 
     private static readonly GraphRenderModel _saliHierarchyRender = ConceptMapAdapter.ToRenderModel(

@@ -1600,11 +1600,17 @@ h3[tabindex="-1"]:focus-visible {
    (unlike --process's hard-coded nth-child snake) — opt in per instance, base .concept-map__flow
    untouched for every other use on the site (Week 1/3/8/10, Module 2 lessons). At 900px+, the
    same <ol> reflows into one horizontal row (flex, equal share per node) instead of a column;
-   below that it inherits the ordinary vertical .concept-map__flow behavior. */
+   below that it inherits the ordinary vertical .concept-map__flow behavior.
+   BUG FIX (owner review, next pass): this modifier never actually redeclared flex-direction, so
+   the base class's unconditional flex-direction:column kept winning at every width — display:flex
+   alone doesn't imply a row. The layout silently stayed vertical on desktop despite every other
+   property here being correct. explicit flex-direction:row added below; this single fix also
+   corrects Section 09's cascade, which reuses this same class. */
 @media (min-width: 900px) {
     .concept-map__flow--horizontal {
         max-width: none;
         display: flex;
+        flex-direction: row;
         align-items: center;
         gap: var(--space-3);
     }
@@ -1636,13 +1642,14 @@ h3[tabindex="-1"]:focus-visible {
 /* Owner review (Week 3 v2 geometry fix, Section 09 "по-сложен модел"): the cascading example must
    read as a loop through its own geometry, not just a note in the text. Below 900px the chain
    stays the ordinary vertical .concept-map__flow (no SVG — a return arrow drawn beside/under a
-   4-box column reads as clutter more than a loop) with a plain horizontal text label underneath.
-   At 900px+, the chain reflows into one horizontal row (.concept-map__flow--horizontal, the same
-   modifier Section 07 uses — applied here via markup, not redefined) and a full-width page-local
-   SVG (not the shared, locked ConceptGraph engine) appears beneath it, dipping down and curving
-   back from the last box to the first with an arrowhead — a real drawn return connector, sized to
-   the row's actual width via viewBox + preserveAspectRatio="none" rather than a fixed pixel guess.
-   The label is plain horizontal text at every width — never rotated. */
+   4-box column reads as clutter more than a loop); .cascade-loop__return collapses to a plain
+   centered text label. At 900px+, the chain reflows into one horizontal row
+   (.concept-map__flow--horizontal, the same modifier Section 07 uses — applied here via markup,
+   not redefined) and .cascade-loop__return becomes a row of its own: a compact, shallow page-local
+   SVG arc (not the shared, locked ConceptGraph engine) — short in height, not a deep dip across
+   most of the available space — sized to the row's actual width via viewBox +
+   preserveAspectRatio="none", paired with the label sitting right beside it (close to the return
+   edge, not centered under the whole diagram). Label is plain horizontal text at every width. */
 .cascade-loop {
     display: flex;
     flex-direction: column;
@@ -1652,6 +1659,13 @@ h3[tabindex="-1"]:focus-visible {
 
 .cascade-loop__flow {
     margin-bottom: 0;
+}
+
+.cascade-loop__return {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
 }
 
 .cascade-loop__connector {
@@ -1669,11 +1683,25 @@ h3[tabindex="-1"]:focus-visible {
         max-width: none;
     }
 
+    .cascade-loop__return {
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
     .cascade-loop__connector {
         display: block;
-        width: 100%;
-        height: 3.5rem;
+        flex: 1 1 auto;
+        max-width: 70%;
+        height: 1.5rem;
         color: var(--color-text-secondary);
+    }
+
+    .cascade-loop__label {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        text-align: right;
     }
 }
 
