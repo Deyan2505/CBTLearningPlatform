@@ -138,7 +138,7 @@ public sealed class Week8ContentSliceTests
     {
         string source = ReadPage("Sedmica8.razor");
         int checkIndex = source.IndexOf("id=\"proverka-znania\"", StringComparison.Ordinal);
-        int nextSectionIndex = source.IndexOf("id=\"izvori\"", StringComparison.Ordinal);
+        int nextSectionIndex = source.IndexOf("id=\"karta-povtorenie\"", StringComparison.Ordinal);
         string checkBlock = source[checkIndex..nextSectionIndex];
 
         int detailsCount = System.Text.RegularExpressions.Regex.Matches(checkBlock, "<details").Count;
@@ -215,9 +215,9 @@ public sealed class Week8ContentSliceTests
 
         string[] anchorIds =
         [
-            "nakratko", "karta-na-temata", "simulator", "sravnenie", "misal-ili-emociya",
+            "karta-sedmicata", "nakratko", "karta-na-temata", "simulator", "sravnenie", "misal-ili-emociya",
             "namirane-na-mislta", "razlichavane-na-emociite", "palno-obyasnenie",
-            "proverka", "proverka-znania", "izvori"
+            "proverka", "proverka-znania", "karta-povtorenie", "izvori"
         ];
 
         foreach (string id in anchorIds)
@@ -258,6 +258,81 @@ public sealed class Week8ContentSliceTests
         {
             Assert.DoesNotContain(term, publicMarkup);
         }
+    }
+
+    [Fact]
+    public void Week8Page_HasWeeklyMindMapPreviewAndReview_SameModelBothTimes()
+    {
+        string source = ReadPage("Sedmica8.razor");
+
+        Assert.Contains("ComponentId=\"week8-mindmap-preview\"", source);
+        Assert.Contains("ComponentId=\"week8-mindmap-review\"", source);
+        // Both instances render the exact same static model — one knowledge structure, two states.
+        Assert.Equal(2, System.Text.RegularExpressions.Regex.Matches(source, "Model=\"@_week8MindMapRender\"").Count);
+    }
+
+    [Fact]
+    public void Week8Page_MindMapPreviewComesBeforeSection01_ReviewComesBeforeSummary()
+    {
+        string source = ReadPage("Sedmica8.razor");
+
+        int previewIndex = source.IndexOf("id=\"karta-sedmicata\"", StringComparison.Ordinal);
+        int nakratkoIndex = source.IndexOf("id=\"nakratko\"", StringComparison.Ordinal);
+        int reviewIndex = source.IndexOf("id=\"karta-povtorenie\"", StringComparison.Ordinal);
+        int izvoriIndex = source.IndexOf("id=\"izvori\"", StringComparison.Ordinal);
+
+        Assert.True(previewIndex >= 0 && previewIndex < nakratkoIndex);
+        Assert.True(reviewIndex > 0 && reviewIndex < izvoriIndex);
+    }
+
+    [Fact]
+    public void Week8Page_MindMapReviewUsesExplainBeforeRevealPattern()
+    {
+        string source = ReadPage("Sedmica8.razor");
+        int reviewIndex = source.IndexOf("id=\"karta-povtorenie\"", StringComparison.Ordinal);
+        int nextSectionIndex = source.IndexOf("id=\"izvori\"", StringComparison.Ordinal);
+        string reviewBlock = source[reviewIndex..nextSectionIndex];
+
+        Assert.Contains("<details", reviewBlock);
+        Assert.Contains("опитай да си спомниш", reviewBlock);
+    }
+
+    [Fact]
+    public void Week8Page_MindMapNodesOnlyLinkToAnchorsThatExistOnThisPage()
+    {
+        // Every MindMapNode anchor must resolve to a real section on this page — no invented
+        // destination, no dangling reference.
+        string source = ReadPage("Sedmica8.razor");
+
+        string[] mindMapAnchors =
+        [
+            "karta-na-temata", "nakratko", "palno-obyasnenie", "namirane-na-mislta", "razlichavane-na-emociite"
+        ];
+
+        foreach (string anchor in mindMapAnchors)
+        {
+            Assert.Contains($"\"/kurs/sedmica-8#{anchor}\"", source);
+            Assert.Contains($"id=\"{anchor}\"", source);
+        }
+    }
+
+    [Fact]
+    public void Week8Page_Section04And05AreNotPairedInAMismatchedHeightRow()
+    {
+        // Owner visual review found a large dead-space gap: section 04 (InterpretationExample,
+        // short) and section 05 (comparison table + CategorizationCheck, much taller) previously
+        // shared one .learning-grid--balanced row, so the row's height followed the taller child
+        // and left a large empty gap under the shorter one. Mirrors the same fix already applied
+        // to Week 3's mismatched-height pair (Week3ContentSliceTests.cs) — each is now its own
+        // full-width section.
+        string source = ReadPage("Sedmica8.razor");
+
+        int sravnenieIndex = source.IndexOf("id=\"sravnenie\"", StringComparison.Ordinal);
+        int misalIndex = source.IndexOf("id=\"misal-ili-emociya\"", StringComparison.Ordinal);
+        string between = source[sravnenieIndex..misalIndex];
+
+        Assert.Contains("</section>", between);
+        Assert.DoesNotContain("learning-grid--balanced", between);
     }
 
     private static string ReadPage(string fileName)
