@@ -2964,6 +2964,20 @@ h3[tabindex="-1"]:focus-visible {
     white-space: nowrap;
 }
 
+/* Owner review (Week 3 — Sally map micro-fix): the "съпътства се от" label (sali-thought →
+   sali-physio, the 10th and last relation defined in BuildSaliConceptMap) sat pressed against its
+   own connector line. Scoped to this one label only, via the general sibling combinator off
+   Sally's own unique title id (#week3-sali-hierarchy-title) — never touches
+   ConceptGraph.razor/the shared engine, so nothing about the locked global Knowledge Map or any
+   other ConceptGraph instance is affected. :nth-of-type(10) counts only among the direct-child
+   <span> siblings inside .concept-graph__network-canvas (the 10 edge labels; node-label spans
+   live one level deeper, inside each node's own div, so they don't affect this count) — the same
+   order as the 10 relations in BuildSaliConceptMap, so this rule stays correct only as long as
+   "съпътства се от" remains the 10th/last one there. */
+#week3-sali-hierarchy-title ~ .concept-graph__network-canvas > .concept-graph__network-edge-label:nth-of-type(10) {
+    transform: translate(-50%, -100%) translateY(5px);
+}
+
 .concept-graph__network-node-absolute {
     position: absolute;
     display: flex;
