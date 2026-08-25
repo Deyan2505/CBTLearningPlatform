@@ -1364,3 +1364,19 @@
 - **Променени файлове:** `Components/Pages/Sedmica3.razor`, `wwwroot/app.css`, `02_CURRENT_STATUS.md`, `10_SESSION_LOG.md` (този запис). Нито един тестов файл не е пипнат тази сесия. `KnowledgeMapCatalog.cs`/`ConceptGraphAdapters.cs`/`ConceptGraph.razor`/`MindMapBranch.razor` — недокоснати. Никакви Week 1/6/7/8/10/12 файлове пипнати.
 - **Git:** commit, изолиран от все още некомитнатата Седмица 12 работа.
 - **Следваща стъпка:** owner финален pixel review на `/kurs/sedmica-3`. **НЕ Седмица 7. НЕ Седмица 8. НЕ Седмица 12.**
+
+---
+
+## Сесия 56 — Week 3 Final Geometry Correction — 2026-08-25
+
+- **Повод:** owner review откри, че Section 07/09 остават вертикални на desktop въпреки Сесия 55's fix. **Root cause намерен:** `.concept-map__flow--horizontal` никога не redeclare-ваше `flex-direction` — базовият `.concept-map__flow` задава `flex-direction: column` безусловно, а `display: flex` само по себе си не значи row, така че column посоката печелеше дори вътре в 900px+ модификатора. Добавен липсващият `flex-direction: row` — единична поправка, коригираща и двете секции (споделят класа).
+- **Cascade loop:** широката, дълбока U-крива (четяща се като "огромна линия по цялата долна част") заменена с плитка дъга, ограничена до 70% ширина, label до нея вдясно (близо до return edge), не центриран под целия ред.
+- **Sally map:** `sali-situation` преместена в СЪЩАТА колона като `sali-thought` (не същия ред както преди) — превръща ѝ ръба от adjacent-column entry (същата left-middle точка като вярванията) в same-column vertical entry, кацащ на TOP-а на thought — потвърдено чрез rendered path координати (константно X = чиста вертикална линия, за разлика от трите belief edges, които продължават да се събират в същата left-middle точка едно спрямо друго). Canvas 536px→**460px** (не увеличен). 9 nodes/10 relations непроменени.
+- **Тестове:** 0 нови/премахнати. **518/518**. Build 0/0 (Debug+Release).
+- **Runtime QA:** тази сесия CSS cascade логиката е проверена ръчно ред по ред в served `app.css` (не само presence на клас имена — точно това пропускане причини Сесия 55's бъг) — `flex-direction: row` потвърден вътре в правилния `@media` блок, единствена дефиниция. Sally edge координати decode-нати и проверени математически. 8/8 routes `200`. Всички предишни fixes (Triad/Summary-Sources/localization/accessibility/anchors) reconfirmed.
+- **⚠ Git anomaly, забелязана и обработена внимателно:** при staging откри се, че цялата pre-existing Седмица 12 работа (6 файла) вече е STAGED в index-а — не от тази сесия. Разследвано (`git diff --cached --stat` потвърди същото, вече познато съдържание, не нещо ново/тревожно). За да не се комитне случайно чрез обикновен `git commit`, commit-ът е направен с изричен pathspec (`git commit -- Sedmica3.razor app.css`), който комитва само тези 2 файла независимо от останалото в index-а. Седмица 12 остава staged точно както е била — нито комитната, нито unstage-ната от тази сесия (собственикът може сам да реши какво да прави с нея).
+- **Резултат:** `STRUCTURAL QA COMPLETE — OWNER PIXEL REVIEW REQUIRED`.
+- **Създадени файлове:** няма нови.
+- **Променени файлове:** `Components/Pages/Sedmica3.razor`, `wwwroot/app.css`, `10_SESSION_LOG.md` (този запис). Никакви Week 1/6/7/8/10/12 файлове пипнати.
+- **Git:** commit `3e4ca50`, изрично pathspec-limited заради externally-staged Седмица 12 работа.
+- **Следваща стъпка:** owner финален pixel review на `/kurs/sedmica-3`. **НЕ Седмица 7. НЕ Седмица 8. НЕ Седмица 12.**

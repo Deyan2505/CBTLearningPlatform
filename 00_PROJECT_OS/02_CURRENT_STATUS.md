@@ -18,7 +18,20 @@
 
 ## Текуща стъпка
 
-`WEEK 3 — TARGETED DIAGRAM GEOMETRY FIX` (Сесия 55, 2026-08-24). Geometry-only pass след Сесия 54 —
+`WEEK 3 — FINAL GEOMETRY CORRECTION` (Сесия 56, 2026-08-25). Owner откри, че Section 07/09 остават
+вертикални въпреки Сесия 55. **Root cause:** `.concept-map__flow--horizontal` никога не redeclare-ваше
+`flex-direction` — базовият клас го фиксира на `column` безусловно; `display:flex` само по себе си не
+значи row. Добавен липсващият `flex-direction: row` (единична поправка, коригира и двете секции).
+Cascade loop connector-ът смален до плитка дъга (70% ширина) с label до нея, не центриран под целия
+ред. Sally map: `sali-situation` преместена в СЪЩАТА колона като `sali-thought` (не същия ред) —
+превръща ѝ входа в distinct top-anchor vertical entry, различен от трите belief edges' left-middle
+entry — потвърдено чрез rendered path координати. Canvas 536→460px. 9 nodes/10 relations непроменени.
+**518/518** теста, build 0/0. **Git anomaly:** pre-existing Седмица 12 работа (6 файла) открита STAGED
+в index-а (не от тази сесия) — commit направен с изричен pathspec (`3e4ca50`), комитвайки само двата
+Week 3 файла; Седмица 12 остава staged точно както е била, недокосната от тази сесия. Резултат:
+`STRUCTURAL QA COMPLETE — OWNER PIXEL REVIEW REQUIRED`. Server: `http://localhost:5131/kurs/sedmica-3`.
+
+Предходен checkpoint — `WEEK 3 — TARGETED DIAGRAM GEOMETRY FIX` (Сесия 55, 2026-08-24). Geometry-only pass след Сесия 54 —
 content/architecture остава PASS, Mind Map/coverage/semantic relations недокоснати. **Section 09:**
 нов `.trigger-inputs` bordered box отделя trigger-примерите от каскадата; каскадата вече хоризонтална
 на 900px+ (реизползва Section 07's `--horizontal` модификатор) с нова widescreen loop-back SVG (дипва
