@@ -62,14 +62,15 @@ public sealed class SectionArchitectureTests
     }
 
     [Fact]
-    public void Week8Page_HasTwoDistinctProgressiveDisclosureBlocks()
+    public void Week8Page_HasThreeDistinctProgressiveDisclosureBlocks()
     {
-        // "Пълно обяснение" (Section 06) and "Академичен контекст" (Section 08) are separate
-        // disclosure levels, not one compound block.
+        // "Пълно обяснение" and "Академичен контекст" are separate disclosure levels, not one
+        // compound block. Deep Learning v2 migration added a third, independent block in the new
+        // "06 · Намиране на точната мисъл" section (WEEK_08_SOURCE_COVERAGE_AUDIT_v1.md Block 2).
         string source = ReadPage("Sedmica8.razor");
 
         int count = CountOccurrences(source, "<ProgressiveExplanation");
-        Assert.Equal(2, count);
+        Assert.Equal(3, count);
     }
 
     [Fact]
