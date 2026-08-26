@@ -1,7 +1,9 @@
-@* Interactive WebAssembly island. Reveal-style knowledge workspace: clicking any category
-   button reveals the same neutral explanation for that phrase, so there is no comparison
-   against "your" specific click — no grading, no correct/wrong language, no storage.
-   "Разгледани примери" is a plain count of revealed items, not a competitive ranking. *@
+@* Interactive WebAssembly island. Reveal-style knowledge workspace: a single "Разкрий" button
+   per phrase shows its explanation — no comparison against "your" choice, no grading, no
+   correct/wrong language, no storage. Categories are taught via the legend above, not picked
+   per item (four identical-looking category buttons here would imply a choice that doesn't
+   exist, since any of them would reveal the same fixed explanation). "Разгледани примери" is a
+   plain count of revealed items, not a competitive ranking. *@
 
 <div class="categorization-workspace">
     <div class="categorization-workspace__header">
@@ -21,19 +23,15 @@
     {
         <div class="categorization-check__item card">
             <p class="categorization-check__phrase">"@item.Phrase"</p>
-            <div class="categorization-check__choices">
-                @foreach (string category in Categories)
-                {
-                    <button type="button" class="btn btn-example" @onclick="() => Reveal(item)">
-                        @category
-                    </button>
-                }
-            </div>
             @if (_revealed.Contains(item))
             {
                 <div class="categorization-check__explanation" aria-live="polite">
                     <p><strong>@item.Category:</strong> @item.Explanation</p>
                 </div>
+            }
+            else
+            {
+                <button type="button" class="btn btn-example" @onclick="() => Reveal(item)">Разкрий</button>
             }
         </div>
     }
@@ -42,8 +40,6 @@
 </div>
 
 @code {
-    private static readonly IReadOnlyList<string> Categories = ["Мисъл", "Емоция", "Телесна реакция", "Поведение"];
-
     private readonly HashSet<CategorizationItem> _revealed = [];
 
     private readonly IReadOnlyList<CategorizationItem> _items =

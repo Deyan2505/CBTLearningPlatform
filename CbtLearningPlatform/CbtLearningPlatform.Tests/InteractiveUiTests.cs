@@ -231,14 +231,26 @@ public sealed class InteractiveUiTests
     }
 
     [Fact]
-    public void CategorizationCheck_OffersAllFourModelCategories()
+    public void CategorizationCheck_DefinesAllFourModelCategoriesInTheLegend()
     {
         string source = ReadClientComponent("CategorizationCheck.razor");
 
         foreach (string category in new[] { "Мисъл", "Емоция", "Телесна реакция", "Поведение" })
         {
-            Assert.Contains($"\"{category}\"", source);
+            Assert.Contains($"<dt>{category}</dt>", source);
         }
+    }
+
+    [Fact]
+    public void CategorizationCheck_RevealIsASingleButtonNotAFakeCategoryChoice()
+    {
+        // ponytail: four identically-behaving category buttons per phrase looked like a real
+        // choice but weren't (any button revealed the same fixed explanation) — collapsed to one
+        // "Разкрий" button so the interaction matches what it actually does.
+        string source = ReadClientComponent("CategorizationCheck.razor");
+
+        Assert.DoesNotContain("categorization-check__choices", source);
+        Assert.Contains(">Разкрий<", source);
     }
 
     [Fact]

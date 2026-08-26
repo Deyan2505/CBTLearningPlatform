@@ -1274,8 +1274,10 @@ h3[tabindex="-1"]:focus-visible {
 .branch-diagram__node {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: var(--space-1);
     padding: var(--space-2) 0;
+    text-align: center;
 }
 
 .branch-diagram__node-label {
@@ -2530,17 +2532,16 @@ h3[tabindex="-1"]:focus-visible {
 
 .categorization-check__item {
     margin-bottom: var(--space-4);
+    padding: var(--space-4);
 }
 
 .categorization-check__phrase {
     font-weight: 700;
+    margin: 0;
 }
 
-.categorization-check__choices {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin: var(--space-2) 0;
+.categorization-check__item > .btn {
+    margin-top: var(--space-2);
 }
 
 .categorization-check__explanation {
@@ -2548,6 +2549,10 @@ h3[tabindex="-1"]:focus-visible {
     padding-top: var(--space-2);
     border-top: 1px solid var(--color-border);
     color: var(--color-text-secondary);
+}
+
+.categorization-check__explanation p {
+    margin-bottom: 0;
 }
 
 /* ==========================================================================
@@ -3380,6 +3385,40 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
         .mindmap-branch__children:not(.mindmap-branch__children--top) > li:last-child::after {
             left: -1.52rem;
         }
+    }
+}
+
+/* Week 8 has the same five-cluster Mind Map hierarchy as the locked standard, but its longer
+   Bulgarian leaves have a larger min-content width. In the shared wide flex tree that width was
+   taken from the root, wrapping the root while leaving the branch column visually top-heavy.
+   Keep the shared engine and connectors unchanged; only let Week 8's branch column shrink/wrap
+   first and use the standard compact row rhythm. Preview and Review receive the same geometry. */
+@container (min-width: 700px) {
+    #week8-mindmap-preview-title ~ .mindmap-tree > .mindmap-root,
+    #week8-mindmap-review-title ~ .mindmap-tree > .mindmap-root {
+        flex-shrink: 0;
+    }
+
+    #week8-mindmap-preview-title ~ .mindmap-tree > .mindmap-branch__children--top,
+    #week8-mindmap-review-title ~ .mindmap-tree > .mindmap-branch__children--top {
+        min-width: 0;
+        gap: var(--space-4);
+    }
+
+    #week8-mindmap-preview-title ~ .mindmap-tree .mindmap-branch,
+    #week8-mindmap-preview-title ~ .mindmap-tree .mindmap-branch__children,
+    #week8-mindmap-preview-title ~ .mindmap-tree .mindmap-branch__children > li,
+    #week8-mindmap-review-title ~ .mindmap-tree .mindmap-branch,
+    #week8-mindmap-review-title ~ .mindmap-tree .mindmap-branch__children,
+    #week8-mindmap-review-title ~ .mindmap-tree .mindmap-branch__children > li {
+        min-width: 0;
+    }
+
+    #week8-mindmap-preview-title ~ .mindmap-tree .mindmap-node,
+    #week8-mindmap-preview-title ~ .mindmap-tree .mindmap-branch__summary,
+    #week8-mindmap-review-title ~ .mindmap-tree .mindmap-node,
+    #week8-mindmap-review-title ~ .mindmap-tree .mindmap-branch__summary {
+        max-width: 100%;
     }
 }
 
