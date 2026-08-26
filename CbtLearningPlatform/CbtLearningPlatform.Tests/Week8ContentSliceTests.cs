@@ -1,5 +1,5 @@
 using System.Reflection;
-using CbtLearningPlatform.Curriculum;
+using CbtLearningPlatform.Client.Curriculum;
 
 namespace CbtLearningPlatform.Tests;
 
@@ -12,9 +12,9 @@ public sealed class Week8ContentSliceTests
     [Fact]
     public void Week8Page_ExistsInHostAssembly()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
-        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Components.Pages.Sedmica8"));
+        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Client.Components.Pages.Sedmica8"));
     }
 
     [Fact]
@@ -56,9 +56,6 @@ public sealed class Week8ContentSliceTests
         Assert.Contains("<CbtChainSimulator", source);
         Assert.Contains("<InterpretationExample", source);
         Assert.Contains("<CategorizationCheck", source);
-
-        int rendermodeCount = source.Split("@rendermode").Length - 1;
-        Assert.Equal(3, rendermodeCount);
     }
 
     [Fact]
@@ -337,7 +334,7 @@ public sealed class Week8ContentSliceTests
 
     private static string ReadPage(string fileName)
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         return File.ReadAllText(Path.Combine(pagesDirectory, fileName));
     }
 

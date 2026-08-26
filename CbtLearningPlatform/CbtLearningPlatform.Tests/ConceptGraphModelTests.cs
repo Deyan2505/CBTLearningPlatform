@@ -1,4 +1,4 @@
-using CbtLearningPlatform.Curriculum;
+using CbtLearningPlatform.Client.Curriculum;
 
 namespace CbtLearningPlatform.Tests;
 

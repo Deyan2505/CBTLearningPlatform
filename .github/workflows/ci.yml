@@ -44,3 +44,36 @@ jobs:
 
       - name: Test
         run: dotnet test CbtLearningPlatform.sln --configuration Release --no-build --no-restore
+
+  deploy:
+    name: Deploy to Netlify
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    defaults:
+      run:
+        working-directory: CbtLearningPlatform
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: CbtLearningPlatform/global.json
+
+      - name: Publish standalone WASM client
+        run: dotnet publish CbtLearningPlatform.Client/CbtLearningPlatform.Client.csproj --configuration Release --output publish
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: CbtLearningPlatform/publish/wwwroot
+          production-deploy: true
+          deploy-message: "Deploy from ${{ github.sha }}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

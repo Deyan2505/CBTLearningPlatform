@@ -1,0 +1,413 @@
+@* ACADEMIC/CLINICAL REVIEW PENDING internally — no staffed reviewer yet (RISK-010), not shown
+   as an uppercase status in the public UI (Week 1 owner-review correction lesson applied).
+   CONTENT-DRIVEN TEMPLATE VALIDATION, Slice 3: "Guided Practice" archetype — distinct from
+   Week 1's "Theory and History", Week 3's "Concept and Diagram", and Week 8's "Simulator
+   Workspace". Curriculum topic from kpt_syllabus.pdf (Week 10) — map only, never verbatim
+   text. Content basis: SRC-041 (Judith Beck) on guided discovery, Socratic questioning and
+   collaborative empiricism. Reconciled syllabus claims (10_SESSION_LOG.md, this session):
+   Socratic questions are framed as exploration, not persuasion/interrogation/covert advice;
+   a balanced response is not forced positivity; decatastrophizing does not deny a real
+   problem; an alternative explanation doesn't cancel the first one just for being nicer.
+   One interactive island (SocraticDialogueExplorer) — reuses the proven .cbt-diagram
+   step-select pattern (0 new CSS). Categorization/knowledge checks reuse native
+   <details>/<summary> (Week 1/3 pattern), not a second quiz engine. Section 08/09 kept as
+   separate full-width LearningSection blocks from the start (Week 3 owner-review lesson on
+   pairing mismatched-height content in a shared grid row). *@
+@page "/kurs/sedmica-10"
+
+<PageTitle>Седмица 10: Сократически въпроси и съвместно изследване — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--format">Насочено упражнение</span>
+        </div>
+        <p><em>Как въпросите помагат да разгледаме доказателства, алтернативи и последствия, без да налагаме готов отговор</em></p>
+        <p>
+            Сократическите въпроси не дават готов отговор. Те помагат една мисъл да бъде разгледана от
+            повече страни — чрез факти, алтернативни обяснения, вероятни последствия и различна гледна точка.
+        </p>
+        <LearningObjectives Objectives="@_objectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-10#izsledvane">Какво е изследване</a>
+        <a href="/kurs/sedmica-10#semeystva">Семейства въпроси</a>
+        <a href="/kurs/sedmica-10#dialog">Насочен диалог</a>
+        <a href="/kurs/sedmica-10#prikrit-savet">Въпрос или съвет</a>
+        <a href="/kurs/sedmica-10#fakti-zakliucheniya">Факти и заключения</a>
+        <a href="/kurs/sedmica-10#dekatastrofizirane">Декатастрофизиране</a>
+        <a href="/kurs/sedmica-10#balansiran-otgovor">Балансиран отговор</a>
+        <a href="/kurs/sedmica-10#flow">Практическа последователност</a>
+        <a href="/kurs/sedmica-10#proverka">Проверка</a>
+        <a href="/kurs/sedmica-10#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    <LearningSection Role="theory" RoleLabel="Теория">
+        <h2 id="izsledvane" tabindex="-1">01 · Какво е сократическо изследване</h2>
+        <ol class="concept-map__flow concept-map__flow--process" aria-label="Процес на сократическото изследване, шест стъпки">
+            <li class="concept-map__node">Мисъл или интерпретация</li>
+            <li class="concept-map__connector" aria-hidden="true">↓</li>
+            <li class="concept-map__node">Изясняване на значението</li>
+            <li class="concept-map__connector" aria-hidden="true">↓</li>
+            <li class="concept-map__node">Разглеждане на фактите</li>
+            <li class="concept-map__connector" aria-hidden="true">↓</li>
+            <li class="concept-map__node">Алтернативни обяснения</li>
+            <li class="concept-map__connector" aria-hidden="true">↓</li>
+            <li class="concept-map__node">Последствия и перспектива</li>
+            <li class="concept-map__connector" aria-hidden="true">↓</li>
+            <li class="concept-map__node concept-map__node--highlight">По-балансирано заключение</li>
+        </ol>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <h3>Сократическо изследване</h3>
+                <ul>
+                    <li>любопитно;</li>
+                    <li>отворено;</li>
+                    <li>конкретно;</li>
+                    <li>основано на наличната информация;</li>
+                    <li>допуска повече от един възможен извод.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Насочващо убеждаване</h3>
+                <ul>
+                    <li>съдържа скрит „правилен“ отговор;</li>
+                    <li>пренебрегва неудобни факти;</li>
+                    <li>използва въпроса като спор;</li>
+                    <li>заменя мисленето на човека с готово заключение.</li>
+                </ul>
+            </div>
+        </div>
+        <p>
+            Сократическите въпроси подпомагат систематичното разглеждане на една мисъл или интерпретация.
+            Целта не е предварително определен „правилен“ отговор, а по-пълно изследване на наличната
+            информация. Не всеки затворен въпрос е насочващ — важна е целта и духът на въпроса, не само
+            граматичната му форма.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="visual" RoleLabel="Визуален модел">
+        <h2 id="semeystva" tabindex="-1">02 · Четири семейства въпроси</h2>
+        <div class="concept-map__side-notes">
+            <div class="card">
+                <h3>Доказателства</h3>
+                <ul>
+                    <li>Какво пряко подкрепя тази мисъл?</li>
+                    <li>Каква информация не се вписва напълно в нея?</li>
+                    <li>Кое е наблюдаем факт и кое е заключение?</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Алтернативи</h3>
+                <ul>
+                    <li>Има ли друго правдоподобно обяснение?</li>
+                    <li>Как би изглеждала ситуацията от друга гледна точка?</li>
+                    <li>Какво още не знаем?</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Вероятни последствия</h3>
+                <ul>
+                    <li>Какъв е най-трудният възможен изход?</li>
+                    <li>Какъв е най-благоприятният?</li>
+                    <li>Кой изглежда най-вероятен според наличните данни?</li>
+                    <li>Какви възможности за действие съществуват?</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Дистанциране и полезност</h3>
+                <ul>
+                    <li>Какво бихте казали на приятел в същата ситуация?</li>
+                    <li>Какъв е ефектът от това да приемем мисълта без проверка?</li>
+                    <li>Помага ли тази интерпретация да реагираме разумно?</li>
+                </ul>
+            </div>
+        </div>
+    </LearningSection>
+
+    <h2 id="dialog" tabindex="-1">03 · Насочен диалог: изследвайте стъпка по стъпка</h2>
+    <SocraticDialogueExplorer />
+
+    <div class="learning-grid learning-grid--balanced">
+        <LearningSection Role="example" RoleLabel="Сравнение">
+            <h2 id="prikrit-savet" tabindex="-1">04 · Въпрос или прикрит съвет</h2>
+            <p>Изберете как бихте класифицирали всеки пример, после разгънете обяснението.</p>
+            <div class="concept-map__side-notes">
+                <div class="card">
+                    <p>„Не мислите ли, че просто преувеличавате?“</p>
+                    <details class="progressive-explanation">
+                        <summary>Покажи класификацията</summary>
+                        <div class="progressive-explanation__body">
+                            <p><strong>Насочващ въпрос</strong> — предполага предварително заключение.</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="card">
+                    <p>„Кои части от ситуацията ви карат да направите този извод?“</p>
+                    <details class="progressive-explanation">
+                        <summary>Покажи класификацията</summary>
+                        <div class="progressive-explanation__body">
+                            <p><strong>Изследващ въпрос</strong> — търси конкретната основа на заключението.</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="card">
+                    <p>„Защо не опитате да мислите по-позитивно?“</p>
+                    <details class="progressive-explanation">
+                        <summary>Покажи класификацията</summary>
+                        <div class="progressive-explanation__body">
+                            <p><strong>Съвет, представен като въпрос.</strong></p>
+                        </div>
+                    </details>
+                </div>
+                <div class="card">
+                    <p>„Какво друго би могло да обясни краткия отговор?“</p>
+                    <details class="progressive-explanation">
+                        <summary>Покажи класификацията</summary>
+                        <div class="progressive-explanation__body">
+                            <p><strong>Въпрос за алтернативно обяснение.</strong></p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </LearningSection>
+
+        <LearningSection Role="theory" RoleLabel="Сравнение">
+            <h2 id="fakti-zakliucheniya" tabindex="-1">05 · Факти, предположения и заключения</h2>
+            <div class="category-compare">
+                <div class="category-compare__item category-compare__item--fact">
+                    <p class="category-compare__label">Факт</p>
+                    <p>„Получих отговор: 'Ще го обсъдим утре.'“</p>
+                </div>
+                <div class="category-compare__item category-compare__item--thought">
+                    <p class="category-compare__label">Предположение</p>
+                    <p>„Вероятно има проблем.“</p>
+                </div>
+                <div class="category-compare__item category-compare__item--feeling">
+                    <p class="category-compare__label">Заключение</p>
+                    <p>„Материалът ми е лош и съм се провалил.“</p>
+                </div>
+            </div>
+            <p>
+                Едно заключение може да съдържа вярна част, възможна част и непотвърдена част едновременно.
+                Пълният модел мисъл-емоция-поведение е разгледан в
+                <a href="/programa/modul-2/avtomatichni-misli">урока за автоматичните мисли</a>.
+            </p>
+        </LearningSection>
+    </div>
+
+    <LearningSection Role="example" RoleLabel="Пример">
+        <h2 id="dekatastrofizirane" tabindex="-1">06 · От „ужасно“ към конкретно и управляемо</h2>
+        <ProgressiveExplanation SummaryLabel="Покажи пълното обяснение">
+            <p>При декатастрофизиране разглеждаме заедно:</p>
+            <ul>
+                <li>какво точно би било трудно;</li>
+                <li>колко вероятно е;</li>
+                <li>какви ресурси или действия съществуват;</li>
+                <li>какво остава извън контрола;</li>
+                <li>какво може да бъде направено следващо.</li>
+            </ul>
+            <p>
+                Декатастрофизирането не твърди, че няма проблем. То превръща общото усещане за катастрофа
+                в по-конкретна оценка на вероятността, последствията и възможните действия.
+            </p>
+        </ProgressiveExplanation>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Пример">
+        <h2 id="balansiran-otgovor" tabindex="-1">07 · Балансиран отговор</h2>
+        <div class="concept-map__side-notes">
+            <div class="card">
+                <h3>Прекалено отрицателно</h3>
+                <p>„Щом иска да го обсъдим, значи всичко е провал.“</p>
+            </div>
+            <div class="card">
+                <h3>Принудително положително</h3>
+                <p>„Със сигурност всичко е идеално.“</p>
+            </div>
+            <div class="card">
+                <h3>Балансирано</h3>
+                <p>„От краткия отговор не мога да заключа каква е оценката. Възможно е да има корекции, но разговорът ще даде повече информация.“</p>
+            </div>
+        </div>
+        <p>Балансираната мисъл трябва да бъде правдоподобна и съвместима с фактите, а не просто по-приятна.</p>
+    </LearningSection>
+
+    <LearningSection Role="visual" RoleLabel="Визуален модел">
+        <h2 id="flow" tabindex="-1">08 · Практическа последователност</h2>
+        <ol class="guided-practice-sequence" aria-label="Практическа последователност, шест стъпки">
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">01</span>
+                    <span class="guided-practice-sequence__label">Спри</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">02</span>
+                    <span class="guided-practice-sequence__label">Назови мисълта</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">03</span>
+                    <span class="guided-practice-sequence__label">Раздели фактите от заключенията</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">04</span>
+                    <span class="guided-practice-sequence__label">Разгледай алтернативи</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">05</span>
+                    <span class="guided-practice-sequence__label">Оцени вероятността и последствията</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step guided-practice-sequence__step--final">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">06</span>
+                    <span class="guided-practice-sequence__label">Формулирай правдоподобен отговор</span>
+                </span>
+            </li>
+        </ol>
+        <p class="concept-map__feedback">Това е образователна демонстрация, не универсална терапевтична процедура.</p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Рефлексия">
+        <h2 id="proverka" tabindex="-1">09 · Проверка на разбирането</h2>
+        <p>Изберете отговор, след което разгънете обяснението. Проверката не се оценява и не запазва отговори.</p>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Въпрос 1.</strong> Кой въпрос е най-малко насочващ?</p>
+                <p>А. „Не мислите ли, че просто преувеличавате?“<br />Б. „Кои части от ситуацията ви карат да направите този извод?“<br />В. „Защо не опитате да мислите по-позитивно?“</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Той търси конкретната основа на заключението, без да предполага готов отговор.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 2.</strong> Каква е разликата между алтернативно обяснение и позитивно мислене?</p>
+                <p>А. Няма разлика<br />Б. Алтернативата трябва да е правдоподобна и съвместима с фактите, не просто по-приятна<br />В. Позитивното мислене винаги е по-точно</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Алтернативното обяснение не отменя първото само защото е по-приятно — то трябва да е реалистично.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 3.</strong> Какво означава декатастрофизиране?</p>
+                <p>А. Отричане, че съществува проблем<br />Б. Превръщане на общото усещане за катастрофа в конкретна оценка на вероятност и последствия<br />В. Замяна на всяка тревога с увереност</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Декатастрофизирането не омаловажава реален проблем — прави го по-конкретен и управляем.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 4.</strong> Кое прави един балансиран отговор убедителен?</p>
+                <p>А. Че звучи оптимистично<br />Б. Че е правдоподобен и съвместим с наличните факти<br />В. Че отговаря точно на първоначалната мисъл</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Балансираният отговор трябва да издържи на проверка с фактите, не само да звучи добре.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Изводи">
+        <h2 id="izvori" tabindex="-1">10 · Обобщение, академичен контекст и източници</h2>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div>
+                <h3>Какво да запомните</h3>
+                <ul>
+                    <li>Въпросите трябва да подпомагат изследването, не убеждаването.</li>
+                    <li>Фактът и заключението не са едно и също.</li>
+                    <li>Алтернативата трябва да бъде правдоподобна.</li>
+                    <li>Балансираният отговор не е принудително позитивен.</li>
+                    <li>Рефлексията не гарантира единствен правилен извод.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Академичен контекст</h3>
+                <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
+                    <p>
+                        Методът на сократическото изследване се основава на традицията на съвместното емпирично
+                        изследване (collaborative empiricism) в когнитивно-поведенческата терапия, систематично
+                        представена в трудовете на Джудит С. Бек.
+                    </p>
+                    <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
+                </ProgressiveExplanation>
+            </div>
+
+            <div>
+                <DisclaimerCallout Text="Тази страница представя образователен пример за изследване на мисли чрез въпроси. Тя не обучава за провеждане на терапия, не оценява личното ви състояние и не заменя професионална психологическа или медицинска помощ." />
+            </div>
+
+            <div>
+                <h3>Източници и следващи стъпки</h3>
+                <p>
+                    <a href="/kurs/sedmica-3">Седмица 3 — Архитектура на когнитивния модел</a><br />
+                    <a href="/kurs/sedmica-8">Седмица 8 — Автоматични мисли и емоции</a><br />
+                    <a href="/programa/modul-2/avtomatichni-misli">Урок: Автоматични мисли</a><br />
+                    <a href="/programa/modul-2">Модул 2</a><br />
+                    <a href="/kurs">← Обратно към 15-седмичния курс</a>
+                </p>
+                <SourceReferences Citations="@_citations" />
+            </div>
+        </div>
+
+        <OptionalReadingSource
+            Title="Когнитивно-поведенческа терапия: Основи и отвъд"
+            Author="Джудит С. Бек"
+            Edition="2-ро издание, Guilford Press, 2011 (оригинално заглавие: Cognitive Behavior Therapy: Basics and Beyond)"
+            RelevantSection="Насочено откриване и сократически въпроси"
+            Description="Учебникът представя насоченото откриване, сократическите въпроси и съвместното изследване (collaborative empiricism) в пълния им академичен контекст." />
+    </LearningSection>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 10);
+
+    private readonly IReadOnlyList<string> _objectives =
+    [
+        "Различавате изследващ от насочващ въпрос.",
+        "Разпознавате основните семейства сократически въпроси.",
+        "Разбирате разликата между факт, предположение и заключение.",
+        "Проследявате кратък пример за насочено изследване на мисъл.",
+        "Разбирате, че целта не е насилствено положителна мисъл.",
+        "Разпознавате границата между образователно упражнение и професионална терапия."
+    ];
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — глава за насочено откриване и сократически въпроси.",
+        "Аарон Т. Бек и традицията на collaborative empiricism в когнитивно-поведенческата терапия.",
+        "Учебната последователност на тази седмица е използвана само за тематична ориентация, без институционални твърдения."
+    ];
+}

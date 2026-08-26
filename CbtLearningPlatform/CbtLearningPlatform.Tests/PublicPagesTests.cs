@@ -7,9 +7,9 @@ public sealed class PublicPagesTests
     [Fact]
     public void ProgramaPage_ExistsInHostAssembly()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
-        Type? programaType = assembly.GetType("CbtLearningPlatform.Components.Pages.Programa");
+        Type? programaType = assembly.GetType("CbtLearningPlatform.Client.Components.Pages.Programa");
 
         Assert.NotNull(programaType);
     }
@@ -17,9 +17,9 @@ public sealed class PublicPagesTests
     [Fact]
     public void ModuleCard_ExistsInHostAssembly()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
-        Type? moduleCardType = assembly.GetType("CbtLearningPlatform.Components.Shared.ModuleCard");
+        Type? moduleCardType = assembly.GetType("CbtLearningPlatform.Client.Components.Shared.ModuleCard");
 
         Assert.NotNull(moduleCardType);
     }
@@ -27,8 +27,8 @@ public sealed class PublicPagesTests
     [Fact]
     public void ModuleCard_HasStablePublicParameters()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
-        Type moduleCardType = assembly.GetType("CbtLearningPlatform.Components.Shared.ModuleCard")!;
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
+        Type moduleCardType = assembly.GetType("CbtLearningPlatform.Client.Components.Shared.ModuleCard")!;
 
         string[] expectedParameters = ["Title", "Description", "StatusLabel", "DestinationUrl", "CtaLabel"];
 

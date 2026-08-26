@@ -200,13 +200,13 @@ public sealed class LayoutRefinementTests
 
     private static string ReadPage(string fileName)
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         return File.ReadAllText(Path.Combine(pagesDirectory, fileName));
     }
 
     private static string ReadSharedComponent(string fileName)
     {
-        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Shared");
+        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Shared");
         return File.ReadAllText(Path.Combine(sharedDirectory, fileName));
     }
 
@@ -219,7 +219,7 @@ public sealed class LayoutRefinementTests
 
     private static string ReadCss()
     {
-        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "wwwroot", "app.css");
+        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "wwwroot", "app.css");
         return File.ReadAllText(cssPath);
     }
 }

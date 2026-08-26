@@ -77,7 +77,7 @@ public sealed class SystemicAnchorFixTests
     [Fact]
     public void NoBareFragmentAnchorsRemainAnywhereInComponents()
     {
-        string componentsRoot = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components");
+        string componentsRoot = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components");
 
         foreach (string file in Directory.EnumerateFiles(componentsRoot, "*.razor", SearchOption.AllDirectories))
         {
@@ -93,13 +93,13 @@ public sealed class SystemicAnchorFixTests
 
     private static string ReadPage(string fileName)
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         return File.ReadAllText(Path.Combine(pagesDirectory, fileName));
     }
 
     private static string ReadLayoutComponent(string fileName)
     {
-        string layoutDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Layout");
+        string layoutDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Layout");
         return File.ReadAllText(Path.Combine(layoutDirectory, fileName));
     }
 }

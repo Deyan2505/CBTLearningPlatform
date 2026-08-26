@@ -19,10 +19,10 @@ public sealed class RuntimeBaselineTests
     [Fact]
     public void HostApplicationAssembly_IsAvailable()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
         Assert.Equal(
-            "CbtLearningPlatform",
+            "CbtLearningPlatform.Client",
             assembly.GetName().Name);
     }
 }

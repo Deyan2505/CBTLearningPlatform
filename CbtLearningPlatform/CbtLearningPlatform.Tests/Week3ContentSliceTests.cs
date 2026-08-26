@@ -1,5 +1,5 @@
 using System.Reflection;
-using CbtLearningPlatform.Curriculum;
+using CbtLearningPlatform.Client.Curriculum;
 
 namespace CbtLearningPlatform.Tests;
 
@@ -10,9 +10,9 @@ public sealed class Week3ContentSliceTests
     [Fact]
     public void Week3Page_ExistsInHostAssembly()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
-        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Components.Pages.Sedmica3"));
+        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Client.Components.Pages.Sedmica3"));
     }
 
     [Fact]
@@ -149,9 +149,6 @@ public sealed class Week3ContentSliceTests
 
         Assert.Contains("<CognitiveHierarchyExplorer", source);
         Assert.Contains("<SchemaFilterDemonstration", source);
-
-        int rendermodeCount = source.Split("@rendermode").Length - 1;
-        Assert.Equal(2, rendermodeCount);
     }
 
     [Fact]
@@ -188,7 +185,7 @@ public sealed class Week3ContentSliceTests
         Assert.Contains("ComponentId=\"week3-sali-hierarchy\"", source);
         Assert.Contains("ConceptGraphLayout.Network", source);
         // Never added to the global map — owner has not separately confirmed these as concepts.
-        string curriculumDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Curriculum");
+        string curriculumDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Curriculum");
         string knowledgeMapCatalogSource = File.ReadAllText(Path.Combine(curriculumDirectory, "KnowledgeMapCatalog.cs"));
         Assert.DoesNotContain("sali-core", knowledgeMapCatalogSource);
     }
@@ -427,7 +424,7 @@ public sealed class Week3ContentSliceTests
 
     private static string ReadPage(string fileName)
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         return File.ReadAllText(Path.Combine(pagesDirectory, fileName));
     }
 

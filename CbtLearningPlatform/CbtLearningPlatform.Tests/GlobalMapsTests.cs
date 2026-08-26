@@ -1,4 +1,4 @@
-using CbtLearningPlatform.Curriculum;
+using CbtLearningPlatform.Client.Curriculum;
 
 namespace CbtLearningPlatform.Tests;
 
@@ -159,14 +159,6 @@ public sealed class GlobalMapsTests
     }
 
     // ---- Route / page ----
-
-    [Fact]
-    public void KartaPage_IsStaticSsr_NoRenderModeDirective()
-    {
-        string source = ReadPublicMarkup("Karta.razor");
-
-        Assert.DoesNotContain("@rendermode", source);
-    }
 
     [Fact]
     public void KartaPage_HasTheRoute()
@@ -434,13 +426,13 @@ public sealed class GlobalMapsTests
 
     private static string ReadComponent(string fileName)
     {
-        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Shared");
+        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Shared");
         return File.ReadAllText(Path.Combine(sharedDirectory, fileName));
     }
 
     private static string ReadPage(string fileName)
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         return File.ReadAllText(Path.Combine(pagesDirectory, fileName));
     }
 

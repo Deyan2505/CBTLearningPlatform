@@ -10,7 +10,7 @@ public sealed class OptionalReadingSourceTests
 {
     private static readonly string[] WeekPagesWithOptionalReading =
     [
-        "Sedmica1.razor", "Sedmica3.razor", "Sedmica6.razor", "Sedmica8.razor", "Sedmica10.razor"
+        "Sedmica1.razor", "Sedmica3.razor", "Sedmica6.razor", "Sedmica8.razor", "Sedmica10.razor", "Sedmica12.razor"
     ];
 
     [Fact]
@@ -27,6 +27,7 @@ public sealed class OptionalReadingSourceTests
     [InlineData("Sedmica6.razor")]
     [InlineData("Sedmica8.razor")]
     [InlineData("Sedmica10.razor")]
+    [InlineData("Sedmica12.razor")]
     public void EveryValidatedWeek_UsesTheOptionalReadingSource(string fileName)
     {
         string source = ReadPage(fileName);
@@ -72,6 +73,7 @@ public sealed class OptionalReadingSourceTests
         Assert.Contains("Глава 1 — Въведение в когнитивно-поведенческата терапия", ReadPage("Sedmica1.razor"));
         Assert.Contains("Глава 3 — Когнитивна концептуализация", ReadPage("Sedmica3.razor"));
         Assert.Contains("Глава 5 — Структура на първата терапевтична сесия", ReadPage("Sedmica6.razor"));
+        Assert.Contains("Глава 14 — Идентификация и модифициране на основни вярвания", ReadPage("Sedmica12.razor"));
 
         Assert.Contains("RelevantSection=\"Разпознаване на автоматичните мисли\"", ReadPage("Sedmica8.razor"));
         Assert.Contains("RelevantSection=\"Насочено откриване и сократически въпроси\"", ReadPage("Sedmica10.razor"));
@@ -114,12 +116,12 @@ public sealed class OptionalReadingSourceTests
         Assert.DoesNotContain("sessionStorage", component);
 
         // No PDF/EPUB was added to the served static assets.
-        string wwwroot = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "wwwroot");
+        string wwwroot = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "wwwroot");
         Assert.Empty(Directory.EnumerateFiles(wwwroot, "*.pdf", SearchOption.AllDirectories));
         Assert.Empty(Directory.EnumerateFiles(wwwroot, "*.epub", SearchOption.AllDirectories));
 
         // No new Library route appeared anywhere in the app.
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         foreach (string file in Directory.EnumerateFiles(pagesDirectory, "*.razor"))
         {
             string source = File.ReadAllText(file);
@@ -207,19 +209,19 @@ public sealed class OptionalReadingSourceTests
 
     private static string ReadPage(string fileName)
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         return File.ReadAllText(Path.Combine(pagesDirectory, fileName));
     }
 
     private static string ReadSharedComponent(string fileName)
     {
-        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Shared");
+        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Shared");
         return File.ReadAllText(Path.Combine(sharedDirectory, fileName));
     }
 
     private static string ReadCss()
     {
-        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "wwwroot", "app.css");
+        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "wwwroot", "app.css");
         return File.ReadAllText(cssPath);
     }
 }

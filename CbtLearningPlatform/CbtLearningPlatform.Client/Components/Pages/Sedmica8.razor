@@ -1,0 +1,509 @@
+@* REQUIRES PROFESSIONAL REVIEW before real publication — no staffed clinical reviewer yet (RISK-010).
+   Representative Weekly Course Hub week page — content-rich, sectioned, simulator-led, two-column
+   workspace redesign (owner visual rejection round 3). Composes over the existing, already-approved
+   Modul2Lesson1/2/3 content (situation→thought→emotion→behavior model) rather than duplicating
+   their full text. Content basis: same as the three Module 2 lessons (SRC-041, Ch. 3/9/10).
+   Concept-map/comparison-matrix are static SSR (no state); CbtChainSimulator/InterpretationExample
+   (branch diagram)/CategorizationCheck are the 3 Interactive WebAssembly islands. Two-column rows
+   use .learning-grid — DOM order always matches reading order, no CSS `order` reordering. *@
+@page "/kurs/sedmica-8"
+
+<PageTitle>Седмица 8: Автоматични мисли и емоции — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--@_week.Status.ToStatusModifier()">@_week.Status.ToPublicLabel()</span>
+        </div>
+        <LearningObjectives Objectives="@_week.LearningObjectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-8#karta-sedmicata">Карта на седмицата</a>
+        <a href="/kurs/sedmica-8#nakratko">Накратко</a>
+        <a href="/kurs/sedmica-8#karta-na-temata">Карта на темата</a>
+        <a href="/kurs/sedmica-8#simulator">Симулатор</a>
+        <a href="/kurs/sedmica-8#sravnenie">Сравнение</a>
+        <a href="/kurs/sedmica-8#misal-ili-emociya">Мисъл или емоция</a>
+        <a href="/kurs/sedmica-8#namirane-na-mislta">Намиране на мисълта</a>
+        <a href="/kurs/sedmica-8#razlichavane-na-emociite">Разграничаване на емоциите</a>
+        <a href="/kurs/sedmica-8#palno-obyasnenie">Пълно обяснение</a>
+        <a href="/kurs/sedmica-8#proverka">Проверка</a>
+        <a href="/kurs/sedmica-8#proverka-znania">Проверка на знанията</a>
+        <a href="/kurs/sedmica-8#karta-povtorenie">Карта за повторение</a>
+        <a href="/kurs/sedmica-8#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    <section class="section-card section-card--theory">
+        <span class="section-role-label section-role-label--theory">Карта на седмицата</span>
+        <h2 id="karta-sedmicata" tabindex="-1">00 · Карта на седмицата</h2>
+        <ConceptGraph ComponentId="week8-mindmap-preview" Model="@_week8MindMapRender" />
+    </section>
+
+    <div class="learning-grid learning-grid--content-visual">
+        <section class="section-card section-card--theory">
+            <span class="section-role-label section-role-label--theory">Теория</span>
+            <h2 id="nakratko" tabindex="-1">01 · Накратко</h2>
+            <p>
+                Реакцията ни към дадена ситуация минава през автоматична мисъл — бърза, спонтанна
+                интерпретация — която на свой ред предизвиква емоция и телесна реакция, а те оформят
+                поведението ни. Например: закъснявате за среща и мисълта "ще си помислят зле за мен"
+                води до тревога и стегнати рамене, докато мисълта "трафикът е извън моя контрол" би
+                довела до различна, по-спокойна реакция.
+            </p>
+            <p class="key-idea-strip">
+                <span class="key-idea">Ситуация ≠ реакция</span>
+                <span class="key-idea">Мисъл ≠ чувство</span>
+                <span class="key-idea">Емоция често има телесен сигнал</span>
+                <span class="key-idea">Различни хора реагират различно</span>
+            </p>
+            <p>След тази седмица ще можете да различавате мисъл от емоция и да разпознавате телесния сигнал, който често придружава дадено чувство.</p>
+        </section>
+
+        <section class="section-card section-card--visual">
+            <span class="section-role-label section-role-label--visual">Визуален модел</span>
+            <h2 id="karta-na-temata" tabindex="-1">02 · Карта на темата</h2>
+            <div class="concept-map">
+                <ol class="concept-map__flow">
+                    <li class="concept-map__node">Ситуация</li>
+                    <li class="concept-map__connector" aria-hidden="true">↓</li>
+                    <li class="concept-map__node">Автоматична мисъл</li>
+                    <li class="concept-map__connector" aria-hidden="true">↓</li>
+                    <li class="concept-map__node-pair">
+                        <span class="concept-map__node">Емоция</span>
+                        <span class="concept-map__connector concept-map__connector--horizontal" aria-hidden="true">↔</span>
+                        <span class="concept-map__node">Телесна реакция</span>
+                    </li>
+                    <li class="concept-map__connector" aria-hidden="true">↓</li>
+                    <li class="concept-map__node">Поведение</li>
+                </ol>
+                <p class="concept-map__feedback">Поведението често влияе върху следващата ситуация, с която се сблъскваме — веригата не е еднопосочна.</p>
+
+                <div class="concept-map__side-notes">
+                    <div class="card">
+                        <h3>Факт срещу интерпретация</h3>
+                        <p><strong>Факт:</strong> "Съобщението остана без отговор 3 часа."</p>
+                        <p><strong>Интерпретация:</strong> "Сигурно съм казал/а нещо грешно."</p>
+                    </div>
+                    <div class="card">
+                        <h3>Мисъл срещу чувство</h3>
+                        <p><strong>Мисъл:</strong> "Изобщо не ставам за това." (изречение)</p>
+                        <p><strong>Чувство:</strong> "разочарование" (една дума)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <h2 id="simulator" tabindex="-1">03 · Симулатор</h2>
+    <CbtChainSimulator />
+
+    <section class="section-card section-card--example">
+        <span class="section-role-label section-role-label--example">Пример</span>
+        <h2 id="sravnenie" tabindex="-1">04 · Две интерпретации, два възможни пътя</h2>
+        <InterpretationExample />
+    </section>
+
+    <section class="section-card section-card--example">
+        <span class="section-role-label section-role-label--example">Пример</span>
+        <h2 id="misal-ili-emociya" tabindex="-1">05 · Мисъл или емоция?</h2>
+        <div class="comparison-matrix-wrapper">
+            <table class="comparison-matrix">
+                <caption>Как да разпознаете четирите части на модела</caption>
+                <thead>
+                    <tr><th scope="col">Категория</th><th scope="col">Как изглежда</th><th scope="col">Типичен граматичен вид</th><th scope="col">Пример</th></tr>
+                </thead>
+                <tbody>
+                    <tr><th scope="row">Мисъл</th><td>твърдение или образ</td><td>изречение</td><td>"Няма да се справя"</td></tr>
+                    <tr><th scope="row">Емоция</th><td>преживяване</td><td>често една дума</td><td>тревога</td></tr>
+                    <tr><th scope="row">Телесна реакция</th><td>физическо усещане</td><td>описание</td><td>напрежение</td></tr>
+                    <tr><th scope="row">Поведение</th><td>действие или избягване</td><td>глагол</td><td>отлагам</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <CategorizationCheck />
+    </section>
+
+    <section class="section-card section-card--theory">
+        <span class="section-role-label section-role-label--theory">Теория</span>
+        <h2 id="namirane-na-mislta" tabindex="-1">06 · Намиране на точната мисъл</h2>
+        <p>
+            Понякога първото, което идва наум, не е самата мисъл, а по-скоро обобщена преценка за нея —
+            например "просто бях нервен/а", вместо конкретното изречение или образ, който реално е минал
+            през ума ви. Разликата има значение: колкото по-точна е формулировката, толкова по-лесно се
+            разпознава връзката ѝ с последвалата емоция.
+        </p>
+        <div class="concept-map__side-notes">
+            <div class="card">
+                <h3>Приблизителна преценка</h3>
+                <p>"Мисля, че просто бях нервен/а покрай изпита."</p>
+            </div>
+            <div class="card">
+                <h3>По-точна мисъл</h3>
+                <p>"Ще объркам отговорите и всички ще разберат, че не съм подготвен/а."</p>
+            </div>
+        </div>
+
+        <ProgressiveExplanation SummaryLabel="Покажи как да откриете по-точната мисъл">
+            <p>Ако мисълта не е съвсем ясна още при първия опит, няколко неща могат да помогнат:</p>
+            <ul>
+                <li>Забележете къде в тялото усещате реакцията — понякога тялото сигнализира преди думите да се оформят.</li>
+                <li>Опишете ситуацията в повече подробности, сякаш се случва точно сега.</li>
+                <li>За момент затворете очи и си представете сцената ярко — какво точно виждате, чувате, правите?</li>
+                <li>Потърсете образ, не само изречение — понякога мисълта е картина, не думи.</li>
+                <li>Опитайте противоположна мисъл и вижте дали ви звучи по-вярно или по-грешно от истинската.</li>
+                <li>Попитайте се какво означава ситуацията за вас — не само какво точно се случи.</li>
+                <li>Ако въпросът не помага веднага, преформулирайте го по различен начин.</li>
+            </ul>
+            <p>
+                Това са същите насоки, които терапевт би използвал, за да помогне на пациент да открие
+                трудно уловима мисъл — приложими и самостоятелно, с малко търпение.
+            </p>
+        </ProgressiveExplanation>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Неясно:</strong> "Не знам, просто не се получи."</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи по-точната мисъл</summary>
+                    <div class="progressive-explanation__body">
+                        <p>"Направих грешка и вероятно всички я забелязаха."</p>
+                    </div>
+                </details>
+            </div>
+            <div class="card">
+                <p><strong>Въпросителна форма:</strong> "Ами ако забравя какво да кажа?"</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи като твърдение</summary>
+                    <div class="progressive-explanation__body">
+                        <p>"Ще забравя какво да кажа и ще се изложа."</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-card section-card--example">
+        <span class="section-role-label section-role-label--example">Пример</span>
+        <h2 id="razlichavane-na-emociite" tabindex="-1">07 · Разграничаване на емоциите</h2>
+        <p>
+            Понякога объркването е в обратната посока — назовавате как сте се почувствали ("просто бях
+            съкрушен/а"), когато всъщност питаме за мисълта. И тук има мисъл — просто трябва малко
+            по-внимателно да я потърсите.
+        </p>
+
+        <div class="card">
+            <p><strong>Ситуация:</strong> приятел отменя среща в последния момент. Първата мисъл, която назовавате, е "Той сигурно просто е зает."</p>
+            <details class="progressive-explanation">
+                <summary>Провери дали мисълта пасва на чувството</summary>
+                <div class="progressive-explanation__body">
+                    <p>
+                        Ако усещате тъга, а не леко раздразнение, "той е зает" не съвсем пасва —
+                        обикновено не натъжава чак толкова. По-точната мисъл може да е: "Не съм
+                        достатъчно важен приоритет за него." Тя вече пасва по-добре на тъгата. Намирането
+                        на мисълта, която реално обяснява чувството ви — не просто първата, която дойде
+                        наум — често изяснява реакцията по-бързо.
+                    </p>
+                </div>
+            </details>
+        </div>
+
+        <p>
+            Ако назоваването на точната дума за чувството не идва лесно, това е напълно нормално — на
+            едни хора им е по-лесно, на други им трябва малко практика или списък, върху който да се
+            облегнат.
+        </p>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <h3>По-скоро неприятни</h3>
+                <p>тъга, тревога, яд, раздразнение, срам, вина, разочарование, самота, завист</p>
+            </div>
+            <div class="card">
+                <h3>По-скоро приятни</h3>
+                <p>радост, спокойствие, облекчение, гордост, благодарност, увереност</p>
+            </div>
+        </div>
+
+        <p>
+            Интензивна емоция понякога пречи на ясното мислене или на ефективното действие — но силата и
+            видът ѝ обикновено имат смисъл, щом видите каква мисъл или вярване стои зад нея. Разгледайте
+            интензивността в <a href="/kurs/sedmica-8#simulator">симулатора по-горе</a>.
+        </p>
+    </section>
+
+    <div class="learning-grid learning-grid--wide-narrow">
+        <section class="section-card section-card--theory">
+            <span class="section-role-label section-role-label--theory">Теория</span>
+            <h2 id="palno-obyasnenie" tabindex="-1">08 · Пълно обяснение</h2>
+            <ProgressiveExplanation SummaryLabel="Покажи пълното обяснение">
+                <h3>Ситуация → Мисъл → Емоция → Поведение</h3>
+                <p>
+                    Целият модел е разгледан в <a href="/programa/modul-2/situacia-misal-emocia-povedenie">Урок 1 на Модул 2</a> —
+                    ситуациите сами по себе си не определят реакцията ни; интерпретацията им играе основна роля.
+                    Различни хора могат да интерпретират една и съща ситуация по коренно различен начин, без
+                    нито една от интерпретациите да е "погрешна" сама по себе си.
+                </p>
+
+                <h3>Автоматични мисли</h3>
+                <p>
+                    Автоматичната мисъл е бърза, спонтанна интерпретация — изречение или мислен образ — която
+                    се появява почти веднага след дадена ситуация, често без съзнателно усилие. Разгледана
+                    подробно в <a href="/programa/modul-2/avtomatichni-misli">Урок 2</a>, включително честото
+                    объркване между мисъл и чувство — двете лесно се сливат в едно, но описват различни неща.
+                </p>
+
+                <h3>Емоции и телесни реакции</h3>
+                <p>
+                    Емоциите обикновено се описват с една дума и имат различна сила — леки, средни или силни, не
+                    просто "включени" или "изключени". Често се придружават от телесен сигнал (стегнати рамене,
+                    ускорен пулс, тежест в стомаха), който понякога се забелязва преди самата емоция да бъде
+                    назована с дума. Пълното разглеждане е в <a href="/programa/modul-2/emocii-i-telesni-reaktsii">Урок 3</a>.
+                </p>
+
+                <h3>Граници на модела</h3>
+                <p>
+                    Моделът е опростяване, полезно за забелязване на връзки — не твърдение, че "просто промяна
+                    на мисленето" решава всеки проблем без контекст, нито заместител на професионална помощ при
+                    по-сериозни затруднения.
+                </p>
+
+                <h3>Не всяка мисъл е еднакво точна</h3>
+                <p>
+                    Автоматичните мисли се различават по това доколко точно отразяват случващото се.
+                    Понякога мисъл е силно изкривена въпреки насрещни доказателства (напр. "никой не ми
+                    пише", въпреки чести съобщения от приятели). Понякога изходната точка е вярна, но
+                    заключението не следва задължително от нея — "забравих да върна обаждане" е факт, но
+                    "затова съм ужасен приятел" не е единственото възможно заключение. А понякога мисълта е
+                    напълно точна, но не особено полезна — "наистина ще ми отнеме много време да завърша
+                    това" е вярно, но задържането върху него повишава тревожността, вместо да помогне.
+                </p>
+                <p>
+                    Мисъл като "не разбирам това" може да остане мимолетна забележка, последвана от
+                    спокойно "нека прочета отново" — или да ескалира в "и никога няма да го разбера",
+                    последвано от истинско обезсърчение. Забелязването на мисълта на ранен етап прави
+                    разликата.
+                </p>
+                <p>
+                    Тази страница не преценява дали дадена ваша мисъл е "вярна" или "грешна" —
+                    <a href="/kurs/sedmica-10">Седмица 10</a> разглежда именно как да проверите мисъл
+                    по-задълбочено, стъпка по стъпка.
+                </p>
+
+                <h3>Емоциите не са грешка за поправяне</h3>
+                <p>
+                    Интензивна емоция понякога пречи на ясното мислене, на решаването на проблеми или на
+                    ефективното действие — но силата и видът ѝ обикновено имат смисъл, щом видите каква
+                    мисъл или вярване стои зад нея. Целта не е да премахнете всяка неприятна емоция:
+                    негативните емоции, подобно на физическата болка, предупреждават за нещо, което
+                    заслужава внимание. Някои хора вярват, че дори малко страдание ще ескалира до
+                    непоносимо — забелязването и оценяването на интензивността (както в симулатора
+                    по-горе) помага да проверите дали това наистина е така.
+                </p>
+            </ProgressiveExplanation>
+        </section>
+
+        <section class="section-card section-card--academic">
+            <span class="section-role-label section-role-label--academic">Академично</span>
+            <h3>Академичен контекст</h3>
+            <ProgressiveExplanation SummaryLabel="Академичен контекст">
+                <p>
+                    Моделът произлиза от когнитивната терапия на Аарон Т. Бек (1964) и е представен систематично
+                    от Джудит С. Бек в "Когнитивно-поведенческа терапия: Основи и отвъд" — основният citation-grade
+                    източник на платформата (виж <code>11_SOURCE_REGISTER.md</code>). Терминът "автоматична мисъл"
+                    описва когниция, която се появява спонтанно, без съзнателно усилие, и не е задължително
+                    логически обоснована.
+                </p>
+            </ProgressiveExplanation>
+        </section>
+    </div>
+
+    <section class="section-card section-card--theory">
+        <span class="section-role-label section-role-label--theory">Рефлексия</span>
+        <h2 id="proverka" tabindex="-1">09 · Проверка на разбирането</h2>
+        <p>Отделете момент да размислите (без изпращане, без оценка):</p>
+        <ol>
+            <li>Можете ли да посочите ситуация от собствения си живот и мисълта, която тя предизвика?</li>
+            <li>Каква е разликата между мисъл и чувство в собствените ви думи?</li>
+            <li>Забелязвате ли обикновено телесен сигнал преди да назовете емоцията, или след?</li>
+            <li>Как поведението в такъв момент би могло да повлияе на следваща подобна ситуация?</li>
+        </ol>
+    </section>
+
+    <section class="section-card section-card--theory">
+        <span class="section-role-label section-role-label--theory">Упражнение</span>
+        <h2 id="proverka-znania" tabindex="-1">10 · Проверка на знанията</h2>
+        <p>Изберете отговор, после разгънете обяснението. Проверката не се оценява и не запазва отговори.</p>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Въпрос 1.</strong> Коя мисъл е пример за "вярна, но не особено полезна"?</p>
+                <p>
+                    А. "Никой не ми пише, защото не ме харесва."<br />
+                    Б. "Ще ми отнеме много време да завърша това."<br />
+                    В. "Забравих да позвъня, значи съм ужасен приятел."
+                </p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Мисълта е точна, но задържането върху нея повишава тревожността, вместо да помогне — различно от изкривена мисъл (А) или от вярна предпоставка с прибързано заключение (В).</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 2.</strong> "Мисля, че просто бях нервен/а" е пример за какво?</p>
+                <p>
+                    А. Точната автоматична мисъл<br />
+                    Б. Приблизителна преценка за собственото мислене, не самата мисъл<br />
+                    В. Телесна реакция
+                </p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Това е обобщена преценка, не конкретното изречение или образ, който реално е минал през ума — точната мисъл обикновено изисква малко по-внимателно търсене.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 3.</strong> Защо целта не е да премахнете всяка негативна емоция?</p>
+                <p>
+                    А. Защото емоциите не могат да бъдат променени<br />
+                    Б. Защото негативните емоции, подобно на физическата болка, сигнализират за нещо, което заслужава внимание<br />
+                    В. Защото интензивността винаги е точно 100%
+                </p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Негативните емоции изпълняват предупредителна функция — целта е да разберете какво стои зад тях, не да ги елиминирате напълно.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 4.</strong> Усещате тъга, а мисълта, която назовахте, звучи по-скоро неутрално ("той е зает"). Какво е разумно да направите?</p>
+                <p>
+                    А. Приемете първата назована мисъл като единствена възможна<br />
+                    Б. Потърсете отново — вероятно има по-точна мисъл, която по-добре пасва на чувството<br />
+                    В. Игнорирайте несъответствието
+                </p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Когато чувството не пасва добре на назованата мисъл, обикновено има по-точна мисъл, която просто изисква малко по-внимателно търсене.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 5.</strong> Кое НЕ е сред начините да откриете по-точна мисъл, когато първият опит не е ясен?</p>
+                <p>
+                    А. Забележете къде в тялото усещате реакцията<br />
+                    Б. Опишете ситуацията в повече подробности<br />
+                    В. Приемете, че щом не се сещате веднага, значи няма конкретна мисъл
+                </p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>В.</strong> Затрудненото откриване на мисъл не означава, че тя не съществува — просто изисква повече от изброените техники (детайлно описание, представяне на сцената, търсене на образ вместо изречение).</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-card section-card--academic">
+        <span class="section-role-label section-role-label--academic">Изводи</span>
+        <h2 id="karta-povtorenie" tabindex="-1">11 · Карта за повторение</h2>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Преди да разгънеш картата, опитай да си спомниш кои са основните знаниеви клъстери на
+                    седмицата и как се свързват — чак тогава разгъни, за да сравниш.
+                </p>
+                <ConceptGraph ComponentId="week8-mindmap-review" Model="@_week8MindMapRender" />
+            </div>
+        </details>
+    </section>
+
+    <section class="section-card section-card--academic">
+        <span class="section-role-label section-role-label--academic">Изводи</span>
+        <h2 id="izvori" tabindex="-1">12 · Обобщение, източници и граници</h2>
+        <ul>
+            <li>Ситуацията не определя сама по себе си реакцията ни — интерпретацията ѝ играе основна роля.</li>
+            <li>Автоматичната мисъл е бърза и спонтанна — изречение или образ, различни от чувството, което следва.</li>
+            <li>Емоциите се описват с една дума, имат различна сила и често се придружават от телесен сигнал.</li>
+            <li>Различни хора могат да реагират по различен начин на една и съща ситуация.</li>
+            <li>Не всяка автоматична мисъл е еднакво точна или полезна — понякога си струва по-задълбочена проверка (Седмица 10).</li>
+            <li>Първата назована "мисъл" понякога е само обобщена преценка — по-точната формулировка обикновено е по-полезна.</li>
+        </ul>
+
+        <DisclaimerCallout />
+
+        <p>
+            <a href="/programa/modul-2/situacia-misal-emocia-povedenie">Пълен Урок 1: Ситуация → Мисъл → Емоция → Поведение</a><br />
+            <a href="/programa/modul-2/avtomatichni-misli">Пълен Урок 2: Автоматични мисли</a><br />
+            <a href="/programa/modul-2/emocii-i-telesni-reaktsii">Пълен Урок 3: Емоции и телесни реакции</a><br />
+            <a href="/kurs/sedmica-10">Продължете с въпросите за проверка на една автоматична мисъл (Седмица 10) →</a><br />
+            <a href="/kurs">← Обратно към 15-седмичния курс</a>
+        </p>
+
+        <SourceReferences Citations="@_citations" />
+
+        <OptionalReadingSource
+            Title="Когнитивно-поведенческа терапия: Основи и отвъд"
+            Author="Джудит С. Бек"
+            Edition="2-ро издание, Guilford Press, 2011 (оригинално заглавие: Cognitive Behavior Therapy: Basics and Beyond)"
+            RelevantSection="Разпознаване на автоматичните мисли"
+            Description="Учебникът разглежда систематично връзката между ситуация, автоматична мисъл, емоционална и поведенческа реакция — темата, която тази седмица упражнява стъпка по стъпка." />
+    </section>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 8);
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\", Глава 3 — Когнитивен модел (по Beck, 1964; Ellis, 1962).",
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\", Глава 9 — Идентифициране на автоматични мисли.",
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\", Глава 10 — Идентифициране на емоции."
+    ];
+
+    // Weekly Mind Map (owner-requested addition, targeted visual correction pass) — mirrors
+    // Week 3/Week 6's own BuildWeek3MindMap()/BuildWeek6MindMap() pattern exactly: local, page-
+    // specific data, never added to the global KnowledgeMapCatalog (owner has not separately
+    // confirmed these as global concepts). Preview and Review reuse the SAME render instance —
+    // two states of one knowledge structure, not two maps. Every node/anchor maps to content
+    // already present and source-grounded on this page — no new CBT relation introduced here.
+    private static readonly GraphRenderModel _week8MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek8MindMap());
+
+    private static MindMapModel BuildWeek8MindMap() => new(
+        "Седмица 8 — знаниеви клъстери",
+        "Мисловна карта на автоматичните мисли и емоциите, групирана по клъстери от знание, не по номер на секция.",
+        [
+            new("root", "Автоматични мисли и емоции", null, null, null, ConceptState.Introduced),
+
+            new("model", "Основен модел", "root", "Ситуация → Мисъл → Емоция/Телесна реакция → Поведение.", "/kurs/sedmica-8#karta-na-temata", ConceptState.Introduced),
+            new("situacia", "Ситуация", "model", "Не самата ситуация, а интерпретацията ѝ оформя реакцията.", "/kurs/sedmica-8#nakratko", ConceptState.Introduced),
+            new("avtomatichna-misal-node", "Автоматична мисъл", "model", "Бърза, спонтанна интерпретация — изречение или образ.", "/kurs/sedmica-8#palno-obyasnenie", ConceptState.Introduced),
+            new("emocia-telesna", "Емоция и телесна реакция", "model", "Обикновено една дума; телесен сигнал може да се забележи преди нея.", "/kurs/sedmica-8#palno-obyasnenie", ConceptState.Introduced),
+            new("povedenie", "Поведение", "model", "Действие или избягване; влияе върху следваща ситуация.", "/kurs/sedmica-8#karta-na-temata", ConceptState.Introduced),
+
+            new("namirane", "Намиране на точната мисъл", "root", null, "/kurs/sedmica-8#namirane-na-mislta", ConceptState.Introduced),
+            new("tochnost", "Приблизителна преценка срещу точна мисъл", "namirane", null, "/kurs/sedmica-8#namirane-na-mislta", ConceptState.Introduced),
+            new("tehniki", "Техники за откриване на трудна мисъл", "namirane", null, "/kurs/sedmica-8#namirane-na-mislta", ConceptState.Introduced),
+
+            new("razgranichavane", "Разграничаване на емоциите", "root", null, "/kurs/sedmica-8#razlichavane-na-emociite", ConceptState.Introduced),
+            new("pasva-li", "Провери дали мисълта пасва на чувството", "razgranichavane", null, "/kurs/sedmica-8#razlichavane-na-emociite", ConceptState.Introduced),
+            new("rechnik", "Речник на емоциите", "razgranichavane", null, "/kurs/sedmica-8#razlichavane-na-emociite", ConceptState.Introduced),
+
+            new("validnost", "Не всяка мисъл е еднакво точна", "root", "Изкривена; вярна предпоставка с прибързано заключение; вярна, но неполезна.", "/kurs/sedmica-8#palno-obyasnenie", ConceptState.Introduced),
+            new("emocii-funktsiya", "Емоциите не са грешка за поправяне", "root", "Негативните емоции сигнализират, подобно на физическата болка — целта не е да ги премахнете.", "/kurs/sedmica-8#palno-obyasnenie", ConceptState.Introduced)
+        ]);
+}

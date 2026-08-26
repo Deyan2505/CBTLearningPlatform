@@ -7,9 +7,9 @@ public sealed class InteractiveUiTests
     [Fact]
     public void DarkThemeIsTheDefault_OnInitialHtmlMarkup()
     {
-        string appRazor = ReadHostComponent("App.razor");
+        string indexHtml = ReadIndexHtml();
 
-        Assert.Contains("data-theme=\"dark\"", appRazor);
+        Assert.Contains("data-theme=\"dark\"", indexHtml);
     }
 
     [Fact]
@@ -28,8 +28,6 @@ public sealed class InteractiveUiTests
     [InlineData("CbtLearningPlatform.Client.Interactive.CbtChainSimulator")]
     public void InteractiveComponent_BelongsToTheClientWebAssemblyAssembly(string typeName)
     {
-        // Interactive WebAssembly render mode requires the component to live in the
-        // .Client project (the assembly actually downloaded and run in the browser).
         Assembly clientAssembly = Assembly.Load("CbtLearningPlatform.Client");
 
         Type? type = clientAssembly.GetType(typeName);
@@ -101,17 +99,6 @@ public sealed class InteractiveUiTests
         string source = ReadClientComponent("InterpretationExample.razor");
 
         Assert.Contains("aria-live", source);
-    }
-
-    [Fact]
-    public void HostProgram_DefinesNoCustomServerEndpoints()
-    {
-        // Guards the "no server round-trip, no logging of interactions" requirement —
-        // the interactive components must stay purely client-side.
-        string programCs = ReadHostFile("Program.cs");
-
-        Assert.DoesNotContain("MapPost", programCs);
-        Assert.DoesNotContain("MapGet(\"/", programCs);
     }
 
     [Theory]
@@ -274,20 +261,14 @@ public sealed class InteractiveUiTests
 
     private static string ReadPage(string fileName)
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         return File.ReadAllText(Path.Combine(pagesDirectory, fileName));
     }
 
-    private static string ReadHostComponent(string fileName)
+    private static string ReadIndexHtml()
     {
-        string componentsDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components");
-        return File.ReadAllText(Path.Combine(componentsDirectory, fileName));
-    }
-
-    private static string ReadHostFile(string fileName)
-    {
-        string projectDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform");
-        return File.ReadAllText(Path.Combine(projectDirectory, fileName));
+        string indexHtmlPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "wwwroot", "index.html");
+        return File.ReadAllText(indexHtmlPath);
     }
 
     private static string ReadClientComponent(string fileName)
@@ -299,7 +280,7 @@ public sealed class InteractiveUiTests
 
     private static string ReadCss()
     {
-        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "wwwroot", "app.css");
+        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "wwwroot", "app.css");
         return File.ReadAllText(cssPath);
     }
 }

@@ -215,16 +215,6 @@ public sealed class Week6CognitiveMapTests
     }
 
     [Fact]
-    public void ConceptGraphComponent_IsStaticSsrByDefault()
-    {
-        // Strip the leading @* ... *@ dev comment first — it explains the design decision using the
-        // literal token "@rendermode" in prose, which must not be confused with an actual directive.
-        string source = ReadPublicMarkup("ConceptGraph.razor");
-
-        Assert.DoesNotContain("@rendermode", source);
-    }
-
-    [Fact]
     public void ConceptGraphComponent_RequiresModelAndComponentIdParameters()
     {
         string source = ReadComponent("ConceptGraph.razor");
@@ -383,13 +373,13 @@ public sealed class Week6CognitiveMapTests
 
     private static string ReadPage(string fileName)
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         return File.ReadAllText(Path.Combine(pagesDirectory, fileName));
     }
 
     private static string ReadComponent(string fileName)
     {
-        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Shared");
+        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Shared");
         return File.ReadAllText(Path.Combine(sharedDirectory, fileName));
     }
 
@@ -405,7 +395,7 @@ public sealed class Week6CognitiveMapTests
 
     private static string ReadCss()
     {
-        string wwwrootDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "wwwroot");
+        string wwwrootDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "wwwroot");
         return File.ReadAllText(Path.Combine(wwwrootDirectory, "app.css"));
     }
 }

@@ -1,5 +1,5 @@
 using System.Reflection;
-using CbtLearningPlatform.Curriculum;
+using CbtLearningPlatform.Client.Curriculum;
 
 namespace CbtLearningPlatform.Tests;
 
@@ -36,7 +36,7 @@ public sealed class CurriculumHubTests
     }
 
     [Fact]
-    public void CourseCatalog_OnlyWeeksOneThreeSixEightAndTenHaveARealRoute()
+    public void CourseCatalog_OnlyWeeksOneThreeSixEightTenAndTwelveHaveARealRoute()
     {
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks)
         {
@@ -60,6 +60,10 @@ public sealed class CurriculumHubTests
             {
                 Assert.Equal("/kurs/sedmica-10", week.Route);
             }
+            else if (week.Number == 12)
+            {
+                Assert.Equal("/kurs/sedmica-12", week.Route);
+            }
             else
             {
                 Assert.Null(week.Route);
@@ -80,16 +84,31 @@ public sealed class CurriculumHubTests
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks.Where(w => sensitiveLevels.Contains(w.SafetyLevel)))
         {
             Assert.NotEqual(CourseWeekStatus.Available, week.Status);
-            Assert.Null(week.Route);
+
+            // AcademicContextOnly weeks may have a real, routed AcademicOverview page (e.g. Week 12) —
+            // ProfessionalReviewRequired / NotEligibleForSelfGuidedSimulator weeks never do.
+            if (week.SafetyLevel != CurriculumSafetyLevel.AcademicContextOnly)
+            {
+                Assert.Null(week.Route);
+            }
         }
+    }
+
+    [Fact]
+    public void CourseCatalog_Week12IsAcademicOverviewNotAvailable()
+    {
+        CourseWeekDefinition week12 = CourseCatalog.Weeks.Single(w => w.Number == 12);
+
+        Assert.Equal(CourseWeekStatus.AcademicOverview, week12.Status);
+        Assert.Equal("/kurs/sedmica-12", week12.Route);
     }
 
     [Fact]
     public void KursPage_ExistsInHostAssembly()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
-        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Components.Pages.Kurs"));
+        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Client.Components.Pages.Kurs"));
     }
 
     [Fact]
@@ -146,9 +165,9 @@ public sealed class CurriculumHubTests
     [Fact]
     public void ProgressiveExplanation_ExistsInHostAssembly()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
-        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Components.Shared.ProgressiveExplanation"));
+        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Client.Components.Shared.ProgressiveExplanation"));
     }
 
     [Fact]
@@ -228,19 +247,19 @@ public sealed class CurriculumHubTests
 
     private static string ReadPage(string fileName)
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         return File.ReadAllText(Path.Combine(pagesDirectory, fileName));
     }
 
     private static string ReadHostComponent(string fileName)
     {
-        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Shared");
+        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Shared");
         return File.ReadAllText(Path.Combine(sharedDirectory, fileName));
     }
 
     private static string ReadLayoutComponent(string fileName)
     {
-        string layoutDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Layout");
+        string layoutDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Layout");
         return File.ReadAllText(Path.Combine(layoutDirectory, fileName));
     }
 }

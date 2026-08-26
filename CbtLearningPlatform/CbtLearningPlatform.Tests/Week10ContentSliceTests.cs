@@ -1,5 +1,5 @@
 using System.Reflection;
-using CbtLearningPlatform.Curriculum;
+using CbtLearningPlatform.Client.Curriculum;
 
 namespace CbtLearningPlatform.Tests;
 
@@ -11,9 +11,9 @@ public sealed class Week10ContentSliceTests
     [Fact]
     public void Week10Page_ExistsInHostAssembly()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
-        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Components.Pages.Sedmica10"));
+        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Client.Components.Pages.Sedmica10"));
     }
 
     [Fact]
@@ -45,8 +45,14 @@ public sealed class Week10ContentSliceTests
 
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks.Where(w => !availableNumbers.Contains(w.Number)))
         {
-            Assert.Null(week.Route);
             Assert.NotEqual(CourseWeekStatus.Available, week.Status);
+
+            // Week 12 is AcademicContextOnly: it later gained a real, routed AcademicOverview
+            // page without becoming Available — every other non-available week still has no route.
+            if (week.Number != 12)
+            {
+                Assert.Null(week.Route);
+            }
         }
 
         Assert.Equal(10, CourseCatalog.Weeks.Count(w => !availableNumbers.Contains(w.Number)));
@@ -82,9 +88,6 @@ public sealed class Week10ContentSliceTests
         Assert.DoesNotContain("<CognitiveHierarchyExplorer", source);
         Assert.DoesNotContain("<SchemaFilterDemonstration", source);
         Assert.DoesNotContain("<ResearchTurnStepper", source);
-
-        int rendermodeCount = source.Split("@rendermode").Length - 1;
-        Assert.Equal(1, rendermodeCount);
     }
 
     [Fact]
@@ -574,7 +577,7 @@ public sealed class Week10ContentSliceTests
 
     private static string ReadPage(string fileName)
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         return File.ReadAllText(Path.Combine(pagesDirectory, fileName));
     }
 
@@ -587,7 +590,7 @@ public sealed class Week10ContentSliceTests
 
     private static string ReadCss()
     {
-        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "wwwroot", "app.css");
+        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "wwwroot", "app.css");
         return File.ReadAllText(cssPath);
     }
 

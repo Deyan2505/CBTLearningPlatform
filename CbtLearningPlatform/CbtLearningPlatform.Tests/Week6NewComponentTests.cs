@@ -13,9 +13,9 @@ public sealed class Week6NewComponentTests
     [Fact]
     public void WhatIfBox_ExistsInHostAssembly()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
-        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Components.Shared.WhatIfBox"));
+        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Client.Components.Shared.WhatIfBox"));
     }
 
     [Fact]
@@ -32,8 +32,8 @@ public sealed class Week6NewComponentTests
     [Fact]
     public void WhatIfBox_HasRequiredParameters()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
-        Type type = assembly.GetType("CbtLearningPlatform.Components.Shared.WhatIfBox")!;
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
+        Type type = assembly.GetType("CbtLearningPlatform.Client.Components.Shared.WhatIfBox")!;
 
         Assert.NotNull(type.GetProperty("Question"));
         Assert.NotNull(type.GetProperty("ChildContent"));
@@ -42,9 +42,9 @@ public sealed class Week6NewComponentTests
     [Fact]
     public void SourceArtifact_ExistsInHostAssembly()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
-        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Components.Shared.SourceArtifact"));
+        Assert.NotNull(assembly.GetType("CbtLearningPlatform.Client.Components.Shared.SourceArtifact"));
     }
 
     [Fact]
@@ -61,8 +61,8 @@ public sealed class Week6NewComponentTests
     [Fact]
     public void SourceArtifact_HasRequiredParameters_TitleSourceLabelAndContent()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
-        Type type = assembly.GetType("CbtLearningPlatform.Components.Shared.SourceArtifact")!;
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
+        Type type = assembly.GetType("CbtLearningPlatform.Client.Components.Shared.SourceArtifact")!;
 
         Assert.NotNull(type.GetProperty("Title"));
         Assert.NotNull(type.GetProperty("SourceLabel"));
@@ -80,7 +80,7 @@ public sealed class Week6NewComponentTests
     [Fact]
     public void ScenarioSimulator_IsUsedOnWeek6()
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         string source = File.ReadAllText(Path.Combine(pagesDirectory, "Sedmica6.razor"));
 
         Assert.Contains("<ScenarioSimulator", source);
@@ -198,7 +198,7 @@ public sealed class Week6NewComponentTests
 
     private static string ReadSharedComponent(string fileName)
     {
-        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Shared");
+        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Shared");
         return File.ReadAllText(Path.Combine(sharedDirectory, fileName));
     }
 

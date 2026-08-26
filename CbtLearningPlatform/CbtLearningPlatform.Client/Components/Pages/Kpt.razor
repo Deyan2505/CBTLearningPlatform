@@ -1,0 +1,91 @@
+@* REQUIRES PROFESSIONAL REVIEW before real publication — no staffed clinical reviewer yet (RISK-010).
+   Content basis: REQ-CLIN-003 (SRC-041, Ch. 3 — well-established model, no source review needed;
+   simplification/wording for lay audience still needs review per content governance step 4).
+   Global two-column redesign (Session 21) — content paired with its visual model instead of
+   the model diagram trailing a wall of paragraphs. *@
+@page "/kpt"
+
+<PageTitle>Какво е когнитивно-поведенческа терапия? — КПТ Академия</PageTitle>
+
+<div class="hero-intro">
+    <p class="week-page__eyebrow">Основи</p>
+    <h1>Какво е когнитивно-поведенческа терапия?</h1>
+    <p>
+        Когнитивно-поведенческата терапия (КПТ) е структуриран, добре изследван психологически подход.
+        Тя разглежда връзките между ситуации, мисли, емоции, телесни реакции и поведение.
+        Тази платформа представя образователните принципи на КПТ — тя не провежда терапия.
+    </p>
+</div>
+
+<div class="workspace">
+    <div class="learning-grid learning-grid--content-visual">
+        <LearningSection Role="theory" RoleLabel="Теория">
+            <h2>Основният модел</h2>
+            <p><strong>Ситуация → Мисъл → Емоция и телесна реакция → Поведение</strong></p>
+            <p>
+                Ситуациите сами по себе си не определят как се чувстваме — начинът, по който ги
+                интерпретираме, оказва голямо влияние върху реакцията ни. Това не означава, че самите
+                събития нямат значение, нито че всяка трудност се дължи единствено на начина на мислене.
+            </p>
+            <h3>Как протича обучението</h3>
+            <ul>
+                <li>разпознавате конкретни ситуации;</li>
+                <li>забелязвате автоматичните мисли, които възникват в тях;</li>
+                <li>назовавате емоциите, които изпитвате;</li>
+                <li>наблюдавате телесните и поведенческите си реакции;</li>
+                <li>разглеждате алтернативни гледни точки към ситуацията.</li>
+            </ul>
+        </LearningSection>
+
+        <LearningSection Role="visual" RoleLabel="Визуален модел">
+            <h2>Моделът, разгледан стъпка по стъпка</h2>
+            <CbtModelDiagram />
+        </LearningSection>
+    </div>
+
+    <div class="learning-grid learning-grid--balanced">
+        <LearningSection Role="example" RoleLabel="Пример">
+            <h3>Факт срещу интерпретация</h3>
+            <p><strong>Факт:</strong> "Съобщението остана без отговор 3 часа."</p>
+            <p><strong>Интерпретация:</strong> "Сигурно съм казал/а нещо грешно."</p>
+        </LearningSection>
+
+        <LearningSection Role="example" RoleLabel="Пример">
+            <h3>Мисъл срещу чувство</h3>
+            <p><strong>Мисъл:</strong> "Изобщо не ставам за това." (изречение)</p>
+            <p><strong>Чувство:</strong> "разочарование" (една дума)</p>
+        </LearningSection>
+    </div>
+
+    <div class="learning-grid learning-grid--content-visual">
+        <LearningSection Role="interactive" RoleLabel="Опитайте сами">
+            <h2>Изберете интерпретация</h2>
+            <InterpretationExample />
+        </LearningSection>
+
+        <LearningSection Role="academic" RoleLabel="Напред">
+            <h3>Следваща стъпка: продължете с реален урок</h3>
+            <p>Целият модел, с още примери и проверка на разбирането, е в първия урок на флагманския модул.</p>
+            <p><a class="btn btn-violet" href="/programa/modul-2">Продължи към Модул 2</a></p>
+            <SourceReferences Citations="@_citations" />
+        </LearningSection>
+    </div>
+
+    <LearningSection Role="academic" RoleLabel="Образователна граница">
+        <h2>Какво платформата не е</h2>
+        <DisclaimerCallout />
+        <ul>
+            <li>Не поставя диагнози.</li>
+            <li>Не замества специалист.</li>
+            <li>Не предоставя персонализирана психотерапия.</li>
+            <li>Не обещава лечение или конкретни резултати.</li>
+        </ul>
+    </LearningSection>
+</div>
+
+@code {
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\", Глава 3 — Когнитивен модел."
+    ];
+}

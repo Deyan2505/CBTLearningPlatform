@@ -1,0 +1,397 @@
+@* Domain-ignorant rendering engine (COGNITIVE_LEARNING_ARCHITECTURE_v1.md §9) — knows nothing about
+   automatic thoughts, core beliefs, Ирина, or Week 6. It only reads GraphRenderNode/GraphRenderEdge,
+   produced by MindMapAdapter/ConceptMapAdapter/CaseConceptualizationAdapter. MindMap mode delegates to
+   the recursive MindMapBranch child component — a real spatial tree (root, then arbitrary-depth
+   <details>-based branches), not a card grid; ConceptMap/CaseMap mode keeps the chain-with-connector
+   layout, unchanged by the visual correction pass. *@
+@namespace CbtLearningPlatform.Client.Components.Shared
+@using CbtLearningPlatform.Client.Curriculum
+@using System.Globalization
+
+<section class="concept-graph concept-graph--@ModeClass" aria-labelledby="@_titleId">
+    <h4 id="@_titleId" class="concept-graph__title">@Model.Title</h4>
+    @if (!string.IsNullOrWhiteSpace(Model.ScreenReaderSummary))
+    {
+        <p class="concept-graph__summary">@Model.ScreenReaderSummary</p>
+    }
+
+    @if (Model.Mode == ConceptGraphMode.MindMap)
+    {
+        var root = Model.Nodes.FirstOrDefault(n => n.ParentId is null);
+        var primaryBranches = Model.Nodes.Where(n => n.ParentId == root?.Id).ToList();
+
+        <div class="mindmap-tree">
+            @if (root is not null)
+            {
+                <div class="mindmap-root">@root.Label</div>
+            }
+            <ul class="mindmap-branch__children mindmap-branch__children--top">
+                @foreach (var node in primaryBranches)
+                {
+                    <li>
+                        <MindMapBranch Node="node" AllNodes="Model.Nodes" Depth="1" />
+                    </li>
+                }
+            </ul>
+        </div>
+
+        @* The tree above IS the accessible representation — native <details>/<summary> disclosure,
+           real nested <ul>/<li>, one screen-reader-navigable structure. A second, flattened text
+           description would duplicate it, not back it up, so MindMap mode skips the generic
+           fallback below (used by ConceptMap/CaseMap, whose chain+cross-reference layout benefits
+           from a plain-prose alternative). *@
+    }
+    else if (Model.Layout == ConceptGraphLayout.Network)
+    {
+        @* Spatial network layout — final edge pass. Every ConceptRelation becomes a real drawn SVG curve
+           between the two node cards it connects, not text inside a card (the previous pass still put every
+           relation as a text line inside its source node — this pass moves that meaning onto the edge itself).
+           Geometry comes entirely from small integer grid coordinates (GraphRenderNode.NetworkColumn/Row,
+           supplied by the adapter from KnowledgeMapCatalog.NetworkLayout) via pure server-side arithmetic in
+           BuildCanvas() below — deterministic SSR, no client-side DOM measurement, no WASM. Same-column
+           adjacent-row relations (the five-step chain, the two beliefs) draw as short vertical curves;
+           adjacent-column relations (the chain feeding into the cognitive-model hub) draw as short horizontal
+           curves; relations spanning two or more columns (automatic-thought's two cross-cluster relations)
+           arc above the whole diagram so they never cross through an unrelated card. Node cards hold only the
+           concept label — no relation text is duplicated inside them (§11 of the correction). Below 641px the
+           canvas is replaced outright by a simpler stacked incoming/outgoing text list per concept — the
+           owner's own instruction that mobile relation TEXT is fine there, since fixed-pixel SVG geometry
+           cannot usefully reflow to a narrow viewport. *@
+        var canvas = BuildCanvas(Model);
+
+        <div class="concept-graph__network-canvas" style="width:@(CssPx(canvas.Width));height:@(CssPx(canvas.Height))">
+            <svg class="concept-graph__network-svg" width="@(Px(canvas.Width))" height="@(Px(canvas.Height))" aria-hidden="true">
+                <defs>
+                    <marker id="@(ComponentId)-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                        <path d="M0,0 L10,5 L0,10 z" class="concept-graph__network-arrowhead" />
+                    </marker>
+                </defs>
+                @foreach (var edge in canvas.Edges)
+                {
+                    <path d="@edge.PathData" class="concept-graph__network-path@(edge.IsCross ? " concept-graph__network-path--cross" : "")" marker-end="url(#@(ComponentId)-arrow)" />
+                }
+            </svg>
+            @foreach (var header in canvas.ClusterHeaders)
+            {
+                <h5 class="concept-graph__cluster-label" style="left:@(CssPx(header.X));width:@(CssPx(header.Width))">@header.Label</h5>
+            }
+            @foreach (var edge in canvas.Edges)
+            {
+                <span class="concept-graph__network-edge-label" style="left:@(CssPx(edge.LabelX));top:@(CssPx(edge.LabelY))">@edge.Label</span>
+            }
+            @foreach (var node in canvas.Nodes)
+            {
+                <div id="@($"{ComponentId}-node-{node.Node.Id}")" class="concept-graph__node concept-graph__network-node-absolute concept-graph__node--@StateClass(node.Node.DisplayState)" style="left:@(CssPx(node.X));top:@(CssPx(node.Y));width:@(CssPx(CardWidth));height:@(CssPx(CardHeight))">
+                    @if (!string.IsNullOrWhiteSpace(node.Node.Anchor))
+                    {
+                        <a class="concept-graph__node-label" href="@node.Node.Anchor">@node.Node.Label</a>
+                    }
+                    else
+                    {
+                        <span class="concept-graph__node-label">@node.Node.Label</span>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="concept-graph__network-mobile">
+            @foreach (var cluster in Model.Nodes.Select(n => n.Cluster ?? "").Distinct())
+            {
+                var clusterNodes = Model.Nodes.Where(n => (n.Cluster ?? "") == cluster).ToList();
+                <div class="concept-graph__cluster">
+                    @if (!string.IsNullOrWhiteSpace(cluster))
+                    {
+                        <h5 class="concept-graph__cluster-label concept-graph__cluster-label--mobile">@cluster</h5>
+                    }
+                    @foreach (var node in clusterNodes)
+                    {
+                        var incoming = Model.Edges.Where(e => e.ToId == node.Id).ToList();
+                        var outgoing = Model.Edges.Where(e => e.FromId == node.Id).ToList();
+                        <div class="concept-graph__node concept-graph__network-mobile-node concept-graph__node--@StateClass(node.DisplayState)">
+                            @if (!string.IsNullOrWhiteSpace(node.Anchor))
+                            {
+                                <a class="concept-graph__node-label" href="@node.Anchor">@node.Label</a>
+                            }
+                            else
+                            {
+                                <span class="concept-graph__node-label">@node.Label</span>
+                            }
+                            @if (incoming.Count > 0)
+                            {
+                                <p class="concept-graph__network-mobile-heading">Входящи:</p>
+                                <ul class="concept-graph__network-mobile-list">
+                                    @foreach (var edge in incoming)
+                                    {
+                                        var source = Model.Nodes.FirstOrDefault(n => n.Id == edge.FromId);
+                                        <li>@edge.Label ← @(source?.Label ?? edge.FromId)</li>
+                                    }
+                                </ul>
+                            }
+                            @if (outgoing.Count > 0)
+                            {
+                                <p class="concept-graph__network-mobile-heading">Изходящи:</p>
+                                <ul class="concept-graph__network-mobile-list">
+                                    @foreach (var edge in outgoing)
+                                    {
+                                        var target = Model.Nodes.FirstOrDefault(n => n.Id == edge.ToId);
+                                        <li>@edge.Label → @(target?.Label ?? edge.ToId)</li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <details class="concept-graph__fallback">
+            <summary>Текстово описание на картата</summary>
+            <ul class="concept-graph__fallback-list">
+                @foreach (var node in Model.Nodes)
+                {
+                    var outgoing = Model.Edges.Where(e => e.FromId == node.Id).ToList();
+                    <li>
+                        <strong>@node.Label</strong>@(!string.IsNullOrWhiteSpace(node.ShortDefinition) ? $" — {node.ShortDefinition}" : "")
+                        @if (outgoing.Count > 0)
+                        {
+                            <ul>
+                                @foreach (var edge in outgoing)
+                                {
+                                    var target = Model.Nodes.FirstOrDefault(n => n.Id == edge.ToId);
+                                    <li>@(edge.Label ?? "свързано с") → @(target?.Label ?? edge.ToId)</li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            </ul>
+        </details>
+    }
+    else
+    {
+        var primary = Model.Nodes.Where(n => !n.IsCrossReference).ToList();
+        var crossRefs = Model.Nodes.Where(n => n.IsCrossReference).ToList();
+
+        <ol class="concept-graph__chain">
+            @for (var i = 0; i < primary.Count; i++)
+            {
+                var node = primary[i];
+                <li class="concept-graph__chain-node">
+                    <div class="concept-graph__node concept-graph__node--@StateClass(node.DisplayState)">
+                        <span class="concept-graph__node-label">@node.Label</span>
+                        @if (!string.IsNullOrWhiteSpace(node.ShortDefinition))
+                        {
+                            <span class="concept-graph__node-definition">@node.ShortDefinition</span>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(node.Anchor))
+                        {
+                            <a class="concept-graph__node-link" href="@node.Anchor">Виж секцията →</a>
+                        }
+                    </div>
+                </li>
+                @if (i < primary.Count - 1)
+                {
+                    var edge = Model.Edges.FirstOrDefault(e => e.FromId == node.Id && e.ToId == primary[i + 1].Id);
+                    <li class="concept-graph__chain-connector">
+                        <span class="concept-graph__chain-arrow" aria-hidden="true">↓</span>
+                        @if (!string.IsNullOrWhiteSpace(edge?.Label))
+                        {
+                            <span class="concept-graph__chain-edge-label">@edge!.Label</span>
+                        }
+                    </li>
+                }
+            }
+        </ol>
+
+        @if (crossRefs.Count > 0)
+        {
+            <div class="concept-graph__cross-refs">
+                <p class="concept-graph__cross-refs-label">Свързано, разгърнато другаде:</p>
+                <ul>
+                    @foreach (var node in crossRefs)
+                    {
+                        var edge = Model.Edges.FirstOrDefault(e => e.ToId == node.Id);
+                        <li>
+                            @if (!string.IsNullOrWhiteSpace(edge?.Label))
+                            {
+                                <span class="concept-graph__edge-label">@edge!.Label</span>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(node.Anchor))
+                            {
+                                <a href="@node.Anchor">@node.Label</a>
+                            }
+                            else
+                            {
+                                <strong>@node.Label</strong>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(node.ShortDefinition))
+                            {
+                                <span class="concept-graph__node-definition"> — @node.ShortDefinition</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <details class="concept-graph__fallback">
+            <summary>Текстово описание на картата</summary>
+            <ul class="concept-graph__fallback-list">
+                @foreach (var node in Model.Nodes)
+                {
+                    var outgoing = Model.Edges.Where(e => e.FromId == node.Id).ToList();
+                    <li>
+                        <strong>@node.Label</strong>@(!string.IsNullOrWhiteSpace(node.ShortDefinition) ? $" — {node.ShortDefinition}" : "")
+                        @if (outgoing.Count > 0)
+                        {
+                            <ul>
+                                @foreach (var edge in outgoing)
+                                {
+                                    var target = Model.Nodes.FirstOrDefault(n => n.Id == edge.ToId);
+                                    <li>@(edge.Label ?? "свързано с") → @(target?.Label ?? edge.ToId)</li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            </ul>
+        </details>
+    }
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public GraphRenderModel Model { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public string ComponentId { get; set; } = default!;
+
+    private string _titleId => $"{ComponentId}-title";
+
+    private string ModeClass => Model.Mode switch
+    {
+        ConceptGraphMode.MindMap => "mindmap",
+        ConceptGraphMode.ConceptMap => "conceptmap",
+        ConceptGraphMode.CaseMap => "casemap",
+        _ => "mindmap"
+    };
+
+    private static string StateClass(ConceptState? state) => state switch
+    {
+        ConceptState.Upcoming => "upcoming",
+        ConceptState.Revisited => "revisited",
+        ConceptState.Introduced => "introduced",
+        _ => "instance"
+    };
+
+    // ---- Network layout geometry — pure server-side arithmetic, no DOM measurement (see the Network
+    // branch comment above). Card size and gaps are the single source of truth for both the node divs'
+    // inline positions and the SVG path coordinates, so the two can never drift apart.
+    private const double CardWidth = 208;
+    private const double CardHeight = 56;
+    private const double ColumnGap = 72;
+    private const double RowGap = 20;
+    private const double HeaderHeight = 28;
+    private const double ArcZone = 56;
+    private const double TopPad = HeaderHeight + ArcZone;
+
+    // Px is for SVG width/height attributes, which take a unitless number. CssPx is for inline "style"
+    // attributes, which need an explicit unit or the browser silently ignores the whole declaration.
+    private static string Px(double value) => value.ToString("0", CultureInfo.InvariantCulture);
+    private static string CssPx(double value) => $"{Px(value)}px";
+
+    private sealed record NetworkNodeLayout(GraphRenderNode Node, double X, double Y);
+    private sealed record ClusterHeaderLayout(string Label, double X, double Width);
+    private sealed record EdgeLayout(string PathData, string Label, double LabelX, double LabelY, bool IsCross);
+    private sealed record NetworkCanvas(double Width, double Height, IReadOnlyList<NetworkNodeLayout> Nodes, IReadOnlyList<ClusterHeaderLayout> ClusterHeaders, IReadOnlyList<EdgeLayout> Edges);
+
+    private static double ColumnX(int column) => column * (CardWidth + ColumnGap);
+    private static double RowY(int row) => TopPad + (row * (CardHeight + RowGap));
+
+    private static NetworkCanvas BuildCanvas(GraphRenderModel model)
+    {
+        var positioned = model.Nodes.Where(n => n.NetworkColumn is not null && n.NetworkRow is not null).ToList();
+        var byId = positioned.ToDictionary(n => n.Id);
+
+        var nodeLayouts = positioned
+            .Select(n => new NetworkNodeLayout(n, ColumnX(n.NetworkColumn!.Value), RowY(n.NetworkRow!.Value)))
+            .ToList();
+
+        var maxColumn = positioned.Count > 0 ? positioned.Max(n => n.NetworkColumn!.Value) : 0;
+        var maxRow = positioned.Count > 0 ? positioned.Max(n => n.NetworkRow!.Value) : 0;
+        var width = ColumnX(maxColumn) + CardWidth;
+        var height = RowY(maxRow) + CardHeight + 16;
+
+        var headers = positioned
+            .GroupBy(n => n.Cluster ?? "")
+            .Where(g => !string.IsNullOrWhiteSpace(g.Key))
+            .Select(g =>
+            {
+                var minCol = g.Min(n => n.NetworkColumn!.Value);
+                var maxCol = g.Max(n => n.NetworkColumn!.Value);
+                return new ClusterHeaderLayout(g.Key, ColumnX(minCol), ColumnX(maxCol) + CardWidth - ColumnX(minCol));
+            })
+            .ToList();
+
+        var longRangeIndex = 0;
+        var edgeLayouts = new List<EdgeLayout>();
+
+        foreach (var edge in model.Edges)
+        {
+            if (!byId.TryGetValue(edge.FromId, out var from) || !byId.TryGetValue(edge.ToId, out var to))
+            {
+                continue;
+            }
+
+            var fromX = ColumnX(from.NetworkColumn!.Value);
+            var fromY = RowY(from.NetworkRow!.Value);
+            var toX = ColumnX(to.NetworkColumn!.Value);
+            var toY = RowY(to.NetworkRow!.Value);
+            var columnSpan = Math.Abs(to.NetworkColumn!.Value - from.NetworkColumn!.Value);
+            var isCross = columnSpan >= 2;
+
+            (double X, double Y) p0, p1, p2, p3;
+
+            if (columnSpan == 0)
+            {
+                // Same column, adjacent row — a short vertical curve (the five-step chain; the two beliefs).
+                p0 = (fromX + (CardWidth / 2), fromY + CardHeight);
+                p3 = (toX + (CardWidth / 2), toY);
+                p1 = (p0.X, p0.Y + (RowGap * 0.5));
+                p2 = (p3.X, p3.Y - (RowGap * 0.5));
+            }
+            else if (columnSpan == 1)
+            {
+                // Adjacent column — a short horizontal curve (the chain feeding into the cognitive-model hub).
+                p0 = (fromX + CardWidth, fromY + (CardHeight / 2));
+                p3 = (toX, toY + (CardHeight / 2));
+                p1 = (p0.X + (ColumnGap * 0.5), p0.Y);
+                p2 = (p3.X - (ColumnGap * 0.5), p3.Y);
+            }
+            else
+            {
+                // Two or more columns apart — arcs above the whole diagram so it never crosses an unrelated
+                // card (automatic-thought's two cross-cluster relations). Each successive long-range edge
+                // bows a little higher so two arcs sharing a source stay visually distinct.
+                p0 = (fromX + (CardWidth / 2), fromY);
+                p3 = (toX + (CardWidth / 2), toY);
+                var bowY = HeaderHeight + 8 + (longRangeIndex * 20);
+                longRangeIndex++;
+                p1 = (p0.X, bowY);
+                p2 = (p3.X, bowY);
+            }
+
+            static double Fmt3(double v) => Math.Round(v, 1);
+            var pathData = FormattableString.Invariant($"M{Fmt3(p0.X)},{Fmt3(p0.Y)} C{Fmt3(p1.X)},{Fmt3(p1.Y)} {Fmt3(p2.X)},{Fmt3(p2.Y)} {Fmt3(p3.X)},{Fmt3(p3.Y)}");
+
+            const double t = 0.5;
+            var mt = 1 - t;
+            var labelX = (mt * mt * mt * p0.X) + (3 * mt * mt * t * p1.X) + (3 * mt * t * t * p2.X) + (t * t * t * p3.X);
+            var labelY = (mt * mt * mt * p0.Y) + (3 * mt * mt * t * p1.Y) + (3 * mt * t * t * p2.Y) + (t * t * t * p3.Y);
+
+            edgeLayouts.Add(new EdgeLayout(pathData, edge.Label ?? "свързано с", labelX, labelY - 6, isCross));
+        }
+
+        return new NetworkCanvas(width, height, nodeLayouts, headers, edgeLayouts);
+    }
+}

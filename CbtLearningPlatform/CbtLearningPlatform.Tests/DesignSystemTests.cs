@@ -7,9 +7,9 @@ public sealed class DesignSystemTests
     [Fact]
     public void DisclaimerCallout_ExistsInHostAssembly()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
-        Type? disclaimerType = assembly.GetType("CbtLearningPlatform.Components.Shared.DisclaimerCallout");
+        Type? disclaimerType = assembly.GetType("CbtLearningPlatform.Client.Components.Shared.DisclaimerCallout");
 
         Assert.NotNull(disclaimerType);
     }
@@ -17,7 +17,7 @@ public sealed class DesignSystemTests
     [Fact]
     public void AppCss_DefinesCoreDesignTokens()
     {
-        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "wwwroot", "app.css");
+        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "wwwroot", "app.css");
 
         string css = File.ReadAllText(cssPath);
 

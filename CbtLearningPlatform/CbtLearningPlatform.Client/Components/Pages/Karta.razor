@@ -1,0 +1,76 @@
+@* Global Cognitive Maps — Phase 5 of COGNITIVE_LEARNING_ARCHITECTURE_v1.md. Two distinct cognitive
+   functions, not one merged map: Course Map ("къде съм в курса?", Mind Map mode, derived from
+   CourseCatalog) and CBT Knowledge Map ("как са свързани знанията?", Concept Map mode, derived from
+   KnowledgeMapCatalog). Mode switch is two plain links with a query string (?mode=course/knowledge)
+   read via [SupplyParameterFromQuery] — a full server-rendered navigation, not a client-side toggle,
+   so each mode is its own deep-linkable URL and the page needs zero JS/WASM to switch. Static SSR
+   throughout; reuses the locked ConceptGraph/MindMapBranch rendering unchanged — this page only
+   supplies data, it does not touch the renderer or Week 6. *@
+@page "/kurs/karta"
+@using CbtLearningPlatform.Client.Curriculum
+
+<PageTitle>Карта на курса и знанието — КПТ Академия</PageTitle>
+
+<div class="content">
+    <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · Карти</p>
+    <h1>Карти на курса и знанието</h1>
+    <p>
+        Две различни карти, за два различни въпроса. <strong>Картата на курса</strong> показва къде се
+        намирате в 15-седмичната програма. <strong>Картата на знанието</strong> показва как понятията,
+        които вече сте изучили, се свързват помежду си — не са едно и също нещо.
+    </p>
+
+    <nav class="karta-mode-switch" aria-label="Избор на карта">
+        <a href="/kurs/karta?mode=course" aria-current="@(IsKnowledgeMode ? null : "page")">Карта на курса</a>
+        <a href="/kurs/karta?mode=knowledge" aria-current="@(IsKnowledgeMode ? "page" : null)">Карта на знанието</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    @if (IsKnowledgeMode)
+    {
+        <LearningSection Role="theory" RoleLabel="Карта на знанието">
+            <h2 id="znanie" tabindex="-1">Карта на знанието по КПТ <span class="concept-graph__title-secondary">(CBT Knowledge Map)</span></h2>
+            <p>
+                Отговаря на въпроса „как са свързани знанията по КПТ?“. Nodes-овете тук са
+                <strong>concepts</strong>, не седмици — седмицата, в която е въведен всеки концепт, е
+                метаданна (виж линка към секцията), не отделен node. Картата покрива само вече
+                изучени, реално routed седмици — нищо от бъдещите седмици не изтича тук.
+            </p>
+            <ConceptGraph ComponentId="cbt-knowledge-map" Model="@_knowledgeMapRender" />
+            <p class="concept-graph__summary">
+                Изградена от Седмици 3, 6, 8, 10 и 12 — единствените седмици, чието съдържание реално
+                потвърждава показаните тук понятия и връзки.
+            </p>
+        </LearningSection>
+    }
+    else
+    {
+        <LearningSection Role="theory" RoleLabel="Карта на курса">
+            <h2 id="kurs" tabindex="-1">Карта на курса</h2>
+            <p>
+                Отговаря на въпроса „къде се намирам в курса?“. Root-ът е курсът, primary branches са
+                четирите модула, а всяка седмица е дете на своя модул — точно както в
+                <code>CourseCatalog</code>, без втори, дублиран списък. Приглушените седмици все още
+                нямат разработена страница; те не означават личен напредък, а само какво вече е
+                налично в курса.
+            </p>
+            <ConceptGraph ComponentId="course-map" Model="@_courseMapRender" />
+        </LearningSection>
+    }
+</div>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "mode")]
+    public string? Mode { get; set; }
+
+    private bool IsKnowledgeMode => string.Equals(Mode, "knowledge", StringComparison.OrdinalIgnoreCase);
+
+    private static readonly GraphRenderModel _courseMapRender = MindMapAdapter.ToRenderModel(CourseMapBuilder.Build());
+    private static readonly GraphRenderModel _knowledgeMapRender = ConceptMapAdapter.ToRenderModel(
+        KnowledgeMapCatalog.Build(),
+        CourseCatalog.Weeks,
+        ConceptGraphLayout.Network,
+        KnowledgeMapCatalog.NetworkLayout);
+}

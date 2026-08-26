@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CbtLearningPlatform\CbtLearningPlatform.csproj" />
+    <ProjectReference Include="..\CbtLearningPlatform.Client\CbtLearningPlatform.Client.csproj" />
   </ItemGroup>
 
 </Project>

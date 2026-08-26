@@ -15,14 +15,14 @@ public sealed class GlobalRedesignTests
     ];
 
     [Theory]
-    [InlineData("CbtLearningPlatform.Components.Pages.Home")]
-    [InlineData("CbtLearningPlatform.Components.Pages.Programa")]
-    [InlineData("CbtLearningPlatform.Components.Pages.Kpt")]
-    [InlineData("CbtLearningPlatform.Components.Pages.Modul1")]
-    [InlineData("CbtLearningPlatform.Components.Pages.Modul2")]
+    [InlineData("CbtLearningPlatform.Client.Components.Pages.Home")]
+    [InlineData("CbtLearningPlatform.Client.Components.Pages.Programa")]
+    [InlineData("CbtLearningPlatform.Client.Components.Pages.Kpt")]
+    [InlineData("CbtLearningPlatform.Client.Components.Pages.Modul1")]
+    [InlineData("CbtLearningPlatform.Client.Components.Pages.Modul2")]
     public void RouteInventory_CoreTypesExistInHostAssembly(string typeName)
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
         Assert.NotNull(assembly.GetType(typeName));
     }
@@ -170,13 +170,13 @@ public sealed class GlobalRedesignTests
 
     private static string ReadPage(string fileName)
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         return File.ReadAllText(Path.Combine(pagesDirectory, fileName));
     }
 
     private static string ReadSharedComponent(string fileName)
     {
-        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Shared");
+        string sharedDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Shared");
         return File.ReadAllText(Path.Combine(sharedDirectory, fileName));
     }
 
@@ -189,7 +189,7 @@ public sealed class GlobalRedesignTests
 
     private static string ReadCss()
     {
-        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "wwwroot", "app.css");
+        string cssPath = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "wwwroot", "app.css");
         return File.ReadAllText(cssPath);
     }
 }

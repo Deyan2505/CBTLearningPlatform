@@ -1,0 +1,215 @@
+@* ACADEMIC/CLINICAL REVIEW PENDING internally — no staffed reviewer yet (RISK-010), not shown
+   as an uppercase status in the public UI (Week 1 owner-review correction lesson applied).
+   SYSTEMATIC CURRICULUM EXPANSION, Phase B, Batch A (2nd of 3 clean-source weeks) — "Concept
+   and Diagram" archetype, secondary "Theory and History" academic framing. AcademicContextOnly
+   safety level (CourseCatalog.cs): zero interaction, strictly third-person, no self-guided
+   variant — matrix requires professional review for any self-guided version of this topic.
+   Curriculum topic from kpt_syllabus.pdf (Week 12) — map only, never verbatim text.
+   Content basis: SRC-041 (Judith Beck), Глава 14 — confirmed via session log (Сесия 3,
+   продължение 2): "негативните основни вярвания... попадат в две широки категории: тези,
+   свързани с безпомощност, и тези, свързани с необичане (Beck, 1999). Описана е и трета
+   категория, свързана с безполезността (J. S. Beck, 2005)." The three categories are described
+   for NEGATIVE core beliefs specifically — this page explicitly reconciles that against Week
+   3's already-published claim that core beliefs in general "не са задължително отрицателни,
+   ирационални или признак на заболяване," rather than contradicting it.
+   Duplication discipline: the 3-level hierarchy itself (automatic thought → intermediate
+   belief → core belief) is Week 3's own content and is only briefly recapped + linked here,
+   never re-rendered as a diagram — this page's only new content is the deepest layer's
+   category taxonomy. Zero new components, zero new CSS: reuses LearningSection/
+   LearningObjectives/ProgressiveExplanation/DisclaimerCallout/SourceReferences/
+   OptionalReadingSource and .category-compare (already general-purpose 3-way pattern). *@
+@page "/kurs/sedmica-12"
+
+<PageTitle>Седмица 12: Основни вярвания и схеми — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--format">Академичен обзор</span>
+        </div>
+        <p><em>Най-дълбокото ниво на когнитивния модел — обзорно, академично представяне</em></p>
+        <p>
+            Тази седмица разглежда основните вярвания и схемите — най-общото, най-устойчивото ниво на
+            когнитивния модел — и трите широки категории, които книгата описва при негативните основни
+            вярвания.
+        </p>
+        <LearningObjectives Objectives="@_objectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-12#niva">Трите нива, накратко</a>
+        <a href="/kurs/sedmica-12#osnovno-vyarvane">Какво е основно вярване</a>
+        <a href="/kurs/sedmica-12#trite-kategorii">Трите категории</a>
+        <a href="/kurs/sedmica-12#akademichen-obzor">Защо само академичен обзор</a>
+        <a href="/kurs/sedmica-12#proverka">Проверка</a>
+        <a href="/kurs/sedmica-12#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    <LearningSection Role="theory" RoleLabel="Връзка">
+        <h2 id="niva" tabindex="-1">01 · Трите нива, накратко</h2>
+        <p>
+            Седмица 3 представи трите свързани нива на когнитивния модел — автоматична мисъл, междинно
+            вярване и основно вярване — от най-ситуативното към най-общото.
+        </p>
+        <p>
+            Тази седмица не повтаря диаграмата, а се задълбочава в най-долното, най-общо ниво:
+            <a href="/kurs/sedmica-3">вижте Седмица 3 — Архитектура на когнитивния модел</a> за пълния преглед
+            на йерархията.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Теория">
+        <h2 id="osnovno-vyarvane" tabindex="-1">02 · Какво е основно вярване (схема)</h2>
+        <p>
+            Основните вярвания са дълбоки, общи представи за себе си, другите хора и света. Те могат да бъдат
+            адаптивни или неадаптивни и не са задължително отрицателни, ирационални или признак на заболяване
+            — виж пълното разглеждане в Седмица 3.
+        </p>
+        <p>
+            Книгата описва конкретно три широки категории, в които попадат <strong>негативните</strong> основни
+            вярвания — не всяко основно вярване изобщо, а типични теми сред тези, които са неадаптивни.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="visual" RoleLabel="Визуален модел">
+        <h2 id="trite-kategorii" tabindex="-1">03 · Трите категории</h2>
+        <div class="category-compare">
+            <div class="category-compare__item">
+                <p class="category-compare__label">Безпомощност</p>
+                <p>Теми около собствената некомпетентност, слабост или невъзможност да се справиш.</p>
+            </div>
+            <div class="category-compare__item">
+                <p class="category-compare__label">Необичаемост</p>
+                <p>Теми около това да не бъдеш достоен за обич, приемане или близост.</p>
+            </div>
+            <div class="category-compare__item">
+                <p class="category-compare__label">Безполезност</p>
+                <p>Теми около собствената незначимост или неадекватност.</p>
+            </div>
+        </div>
+        <p class="concept-map__feedback">
+            Категориите са общи теми, не диагностични етикети — конкретното съдържание на едно вярване варира
+            от човек до човек.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Граница">
+        <h2 id="akademichen-obzor" tabindex="-1">04 · Защо само академичен обзор</h2>
+        <p>
+            Тази страница представя категориите като академичен обзор, не като инструмент за самооценка.
+            Тя не пита и не предполага "коя категория си ти" — идентифицирането на конкретно основно вярване
+            е чувствителна работа, която в реална практика се случва постепенно, с насочване от специалист.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Рефлексия">
+        <h2 id="proverka" tabindex="-1">05 · Проверка на разбирането</h2>
+        <p>Изберете отговор, след което разгънете обяснението. Проверката не се оценява и не запазва отговори.</p>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Въпрос 1.</strong> Основните вярвания са задължително отрицателни?</p>
+                <p>А. Да, винаги<br />Б. Не — могат да бъдат адаптивни или неадаптивни<br />В. Само при заболяване</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Основните вярвания като цяло не са задължително отрицателни — темата на тази седмица са конкретно негативните основни вярвания.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 2.</strong> Кои са трите широки категории при негативните основни вярвания?</p>
+                <p>А. Тревога, гняв, тъга<br />Б. Безпомощност, необичаемост, безполезност<br />В. Оценка, прогнозиране, филтриране</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Безпомощност, необичаемост и безполезност.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 3.</strong> Тази страница помага ли да определите вашата собствена категория?</p>
+                <p>А. Да, директно<br />Б. Не — остава академичен обзор, без самооценка<br />В. Само ако отговорите правилно на въпросите</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Идентифицирането на конкретно вярване е чувствителна работа, оставена за реална практика с насочване от специалист.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Изводи">
+        <h2 id="izvori" tabindex="-1">06 · Обобщение, академичен контекст и източници</h2>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div>
+                <h3>Какво да запомните</h3>
+                <ul>
+                    <li>Основните вярвания са най-общото, най-устойчивото ниво на модела.</li>
+                    <li>Не са задължително отрицателни — могат да бъдат адаптивни или неадаптивни.</li>
+                    <li>Книгата описва три широки категории при негативните основни вярвания.</li>
+                    <li>Категориите са общи теми, не диагностични етикети.</li>
+                    <li>Тази страница остава академичен обзор, не инструмент за самооценка.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Академичен контекст</h3>
+                <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
+                    <p>
+                        Първите две категории — безпомощност и необичаемост — са описани от Аарон Т. Бек, а
+                        третата — безполезност — е добавена по-късно от Джудит С. Бек, в традицията на
+                        систематичното представяне на когнитивния модел.
+                    </p>
+                    <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
+                </ProgressiveExplanation>
+            </div>
+
+            <div>
+                <DisclaimerCallout Text="Тази страница представя академичен обзор на основните вярвания и техните категории. Тя не определя вашите вярвания, не поставя диагноза и не заменя професионална психологическа или медицинска помощ." />
+            </div>
+
+            <div>
+                <h3>Източници и следващи стъпки</h3>
+                <p>
+                    <a href="/kurs/sedmica-3">Седмица 3 — Архитектура на когнитивния модел</a><br />
+                    <a href="/kurs">← Обратно към 15-седмичния курс</a>
+                </p>
+                <SourceReferences Citations="@_citations" />
+            </div>
+        </div>
+
+        <OptionalReadingSource
+            Title="Когнитивно-поведенческа терапия: Основи и отвъд"
+            Author="Джудит С. Бек"
+            Edition="2-ро издание, Guilford Press, 2011 (оригинално заглавие: Cognitive Behavior Therapy: Basics and Beyond)"
+            RelevantSection="Глава 14 — Идентификация и модифициране на основни вярвания"
+            Description="Главата представя трите широки категории при негативните основни вярвания — безпомощност, необичаемост и безполезност — в оригиналния им академичен контекст." />
+    </LearningSection>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 12);
+
+    private readonly IReadOnlyList<string> _objectives =
+    [
+        "Запознавате се с понятието основно вярване/схема.",
+        "Разбирате, че основните вярвания не са задължително отрицателни.",
+        "Разпознавате трите широки категории — безпомощност, необичаемост, безполезност.",
+        "Разбирате защо тази тема остава академичен обзор, не инструмент за самооценка."
+    ];
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — Глава 14, идентификация и модифициране на основни вярвания.",
+        "Учебната последователност на тази седмица е използвана само за тематична ориентация, без институционални твърдения."
+    ];
+}

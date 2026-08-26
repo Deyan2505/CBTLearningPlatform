@@ -5,18 +5,18 @@ namespace CbtLearningPlatform.Tests;
 public sealed class ContentSliceTests
 {
     [Theory]
-    [InlineData("CbtLearningPlatform.Components.Pages.Kpt")]
-    [InlineData("CbtLearningPlatform.Components.Pages.Modul2")]
-    [InlineData("CbtLearningPlatform.Components.Pages.Modul2Lesson1")]
-    [InlineData("CbtLearningPlatform.Components.Pages.Modul2Lesson2")]
-    [InlineData("CbtLearningPlatform.Components.Pages.Modul2Lesson3")]
-    [InlineData("CbtLearningPlatform.Components.Pages.Modul1")]
-    [InlineData("CbtLearningPlatform.Components.Pages.Modul1Lesson1")]
-    [InlineData("CbtLearningPlatform.Components.Shared.LearningObjectives")]
-    [InlineData("CbtLearningPlatform.Components.Shared.SourceReferences")]
+    [InlineData("CbtLearningPlatform.Client.Components.Pages.Kpt")]
+    [InlineData("CbtLearningPlatform.Client.Components.Pages.Modul2")]
+    [InlineData("CbtLearningPlatform.Client.Components.Pages.Modul2Lesson1")]
+    [InlineData("CbtLearningPlatform.Client.Components.Pages.Modul2Lesson2")]
+    [InlineData("CbtLearningPlatform.Client.Components.Pages.Modul2Lesson3")]
+    [InlineData("CbtLearningPlatform.Client.Components.Pages.Modul1")]
+    [InlineData("CbtLearningPlatform.Client.Components.Pages.Modul1Lesson1")]
+    [InlineData("CbtLearningPlatform.Client.Components.Shared.LearningObjectives")]
+    [InlineData("CbtLearningPlatform.Client.Components.Shared.SourceReferences")]
     public void ContentSliceType_ExistsInHostAssembly(string typeName)
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
 
         Type? type = assembly.GetType(typeName);
 
@@ -26,8 +26,8 @@ public sealed class ContentSliceTests
     [Fact]
     public void LearningObjectives_HasStableObjectivesParameter()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
-        Type type = assembly.GetType("CbtLearningPlatform.Components.Shared.LearningObjectives")!;
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
+        Type type = assembly.GetType("CbtLearningPlatform.Client.Components.Shared.LearningObjectives")!;
 
         Assert.NotNull(type.GetProperty("Objectives"));
     }
@@ -35,8 +35,8 @@ public sealed class ContentSliceTests
     [Fact]
     public void SourceReferences_HasStableCitationsParameter()
     {
-        Assembly assembly = Assembly.Load("CbtLearningPlatform");
-        Type type = assembly.GetType("CbtLearningPlatform.Components.Shared.SourceReferences")!;
+        Assembly assembly = Assembly.Load("CbtLearningPlatform.Client");
+        Type type = assembly.GetType("CbtLearningPlatform.Client.Components.Shared.SourceReferences")!;
 
         Assert.NotNull(type.GetProperty("Citations"));
     }
@@ -127,7 +127,7 @@ public sealed class ContentSliceTests
     [Fact]
     public void LearningPathVisualization_LinksToTheRealModuleRoutes_NoDeadLinks()
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Shared");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Shared");
         string source = File.ReadAllText(Path.Combine(pagesDirectory, "LearningPathVisualization.razor"));
 
         Assert.Contains(RouteOf("Modul1.razor"), source);
@@ -148,6 +148,7 @@ public sealed class ContentSliceTests
     [InlineData("Sedmica3.razor")]
     [InlineData("Sedmica6.razor")]
     [InlineData("Sedmica10.razor")]
+    [InlineData("Sedmica12.razor")]
     public void PsychologicalContentPage_IncludesDisclaimerCallout(string fileName)
     {
         // 23_CLINICAL_SAFETY_BOUNDARIES.md: visible disclaimer required on every page with
@@ -162,7 +163,8 @@ public sealed class ContentSliceTests
         [
             "Kpt.razor", "Modul1.razor", "Modul1Lesson1.razor",
             "Modul2.razor", "Modul2Lesson1.razor", "Modul2Lesson2.razor", "Modul2Lesson3.razor",
-            "Kurs.razor", "Sedmica8.razor", "Sedmica1.razor", "Sedmica3.razor", "Sedmica6.razor", "Sedmica10.razor"
+            "Kurs.razor", "Sedmica8.razor", "Sedmica1.razor", "Sedmica3.razor", "Sedmica6.razor", "Sedmica10.razor",
+            "Sedmica12.razor"
         ];
 
         // ADR-006/ADR-008: this categorization has no confirmed source and must never appear in published content.
@@ -181,7 +183,7 @@ public sealed class ContentSliceTests
 
     private static string ReadPage(string fileName)
     {
-        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform", "Components", "Pages");
+        string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
         return File.ReadAllText(Path.Combine(pagesDirectory, fileName));
     }
 
