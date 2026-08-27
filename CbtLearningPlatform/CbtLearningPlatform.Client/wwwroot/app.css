@@ -3046,8 +3046,8 @@ h3[tabindex="-1"]:focus-visible {
    can't go stale, and the elbow shape reads as genuinely curved in either orientation. Nodes are
    compact by design — label only, no inline sub-description (the linked section already carries the
    fuller explanation); a leaf with an anchor IS its own link, unambiguous since it has nothing to
-   expand. A branch's <summary> toggles expand/collapse; its small .mindmap-branch__goto "→" is a
-   distinct, separately-styled navigation control. */
+   expand. A branch's <summary> is toggle-only (no nested link — a same-page goto affordance there
+   used to hijack the click into an anchor-scroll instead of expanding, see MindMapBranch.razor). */
 .mindmap-tree {
     display: flex;
     flex-direction: column;
@@ -3160,27 +3160,6 @@ details[open] > .mindmap-branch__summary .mindmap-branch__chevron {
     .mindmap-branch__chevron {
         transition: none;
     }
-}
-
-/* Distinct from the toggle — its own small, muted control, not a repeated full-sentence CTA.
-   Navigation-as-secondary (owner polish pass 3, §9-§10): no persistent underline, reduced opacity by
-   default — the concept label reads first, the link affordance surfaces on hover/focus, never
-   hidden entirely (keyboard/focus users always see it). */
-.mindmap-branch__goto {
-    flex-shrink: 0;
-    margin-left: auto;
-    padding-left: var(--space-2);
-    color: var(--color-text-secondary);
-    font-weight: 700;
-    font-size: 0.85em;
-    text-decoration: none;
-    opacity: 0.6;
-}
-
-.mindmap-branch__goto:hover,
-.mindmap-branch__goto:focus-visible {
-    text-decoration: underline;
-    opacity: 1;
 }
 
 /* Leaf nodes with an anchor are themselves the link — same "secondary until interacted with"

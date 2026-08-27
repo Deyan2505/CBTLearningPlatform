@@ -108,14 +108,16 @@ public sealed class Week6CognitiveMapTests
     }
 
     [Fact]
-    public void MindMapBranchComponent_SeparatesToggleFromNavigation()
+    public void MindMapBranchComponent_SummaryIsToggleOnly_NoNestedLink()
     {
-        // Visual correction pass 2 (§9-§12): the label+chevron toggle expand/collapse; the compact
-        // "→" goto affordance is a distinct, separately-classed control (.mindmap-branch__goto),
-        // not merged into the label itself — clicking it still navigates correctly even though it
-        // sits inside <summary>, since the browser is about to leave the page regardless of the
-        // incidental toggle. A leaf node (nothing to expand) is unambiguous: the whole node IS the
-        // link, with no separate toggle to confuse it with.
+        // Corrected after owner interaction testing on Week 8: an earlier pass nested a "→" goto
+        // link inside <summary>, reasoning a click on it would navigate away regardless of any
+        // incidental toggle. That broke for same-page anchors (every Anchor here points at a
+        // section on the same page the map lives on) — a click landed on the link and scroll-jumped
+        // down the page instead of expanding the cluster. Branches are now toggle-only: <summary>
+        // contains just the chevron and the label, nothing interactive nested inside it, so a click
+        // or Enter/Space anywhere on the header can only ever toggle. A leaf node (nothing to
+        // expand) is unambiguous: the whole node IS the link, with no separate toggle to confuse it.
         string source = ReadPublicMarkup("MindMapBranch.razor");
 
         int summaryStart = source.IndexOf("<summary", StringComparison.Ordinal);
@@ -124,11 +126,8 @@ public sealed class Week6CognitiveMapTests
 
         Assert.Contains("mindmap-branch__chevron", summaryBlock);
         Assert.Contains("concept-graph__node-label", summaryBlock);
-        Assert.Contains("mindmap-branch__goto", summaryBlock);
-
-        int labelIndex = summaryBlock.IndexOf("concept-graph__node-label", StringComparison.Ordinal);
-        int gotoIndex = summaryBlock.IndexOf("mindmap-branch__goto", StringComparison.Ordinal);
-        Assert.True(labelIndex < gotoIndex, "The goto link must be a distinct element after the label, not merged into it.");
+        Assert.DoesNotContain("<a ", summaryBlock);
+        Assert.DoesNotContain("mindmap-branch__goto", source);
 
         Assert.Contains("<a class=\"mindmap-node", source); // leaf-with-anchor: the whole node is the link
     }
@@ -300,16 +299,17 @@ public sealed class Week6CognitiveMapTests
     }
 
     [Fact]
-    public void MindMap_NavigationAffordancesAreSecondaryUntilInteraction()
+    public void MindMap_LeafNavigationAffordanceIsSecondaryUntilInteraction()
     {
         // Owner polish pass 3 (§9-§10): the concept label reads first; the link chrome (persistent
-        // underline, full opacity) only appears on hover/focus — never removed entirely, so
-        // keyboard/focus users can still always tell a node is navigable (§10, §18).
+        // underline) only appears on hover/focus — never removed entirely, so keyboard/focus users
+        // can still always tell a leaf node is navigable (§10, §18). Branch-level .mindmap-branch__goto
+        // no longer exists (removed after owner interaction testing found it hijacked cluster-arrow
+        // clicks into a same-page scroll-jump instead of expanding — see
+        // MindMapBranchComponent_SummaryIsToggleOnly_NoNestedLink).
         string css = ReadCss();
 
-        Assert.Contains(".mindmap-branch__goto {", css);
-        Assert.Contains("text-decoration: none;", css);
-        Assert.Contains(".mindmap-branch__goto:hover,\n.mindmap-branch__goto:focus-visible {", css);
+        Assert.DoesNotContain(".mindmap-branch__goto", css);
         Assert.Contains("a.mindmap-node:hover .concept-graph__node-label,\na.mindmap-node:focus-visible .concept-graph__node-label {", css);
     }
 

@@ -1,14 +1,14 @@
-@* Interactive WebAssembly island. Reveal-style knowledge workspace: a single "Разкрий" button
-   per phrase shows its explanation — no comparison against "your" choice, no grading, no
-   correct/wrong language, no storage. Categories are taught via the legend above, not picked
-   per item (four identical-looking category buttons here would imply a choice that doesn't
-   exist, since any of them would reveal the same fixed explanation). "Разгледани примери" is a
-   plain count of revealed items, not a competitive ranking. *@
+@* Interactive WebAssembly island. Reveal-style knowledge workspace: the learner reads the legend,
+   decides the category mentally, then clicks one "Провери категорията" button per phrase to see
+   it — no comparison against "your" choice, no grading, no correct/wrong language, no storage
+   (four identical-looking category buttons here would imply a choice that doesn't exist, since
+   any of them would reveal the same fixed explanation). "Разгледани примери" is a plain count of
+   revealed items, not a competitive ranking. *@
 
 <div class="categorization-workspace">
     <div class="categorization-workspace__header">
         <h3>Мисъл, емоция, телесна реакция или поведение?</h3>
-        <p>За всяка кратка фраза изберете категория, после вижте обяснението.</p>
+        <p>За всяка кратка фраза определете мислено категорията, после проверете.</p>
         <p class="categorization-workspace__progress">Разгледани примери: @_revealed.Count / @_items.Count</p>
     </div>
 
@@ -31,7 +31,7 @@
             }
             else
             {
-                <button type="button" class="btn btn-example" @onclick="() => Reveal(item)">Разкрий</button>
+                <button type="button" class="btn btn-example" @onclick="() => Reveal(item)">Провери категорията</button>
             }
         </div>
     }

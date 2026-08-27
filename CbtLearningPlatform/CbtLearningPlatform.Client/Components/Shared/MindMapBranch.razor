@@ -11,11 +11,14 @@
 
    Nodes are compact by design (§9 of the correction pass): label only, no inline sub-description —
    the fuller explanation already lives in the linked section itself, not duplicated here. A leaf
-   node with an anchor is a single link (unambiguous — nothing to expand). A branch's <summary>
-   toggles expand/collapse; a separate small "→" affordance (.mindmap-branch__goto) is the actual
-   navigation control, distinguishable from the toggle even though both sit inside <summary> — a
-   click on the link still navigates correctly regardless of the incidental toggle, since the
-   browser is about to leave the page anyway. *@
+   node with an anchor is a single link (unambiguous — nothing to expand). A branch's <summary> is
+   toggle-only — no nested link. An earlier pass nested a "→" goto affordance inside <summary> for
+   branches too, reasoning a click on it would navigate away regardless of any incidental toggle;
+   that assumption broke for same-page anchors (every Anchor here is `/kurs/sedmica-N#...` on the
+   page the map already lives on), where "navigating" is just an in-page scroll-jump, so a click on
+   the arrow/header jumped down the page instead of expanding — confirmed by owner interaction
+   testing on Week 8. Branches now only ever toggle; reaching a section happens via its actual leaf
+   nodes (or the page's own section navigator), never from a cluster header. *@
 @namespace CbtLearningPlatform.Client.Components.Shared
 @using CbtLearningPlatform.Client.Curriculum
 
@@ -46,10 +49,6 @@ else
         <summary class="mindmap-branch__summary @depthClass @stateClass">
             <span class="mindmap-branch__chevron" aria-hidden="true"></span>
             <span class="concept-graph__node-label">@Node.Label</span>
-            @if (!string.IsNullOrWhiteSpace(Node.Anchor))
-            {
-                <a class="mindmap-branch__goto" href="@Node.Anchor" aria-label="Отвори секция: @Node.Label">→</a>
-            }
         </summary>
         <ul class="mindmap-branch__children">
             @foreach (var child in children)
