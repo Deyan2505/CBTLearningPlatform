@@ -4,21 +4,49 @@
 
 ## ACTIVE CONTEXT FOR CURRENT STEP
 
-Минимален набор документи, необходими за следващата стъпка (Седмица 7 — не е започната):
+Минимален набор документи, необходими за следващата стъпка (Седмица 7 — `UNBLOCKED`, следваща):
 
 - `02_CURRENT_STATUS.md` (този файл — винаги първи).
+- Root `AGENTS.md` — стабилни operational правила, включително deployment.
 - `24_IMPLEMENTATION_ROADMAP.md` → Batch A checkpoint запис (Седмица 6/12).
-- `10_SESSION_LOG.md` → Сесия 37 (Week 12 implementation + commit).
 
 **Не е необходимо** за рутинна техническа стъпка: Source Register/Coverage Matrix/Gaps (11–15), PRD (17), пълен Risk Register, пълен Session Log.
 
 ## Текуща фаза
 
-Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31). Седмица 10 — `COMPLETE`, `COMMITTED` (Сесия 33) — "Guided Practice" архетипът `VALIDATED`. Седмица 6 — `COMPLETE`, `COMMITTED` (Сесия 35, Phase C, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion. Седмица 12 — `COMPLETE`, некомитната (Сесия 37) — втората седмица от build order-а, `AcademicOverview` архетип (routed, но не `Available`, по дизайн).**
+Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31). Седмица 10 — `COMPLETE`, `COMMITTED` (Сесия 33) — "Guided Practice" архетипът `VALIDATED`. Седмица 6 — `COMPLETE`, `COMMITTED` (Сесия 35, Phase C, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion. Седмица 12 — `COMPLETE`, `COMMITTED` (съдържание от Сесия 37, комитнато заедно с WASM migration commit `4135988`) — втората седмица от build order-а, `AcademicOverview` архетип (routed, но не `Available`, по дизайн).**
 
 ## Текуща стъпка
 
-`WEEK 3 — FINAL GEOMETRY CORRECTION` (Сесия 56, 2026-08-25). Owner откри, че Section 07/09 остават
+`PRE-WEEK-7 REPOSITORY CHECKPOINT` (2026-08-27). Owner-confirmed status snapshot, taken before starting
+Седмица 7:
+
+- **Седмица 3 v2** (Deep Learning rebuild, Сесии 51–56, committed `3e4ca50`) — `OWNER APPROVED / LOCKED`.
+- **Седмица 6** — Deep Learning reference implementation — `LOCKED` (Сесия 46, unchanged). The
+  project-wide Mind Map/visual standard. See "Locked cognitive and visual architecture" in root
+  `AGENTS.md`.
+- **Седмица 8 v2** — `OWNER APPROVED / LOCKED` — `CategorizationCheck` single-button interaction fix
+  (removed a fake 4-button category choice) and the Weekly Mind Map cluster-toggle fix (removed a
+  nested same-page goto link that hijacked cluster-arrow clicks into a scroll-jump instead of
+  expand/collapse; shared `MindMapBranch.razor`, so Week 6's Mind Map benefits too). Commit `94314ef`.
+- **Minimum Stability Gate (Седмица 3 + Седмица 8)** — `ACHIEVED`: 539/539 tests, Debug+Release build
+  0/0, GitHub Actions build+deploy green end to end.
+- **Седмица 7** — `UNBLOCKED` / `NEXT`. Not started.
+- **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
+  project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
+  Netlify (static-only host). Commit `4135988`.
+- **GitHub Actions CI → Netlify production deployment** — `OPERATIONAL`. Remote:
+  `https://github.com/Deyan2505/CBTLearningPlatform` (public). `.github/workflows/ci.yml` gained a
+  `deploy` job (publish + `nwtgck/actions-netlify`) alongside the existing build+test job. First
+  push-triggered run on `main` (commit `94314ef`) completed: **Build success, Deploy to Netlify
+  success.** The long-standing "no remote / CI never run on GitHub" blocker recorded below (line
+  "Push/deployment блокер") is resolved.
+
+Full technical detail lives in the session's own commits (`4135988`, `94314ef`) and conversation
+record — not duplicated here. No architecture change, no new plan; this entry is a status checkpoint
+only.
+
+Предходен checkpoint — `WEEK 3 — FINAL GEOMETRY CORRECTION` (Сесия 56, 2026-08-25). Owner откри, че Section 07/09 остават
 вертикални въпреки Сесия 55. **Root cause:** `.concept-map__flow--horizontal` никога не redeclare-ваше
 `flex-direction` — базовият клас го фиксира на `column` безусловно; `display:flex` само по себе си не
 значи row. Добавен липсващият `flex-direction: row` (единична поправка, коригира и двете секции).
@@ -334,7 +362,7 @@ U08/U22 включени по owner-approved `OBSERVATIONAL SAFETY BOUNDARY` д�
 
 Предходен checkpoint — `OPTIONAL READING VISUAL REFINEMENT — CLOSED, COMMITTED` (Сесия 36, 2026-08-09). Audit на некомитнатия diff от Сесия 34 (продължение) не намери реални дефекти — heading дублирането е премахнато (`SourceReferences.razor`: "Източници и допълнително четене" → "Източници"), визуалната тежест на `.optional-reading` е намалена (`--color-surface` вместо плътен `--accent-academic-surface`, премахнат "Учебник" badge, премахнат `max-width`), 0 dead CSS, 0 orphaned селектори (`.optional-reading__role`/`SourceRole` изцяло премахнати навсякъде), source съдържанието (заглавия/автор/издание/глави/описания) непроменено на всичките 4 засегнати страници. Fresh-server QA потвърди консистентност на всичките 5 седмици (1/3/6/8/10, включително Седмица 6 като regression check). 372/372 теста (непроменен брой — трите нови теста вече бяха включени в baseline-а от Сесия 35). Build 0/0. Затворено в собствен, изолиран commit `70d56cb` ("style: refine optional reading presentation") — Седмица-6 commit-ът `ac0d82e` остава недокоснат, отделен исторически commit. Working tree чист.
 
-**Push/deployment блокер (установен, не нов):** `git remote -v` е празен — **няма конфигуриран GitHub remote за това repository**. Съществуващият `.github/workflows/ci.yml` е build+test-only workflow (restore/build/test при push/PR към `main`) — **няма deployment job изобщо**, независимо от remote статуса. Push, реален GitHub Actions run, и публичен production URL остават невъзможни, докато собственикът не създаде remote (виж таблицата "Repository" по-долу — статусът е непроменен от началото на проекта). И двата commit-а (`ac0d82e`, `70d56cb`) стоят готови локално на `main`.
+**Push/deployment блокер — RESOLVED (2026-08-27, виж "Текуща стъпка" по-горе):** GitHub remote вече съществува (`https://github.com/Deyan2505/CBTLearningPlatform`, public), приложението е конвертирано в standalone Blazor WebAssembly, и `.github/workflows/ci.yml` вече има `deploy` job (publish + Netlify) в допълнение на build+test. Първият push-triggered run на `main` (commit `94314ef`) завърши: Build success, Deploy to Netlify success. Таблицата "Repository" по-долу остава исторически snapshot от 2026-07-30 (дата в заглавието ѝ) — не отразява текущия remote/CI статус.
 
 Предходен checkpoint — `WEEK 6 — COMPLETE` (Сесия 35, Phase C). Първата задача от замразения build order (6→12→7→4→5→2→9→11→15→13→14) е реализирана върху съществуващата архитектура — **нула нови reusable компонента, нула нов CSS**. Source contract: SRC-041, Глава 5 (confirmed чрез session-log наратив + затворения GAP-010). Съдържание: защо сесиите имат структура (общо, безопасно), трипластова форма начало/среда/край (обща характеристика, не дословен списък от прототипа — прототипният мууд-чек "BDI/BAI" изрично изключен, заменен с неклинична формулировка), информационен преглед срещу инструкция за самотерапия (explicit boundary), проверка на разбирането, обобщение+академичен контекст+източници+OptionalReadingSource (Глава 5, без URL). Reuse: `LearningSection`/`LearningObjectives`/`ProgressiveExplanation`/`DisclaimerCallout`/`SourceReferences`/`OptionalReadingSource`, `.category-compare`, `.concept-map__side-notes`. `CourseCatalog.cs` Week 6 route зададен; `Kurs.razor` start-panel актуализиран за петте налични седмици. Нов `Week6ContentSliceTests.cs` (18 факта) + минимални актуализации в 6 съществуващи test файла (available-weeks broят 4→5, remaining 11→10). **372/372 passing**, build 0/0, `git diff --check` чист, 15/15 routes `200` на прясна инстанция, source QA потвърждава точния Глава-5 обхват без надхвърляне. Промените са изолирани от некомитнатата `Optional Reading Visual Refinement` (отделен, все още неодобрен diff) — предстои изолиран Week-6-only commit. Следваща стъпка от замразения ред: **Седмица 12** (не е започната автоматично).
 
@@ -366,9 +394,9 @@ U08/U22 включени по owner-approved `OBSERVATIONAL SAFETY BOUNDARY` д�
 - **Systemic route-safe anchor contract** — `COMPLETE`, `COMMITTED`.
 - **Седмица 10 (Guided Practice архетип)** — `COMPLETE`, `COMMITTED` (`/kurs/sedmica-10`) — архетипът `VALIDATED`.
 - **Седмица 6 (Guided Practice/Concept and Diagram hybrid)** — `COMPLETE`, `COMMITTED` (`/kurs/sedmica-6`, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion build order.
-- **Седмица 12 (Concept and Diagram, AcademicOverview архетип)** — `COMPLETE`, **некомитната** (`/kurs/sedmica-12`) — не изоставена, само с по-нисък приоритет по време на Deep Learning pivot-а.
-- **Седмица 6 v2 (Deep Learning module, пилот)** — `IMPLEMENTED — AWAITING OWNER LEARNING REVIEW`, некомитната (`/kurs/sedmica-6`) — пълен rebuild, 47/47 knowledge units, 14 секции, нов симулатор и 2 нови static компонента.
-- **Замразеният curriculum build order** — `PAUSED` (Сесия 38) в полза на валидиране на Deep Learning модела; ще се възобнови след собственически review.
+- **Седмица 12 (Concept and Diagram, AcademicOverview архетип)** — `COMPLETE`, `COMMITTED` (`4135988`) (`/kurs/sedmica-12`).
+- **Седмица 6 v2 (Deep Learning module)** — `OWNER APPROVED / LOCKED` (Сесия 46, потвърдено отново в чекпойнта от 2026-08-27) — пълен rebuild, 47/47 knowledge units, 14 секции, нов симулатор и 2 нови static компонента.
+- **Замразеният curriculum build order** — не е вече на PAUSE: виж "Текуща стъпка" по-горе (Minimum Stability Gate постигнат, Седмица 7 `UNBLOCKED`/`NEXT`).
 - **Останалите 9 седмици** — `NOT STARTED` (само метаданни в `CourseCatalog.cs`).
 - **Независим академичен/клиничен review на съдържанието** — `PENDING` (RISK-010 — няма щатен рецензент; съдържанието не е публикувано за реални потребители извън локалната разработка).
 - **Optional Reading Source компонент** — `COMPLETE`, `COMMITTED` (`OptionalReadingSource.razor`, използван на Седмица 1/3/6/8/10/12).
@@ -490,8 +518,8 @@ Final Layout Defect Correction (Сесия 23, 2026-08-04): собственик
 | `.gitignore` | официален `dotnet new gitignore` темплейт, `.vscode/` селективно (не изцяло игнорирана) |
 | Git identity | зададена **локално** (`--local`, само това repository); global конфигурация непроменена |
 | Baseline commit | **CREATED** — hash виж `10_SESSION_LOG.md` (не се записва email в Project OS) |
-| Remote | не съществува (не е част от обхвата) |
-| CI workflow | `.github/workflows/ci.yml` — restore + build + test, конфигуриран локално, никога не е изпълняван на GitHub (няма remote) |
+| Remote | **STALE (2026-07-30) — виж "Текуща стъпка" по-горе:** вече съществува, `https://github.com/Deyan2505/CBTLearningPlatform` (public) |
+| CI workflow | **STALE (2026-07-30):** `.github/workflows/ci.yml` вече има и `deploy` job (build+test+publish+Netlify); изпълнен на GitHub — Build success, Deploy to Netlify success (commit `94314ef`) |
 | Test project | `CbtLearningPlatform.Tests` (xUnit, `net10.0`) — 4 теста, всички passing |
 | Error handling | `ErrorBoundary` (Routes.razor) + българска `Error.razor` + преведен `#blazor-error-ui` банер; server-side `UseExceptionHandler` от темплейта, проверен реално в Production среда |
 | Design system | `app.css` — tokens (color/typography/spacing/shape/layout) + компоненти (бутони/карти/callout/nav/форми); `DisclaimerCallout` shared component; `MainLayout`/`Home`/`NotFound` реализирани с реално съдържание |
@@ -533,18 +561,16 @@ Final Layout Defect Correction (Сесия 23, 2026-08-04): собственик
 
 ## Следваща препоръчана задача
 
-Собственически visual + learning review на `/kurs/karta` (и двата режима) — потвърждение, че Course
-Map реално отговаря на "къде съм в курса?" и Knowledge Map на "как са свързани знанията?", преди
-Phase 5 да се маркира `PASSED`. Успоредно, GAP-013 остава отворен (не адресиран тази сесия) за
-бъдещ source-fidelity pass. Замразеният curriculum build order (Седмица 12 некомитната, Седмица 7
-следваща) остава на PAUSE. Не се пипа Седмица 6 (LOCKED). Не се строи Седмица 7. Не се прави
-retrofit на Седмици 1/3/8/10/12 (изрично извън обхват на Phase 5 — те само предоставиха вече
-съществуващо съдържание за Knowledge Map-а, страниците им не са променени). Deployment извън обхват.
+**Седмица 7** — `UNBLOCKED`, следваща (виж "Текуща стъпка" по-горе: Minimum Stability Gate постигнат,
+Седмица 3 v2/Седмица 6/Седмица 8 v2 всичките `LOCKED`/`OWNER APPROVED`, deploy pipeline `OPERATIONAL`).
+Не се пипа Седмица 6 (LOCKED). Не се прави retrofit на вече завършени седмици извън изрична
+собственическа заявка. GAP-013 остава отворен (не адресиран) за бъдещ source-fidelity pass.
 `KEEP RAZOR FOR MVP` в сила.
 
 ## Последна актуализация
 
-2026-08-22 — Сесия 47, Global Course + Knowledge Maps Implementation (Phase 5).
+2026-08-27 — Pre-Week-7 repository checkpoint (standalone WASM migration + Week 8 v2 owner approval +
+GitHub CI/Netlify deployment operational).
 
 ## Общ приблизителен прогрес
 
