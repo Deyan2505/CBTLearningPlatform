@@ -1,12 +1,15 @@
-@* Weekly Course Hub. Static SSR — no interactivity needed here. Metadata comes entirely
-   from CourseCatalog (Curriculum/CourseCatalog.cs) — no lesson text duplicated here. Only
-   Weeks 1, 3, 6, 8, 10 and 12 have a real Route; every other week intentionally has Route=null so this page
-   never links to a page that doesn't exist yet. Week 12 is AcademicContextOnly, so it resolves to
-   AcademicOverview status rather than Available — the start-panel below still lists only the five
-   Available weeks, since AcademicOverview is a different, non-self-guided category. Main hub area
-   uses a wide/narrow two-column learning-grid (timeline left, contextual panel right) — not sticky,
-   to avoid footer-overlap and zoom/accessibility risk for modest benefit. *@
+@* Weekly Course Hub. Metadata comes entirely from CourseCatalog (Curriculum/CourseCatalog.cs) —
+   no lesson text duplicated here. Only Weeks 1, 3, 6, 8, 10 and 12 have a real Route; every other
+   week intentionally has Route=null so this page never links to a page that doesn't exist yet.
+   Week 12 is AcademicContextOnly, so it resolves to AcademicOverview status rather than Available —
+   the start-panel below still lists only the five Available weeks, since AcademicOverview is a
+   different, non-self-guided category. Main hub area uses a wide/narrow two-column learning-grid
+   (timeline left, contextual panel right) — not sticky, to avoid footer-overlap and zoom/
+   accessibility risk for modest benefit. Course-progress bar + per-week done marker (MVP
+   progress feature) read learner-local completion via CourseProgressService — localStorage only,
+   no backend, no account; only CourseWeekDefinition.Number, never lesson content, is stored. *@
 @page "/kurs"
+@inject CourseProgressService Progress
 
 <PageTitle>15-седмичен курс по основи на КПТ — КПТ Академия</PageTitle>
 
@@ -54,6 +57,17 @@
     <div class="learning-grid learning-grid--wide-narrow">
         <div>
             <h2>Седмици</h2>
+
+            <div class="course-progress">
+                <div class="course-progress__header">
+                    <span>Напредък в курса</span>
+                    <span>@_summary.CompletedCount / @_summary.TotalWeeks седмици (@_summary.PercentageComplete%)</span>
+                </div>
+                <progress class="course-progress__bar" value="@_summary.CompletedCount" max="@_summary.TotalWeeks">
+                    @_summary.PercentageComplete%
+                </progress>
+            </div>
+
             <ol class="week-timeline" aria-label="Хронологичен списък на седмиците от курса">
                 @foreach (CourseWeekDefinition week in CourseCatalog.Weeks)
                 {
@@ -63,6 +77,10 @@
                         <div class="week-timeline__body card">
                             <div class="week-list__header">
                                 <span class="week-list__number">Седмица @week.Number</span>
+                                @if (_completedWeeks.Contains(week.Number))
+                                {
+                                    <span class="week-list__status week-list__status--done">✓ Завършена</span>
+                                }
                                 <span class="week-list__status week-list__status--@week.Status.ToStatusModifier()">
                                     @week.Status.ToPublicLabel()
                                 </span>
@@ -141,3 +159,14 @@
         </div>
     </div>
 </div>
+
+@code {
+    private IReadOnlySet<int> _completedWeeks = new HashSet<int>();
+    private CourseProgressSummary _summary = new(0, CourseCatalog.Weeks.Count, 0);
+
+    protected override async Task OnInitializedAsync()
+    {
+        _completedWeeks = await Progress.GetCompletedWeekNumbersAsync();
+        _summary = CourseProgressCalculator.Summarize(CourseCatalog.Weeks, _completedWeeks);
+    }
+}

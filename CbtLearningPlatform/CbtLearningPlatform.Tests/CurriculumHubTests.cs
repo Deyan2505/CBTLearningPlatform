@@ -129,11 +129,20 @@ public sealed class CurriculumHubTests
     }
 
     [Fact]
-    public void KursPage_HasNoFakeProgressPercentage()
+    public void KursPage_PercentageIsRealLearnerProgress_NotAHardcodedOrFakeNumber()
     {
+        // Originally this banned "%" outright — nothing on the page could legitimately produce
+        // one, so any percentage would have been fabricated project-build-progress, not real data.
+        // The MVP course-progress feature (owner-approved) now computes a genuine, learner-local
+        // completion percentage via CourseProgressCalculator; this confirms every "%" that appears
+        // is that live computed value, never a hardcoded/invented number.
         string source = ReadPage("Kurs.razor");
 
-        Assert.DoesNotContain("%", source);
+        int percentSignCount = source.Count(c => c == '%');
+        int liveBoundCount = source.Split("PercentageComplete%").Length - 1;
+
+        Assert.True(percentSignCount > 0, "Expected the real course-progress percentage to be shown.");
+        Assert.Equal(percentSignCount, liveBoundCount);
     }
 
     [Fact]

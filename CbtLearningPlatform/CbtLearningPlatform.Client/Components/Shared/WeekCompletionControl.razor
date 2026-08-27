@@ -1,0 +1,40 @@
+@* Shared end-of-week completion control (MVP course-progress feature) — the only place completion
+   toggling happens; every current and future available week page uses this same component, never
+   page-specific completion logic. Learner-local only (CourseProgressService -> localStorage), no
+   backend, no account, no scoring. Opening the page never marks it complete — only an explicit click
+   does, and clicking again undoes it. *@
+@inject CourseProgressService Progress
+
+<div class="week-completion">
+    @if (_isComplete)
+    {
+        <button type="button" class="btn btn-neutral week-completion__button" @onclick="ToggleAsync">
+            <span aria-hidden="true">✓</span> Седмицата е завършена
+        </button>
+    }
+    else
+    {
+        <button type="button" class="btn btn-primary week-completion__button" @onclick="ToggleAsync">
+            Отбележи като завършена
+        </button>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public int WeekNumber { get; set; }
+
+    private bool _isComplete;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _isComplete = await Progress.IsWeekCompleteAsync(WeekNumber);
+    }
+
+    private async Task ToggleAsync()
+    {
+        bool next = !_isComplete;
+        await Progress.SetWeekCompleteAsync(WeekNumber, next);
+        _isComplete = next;
+    }
+}
