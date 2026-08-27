@@ -108,6 +108,26 @@ public sealed class Week6CognitiveMapTests
     }
 
     [Fact]
+    public void MindMapBranch_CollapsedChildrenStayHiddenDespiteFlexLayout()
+    {
+        // Regression (owner production report, 2026-08-27): giving `.mindmap-branch`/
+        // `.mindmap-branch__children` a `display: flex` for the spatial layout silently overrides
+        // the browser's native "hide content while <details> is closed" behavior — several
+        // top-level clusters rendered already expanded on first load instead of collapsed. This
+        // explicit `:not([open])` rule is what actually keeps a closed branch's children hidden;
+        // it must never regress back to relying on native <details> behavior alone.
+        string css = ReadCss();
+
+        Assert.Contains(".mindmap-branch:not([open]) > .mindmap-branch__children {", css);
+
+        int ruleStart = css.IndexOf(".mindmap-branch:not([open]) > .mindmap-branch__children {", StringComparison.Ordinal);
+        int ruleEnd = css.IndexOf('}', ruleStart);
+        string rule = css[ruleStart..ruleEnd];
+
+        Assert.Contains("display: none;", rule);
+    }
+
+    [Fact]
     public void MindMapBranchComponent_SummaryIsToggleOnly_NoNestedLink()
     {
         // Corrected after owner interaction testing on Week 8: an earlier pass nested a "→" goto

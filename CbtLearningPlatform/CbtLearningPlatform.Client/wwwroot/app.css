@@ -3077,6 +3077,15 @@ h3[tabindex="-1"]:focus-visible {
     gap: var(--space-3);
 }
 
+/* `display: flex` above (needed for the layout) overrides the browser's native "hide content
+   while <details> is closed" behavior — a known CSS trap once you set `display` on/under a
+   <details> element. Re-establish it explicitly so collapsed clusters actually stay collapsed at
+   every width; only applies to a branch's own children, never the root's top-level cluster list
+   (that one lives directly under .mindmap-tree, not inside a <details>, so it's unaffected). */
+.mindmap-branch:not([open]) > .mindmap-branch__children {
+    display: none;
+}
+
 /* The top-level list (root's direct children) needs no trunk/elbow in narrow/vertical mode — it
    already sits directly under the visually-dominant root. Every deeper level, and the top level
    once wide mode turns root+branches into a row (below), gets the connector treatment. */

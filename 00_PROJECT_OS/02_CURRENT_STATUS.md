@@ -25,11 +25,16 @@
 - **Седмица 6** — Deep Learning reference implementation — `LOCKED` (Сесия 46, unchanged). The
   project-wide Mind Map/visual standard. See "Locked cognitive and visual architecture" in root
   `AGENTS.md`.
-- **Седмица 8 v2** — `OWNER APPROVED / LOCKED` — `CategorizationCheck` single-button interaction fix
-  (removed a fake 4-button category choice) and the Weekly Mind Map cluster-toggle fix (removed a
-  nested same-page goto link that hijacked cluster-arrow clicks into a scroll-jump instead of
-  expand/collapse; shared `MindMapBranch.razor`, so Week 6's Mind Map benefits too). Commit `94314ef`.
-- **Minimum Stability Gate (Седмица 3 + Седмица 8)** — `ACHIEVED`: 539/539 tests, Debug+Release build
+- **Седмица 8 v2** — `OWNER APPROVED / LOCKED`. Final state spans more than the one commit below —
+  three fixes, all shared `MindMapBranch.razor`/`app.css` so Week 3's and Week 6's Mind Maps benefit
+  too: (1) `CategorizationCheck` single-button interaction fix (removed a fake 4-button category
+  choice); (2) Weekly Mind Map cluster-toggle fix (removed a nested same-page goto link that hijacked
+  cluster-arrow clicks into a scroll-jump instead of expand/collapse) — both commit `94314ef`; (3)
+  Weekly Mind Map collapsed-load fix (`.mindmap-branch:not([open]) > .mindmap-branch__children`
+  re-establishes the browser's native "hide while closed" behavior, which `display: flex` had
+  silently broken — several top-level clusters rendered pre-expanded on load) — this checkpoint
+  commit.
+- **Minimum Stability Gate (Седмица 3 + Седмица 8)** — `ACHIEVED`: 540/540 tests, Debug+Release build
   0/0, GitHub Actions build+deploy green end to end.
 - **Седмица 7** — `UNBLOCKED` / `NEXT`. Not started.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
