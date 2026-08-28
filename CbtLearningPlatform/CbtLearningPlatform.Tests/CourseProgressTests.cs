@@ -77,42 +77,76 @@ public sealed class CourseProgressTests
     }
 
     [Fact]
-    public void Calculator_AllFiveAvailableWeeksCompleted_ComputesPercentageOutOfAllFifteen()
+    public void Calculator_AllSixRoutedWeeksCompleted_ComputesPercentageOutOfAllFifteen()
     {
-        // Percentage is out of the whole 15-week curriculum, not just the 5 currently unlockable
+        // Percentage is out of the whole 15-week curriculum, not just the currently routed
         // weeks — "X/15" is what the owner-approved UI shows.
-        HashSet<int> completed = [1, 3, 6, 8, 10];
+        HashSet<int> completed = [1, 3, 6, 8, 10, 12];
 
         CourseProgressSummary summary = CourseProgressCalculator.Summarize(Weeks, completed);
 
-        Assert.Equal(5, summary.CompletedCount);
+        Assert.Equal(6, summary.CompletedCount);
         Assert.Equal(15, summary.TotalWeeks);
-        Assert.Equal(33, summary.PercentageComplete); // round(100 * 5 / 15)
+        Assert.Equal(40, summary.PercentageComplete); // round(100 * 6 / 15)
     }
 
-    // ---- Unavailable/future weeks cannot be falsely counted ----
+    // ---- Route-less weeks cannot be falsely counted; status alone never decides eligibility ----
 
     [Fact]
-    public void Calculator_CompletedSetNamingAnUnavailableWeek_DoesNotCountIt()
+    public void Calculator_RoutedAcademicOverviewWeek12_CanBeCompleted()
     {
-        // Week 15 is AcademicOverview, not Available, in the real CourseCatalog — stale or
-        // tampered localStorage naming it must never inflate the learner's shown progress.
+        // Week 12 has a real lesson page (/kurs/sedmica-12) but is intentionally AcademicOverview,
+        // not Available — course safety/presentation status and lesson existence are separate
+        // concerns. A real page must be completable regardless of its status.
+        CourseWeekDefinition week12 = Weeks.Single(w => w.Number == 12);
+        Assert.NotNull(week12.Route);
+        Assert.NotEqual(CourseWeekStatus.Available, week12.Status);
+
+        CourseProgressSummary summary = CourseProgressCalculator.Summarize(Weeks, new HashSet<int> { 12 });
+
+        Assert.Equal(1, summary.CompletedCount);
+    }
+
+    [Fact]
+    public void Calculator_CompletedSetNamingARouteLessWeek_DoesNotCountIt()
+    {
+        // Week 15 has no lesson page at all (Route is null) in the real CourseCatalog — stale or
+        // tampered localStorage naming it must never inflate the learner's shown progress, no
+        // matter what CourseWeekStatus it happens to carry.
         CourseWeekDefinition week15 = Weeks.Single(w => w.Number == 15);
-        Assert.NotEqual(CourseWeekStatus.Available, week15.Status);
+        Assert.Null(week15.Route);
 
         HashSet<int> completed = [1, 15];
 
         CourseProgressSummary summary = CourseProgressCalculator.Summarize(Weeks, completed);
 
-        Assert.Equal(1, summary.CompletedCount); // only week 1 counts, not the unavailable week 15
+        Assert.Equal(1, summary.CompletedCount); // only week 1 counts, not the route-less week 15
     }
 
     [Fact]
-    public void Calculator_IsCounted_TrueOnlyForAvailableWeeks()
+    public void Calculator_StatusAloneNeverDeterminesEligibility_OnlyRouteDoes()
+    {
+        // Synthetic weeks, isolated from the real CourseCatalog, to prove the rule precisely:
+        // Available-but-unrouted must NOT count, and routed-but-not-Available (e.g. Week 12's real
+        // shape) MUST count. If eligibility were ever re-tied to Status, one of these would flip.
+        CourseWeekDefinition availableNoRoute = new(
+            101, "Test", "Available, no route", "", CourseWeekStatus.Available,
+            CurriculumSafetyLevel.PublicCore, null, [], []);
+        CourseWeekDefinition academicOverviewRouted = new(
+            102, "Test", "AcademicOverview, routed", "", CourseWeekStatus.AcademicOverview,
+            CurriculumSafetyLevel.AcademicContextOnly, "/kurs/sedmica-102", [], []);
+        CourseWeekDefinition[] syntheticWeeks = [availableNoRoute, academicOverviewRouted];
+
+        Assert.False(CourseProgressCalculator.IsCounted(syntheticWeeks, 101));
+        Assert.True(CourseProgressCalculator.IsCounted(syntheticWeeks, 102));
+    }
+
+    [Fact]
+    public void Calculator_IsCounted_TrueOnlyForRoutedWeeks()
     {
         Assert.True(CourseProgressCalculator.IsCounted(Weeks, 1));
-        Assert.False(CourseProgressCalculator.IsCounted(Weeks, 12)); // AcademicOverview, not Available
-        Assert.False(CourseProgressCalculator.IsCounted(Weeks, 15)); // AcademicOverview, not Available
+        Assert.True(CourseProgressCalculator.IsCounted(Weeks, 12)); // AcademicOverview, but routed
+        Assert.False(CourseProgressCalculator.IsCounted(Weeks, 15)); // no Route at all
         Assert.False(CourseProgressCalculator.IsCounted(Weeks, 999)); // doesn't exist at all
     }
 
@@ -142,22 +176,13 @@ public sealed class CourseProgressTests
     [InlineData("Sedmica6.razor", 6)]
     [InlineData("Sedmica8.razor", 8)]
     [InlineData("Sedmica10.razor", 10)]
-    public void AvailableWeekPage_UsesTheSharedCompletionControl(string fileName, int weekNumber)
+    [InlineData("Sedmica12.razor", 12)] // routed but AcademicOverview — still completable, route decides
+    public void RoutedWeekPage_UsesTheSharedCompletionControl(string fileName, int weekNumber)
     {
         string source = ReadPage(fileName);
 
         Assert.Contains("<WeekCompletionControl WeekNumber=\"@_week.Number\" />", source);
         Assert.Contains($"CourseCatalog.Weeks.Single(w => w.Number == {weekNumber})", source);
-    }
-
-    [Fact]
-    public void Week12Page_IsNotAvailable_SoItDoesNotOfferCompletion()
-    {
-        // Week 12 is AcademicOverview (routed but not Available) — the completion control is only
-        // for currently available weekly lesson pages.
-        string source = ReadPage("Sedmica12.razor");
-
-        Assert.DoesNotContain("WeekCompletionControl", source);
     }
 
     [Fact]

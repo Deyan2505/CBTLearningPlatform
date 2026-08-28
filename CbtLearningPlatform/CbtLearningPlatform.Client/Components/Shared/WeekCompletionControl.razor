@@ -1,8 +1,9 @@
 @* Shared end-of-week completion control (MVP course-progress feature) — the only place completion
-   toggling happens; every current and future available week page uses this same component, never
-   page-specific completion logic. Learner-local only (CourseProgressService -> localStorage), no
-   backend, no account, no scoring. Opening the page never marks it complete — only an explicit click
-   does, and clicking again undoes it. *@
+   toggling happens; every current and future week page with a real Route uses this same component
+   (completion eligibility = a real lesson page exists, not CourseWeekStatus — see
+   CourseProgressCalculator), never page-specific completion logic. Learner-local only
+   (CourseProgressService -> localStorage), no backend, no account, no scoring. Opening the page
+   never marks it complete — only an explicit click does, and clicking again undoes it. *@
 @inject CourseProgressService Progress
 
 <div class="week-completion">

@@ -7,7 +7,9 @@
    (timeline left, contextual panel right) — not sticky, to avoid footer-overlap and zoom/
    accessibility risk for modest benefit. Course-progress bar + per-week done marker (MVP
    progress feature) read learner-local completion via CourseProgressService — localStorage only,
-   no backend, no account; only CourseWeekDefinition.Number, never lesson content, is stored. *@
+   no backend, no account; only CourseWeekDefinition.Number, never lesson content, is stored.
+   Completion eligibility (CourseProgressCalculator) is Route is not null, not CourseWeekStatus —
+   Week 12 is routed and completable despite being AcademicOverview, not Available. *@
 @page "/kurs"
 @inject CourseProgressService Progress
 

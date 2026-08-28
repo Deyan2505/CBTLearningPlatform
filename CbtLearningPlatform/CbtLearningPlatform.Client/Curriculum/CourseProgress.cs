@@ -10,13 +10,16 @@ public sealed record CourseProgressSummary(int CompletedCount, int TotalWeeks, i
 
 public static class CourseProgressCalculator
 {
-    /// <summary>Completed weeks are only ever counted against the total if the week is currently
-    /// <see cref="CourseWeekStatus.Available"/> — stale or tampered storage naming an unavailable/future
-    /// week must never inflate the learner's progress.</summary>
+    /// <summary>Completion eligibility is a real lesson page existing (<see cref="CourseWeekDefinition.Route"/>
+    /// is not null) — never <see cref="CourseWeekStatus"/>. Status is a safety/presentation concern
+    /// (is this week self-guided, academic-overview-only, pending professional review, ...); lesson
+    /// existence is a separate concern. Week 12 is routed but AcademicOverview, and it must still be
+    /// completable — while stale or tampered storage naming a week with no page at all must never
+    /// inflate the learner's progress, regardless of what status that week happens to carry.</summary>
     public static CourseProgressSummary Summarize(IReadOnlyList<CourseWeekDefinition> weeks, IReadOnlySet<int> completedWeekNumbers)
     {
-        HashSet<int> availableNumbers = [.. weeks.Where(w => w.Status == CourseWeekStatus.Available).Select(w => w.Number)];
-        int completedCount = completedWeekNumbers.Count(availableNumbers.Contains);
+        HashSet<int> routedNumbers = [.. weeks.Where(w => w.Route is not null).Select(w => w.Number)];
+        int completedCount = completedWeekNumbers.Count(routedNumbers.Contains);
         int total = weeks.Count;
         int percentage = total == 0 ? 0 : (int)Math.Round(100.0 * completedCount / total);
 
@@ -24,7 +27,7 @@ public static class CourseProgressCalculator
     }
 
     public static bool IsCounted(IReadOnlyList<CourseWeekDefinition> weeks, int weekNumber) =>
-        weeks.Any(w => w.Number == weekNumber && w.Status == CourseWeekStatus.Available);
+        weeks.Any(w => w.Number == weekNumber && w.Route is not null);
 }
 
 /// <summary>Serialization for the raw completed-week-number set stored in localStorage. Isolated from
