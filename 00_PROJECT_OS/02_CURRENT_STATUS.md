@@ -36,7 +36,14 @@
   commit.
 - **Minimum Stability Gate (Седмица 3 + Седмица 8)** — `ACHIEVED`: 540/540 tests, Debug+Release build
   0/0, GitHub Actions build+deploy green end to end.
-- **Седмица 7** — `UNBLOCKED` / `NEXT`. Not started.
+- **Course Progress MVP** (local-only, `localStorage`, no backend/account/gamification;
+  `WeekCompletionControl.razor` on routed weeks + `/kurs` overall progress bar) — `OWNER APPROVED /
+  LOCKED`. Eligibility is `CourseWeekDefinition.Route is not null` (not `CourseWeekStatus`), so
+  Week 12 (`AcademicOverview`, routed) counts correctly. Committed `7b62e45`/`95c888b`. Does not
+  touch the locked Course Map/Knowledge Map engine.
+- **Седмица 7** — `UNBLOCKED` / `NEXT`. Source-first audit complete (this checkpoint), read-only —
+  see `00_PROJECT_OS/_blueprints/WEEK_07_SOURCE_COVERAGE_AUDIT_v1.md`. Implementation not started,
+  awaiting owner blueprint review.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
   Netlify (static-only host). Commit `4135988`.

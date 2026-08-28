@@ -1,0 +1,685 @@
+@* WEEK 7 — DEEP LEARNING MODULE. Built per the owner-approved
+   00_PROJECT_OS/_blueprints/WEEK_07_SOURCE_COVERAGE_AUDIT_v1.md (final accounting: 54/54 Included,
+   0 Needs Review, 0 Unaccounted — see the blueprint for the full Coverage Matrix).
+
+   SOURCE: SRC-041 (Judith Beck), Глава 6 — "Поведенческа активация" — full chapter (printed
+   стр. 80–99) read directly from the owner's local PDF (extraction cached, gitignored, at
+   00_PROJECT_OS/_source_corpus/ — never committed).
+
+   THREE ILLUSTRATIVE PATIENTS IN THE SOURCE (kept clearly separate, never merged, never named
+   beyond what the source itself names):
+   1. Сали (named, already established in Weeks 3/6) — schedule review, friends Алисън/Джо,
+      automatic-thought elicitation via opposite-guess, behavioral experiment design, exercise
+      thought pattern, self-credit intro. Retold, not verbatim. Extended ONLY with facts directly
+      in this chapter — no invented continuity with her Week 3 belief hierarchy.
+   2. An unnamed, more resistant patient ("wait until I feel better") — energy-graduation
+      reframe. Kept as a distinct unnamed micro-example, never merged with Сали or patient 3.
+   3. An unnamed patient (source uses plain "Пациент"/"паТиент" throughout, no name) — builds the
+      Pleasure/Mastery Rating Scale, rates same-day activities, and is the source of BOTH
+      predict-vs-actual worked examples (friends: predicted 0–3 / actual 3–5; weekend run:
+      predicted 4/4 / actual 1/1). Kept distinct from Сали and patient 2.
+
+   FIGURE 6.3 DATA-INTEGRITY FINDING (visually inspected against the PDF page, not just OCR):
+   the printed figure table's Pleasure-column row order ("10=arguing with partner / 0=football
+   match") directly CONTRADICTS the chapter's own continuous dialogue, which unambiguously builds
+   the scale the other way (10=football match, 5=dinner with brother, 0=arguing with partner) and
+   is corroborated across two consecutive pages. The dialogue (reliable, continuous prose) is used
+   below; the printed figure table is not. The Mastery-column anchor labels ("building a deck" /
+   "collecting leaves" / "bounced check") have no corroborating dialogue at all, so they are
+   deliberately NOT used — Mastery is presented as a concept only, never with invented numbers.
+
+   SAFETY BOUNDARY: the chapter is written entirely in first-person therapist voice, instructing a
+   clinician how to run behavioral activation in session. Nothing below is direct-to-learner
+   self-treatment instruction — everything is psychoeducational model/concept framing, third-person
+   worked examples, matching CurriculumSafetyLevel.PublicWithAdaptation and the same educational
+   framing already established for Weeks 1/3/6/8/10/12. *@
+@page "/kurs/sedmica-7"
+
+<PageTitle>Седмица 7: Поведенческа активация — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--format">Дълбочинен модул</span>
+        </div>
+        <p><em>Връзката между действие и настроение — и защо малки, планирани стъпки помагат повече от изчакването да ти се доще</em></p>
+        <p>
+            Тази седмица разглежда поведенческата активация — една от най-важните ранни цели при работа
+            с депресия. Няма да намерите инструкции за самотерапия тук — съдържанието представя модела,
+            логиката зад него и конкретни, преразказани примери от източника, за да разберете как и защо
+            техниката работи.
+        </p>
+        <LearningObjectives Objectives="@_objectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-7#karta">Карта на седмицата</a>
+        <a href="/kurs/sedmica-7#znachenie">Защо активността е важна</a>
+        <a href="/kurs/sedmica-7#porochen-krag">Порочният кръг на бездействието</a>
+        <a href="/kurs/sedmica-7#sali">Случаят на Сали</a>
+        <a href="/kurs/sedmica-7#postepenni-stapki">Постепенни стъпки</a>
+        <a href="/kurs/sedmica-7#skala">Скала за удоволствие и овладяване</a>
+        <a href="/kurs/sedmica-7#predskazvane">Предсказание срещу действителност</a>
+        <a href="/kurs/sedmica-7#kredit">Даване на кредит на себе си</a>
+        <a href="/kurs/sedmica-7#case-lab">Приложение</a>
+        <a href="/kurs/sedmica-7#proverki">Обобщение на проверките</a>
+        <a href="/kurs/sedmica-7#assessment">Финална проверка</a>
+        <a href="/kurs/sedmica-7#review-map">Карта за повторение</a>
+        <a href="/kurs/sedmica-7#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+
+    <LearningSection Role="theory" RoleLabel="Карта">
+        <h2 id="karta" tabindex="-1">7.0 · Карта на седмицата</h2>
+        <p>
+            <strong>Какво ще научите:</strong> защо бездействието задълбочава депресията, как терапевтът
+            помага на пациента да планира и оцени дейности, скалата за удоволствие и овладяване, техниката
+            за сравняване на предсказание с действителност, и защо даването на кредит на себе си е част от
+            процеса.
+        </p>
+        <p>
+            <strong>Рамка, важна през цялата седмица:</strong> Глава 6 на източника е написана изцяло от
+            гледната точка на терапевт, който обучава как да води поведенческа активация в сесия. Тук
+            съдържанието е преработено в трето лице, като модел и обяснение — не като инструкция за
+            самостоятелно приложение върху себе си.
+        </p>
+        <h3>Мисловна карта на седмицата — преглед</h3>
+        <p>
+            Nodes-овете по-долу са <strong>знаниевите клъстери</strong> на седмицата, не номерата на
+            секциите — секцийните линкове са само навигация към мястото, където всеки клъстер се
+            обяснява, не самото знание.
+        </p>
+        <ConceptGraph ComponentId="week7-mindmap-preview" Model="@_week7MindMapRender" />
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Теория">
+        <h2 id="znachenie" tabindex="-1">7.1 · Защо активността е важна</h2>
+        <p>
+            Планирането на активности е една от най-важните <strong>начални</strong> цели при работа с
+            депресирани пациенти. Депресията типично кара хората да се оттеглят от дейности, които преди
+            са им носили усещане за овладяване или удоволствие и са повдигали настроението им — вместо
+            това нараства времето, прекарано в дейности, които поддържат или засилват потиснатото
+            настроение (оставане в леглото, безцелно гледане на телевизия).
+        </p>
+        <p>
+            Много пациенти вярват, че не могат да контролират как се чувстват емоционално. Поведенческата
+            активация не само подобрява настроението — тя изгражда усещане за собствена ефикасност,
+            показвайки на пациента, че всъщност има повече контрол върху настроението си, отколкото е
+            вярвал.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Теория">
+        <h2 id="porochen-krag" tabindex="-1">7.2 · Порочният кръг на бездействието</h2>
+        <p>
+            Когато пациент обмисля да предприеме дейност, определен модел от автоматични мисли често спира
+            самото начало: <em>„Твърде съм уморен.“</em>, <em>„Няма да ми е приятно.“</em>,
+            <em>„Приятелите ми няма да искат да прекарват време с мен.“</em>, <em>„Не мога да го
+            направя.“</em>, <em>„Нищо няма да помогне.“</em> Тези мисли пораждат тъга, тревожност и
+            безнадеждност — и водят до оставане в бездействие.
+        </p>
+        <p>
+            Резултатът е порочен кръг: бездействието води до по-ниско настроение (по-малко възможности за
+            овладяване и удоволствие), по-ниското настроение подхранва по-негативно мислене, а
+            по-негативното мислене задълбочава бездействието още повече.
+        </p>
+        <div class="cascade-loop">
+            <ol class="concept-map__flow concept-map__flow--horizontal cascade-loop__flow">
+                <li class="concept-map__node">Бездействие</li>
+                <li class="concept-map__connector" aria-hidden="true">→</li>
+                <li class="concept-map__node">По-ниско настроение<br />(по-малко овладяване/удоволствие)</li>
+                <li class="concept-map__connector" aria-hidden="true">→</li>
+                <li class="concept-map__node">По-негативно мислене</li>
+                <li class="concept-map__connector" aria-hidden="true">→</li>
+                <li class="concept-map__node concept-map__node--highlight">Още по-силно бездействие</li>
+            </ol>
+            <div class="cascade-loop__return">
+                <svg class="cascade-loop__connector" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                        <marker id="cascade-loop-arrow-w7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+                        </marker>
+                    </defs>
+                    <path d="M280,4 Q150,22 20,4" fill="none" stroke="currentColor" stroke-width="2" marker-end="url(#cascade-loop-arrow-w7)" />
+                </svg>
+                <span class="cascade-loop__label">поддържа порочния кръг ↺</span>
+            </div>
+        </div>
+
+        <p>
+            Има и <strong>втори</strong>, различен модел от пречещи мисли — този се появява
+            <em>по време на или след</em> дейност, не преди нея: <em>„Върша ужасна работа.“</em>,
+            <em>„Трябваше да го направя по-рано.“</em>, <em>„Все още имам толкова много за вършене.“</em>,
+            <em>„Не мога да го правя толкова добре, колкото преди.“</em>, <em>„Преди това беше по-забавно.“</em>,
+            <em>„Не заслужавам да го правя.“</em> Тези мисли пораждат тъга, вина и гняв към себе си — и водят
+            пациента да спре дейността, да се насилва отвъд разумните си граници, или просто да не я повтори.
+        </p>
+        <p>
+            Разграничението има реално практическо значение: планирането на дейност трябва да предвиди
+            <strong>и двата</strong> типа пречещи мисли — тези, които спират самото начало, и тези, които
+            подкопават удоволствието или усещането за постижение по време на или след дейността.
+        </p>
+
+        <details class="progressive-explanation">
+            <summary>Проверка: кой тип мисъл е това?</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    „Няма да ми е приятно“ спира <strong>началото</strong> на дейност — мисълта идва преди
+                    да е предприето каквото и да е. „Не мога да го правя толкова добре, колкото преди“
+                    подкопава <strong>удоволствието/постижението по време на</strong> дейност, която вече
+                    е в ход.
+                </p>
+            </div>
+        </details>
+    </LearningSection>
+
+    <LearningSection Role="example" RoleLabel="Пример">
+        <h2 id="sali" tabindex="-1">7.3 · Случаят на Сали: преглед на графика и поведенчески експеримент</h2>
+        <p>
+            Сали е случаят, който източникът на курса вече използва в Глава 3 (вижте
+            <a href="/kurs/sedmica-3">Седмица 3</a>). Тук Глава 6 я показва в различен, но естествен
+            контекст — работа по бездействие. Преразказано, не дословно, и разширено само с факти,
+            директно застъпени в тази глава.
+        </p>
+        <p>
+            Терапевтът преглежда типичния ѝ график, за да открие с кои дейности се лишава от овладяване,
+            удоволствие или и от двете. Сали забелязва сама, че гледа твърде много телевизия и отдавна не
+            е тренирала — преди е тичала повечето сутрини или е плувала.
+        </p>
+        <p>
+            Терапевтът предлага да провери две от предсказанията ѝ едновременно: че приятелите ѝ няма да
+            искат да излизат с нея, и че е твърде уморена, за да прекарва време с тях. Вместо направо да ѝ
+            каже какво мисли, терапевтът я пита директно какво ѝ минава през ума — а когато тя не може да
+            отговори, предлага <strong>обратното</strong> на реалното си предположение („Мислиш ли каква
+            хубава време ще имаш с приятелите си?“), за да ѝ помогне по-лесно да формулира и коригира
+            истинската си мисъл.
+        </p>
+        <ConceptGraph ComponentId="week7-sali-map" Model="@_saliCaseMapRender" />
+        <p>
+            Поведенческият експеримент е изграден внимателно: терапевтът пита кого би било най-лесно да
+            попита (Алисън и Джо), а не най-трудния случай, и настоява за конкретен, близък срок — „можеш
+            ли да го направиш днес?“ — за да увеличи шанса за реален опит. Преди самия опит терапевтът
+            записва заедно със Сали готов, адаптивен отговор за евентуален отказ: <em>„Ако кажат не,
+            вероятно искат да излизат с мен, но са твърде заети.“</em> — написан предварително, не измислен
+            след факта.
+        </p>
+        <p>
+            Същият модел важи и за физическата активност: мисълта „Твърде съм уморена. Няма да ми е
+            приятно“ води до дисфория и оставане в леглото. Терапевтът и Сали планират конкретна, измерима
+            цел — кратко тичане или плуване поне три пъти през седмицата.
+        </p>
+
+        <WhatIfBox Question="пациентът не може лесно да формулира автоматичната си мисъл?">
+            <p>
+                Директният въпрос „Какво ти минава през ума?“ не винаги работи веднага. Предлагането на
+                <strong>обратното</strong> на реалното предположение на терапевта често помага на пациента
+                по-лесно да разпознае и коригира истинската мисъл — точно както при Сали по-горе.
+            </p>
+        </WhatIfBox>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Проверка 1.</strong> Защо терапевтът пита Сали кого би било <em>най-лесно</em> да покани, а не най-трудния случай?</p>
+                <p>А. За да пести време<br />Б. За да увеличи шанса за успешен, окуражаващ първи опит<br />В. Няма конкретна причина</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Поведенческите експерименти се изграждат така, че да максимизират шанса за положителен резултат — започвайки с най-лесната стъпка.</p>
+                    </div>
+                </details>
+            </div>
+            <div class="card">
+                <p><strong>Проверка 2.</strong> Защо коупинг отговорът се записва <em>преди</em> поведенческия експеримент, не след него?</p>
+                <p>А. За протокола<br />Б. За да е готов адаптивен отговор, ако резултатът не е положителен<br />В. Не е задължително</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Подготвеният предварително отговор помага на пациента да не изтълкува евентуален отказ катастрофично.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="example" RoleLabel="Пример">
+        <h2 id="postepenni-stapki" tabindex="-1">7.4 · Много неактивен пациент: постепенни стъпки</h2>
+        <p>
+            Различен, също неназован в източника пациент, илюстрира по-упорит случай: постоянно депресиран,
+            лежи вкъщи, и вярва, че нищо няма да помогне.
+        </p>
+        <blockquote class="card">
+            <p><em>Терапевт:</em> Какво ще кажеш за опит да направиш по-добър график за себе си?</p>
+            <p><em>Пациент:</em> Не мисля, че ще помогне. И съм толкова уморен през цялото време. Мисля, че
+            трябва да изчакам, докато се почувствам по-добре.</p>
+        </blockquote>
+        <p>
+            Точно тази вяра — „трябва да изчакам, докато се почувствам по-добре, преди да направя нещо“ —
+            е най-честото погрешно предположение при депресия. Изследванията показват обратната посока:
+            хората обикновено преодоляват депресията, като <strong>първо</strong> станат по-активни, а
+            подобреното настроение идва след това, не преди.
+        </p>
+        <p>
+            За много неактивен пациент терапевтът контрастира дейности по изисквана енергия — явно
+            прекалено трудни задачи (тичане, цял ден с поръчки, чистене на целия апартамент) срещу дейности
+            с ниска енергия (кратко посещение в библиотеката) — и разбива задачите на малки времеви
+            отрязъци, например няколко задачи на ден по около 10 минути всяка, за да е реалистично
+            изпълнимо начало.
+        </p>
+        <p>
+            <strong>Графикът на дейности</strong> е структурираният инструмент за това: таблица, изготвяна
+            съвместно с пациента, в която се записват конкретни часове и дейности. Терапевтът внимава да не
+            претовари пациента — редува кратки периоди на активност с по-дълги периоди почивка, съобразени
+            с текущото ниво на активност на пациента.
+        </p>
+
+        <div class="key-idea-strip">
+            <span class="key-idea">Работа/училище</span>
+            <span class="key-idea">Семейство</span>
+            <span class="key-idea">Приятели</span>
+            <span class="key-idea">Съседство</span>
+            <span class="key-idea">Доброволчество</span>
+            <span class="key-idea">Спорт</span>
+            <span class="key-idea">Хоби</span>
+            <span class="key-idea">Физическо движение</span>
+            <span class="key-idea">Домакинство</span>
+            <span class="key-idea">Природа</span>
+            <span class="key-idea">Духовност</span>
+            <span class="key-idea">Интелектуални занимания</span>
+        </div>
+        <p class="concept-map__feedback">
+            Категориите по-горе са ориентир, когато терапевтът и пациентът преглеждат къде графикът е
+            небалансиран — прекалено малко овладяване, прекалено малко удоволствие, или и двете.
+        </p>
+
+        <details class="progressive-explanation">
+            <summary>Проверка: вярно или невярно?</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    „Изчакването да ти се доще, преди да предприемеш дейност, обикновено работи по-добре при
+                    депресия.“ — <strong>Невярно.</strong> Изследванията показват обратното: активността
+                    обикновено предхожда подобреното настроение, не го следва.
+                </p>
+            </div>
+        </details>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Теория">
+        <h2 id="skala" tabindex="-1">7.5 · Скала за удоволствие и овладяване</h2>
+        <p>
+            Трети, също неназован в източника пациент илюстрира конкретен инструмент: скала от 0 до 10 за
+            оценка на удоволствието от дадена дейност, изградена с лични, разпознаваеми за пациента примери
+            като опорни точки — не абстрактни числа.
+        </p>
+        <blockquote class="card">
+            <p><em>Терапевт:</em> На скала от 0 до 10, каква дейност бихте нарекли 10? Дейност, която ви е
+            донесла голямо удоволствие.</p>
+            <p><em>Пациент:</em> Когато отидох на мача за шампионата на любимия ми отбор.</p>
+            <p><em>Терапевт:</em> А какво бихте нарекли 0? Дейност, която не ви носи абсолютно никакво удоволствие?</p>
+            <p><em>Пациент:</em> Да споря с партньора си.</p>
+        </blockquote>
+        <p>За средна опорна точка пациентът добавя вечеря с брат си — резултат: 10 = футболен мач, 5 = вечеря с брат, 0 = спор с партньора.</p>
+        <p>
+            Ако пациентът лесно съпоставя дейности с числа, три опорни точки обикновено са достатъчни; ако
+            има затруднения с числа, опорните точки могат да станат „ниско“, „средно“ и „високо“. По същия
+            начин, отделно, пациентът изгражда и скала за <strong>овладяване</strong> (усещане за
+            постижение) — със собствени опорни дейности. Двете скали се използват заедно, но остават две
+            отделни оценки на всяка дейност.
+        </p>
+        <p>
+            Терапевтът демонстрира как се използват скалите върху дейности от същия ден: терапевтичната
+            сесия получава оценка 3 за овладяване и 2 за удоволствие; посещение в книжарница непосредствено
+            преди сесията първоначално получава 0 за удоволствие — но при по-внимателен размисъл пациентът
+            преразглежда оценката на около 2, след като намира книгата, която е търсил.
+        </p>
+        <p>
+            Този момент е показателен сам по себе си: депресията може да пречи на разпознаването или
+            запомнянето на приятни моменти в реално време — затова записването на оценка веднага, вместо
+            разчитане на паметта по-късно, има реална диагностична и терапевтична стойност.
+        </p>
+        <p>
+            Най-добре е графикът да се попълва възможно най-близо до момента на приключване на всяка
+            дейност; ако това не е възможно, на фиксирани моменти — обяд, вечеря, преди лягане. Дори
+            попълване само за няколко дни от седмицата дава полезна информация.
+        </p>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Проверка 3.</strong> Защо скалата се изгражда с лични, конкретни примери на пациента, а не с абстрактни описания?</p>
+                <p>А. По-бързо е<br />Б. Личните опорни точки правят числата разпознаваеми и сравними за самия пациент<br />В. Няма разлика</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body"><p><strong>Б.</strong> Конкретен, познат пример (мач, вечеря с брат, спор) прави оценяването на нови дейности по-лесно и по-точно.</p></div>
+                </details>
+            </div>
+            <div class="card">
+                <p><strong>Проверка 4.</strong> Защо пациентът преразглежда оценката си за книжарницата от 0 на около 2?</p>
+                <p>А. Терапевтът настоява<br />Б. При по-внимателен размисъл открива забравен момент на удоволствие<br />В. Правило на скалата го изисква</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body"><p><strong>Б.</strong> Депресията може да пречи на разпознаването на приятни моменти — размисълът разкрива нещо, което първата реакция е пропуснала.</p></div>
+                </details>
+            </div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="interactive" RoleLabel="Retrieval practice">
+        <h2 id="predskazvane" tabindex="-1">7.6 · Предсказание срещу действителност</h2>
+        <p>
+            Когато пациент е скептичен, че планирането на дейности би помогнало, терапевтът може да го
+            помоли да предскаже нива на овладяване и удоволствие на един график, а после да запише
+            действителните оценки на друг. Сравнението на двете е самò по себе си полезен източник на
+            данни — опитайте да предскажете резултата преди да разгънете всяка карта по-долу.
+        </p>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Сценарий 1: среща с приятели.</strong> Пациентът планира три отделни срещи с приятели през седмицата и предсказва ниски оценки за удоволствие — основно между 0 и 3.</p>
+                <details class="progressive-explanation">
+                    <summary>Разкрий действителния резултат</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Действителни оценки: 3 до 5</strong> — по-високи от предсказаните.</p>
+                        <p>
+                            <em>Пациент:</em> Предполагам, че не съм добър предсказател. Мислех, че няма да
+                            се забавлявам, но се оказа, че все пак се забавлявах.
+                        </p>
+                        <p>
+                            <strong>Извод:</strong> преди терапията пациентът постоянно е предсказвал, че ще
+                            му е скучно с приятели, и затова е отказвал покани — предсказанието му за
+                            собственото удоволствие е било систематично твърде ниско.
+                        </p>
+                    </div>
+                </details>
+            </div>
+            <div class="card">
+                <p><strong>Сценарий 2: тичане през уикенда.</strong> Същият пациент предсказва умерени оценки — по 4 за овладяване и за удоволствие — преди да отиде да тича.</p>
+                <details class="progressive-explanation">
+                    <summary>Разкрий действителния резултат</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Действителни оценки: по 1</strong> — много по-ниски от предсказаните.</p>
+                        <p>
+                            Докато тичал, през ума му минавали мисли като „Това е трудно“, „Много съм
+                            изморен“, „Преди правех това лесно“, „Сега съм в толкова лоша форма“, „Може би
+                            никога няма да мога да се върна във форма“ — и спомен как е било по-лесно преди.
+                        </p>
+                        <p>
+                            <strong>Извод:</strong> сравнението не винаги показва, че пациентът подценява
+                            удоволствието — понякога разкрива нови, пречещи автоматични мисли (тук: сравнение
+                            със собственото минало Аз), които самата дейност е извадила наяве. Работата с тази
+                            конкретна мисъл е тема отвъд тази глава на източника.
+                        </p>
+                    </div>
+                </details>
+            </div>
+        </div>
+        <p class="concept-map__feedback">
+            Двата сценария показват двете посоки, в които сравнението може да изненада: понякога
+            действителността е <strong>по-добра</strong> от предсказаното (Сценарий 1), понякога —
+            <strong>по-лоша</strong> (Сценарий 2). И в двата случая сравнението дава конкретна, полезна
+            информация — не просто потвърждава каквото пациентът вече е вярвал.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Теория">
+        <h2 id="kredit" tabindex="-1">7.7 · Даване на кредит на себе си</h2>
+        <p>
+            Продължавайки примера със Сали (7.3): след като планират повече физическа активност, терапевтът
+            я пита дали може да си дава кредит всеки път, когато изпълни планирана дейност — просто казвайки
+            си: „Добре. Направих го.“ Сали реагира с недоумение — защо да получава кредит за нещо толкова
+            обикновено като план с приятели?
+        </p>
+        <blockquote class="card">
+            <p>
+                <em>Терапевт:</em> Когато хората са депресирани, често е трудно да правят неща, които преди
+                са правили лесно. […] Те изискват повече енергия от лежането в леглото. Така че, разбира се,
+                заслужаваш кредит.
+            </p>
+        </blockquote>
+        <p>
+            Логиката е проста, но лесно пропусната: депресията прави познати, някога лесни задачи по-скъпи
+            откъм енергия — обаждане на приятел или кратко тичане изискват реално усилие, дори когато преди
+            не са изисквали. Признаването (кредитирането) на всяка изпълнена стъпка помага на пациента да
+            забележи, че реално напредва, вместо да омаловажава собствените си усилия.
+        </p>
+        <p>
+            Когато пациент трудно се сеща сам за приятни дейности, терапевтът може да предложи готов списък
+            за избор — „кои 5–10 от тези биха били най-приятни за теб?“ — вместо да настоява пациентът да
+            измисли всичко от нулата. А ако графикът вече изглежда претоварен или небалансиран, решението не
+            е да се откаже от планирането, а да се намали натоварването или да се добави повече почивка и
+            приятни дейности, докато балансът се възстанови.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="example" RoleLabel="Приложение">
+        <h2 id="case-lab" tabindex="-1">7.8 · Приложение</h2>
+        <p>Приложете наученото от седмицата върху два кратки, фиктивни сценария.</p>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <h3>Сценарий А</h3>
+                <p>
+                    Пациент казва: „Отменям срещата с брат си. Твърде съм изтощен и знам, че няма да мога да
+                    се насладя.“
+                </p>
+                <p><strong>Задача:</strong> кой тип пречеща мисъл е това — спираща началото, или подкопаваща удоволствието по време на дейност?</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p>
+                            <strong>Спираща началото.</strong> Мисълта се появява <em>преди</em> дейността и
+                            води до отмяна — пациентът дори не стига до момента, в който удоволствието/
+                            овладяването биха могли да бъдат подкопани по време на самата среща.
+                        </p>
+                    </div>
+                </details>
+            </div>
+            <div class="card">
+                <h3>Сценарий Б</h3>
+                <p>
+                    Пациент отива на разходка (нещо, което е избягвал седмици наред), но по средата си
+                    мисли: „Върша го твърде бавно. Трябваше да го направя много по-рано.“
+                </p>
+                <p><strong>Задача:</strong> кой тип пречеща мисъл е това, и какво би препоръчала главата — да спре разходката, или да продължи?</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p>
+                            <strong>Подкопаваща удоволствието по време на дейност.</strong> Главата не
+                            препоръчва спиране — самокритичните мисли по време на дейност са очаквани и
+                            планирани предварително, не сигнал да се откаже от дейността. Даването на кредит
+                            (7.7) за самия факт, че разходката се случва, е по-подходящият отговор.
+                        </p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Обобщение">
+        <h2 id="proverki" tabindex="-1">7.9 · Обобщение на локалните проверки</h2>
+        <p>
+            Тази седмица включва <strong>4 локални проверки</strong>, вградени непосредствено след
+            съответния учебен блок (2 в 7.3, 2 в 7.5), плюс приложението (7.8) и двата предсказание-срещу-
+            действителност сценария (7.6) като практика, и финалната проверка (7.10) като обобщаваща оценка.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Финален тест">
+        <h2 id="assessment" tabindex="-1">7.10 · Финална проверка</h2>
+        <p>16 въпроса, разнообразни по тип. Не се оценява, не се пази — образователна самопроверка.</p>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card"><p><strong>Q01.</strong> Кое НАЙ-добре описва порочния кръг на бездействието?</p><p>А. Бездействие → по-добро настроение<br />Б. Бездействие → по-ниско настроение → по-негативно мислене → още по-силно бездействие<br />В. Активност винаги влошава настроението</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U09 · <a href="/kurs/sedmica-7#porochen-krag">7.2</a></p></div></details></div>
+            <div class="card"><p><strong>Q02.</strong> „Няма да ми е приятно“ (преди дейност) и „Не мога да го правя толкова добре, колкото преди“ (по време на дейност) са:</p><p>А. Един и същ тип пречеща мисъл<br />Б. Два различни типа, изискващи различно планиране<br />В. Ирелевантни за поведенческата активация</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U15 · <a href="/kurs/sedmica-7#porochen-krag">7.2</a></p></div></details></div>
+            <div class="card"><p><strong>Q03 (сценарий).</strong> Терапевтът пита Сали какво ѝ минава през ума, тя не знае, и терапевтът предлага обратното на реалното си предположение. Каква е целта на този похват?</p><p>А. Да я обърка<br />Б. Да ѝ помогне по-лесно да формулира и коригира истинската мисъл<br />В. Да ускори сесията</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U23/U24 · <a href="/kurs/sedmica-7#sali">7.3</a></p></div></details></div>
+            <div class="card"><p><strong>Q04.</strong> Защо поведенческият експеримент на Сали започва с най-лесния контакт (Алисън и Джо), а не с най-трудния?</p><p>А. Случайност<br />Б. Максимизира шанса за окуражаващ първи резултат<br />В. Терапевтът не познава останалите ѝ приятели</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U26 · <a href="/kurs/sedmica-7#sali">7.3</a></p></div></details></div>
+            <div class="card"><p><strong>Q05.</strong> Защо коупинг отговорът за евентуален отказ се записва предварително?</p><p>А. Формалност<br />Б. За да е готов адаптивен отговор при не толкова положителен изход<br />В. Не е реално необходимо</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U27 · <a href="/kurs/sedmica-7#sali">7.3</a></p></div></details></div>
+            <div class="card"><p><strong>Q06 (вярно/невярно).</strong> Изчакването да ти се доще, преди да предприемеш дейност, обикновено работи по-добре при депресия.</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Невярно.</strong> Активността обикновено предхожда подобреното настроение. Source: U34 · <a href="/kurs/sedmica-7#postepenni-stapki">7.4</a></p></div></details></div>
+            <div class="card"><p><strong>Q07.</strong> Защо задачите за много неактивен пациент се разбиват на малки времеви отрязъци (~10 минути)?</p><p>А. По-лесно за проследяване<br />Б. Прави началото реалистично изпълнимо, вместо непосилно<br />В. Изисква го самата скала</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U36 · <a href="/kurs/sedmica-7#postepenni-stapki">7.4</a></p></div></details></div>
+            <div class="card"><p><strong>Q08.</strong> Защо графикът на дейности редува кратки периоди активност с по-дълги периоди почивка при много неактивен пациент?</p><p>А. За да не претовари пациента отвъд текущото му ниво<br />Б. Формален изискван формат<br />В. Няма конкретна причина</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>А.</strong> Source: U38 · <a href="/kurs/sedmica-7#postepenni-stapki">7.4</a></p></div></details></div>
+            <div class="card"><p><strong>Q09 (съпоставяне).</strong> На скалата от примера: 10 = футболен мач, 0 = ?</p><p>А. Вечеря с брат<br />Б. Спор с партньора<br />В. Книжарница</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U41 · <a href="/kurs/sedmica-7#skala">7.5</a></p></div></details></div>
+            <div class="card"><p><strong>Q10.</strong> Защо пациентът преразглежда оценката си за посещението в книжарницата от 0 на около 2?</p><p>А. Терапевтът го поправя<br />Б. При по-внимателен размисъл открива забравен момент на удоволствие<br />В. Грешка при записване</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Депресията може да пречи на разпознаването на приятни моменти в реално време. Source: U43 · <a href="/kurs/sedmica-7#skala">7.5</a></p></div></details></div>
+            <div class="card"><p><strong>Q11.</strong> Кога е най-добре да се попълва графикът на дейности?</p><p>А. Веднъж седмично<br />Б. Възможно най-близо до момента на приключване на всяка дейност<br />В. Само в края на деня</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U44 · <a href="/kurs/sedmica-7#skala">7.5</a></p></div></details></div>
+            <div class="card"><p><strong>Q12 (сценарий).</strong> Пациент предсказва ниски оценки за среща с приятели (0–3), а действителните са 3–5. Какво показва това?</p><p>А. Пациентът е лош лъжец<br />Б. Предсказанието му за собственото удоволствие е било систематично твърде ниско<br />В. Скалата е сгрешена</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U47 · <a href="/kurs/sedmica-7#predskazvane">7.6</a></p></div></details></div>
+            <div class="card"><p><strong>Q13 (сценарий).</strong> Пациент предсказва по 4 за тичане през уикенда, но получава по 1. По време на тичането изниква мисълта „Сега съм в толкова лоша форма“. Какво разкрива този сценарий?</p><p>А. Пациентът просто не харесва тичане<br />Б. Дейността извади наяве нова, пречеща автоматична мисъл — сравнение с миналото Аз<br />В. Скалата не важи за физическа активност</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U48/U49 · <a href="/kurs/sedmica-7#predskazvane">7.6</a></p></div></details></div>
+            <div class="card"><p><strong>Q14.</strong> Защо Сали получава кредит за нещо толкова обикновено като план с приятели?</p><p>А. Терапевтът е прекалено щедър<br />Б. Депресията прави познати, някога лесни задачи по-скъпи откъм енергия<br />В. Не е нужна конкретна причина</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U31 · <a href="/kurs/sedmica-7#kredit">7.7</a></p></div></details></div>
+            <div class="card"><p><strong>Q15.</strong> Ако графикът на дейности вече изглежда претоварен, какво препоръчва главата?</p><p>А. Пълно спиране на планирането<br />Б. Намаляване на натоварването или добавяне на повече почивка/приятни дейности<br />В. Игнориране на проблема</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U54 · <a href="/kurs/sedmica-7#kredit">7.7</a></p></div></details></div>
+            <div class="card"><p><strong>Q16 (вярно/невярно).</strong> Поведенческата активация е представена тук като инструкция читателят да приложи директно върху себе си.</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Невярно.</strong> Съдържанието е психообразователен модел с преразказани примери от трето лице — не self-therapy инструкция. Source: safety framing · <a href="/kurs/sedmica-7#izvori">7.12</a></p></div></details></div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Изводи">
+        <h2 id="review-map" tabindex="-1">7.11 · Карта за повторение</h2>
+
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Преди да разгънеш картата, опитай да си спомниш кои са основните знаниеви клъстери на
+                    седмицата и как се свързват — чак тогава разгъни, за да сравниш.
+                </p>
+                <ConceptGraph ComponentId="week7-mindmap-review" Model="@_week7MindMapRender" />
+            </div>
+        </details>
+
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Retrieval practice: подреди без да гледаш назад</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Подредете тези четири стъпки от <strong>порочния кръг на бездействието</strong> в
+                    правилния ред, преди да разгънете отговора: <em>По-негативно мислене</em> ·
+                    <em>Бездействие</em> · <em>Още по-силно бездействие</em> · <em>По-ниско настроение</em>.
+                </p>
+                <details>
+                    <summary>Покажи верния ред</summary>
+                    <ol>
+                        <li>Бездействие</li>
+                        <li>По-ниско настроение</li>
+                        <li>По-негативно мислене</li>
+                        <li>Още по-силно бездействие</li>
+                    </ol>
+                    <p><a href="/kurs/sedmica-7#porochen-krag">Виж пълната диаграма в 7.2 →</a></p>
+                </details>
+            </div>
+        </details>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div>
+                <h3>Какво да запомните</h3>
+                <ul>
+                    <li>Бездействието и ниското настроение се поддържат взаимно в порочен кръг.</li>
+                    <li>Има два различни типа пречещи мисли — спиращи началото и подкопаващи удоволствието по време на дейност.</li>
+                    <li>Активността обикновено предхожда подобреното настроение, не го следва.</li>
+                    <li>Скалата за удоволствие/овладяване се изгражда с лични, разпознаваеми опорни точки.</li>
+                    <li>Сравняването на предсказание с действителност е полезен източник на данни в двете посоки.</li>
+                    <li>Даването на кредит на себе си признава реалното усилие, което депресията прибавя към познати задачи.</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Академичен контекст</h3>
+                <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
+                    <p>
+                        Поведенческата активация, скалата за удоволствие и овладяване, и техниката за
+                        сравняване на предсказание с действителност са систематично представени в трудовете
+                        на Джудит С. Бек — Глава 6 конкретно описва бездействието при депресия и планирането
+                        на дейности.
+                    </p>
+                    <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
+                </ProgressiveExplanation>
+            </div>
+            <div>
+                <DisclaimerCallout Text="Тази страница представя задълбочен образователен преглед на поведенческата активация. Тя не обучава за самостоятелно провеждане на терапия, не оценява личното ви състояние и не заменя професионална психологическа или медицинска помощ." />
+            </div>
+            <div>
+                <h3>Връзки напред и назад</h3>
+                <p>
+                    <a href="/kurs/sedmica-3">Седмица 3 — Архитектура на когнитивния модел</a> (случаят на Сали)<br />
+                    <a href="/kurs/sedmica-6">Седмица 6 — Структура на терапевтичната сесия</a> (преглед на типичния ден, стр. 50–52 на източника)<br />
+                    Оценка на ключова когниция и сравнение с най-лошия момент (стр. 274–276 и следваща глава на източника) — тема на бъдеща седмица, не разгъната тук<br />
+                    <a href="/kurs">← Обратно към 15-седмичния курс</a>
+                </p>
+            </div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Източници">
+        <h2 id="izvori" tabindex="-1">7.12 · Източници и допълнително четене</h2>
+        <SourceReferences Citations="@_citations" />
+        <OptionalReadingSource
+            Title="Когнитивно-поведенческа терапия: Основи и отвъд"
+            Author="Джудит С. Бек"
+            Edition="2-ро издание, Guilford Press, 2011 (оригинално заглавие: Cognitive Behavior Therapy: Basics and Beyond)"
+            RelevantSection="Глава 6 — Поведенческа активация"
+            Description="Главата представя подробно, с пълни диалогови примери, порочния кръг на бездействието, преглед на графика, скалата за удоволствие и овладяване, и техниката за сравняване на предсказание с действителност." />
+
+        <WeekCompletionControl WeekNumber="@_week.Number" />
+    </LearningSection>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 7);
+
+    private static readonly GraphRenderModel _week7MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek7MindMap());
+    private static readonly GraphRenderModel _saliCaseMapRender = ConceptMapAdapter.ToRenderModel(BuildSaliWeek7Map(), CourseCatalog.Weeks);
+
+    private static MindMapModel BuildWeek7MindMap() => new(
+        "Седмица 7 — знаниеви клъстери",
+        "Мисловна карта на поведенческата активация, групирана по клъстери от знание, не по номер на секция.",
+        [
+            new("root", "Поведенческа активация", null, null, null, ConceptState.Introduced),
+
+            new("znachenie", "Защо активността влияе на настроението", "root", "Оттегляне, самоефикасност.", "/kurs/sedmica-7#znachenie", ConceptState.Introduced),
+
+            new("porochen-krag", "Порочният кръг на бездействието", "root", null, "/kurs/sedmica-7#porochen-krag", ConceptState.Introduced),
+            new("misli-nachalo", "Мисли, спиращи началото", "porochen-krag", "„Няма да ми е приятно.“", "/kurs/sedmica-7#porochen-krag", ConceptState.Introduced),
+            new("misli-po-vreme", "Мисли по време на дейност", "porochen-krag", "„Не мога да го правя толкова добре.“", "/kurs/sedmica-7#porochen-krag", ConceptState.Introduced),
+
+            new("sali", "Случаят на Сали", "root", "Преглед на графика и поведенчески експеримент.", "/kurs/sedmica-7#sali",
+                ConceptStateResolver.Derive(3, [7], CourseCatalog.Weeks)),
+            new("sali-grafik", "Преглед на графика", "sali", null, "/kurs/sedmica-7#sali", ConceptState.Introduced),
+            new("sali-eksperiment", "Поведенчески експеримент", "sali", "Най-лесен контакт, конкретен срок, готов коупинг отговор.", "/kurs/sedmica-7#sali", ConceptState.Introduced),
+
+            new("postepenni-stapki", "Много неактивен пациент: постепенни стъпки", "root", "Активността предхожда подобреното настроение.", "/kurs/sedmica-7#postepenni-stapki", ConceptState.Introduced),
+
+            new("skala", "Скала за удоволствие и овладяване", "root", "0–10, изградена с лични опорни точки.", "/kurs/sedmica-7#skala", ConceptState.Introduced),
+
+            new("predskazvane", "Предсказание срещу действителност", "root", "Сравнение — полезно и в двете посоки.", "/kurs/sedmica-7#predskazvane", ConceptState.Introduced),
+
+            new("kredit", "Даване на кредит на себе си", "root", null, "/kurs/sedmica-7#kredit", ConceptState.Introduced)
+        ]);
+
+    private static ConceptMapModel BuildSaliWeek7Map()
+    {
+        IReadOnlyList<int> revisitedBySeven = [7];
+
+        return new(
+            "Случаят на Сали: преглед на графика и поведенчески експеримент",
+            "Как терапевтът помага на Сали да идентифицира пречеща мисъл и да я провери чрез конкретен, планиран поведенчески експеримент.",
+            [
+                new("sali-w7-situation", "Ситуация", "Обсъждане на плановете за среща с приятелите Алисън и Джо тази седмица.", 7, [], null),
+                new("sali-w7-thought", "Автоматична мисъл", "Открита чрез похвата „обратното на предположението“ — приятелите ѝ няма да искат да прекарват време с нея.", 7, [], null),
+                new("sali-w7-emotion", "Емоция", "Тъга, нежелание.", 7, [], null),
+                new("sali-w7-behavior", "Вероятно поведение (ако не се провери мисълта)", "Да отложи или избегне контакта с приятели.", 7, [], null),
+                new("sali-w7-experiment", "Поведенчески експеримент", "Обаждане на Алисън или Джо още същия ден, с предварително записан коупинг отговор при отказ.", 7, [], null),
+                new("sali-w7-beliefs", "Основно и междинни вярвания на Сали", "Разработената йерархия остава тема на Седмица 3 — не преразказана тук.", 3, revisitedBySeven, "/kurs/sedmica-3#sali-hierarhia", IsCrossReference: true)
+            ],
+            [
+                new("sali-w7-situation", "sali-w7-thought", RelationType.LeadsTo, "поражда"),
+                new("sali-w7-thought", "sali-w7-emotion", RelationType.LeadsTo, "поражда"),
+                new("sali-w7-emotion", "sali-w7-behavior", RelationType.LeadsTo, "оформя"),
+                new("sali-w7-thought", "sali-w7-experiment", RelationType.Supports, "проверена чрез"),
+                new("sali-w7-thought", "sali-w7-beliefs", RelationType.Precedes, "задълбочено в")
+            ]);
+    }
+
+    private readonly IReadOnlyList<string> _objectives = _week.LearningObjectives;
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — Глава 6, поведенческа активация (стр. 80–99).",
+        "Учебната последователност на тази седмица е използвана само за тематична ориентация, без институционални твърдения."
+    ];
+}

@@ -13,8 +13,8 @@ public sealed class ConceptGraphModelTests
     [Fact]
     public void ConceptStateResolver_ReturnsUpcoming_WhenIntroducingWeekHasNoRoute()
     {
-        // Week 7 is catalogued but Route is null (still frozen).
-        Assert.Equal(ConceptState.Upcoming, ConceptStateResolver.Derive(7, [], Weeks));
+        // Week 9 is catalogued but Route is null (still frozen).
+        Assert.Equal(ConceptState.Upcoming, ConceptStateResolver.Derive(9, [], Weeks));
     }
 
     [Fact]

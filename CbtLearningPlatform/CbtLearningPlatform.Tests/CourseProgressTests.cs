@@ -174,6 +174,7 @@ public sealed class CourseProgressTests
     [InlineData("Sedmica1.razor", 1)]
     [InlineData("Sedmica3.razor", 3)]
     [InlineData("Sedmica6.razor", 6)]
+    [InlineData("Sedmica7.razor", 7)]
     [InlineData("Sedmica8.razor", 8)]
     [InlineData("Sedmica10.razor", 10)]
     [InlineData("Sedmica12.razor", 12)] // routed but AcademicOverview — still completable, route decides
