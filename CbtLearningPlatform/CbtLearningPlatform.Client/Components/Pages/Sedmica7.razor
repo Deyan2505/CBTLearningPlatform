@@ -623,7 +623,40 @@
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 7);
 
     private static readonly GraphRenderModel _week7MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek7MindMap());
-    private static readonly GraphRenderModel _saliCaseMapRender = ConceptMapAdapter.ToRenderModel(BuildSaliWeek7Map(), CourseCatalog.Weeks);
+
+    // Desktop visual fix (owner review): the default Chain layout (ConceptMapAdapter's 2-argument
+    // overload) renders every node as a full-width stacked list item — a narrow vertical column with
+    // large empty space beside it, not a spatial map. Network layout (same engine already used by
+    // Week 3's Sali hierarchy and the global Knowledge Map) draws real left-to-right spatial geometry
+    // from grid coordinates instead.
+    //
+    // Column count note: a straight 5-column row (one column per node in the requested reading order)
+    // needs 1328px, but .workspace caps at var(--container-max) = 1400px minus padding — every viewport
+    // measured, including 2200px wide, gives the canvas only ~1217px, so 5 columns would ALWAYS force
+    // horizontal scroll regardless of screen size. Widening CardWidth/ColumnGap would fix it but those
+    // are shared ConceptGraph constants also sized for Week 3's map and the global Knowledge Map — no
+    // inspection evidence they're wrong for those, so left untouched per the Week-7-scoped-fix
+    // instruction. Resolved by using the real topology instead of forcing 5 nodes into one line:
+    // "Вероятно поведение" and "Поведенчески експеримент" both come from the SAME edge source (thought),
+    // as alternatives — not sequentially from each other — so they share column 3 across two rows. The
+    // primary left-to-right read (Ситуация → Автоматична мисъл → Емоция → Вероятно поведение) matches
+    // the requested order exactly for 4 of 5 steps; "Поведенчески експеримент" sits directly beside it in
+    // the same column, reached by its own clearly-labeled arc from thought — 4 columns = 1048px, fits
+    // with no scroll. The Week 3 cross-reference sits below thought, its real source edge.
+    // SaliWeek7NetworkLayout must be declared before _saliCaseMapRender — static field initializers run
+    // in declaration order, and ToRenderModel needs the dictionary already built, not null.
+    private static readonly IReadOnlyDictionary<string, ConceptNetworkPosition> SaliWeek7NetworkLayout = new Dictionary<string, ConceptNetworkPosition>
+    {
+        ["sali-w7-situation"] = new("", 0, 0),
+        ["sali-w7-thought"] = new("", 1, 0),
+        ["sali-w7-emotion"] = new("", 2, 0),
+        ["sali-w7-behavior"] = new("", 3, 0),
+        ["sali-w7-experiment"] = new("", 3, 1),
+        ["sali-w7-beliefs"] = new("", 1, 1)
+    };
+
+    private static readonly GraphRenderModel _saliCaseMapRender = ConceptMapAdapter.ToRenderModel(
+        BuildSaliWeek7Map(), CourseCatalog.Weeks, ConceptGraphLayout.Network, SaliWeek7NetworkLayout);
 
     private static MindMapModel BuildWeek7MindMap() => new(
         "Седмица 7 — знаниеви клъстери",
@@ -662,7 +695,7 @@
                 new("sali-w7-situation", "Ситуация", "Обсъждане на плановете за среща с приятелите Алисън и Джо тази седмица.", 7, [], null),
                 new("sali-w7-thought", "Автоматична мисъл", "Открита чрез похвата „обратното на предположението“ — приятелите ѝ няма да искат да прекарват време с нея.", 7, [], null),
                 new("sali-w7-emotion", "Емоция", "Тъга, нежелание.", 7, [], null),
-                new("sali-w7-behavior", "Вероятно поведение (ако не се провери мисълта)", "Да отложи или избегне контакта с приятели.", 7, [], null),
+                new("sali-w7-behavior", "Поведение", "Вероятно поведение, ако мисълта не се провери: да отложи или избегне контакта с приятели.", 7, [], null),
                 new("sali-w7-experiment", "Поведенчески експеримент", "Обаждане на Алисън или Джо още същия ден, с предварително записан коупинг отговор при отказ.", 7, [], null),
                 new("sali-w7-beliefs", "Основно и междинни вярвания на Сали", "Разработената йерархия остава тема на Седмица 3 — не преразказана тук.", 3, revisitedBySeven, "/kurs/sedmica-3#sali-hierarhia", IsCrossReference: true)
             ],

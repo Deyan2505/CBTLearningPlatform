@@ -197,6 +197,60 @@ public sealed class Week7ContentSliceTests
     }
 
     [Fact]
+    public void Week7Page_SaliCaseMap_UsesNetworkLayout_NotTheNarrowChainColumn()
+    {
+        // Desktop visual fix: the default 2-argument ConceptMapAdapter.ToRenderModel call defaults to
+        // Chain layout, which renders as a full-width stacked vertical list — the reported defect.
+        // Network layout (same engine as Week 3's Sali hierarchy / the global Knowledge Map) must be
+        // passed explicitly instead.
+        string source = ReadPage("Sedmica7.razor");
+
+        Assert.Contains("ConceptMapAdapter.ToRenderModel(", source);
+        Assert.Contains("BuildSaliWeek7Map(), CourseCatalog.Weeks, ConceptGraphLayout.Network, SaliWeek7NetworkLayout", source);
+    }
+
+    [Fact]
+    public void Week7Page_SaliCaseMap_FollowsTheRequestedLeftToRightReadingOrder()
+    {
+        string source = ReadPage("Sedmica7.razor");
+
+        // Ситуация(0) → Автоматична мисъл(1) → Емоция(2) → Вероятно поведение(3) — the primary
+        // left-to-right row. "Поведенчески експеримент" shares column 3 (row 1): it is an alternative
+        // outcome from the SAME source node (thought) as "Вероятно поведение", not sequential to it, and
+        // a straight 5th column would force horizontal scroll on every measured viewport (see the code
+        // comment for the width math) — sharing the column keeps the map scroll-free while the edge from
+        // thought still draws its own clearly-labeled connector.
+        Assert.Contains("[\"sali-w7-situation\"] = new(\"\", 0, 0)", source);
+        Assert.Contains("[\"sali-w7-thought\"] = new(\"\", 1, 0)", source);
+        Assert.Contains("[\"sali-w7-emotion\"] = new(\"\", 2, 0)", source);
+        Assert.Contains("[\"sali-w7-behavior\"] = new(\"\", 3, 0)", source);
+        Assert.Contains("[\"sali-w7-experiment\"] = new(\"\", 3, 1)", source);
+
+        // The Week 3 cross-reference sits one row below its real source (thought), not in the main row.
+        Assert.Contains("[\"sali-w7-beliefs\"] = new(\"\", 1, 1)", source);
+    }
+
+    [Fact]
+    public void Week7SaliCaseMap_EveryNodeHasANetworkPosition_NoOrphans()
+    {
+        string source = ReadPage("Sedmica7.razor");
+        int dictStart = source.IndexOf("SaliWeek7NetworkLayout = new Dictionary", StringComparison.Ordinal);
+        int dictEnd = source.IndexOf("};", dictStart, StringComparison.Ordinal);
+        string dictBody = source[dictStart..dictEnd];
+
+        string[] nodeIds =
+        [
+            "sali-w7-situation", "sali-w7-thought", "sali-w7-emotion",
+            "sali-w7-behavior", "sali-w7-experiment", "sali-w7-beliefs"
+        ];
+
+        foreach (string nodeId in nodeIds)
+        {
+            Assert.Contains($"[\"{nodeId}\"]", dictBody);
+        }
+    }
+
+    [Fact]
     public void Week7Page_FinalAssessmentHasSixteenQuestions()
     {
         string source = ReadPage("Sedmica7.razor");
