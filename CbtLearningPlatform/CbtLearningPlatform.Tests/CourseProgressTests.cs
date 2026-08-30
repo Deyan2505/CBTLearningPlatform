@@ -176,6 +176,7 @@ public sealed class CourseProgressTests
     [InlineData("Sedmica6.razor", 6)]
     [InlineData("Sedmica7.razor", 7)]
     [InlineData("Sedmica8.razor", 8)]
+    [InlineData("Sedmica9.razor", 9)]
     [InlineData("Sedmica10.razor", 10)]
     [InlineData("Sedmica12.razor", 12)] // routed but AcademicOverview — still completable, route decides
     public void RoutedWeekPage_UsesTheSharedCompletionControl(string fileName, int weekNumber)

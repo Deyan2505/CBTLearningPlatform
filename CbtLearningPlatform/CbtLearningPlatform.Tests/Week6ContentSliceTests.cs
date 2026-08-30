@@ -53,9 +53,9 @@ public sealed class Week6ContentSliceTests
     }
 
     [Fact]
-    public void RemainingNineWeeks_StayUnavailable()
+    public void RemainingEightWeeks_StayUnavailable()
     {
-        int[] availableNumbers = [1, 3, 6, 7, 8, 10];
+        int[] availableNumbers = [1, 3, 6, 7, 8, 9, 10];
 
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks.Where(w => !availableNumbers.Contains(w.Number)))
         {
@@ -67,7 +67,7 @@ public sealed class Week6ContentSliceTests
             }
         }
 
-        Assert.Equal(9, CourseCatalog.Weeks.Count(w => !availableNumbers.Contains(w.Number)));
+        Assert.Equal(8, CourseCatalog.Weeks.Count(w => !availableNumbers.Contains(w.Number)));
     }
 
     [Fact]
@@ -423,7 +423,7 @@ public sealed class Week6ContentSliceTests
     }
 
     [Fact]
-    public void KursPage_ShowsAllSixAvailableWeeks()
+    public void KursPage_ShowsAllSevenAvailableWeeks()
     {
         string source = ReadPage("Kurs.razor");
 
@@ -432,6 +432,7 @@ public sealed class Week6ContentSliceTests
         Assert.Contains("/kurs/sedmica-6", source);
         Assert.Contains("/kurs/sedmica-7", source);
         Assert.Contains("/kurs/sedmica-8", source);
+        Assert.Contains("/kurs/sedmica-9", source);
         Assert.Contains("/kurs/sedmica-10", source);
     }
 

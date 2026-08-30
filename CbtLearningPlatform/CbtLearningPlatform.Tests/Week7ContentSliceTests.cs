@@ -421,11 +421,10 @@ public sealed class Week7ContentSliceTests
     }
 
     [Fact]
-    public void KursPage_MentionsSixAvailableWeeksAndListsWeekSeven()
+    public void KursPage_ListsWeekSevenAsAvailable()
     {
         string source = ReadPage("Kurs.razor");
 
-        Assert.Contains("Шест седмици", source);
         Assert.Contains("/kurs/sedmica-7", source);
         Assert.DoesNotContain("Пет седмици", source);
     }

@@ -1,0 +1,633 @@
+@* WEEK 9 — DEEP LEARNING MODULE. Built per the owner-approved
+   00_PROJECT_OS/_blueprints/WEEK_09_SOURCE_COVERAGE_AUDIT_v1.md (final accounting in that file's
+   §0 update — see the coverage matrix there for the full KU-by-KU disposition).
+
+   SOURCE: SRC-041 (Judith Beck), Глава 11 "Оценяване на автоматични мисли" (printed стр. 167–186)
+   + Глава 12 "Отговаряне на автоматични мисли" (printed стр. 187–197) — both read in full from the
+   owner's local PDF (extraction cached, gitignored, at 00_PROJECT_OS/_source_corpus/ — never
+   committed).
+
+   OWNER SCOPING DECISIONS (this session, all applied):
+   1. Week 9 / Week 10 overlap: the six Socratic evaluation-question categories (Figure 11.1) stay
+      at RECAP depth here, explicitly cross-linked to Week 10 for the full treatment — Week 9's own
+      depth belongs to the two things Week 10 does not cover: the 12 cognitive distortions and the
+      Thought Record / simpler worksheet.
+   2. Cases: Сали is NOT extended with new Week 9 biography. Джон (John) — named directly in the
+      source, never used elsewhere on this platform — carries the "why an evaluation attempt
+      failed" section, exactly as SRC-041 presents him. Every other worked example either reuses
+      the source's own already-generic, unnamed framing (e.g. Figure 12.2's own first-person
+      worksheet example) or is presented as a generic illustration with no name attached — nothing
+      invented, nothing attributed to a character beyond what the source itself supports.
+   3. The death-fear decatastrophizing guidance (source pp. 173–174) is EXCLUDED — safety/scope,
+      not adapted into any self-guided form.
+   4. Thought Record: a FIXED, source-grounded worked demonstration only. Figure 12.2 ("Тест на
+      мислите ви" — the source's own simpler, plain-language, patient-facing alternative) carries
+      the full worked demonstration; Figure 12.1 (the full clinical Thought Record) is shown
+      structurally (its six columns), not as a second full narrative walkthrough. No <input>, no
+      scoring, no belief/emotion percentage fields, no new browser storage — this lesson
+      demonstration is a SEPARATE scope from the still-open product-level MVP Thought Record
+      requirement (01_MASTER_PLAN.md/19_MVP_SCOPE.md), which this page does not implement, mark
+      complete, or remove.
+   5. AWARE technique and relaxation/distraction cross-references (Ch.15) remain Deferred — out of
+      this week's two-part scope, not built here.
+   6. Every distortion category, definition, and example below is Figure 11.2's own — nothing added
+      from general CBT knowledge beyond what these two chapters actually contain. *@
+@page "/kurs/sedmica-9"
+
+<PageTitle>Седмица 9: Когнитивни изкривявания и дневник на мислите — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--format">Дълбочинен модул</span>
+        </div>
+        <p><em>Типичните "грешки в мисленето" и структуриран, писмен начин за оценка на автоматични мисли</em></p>
+        <p>
+            Тази седмица разглежда дванадесетте класически когнитивни изкривявания и структурата на
+            записа на мислите — писмен инструмент, който организира процеса на оценка на автоматична
+            мисъл. Съдържанието представя модела и логиката зад него, с преразказани примери от
+            източника — не инструкция читателят да попълва собствени автоматични мисли тук.
+        </p>
+        <LearningObjectives Objectives="@_objectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-9#karta">Карта на седмицата</a>
+        <a href="/kurs/sedmica-9#zashto-otsenka">Защо оценяваме, не оспорваме</a>
+        <a href="/kurs/sedmica-9#vaprosi-pregled">Преглед: въпроси за оценка</a>
+        <a href="/kurs/sedmica-9#izkrivyavaniya">12-те когнитивни изкривявания</a>
+        <a href="/kurs/sedmica-9#koga-verni">Кога мислите са верни</a>
+        <a href="/kurs/sedmica-9#zashto-ne-pomaga">Защо оценката понякога не помага</a>
+        <a href="/kurs/sedmica-9#zapis-na-mislite">Записът на мислите</a>
+        <a href="/kurs/sedmica-9#raboten-list">По-опростеният работен лист</a>
+        <a href="/kurs/sedmica-9#case-lab">Приложение</a>
+        <a href="/kurs/sedmica-9#proverki">Обобщение на проверките</a>
+        <a href="/kurs/sedmica-9#assessment">Финална проверка</a>
+        <a href="/kurs/sedmica-9#review-map">Карта за повторение</a>
+        <a href="/kurs/sedmica-9#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+
+    <LearningSection Role="theory" RoleLabel="Карта">
+        <h2 id="karta" tabindex="-1">9.0 · Карта на седмицата</h2>
+        <p>
+            <strong>Какво ще научите:</strong> дванадесетте класически когнитивни изкривявания,
+            структурата на записа на мислите и по-опростения работен лист, какво се прави, когато
+            автоматична мисъл се окаже вярна, и защо опитът за оценка понякога не помага.
+        </p>
+        <p>
+            <strong>Предпоставки:</strong> полезно е (не задължително) да сте преминали
+            <a href="/kurs/sedmica-10">Седмица 10 — Сократически въпроси и съвместно изследване</a> —
+            тази седмица разчита на разбирането за оценъчни въпроси, преподадено там, и само накратко
+            го припомня.
+        </p>
+        <h3>Мисловна карта на седмицата — преглед</h3>
+        <ConceptGraph ComponentId="week9-mindmap-preview" Model="@_week9MindMapRender" />
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Теория">
+        <h2 id="zashto-otsenka" tabindex="-1">9.1 · Защо оценяваме, а не просто "оспорваме" мисли</h2>
+        <p>
+            Пациентите имат стотици или хиляди мисли на ден — само няколко от тях си струват
+            задълбочено внимание в рамките на една сесия. Терапевтът избира коя автоматична мисъл да
+            оцени според това дали тя е актуално обезпокоителна или вероятно ще се повтори.
+        </p>
+        <p>
+            Понякога дори важна автоматична мисъл не се оценява по-нататък — например ако това би
+            навредило на терапевтичната връзка, ако тревожността на пациента е твърде висока в момента,
+            ако няма достатъчно време в сесията, или ако е по-важно да се работи върху друг елемент на
+            модела или различен проблем.
+        </p>
+        <p>
+            Терапевтът рядко оспорва директно автоматична мисъл — по три причини: (1) рядко се знае
+            предварително колко изкривена е дадена мисъл — тя може да се окаже валидна; (2) директното
+            оспорване рискува пациентът да се почувства невалидиран; (3) оспорването нарушава основен
+            принцип на КПТ — <strong>колаборативния емпиризъм</strong>: терапевтът и пациентът заедно
+            изследват мисълта, тестват нейната валидност и полезност, и развиват отговор.
+        </p>
+        <p>
+            Важно е да се помни, че автоматичните мисли рядко са напълно погрешни — обикновено
+            съдържат поне зрънце истина, което трябва да се признае, не да се пренебрегне.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Преговор">
+        <h2 id="vaprosi-pregled" tabindex="-1">9.2 · Преглед: въпроси за оценка</h2>
+        <p>
+            <a href="/kurs/sedmica-10">Седмица 10</a> разглежда подробно сократическото изследване.
+            Тук само припомняме шестте категории въпроси, които източникът предлага за оценка на
+            автоматична мисъл (Фигура 11.1) — за пълното разгръщане с примери и практика, вижте Седмица
+            10.
+        </p>
+        <ol class="guided-practice-sequence" aria-label="Шестте категории оценъчни въпроси">
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">01</span>
+                    <span class="guided-practice-sequence__label">Доказателства за/против</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">02</span>
+                    <span class="guided-practice-sequence__label">Алтернативно обяснение</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">03</span>
+                    <span class="guided-practice-sequence__label">Декатастрофизиране</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">04</span>
+                    <span class="guided-practice-sequence__label">Ефект от вярването</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">05</span>
+                    <span class="guided-practice-sequence__label">Дистанциране</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step guided-practice-sequence__step--final">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">06</span>
+                    <span class="guided-practice-sequence__label">Решаване на проблеми</span>
+                </span>
+            </li>
+        </ol>
+        <p class="concept-map__feedback">
+            Не всички шест въпроса пасват на всяка автоматична мисъл — терапевтът избира един или два
+            подходящи наведнъж, не цялата поредица механично. Пълните формулировки, работени примери и
+            практика са в <a href="/kurs/sedmica-10#semeystva">Седмица 10, секция 02</a>.
+        </p>
+        <p>
+            След оценката терапевтът пита пациента колко силно вярва в оригиналната мисъл сега и как се
+            чувства емоционално — това решава следващата стъпка в сесията.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Понятия">
+        <h2 id="izkrivyavaniya" tabindex="-1">9.3 · Дванадесетте когнитивни изкривявания</h2>
+        <p>
+            Пациентите обикновено правят последователни грешки в мисленето си — систематично негативно
+            пристрастие в обработката на информация. Източникът изброява дванадесет типични изкривявания
+            (Фигура 11.2), всяко с определение и пример.
+            <strong>Retrieval practice:</strong> преди да разгънеш всяка карта, опитай да познаеш
+            изкривяването от примера — чак тогава разгъни, за да сравниш.
+        </p>
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <details class="progressive-explanation"><summary>„Ако не съм напълно успешен, значи съм провал.“</summary>
+                    <div class="progressive-explanation__body"><p><strong>Мислене в черно и бяло</strong> (мислене в крайности / дихотомично мислене) — виждате ситуацията само в две категории, вместо в континуум.</p></div>
+                </details>
+            </div>
+            <div class="card">
+                <details class="progressive-explanation"><summary>„Ще бъда толкова разстроен, че няма да мога да функционирам изобщо.“</summary>
+                    <div class="progressive-explanation__body"><p><strong>Катастрофизиране</strong> (предсказване на бъдещето) — предсказвате негативно бъдещето, без да вземете предвид други, по-вероятни изходи.</p></div>
+                </details>
+            </div>
+            <div class="card">
+                <details class="progressive-explanation"><summary>„Направих проекта добре, но това не означава, че съм компетентен; просто имах късмет.“</summary>
+                    <div class="progressive-explanation__body"><p><strong>Дисквалифициране или отхвърляне на позитивното</strong> — нерационално си казвате, че положителни преживявания или качества не важат.</p></div>
+                </details>
+            </div>
+            <div class="card">
+                <details class="progressive-explanation"><summary>„Знам, че правя много неща добре на работа, но все още се чувствам като провал.“</summary>
+                    <div class="progressive-explanation__body"><p><strong>Емоционално мислене</strong> — мислите, че нещо трябва да е вярно, защото го „усещате“ толкова силно, игнорирайки доказателства в противен случай.</p></div>
+                </details>
+            </div>
+            <div class="card">
+                <details class="progressive-explanation"><summary>„Аз съм губещ. Той не струва нищо.“</summary>
+                    <div class="progressive-explanation__body"><p><strong>Етикетиране</strong> — налагате фиксиран, глобален етикет на себе си или на другите, без да вземете предвид, че доказателствата може да водят до по-малко категорично заключение.</p></div>
+                </details>
+            </div>
+            <div class="card">
+                <details class="progressive-explanation"><summary>„Получаването на средна оценка доказва колко неадекватен съм. Високите оценки не означават, че съм умен.“</summary>
+                    <div class="progressive-explanation__body"><p><strong>Увеличаване/намаляване</strong> — при оценяване на себе си, друг или ситуация, неразумно увеличавате негативното и/или намалявате позитивното.</p></div>
+                </details>
+            </div>
+            <div class="card">
+                <details class="progressive-explanation"><summary>„Защото получих една ниска оценка [сред няколко високи], значи правя ужасна работа.“</summary>
+                    <div class="progressive-explanation__body"><p><strong>Ментален филтър</strong> (селективна абстракция) — обръщате прекалено внимание на един негативен детайл, вместо да видите цялата картина.</p></div>
+                </details>
+            </div>
+            <div class="card">
+                <details class="progressive-explanation"><summary>„Той мисли, че не знам първото нещо за този проект.“</summary>
+                    <div class="progressive-explanation__body"><p><strong>Четене на мисли</strong> — вярвате, че знаете какво мислят другите, без да вземете предвид други, по-вероятни възможности.</p></div>
+                </details>
+            </div>
+            <div class="card">
+                <details class="progressive-explanation"><summary>„[Тъй като се чувствах неудобно на срещата] нямам каквото е необходимо, за да си намеря приятели.“</summary>
+                    <div class="progressive-explanation__body"><p><strong>Преувеличение</strong> — правите обобщаващо негативно заключение, което надхвърля текущата ситуация.</p></div>
+                </details>
+            </div>
+            <div class="card">
+                <details class="progressive-explanation"><summary>„Ремонтникът беше груб с мен, защото направих нещо грешно.“</summary>
+                    <div class="progressive-explanation__body"><p><strong>Персонализация</strong> — вярвате, че другите се държат негативно заради вас, без да разгледате по-правдоподобни обяснения за поведението им.</p></div>
+                </details>
+            </div>
+            <div class="card">
+                <details class="progressive-explanation"><summary>„Ужасно е, че направих грешка. Винаги трябва да давам най-доброто от себе си.“</summary>
+                    <div class="progressive-explanation__body"><p><strong>Изказвания „трябва“ и „моля“</strong> (императиви) — имате фиксирана представа как вие или другите трябва да се държат и надценявате колко лошо е, че очакването не е изпълнено.</p></div>
+                </details>
+            </div>
+            <div class="card">
+                <details class="progressive-explanation"><summary>„Учителят на сина ми не може да направи нищо правилно. Той е критичен и не е добър в преподаването.“</summary>
+                    <div class="progressive-explanation__body"><p><strong>Тунелно виждане</strong> — виждате само негативните аспекти на ситуацията.</p></div>
+                </details>
+            </div>
+        </div>
+        <p>
+            Терапевтът може да отбележи конкретно изкривяване, когато забележи модел в мисленето на
+            пациента, или да предостави списъка директно на пациента, за да го използва самостоятелно —
+            стига да прецени, че пациентът няма да бъде претоварен от него. Разпознаването на собствените
+            типични изкривявания помага на пациента да получи дистанция от мисълта и да се съмнява по-
+            лесно в пълната ѝ валидност.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Теория">
+        <h2 id="koga-verni" tabindex="-1">9.4 · Кога автоматичните мисли са верни</h2>
+        <p>
+            Понякога автоматичната мисъл се оказва вярна. В такъв случай терапевтът има три възможни
+            насоки: да се фокусира върху решаване на проблема, да провери дали пациентът е стигнал до
+            невалидно заключение въпреки верния факт, или да работи върху приемане, ако проблемът не може
+            да бъде решен.
+        </p>
+        <p>
+            <strong>Фокус върху решаване на проблема:</strong> ако възприятието на пациента изглежда
+            валидно, терапевтът разследва дали проблемът може да бъде решен поне частично. В пример от
+            източника, пациент се тревожи основателно, че ще му свършат парите до края на учебната
+            година — вместо да оспорва мисълта, терапевтът помага да се генерират конкретни решения
+            (разговор с декана на студентите, спешен фонд, работа, план за плащане), които пациентът не е
+            обмислил, защото е бил твърде обезсърчен.
+        </p>
+        <p>
+            <strong>Изследване на невалидно заключение:</strong> дори когато самият факт е верен,
+            <em>значението</em>, което пациентът му приписва, може да не е напълно валидно. Пациент,
+            наранил чувствата на приятел, стига до заключението „Аз съм ужасен човек“ — терапевтът не
+            оспорва факта (наранените чувства), а изследва доказателствата за и против по-глобалното
+            заключение.
+        </p>
+        <p>
+            <strong>Работа към приемане:</strong> някои проблеми не могат да бъдат решени. Пациентите се
+            нуждаят от помощ да приемат това, вместо да останат нещастни заради нереалистични надежди, че
+            проблемът по някакъв начин ще се подобри сам.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="example" RoleLabel="Пример">
+        <h2 id="zashto-ne-pomaga" tabindex="-1">9.5 · Защо оценката понякога не помага</h2>
+        <p>
+            Ако пациентът все още вярва силно в автоматичната мисъл и не се чувства по-добре
+            емоционално след оценката, терапевтът концептуализира защо опитът не е бил достатъчно
+            ефективен. Изворът изброява пет чести причини — три от тях илюстрирани чрез случая на Джон,
+            пациент, който е обмислял да пробва за баскетболния отбор на общността.
+        </p>
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Причина 1 — неидентифицирана по-централна мисъл.</strong> Джон съобщава мисълта: „Ако пробвам, вероятно няма да ме приемат.“ Оценяването ѝ не помага, защото има и други, неразпознати мисли: „Какво ако си мислят, че съм лош играч?“ и образ на треньора и играчите с подигравателни лица.</p>
+            </div>
+            <div class="card">
+                <p><strong>Причина 2 — повърхностна оценка.</strong> Джон мисли: „Няма да свърша всичката си работа. Имам твърде много за правене.“ Вместо внимателна оценка, просто отговаря: „Не, вероятно ще го свърша“ — недостатъчно, тревожността му не намалява.</p>
+            </div>
+            <div class="card">
+                <p><strong>Причина 3 — недостатъчно изразени доказателства.</strong> Терапевтът пита Джон какво доказателство има, че сестра му не иска да се занимава с него. Джон споменава само едно нещо. По-задълбочен разпит би разкрил и други доказателства, които той също има — но не са изразени без по-внимателно проучване.</p>
+            </div>
+            <div class="card">
+                <p><strong>Причина 4 — самата мисъл е основно вярване.</strong> Джон често мисли: „Аз съм некомпетентен.“ Вярва толкова силно в тази идея, че еднократна оценка не променя възприятието му — необходими са много техники във времето (тема на бъдеща седмица).</p>
+            </div>
+            <div class="card">
+                <p><strong>Причина 5 — приема се интелектуално, не емоционално.</strong> Джон вижда „интелектуално“, че загубата на работа не би била негова вина, но не вярва в това „по сърце“. Задълбочаването разкрива скрито предположение: „Ако загубя работата си, значи съм некомпетентен.“</p>
+            </div>
+        </div>
+        <details class="progressive-explanation">
+            <summary>Проверка: коя причина е това?</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Пациент отговаря на тревожна мисъл с „Сигурен съм, че ще е наред“, без реално да
+                    претегли доказателствата — тревожността му не намалява. Това е <strong>Причина 2:
+                    повърхностна оценка.</strong>
+                </p>
+            </div>
+        </details>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Теория">
+        <h2 id="zapis-na-mislite" tabindex="-1">9.6 · Записът на мислите</h2>
+        <p>
+            Записът на мислите (по-рано известен като Дневен запис на дисфункционални мисли) е работен
+            лист, който подтиква пациента да оцени автоматична мисъл, когато се почувства стресиран.
+            Извлича повече информация от простото отговаряне на въпросите от 9.2 и организира мисленето
+            по-структурирано. Не е полезен за всеки — по-специално за пациенти с ниска функционалност,
+            които не обичат да пишат, или не са достатъчно подготвени интелектуално да се възползват.
+        </p>
+        <ConceptGraph ComponentId="week9-thought-record-structure" Model="@_thoughtRecordStructureRender" />
+        <p>
+            Терапевтът обикновено обяснява устно всяка колона, докато пациентът я попълва в сесия за
+            първи път — правописът, почеркът и граматиката не се броят; ранните грешки са нормална, дори
+            полезна част от ученето на умението. За някои пациенти терапевтът въвежда инструмента на два
+            етапа: първо само първите четири колони, а последните две — само след като първите вървят
+            добре.
+        </p>
+        <details class="progressive-explanation">
+            <summary>Проверка: коя колона липсва?</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Пациент записва ситуацията, автоматичната мисъл и емоцията си, но пропуска да посочи
+                    коя <strong>когнитивна изкривеност</strong> отразява мисълта — четвъртата колона на
+                    записа.
+                </p>
+            </div>
+        </details>
+    </LearningSection>
+
+    <LearningSection Role="interactive" RoleLabel="Retrieval practice">
+        <h2 id="raboten-list" tabindex="-1">9.7 · По-опростеният работен лист „Тест на мислите ви“</h2>
+        <p>
+            Когато терапевтът предвижда, че пълният запис на мислите би бил твърде объркващ или сложен,
+            източникът предлага опростена версия — работен лист „Тест на мислите ви“, формулиран на
+            по-достъпен език, с по-лесна за попълване структура. Точно този опростен формат е моделът за
+            демонстрацията по-долу — фиксиран, работен пример от източника, не формуляр за попълване с
+            лични данни.
+        </p>
+        <div class="card">
+            <p><strong>Ситуация:</strong> Джоан ми извика.</p>
+            <p><strong>Каква е първата мисъл?</strong> Тя никога повече няма да ми се обади.</p>
+            <details class="progressive-explanation">
+                <summary>Разкрий пълния попълнен работен лист</summary>
+                <div class="progressive-explanation__body">
+                    <dl>
+                        <dt>Какво ме кара да мисля, че мисълта е вярна?</dt>
+                        <dd>Тя изглеждаше доста ядосана.</dd>
+                        <dt>Какво ме кара да мисля, че мисълта не е вярна или не е напълно вярна?</dt>
+                        <dd>Тя е била ядосана на мен преди, но изглежда, че се справя с това.</dd>
+                        <dt>Какъв е другият начин да се погледне на това?</dt>
+                        <dd>Тя има истински темперамент, но не остава ядосана.</dd>
+                        <dt>Какво е най-лошото, което може да се случи? Какво мога да направя тогава?</dt>
+                        <dd>Ще загубя най-добрия си приятел. Ще трябва да се концентрирам върху другите си приятели.</dd>
+                        <dt>Какво е най-доброто, което може да се случи?</dt>
+                        <dd>Тя ще се обади веднага и ще се извинява.</dd>
+                        <dt>Какво вероятно ще се случи?</dt>
+                        <dd>Тя ще се държи малко студено за няколко дни, но после ще ѝ се обадя.</dd>
+                        <dt>Какво ще се случи, ако продължа да си повтарям същата мисъл?</dt>
+                        <dd>Ще продължа да бъда наистина разстроен.</dd>
+                        <dt>Какво може да се случи, ако променя мисленето си?</dt>
+                        <dd>Мога да се почувствам по-добре, може би ще ѝ се обадя по-скоро.</dd>
+                        <dt>Какво бих казал на приятел, ако това се случи на него?</dt>
+                        <dd>Не се притеснявай, просто изчакай 2 дни и се обади.</dd>
+                    </dl>
+                </div>
+            </details>
+        </div>
+        <p class="concept-map__feedback">
+            Забележете, че работният лист следва точно логиката на шестте оценъчни категории от 9.2 —
+            доказателства, алтернативно обяснение, декатастрофизиране, ефект от мисленето, и
+            дистанциране — само формулирани на по-опростен, готов за самостоятелно попълване език.
+        </p>
+        <p>
+            Както при всяка техника, е важно да не се преувеличава значението на конкретен работен лист.
+            Ако попълването не донесе облекчение, това е възможност за учене — не провал на пациента,
+            метода или терапевта.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="example" RoleLabel="Приложение">
+        <h2 id="case-lab" tabindex="-1">9.8 · Приложение</h2>
+        <p>Приложете наученото от седмицата върху два кратки, фиктивни сценария.</p>
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <h3>Сценарий А</h3>
+                <p>
+                    Пациент получава средна оценка на изпит, който съдържа и няколко високи оценки по
+                    отделни въпроси. Мисли си: „Значи цялостно се представих ужасно.“
+                </p>
+                <p><strong>Задача:</strong> кое изкривяване е това?</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Ментален филтър</strong> — вниманието е насочено само към ниската оценка, игнорирайки останалата, по-балансирана картина.</p>
+                    </div>
+                </details>
+            </div>
+            <div class="card">
+                <h3>Сценарий Б</h3>
+                <p>
+                    Пациент е сигурен, че приятел мисли зле за него, без приятелят да е казал или
+                    направил нещо конкретно в тази посока.
+                </p>
+                <p><strong>Задача:</strong> кое изкривяване е това, и какъв е първият подходящ оценъчен въпрос?</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Четене на мисли.</strong> Подходящ първи въпрос: „Какви са доказателствата за тази идея — и има ли доказателства против нея?“ (Source: 9.2 · Фигура 11.1)</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Обобщение">
+        <h2 id="proverki" tabindex="-1">9.9 · Обобщение на локалните проверки</h2>
+        <p>
+            Тази седмица включва <strong>2 локални проверки</strong> (9.5, 9.6), плюс дванадесетте
+            retrieval-practice карти в 9.3, работения пример в 9.7, и приложението (9.8) като практика,
+            и финалната проверка (9.11) като обобщаваща оценка.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Финален тест">
+        <h2 id="assessment" tabindex="-1">9.10 · Финална проверка</h2>
+        <p>14 въпроса, разнообразни по тип. Не се оценява, не се пази — образователна самопроверка.</p>
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card"><p><strong>Q01.</strong> Защо терапевтът рядко оспорва директно автоматична мисъл?</p><p>А. Няма достатъчно време<br />Б. Не знае предварително колко изкривена е мисълта, рискува невалидиране, и това нарушава колаборативния емпиризъм<br />В. Пациентите не разбират въпроса</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: 9.1</p></div></details></div>
+            <div class="card"><p><strong>Q02 (вярно/невярно).</strong> Автоматичните мисли обикновено са напълно погрешни.</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Невярно.</strong> Обикновено съдържат поне зрънце истина. Source: 9.1</p></div></details></div>
+            <div class="card"><p><strong>Q03.</strong> „Ще бъда толкова разстроен, че няма да мога да функционирам изобщо“ — кое изкривяване е това?</p><p>А. Персонализация<br />Б. Катастрофизиране<br />В. Тунелно виждане</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: 9.3</p></div></details></div>
+            <div class="card"><p><strong>Q04.</strong> „Ремонтникът беше груб с мен, защото направих нещо грешно“ — кое изкривяване е това?</p><p>А. Персонализация<br />Б. Емоционално мислене<br />В. Етикетиране</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>А.</strong> Source: 9.3</p></div></details></div>
+            <div class="card"><p><strong>Q05 (съпоставяне).</strong> „Аз съм губещ“ ↔ ?</p><p>А. Мислене в черно и бяло<br />Б. Етикетиране<br />В. Персонализация</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Фиксиран, глобален етикет — Source: 9.3</p></div></details></div>
+            <div class="card"><p><strong>Q06.</strong> Кои три насоки съществуват, когато автоматична мисъл се окаже вярна?</p><p>А. Само решаване на проблема<br />Б. Решаване на проблема, изследване на невалидно заключение, или работа към приемане<br />В. Игнориране на мисълта</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: 9.4</p></div></details></div>
+            <div class="card"><p><strong>Q07 (сценарий).</strong> Пациент наранява чувствата на приятел (вярно) и заключава „Аз съм ужасен човек“ (заключение). Кой подход следва източникът?</p><p>А. Оспорва факта<br />Б. Изследва доказателствата за/против глобалното заключение, не самия факт<br />В. Игнорира ситуацията</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: 9.4</p></div></details></div>
+            <div class="card"><p><strong>Q08 (случай на Джон).</strong> Джон отговаря на тревожна мисъл с бързо „Не, вероятно ще го свърша“, без реална оценка. Коя от петте причини е това?</p><p>А. Неидентифицирана по-централна мисъл<br />Б. Повърхностна оценка<br />В. Мисълта е основно вярване</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: 9.5</p></div></details></div>
+            <div class="card"><p><strong>Q09.</strong> Защо еднократна оценка не помага, когато самата автоматична мисъл е основно вярване?</p><p>А. Терапевтът не е опитен<br />Б. Основните вярвания изискват много техники във времето, не еднократна оценка<br />В. Основните вярвания не могат да се оценяват изобщо</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: 9.5</p></div></details></div>
+            <div class="card"><p><strong>Q10.</strong> Кои шест колони съдържа пълният запис на мислите?</p><p>А. Само мисъл и емоция<br />Б. Ситуация, мисъл (+вяра%), емоция (+интензивност%), изкривяване, отговор, резултат<br />В. Дата, час, място</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: 9.6</p></div></details></div>
+            <div class="card"><p><strong>Q11.</strong> За кои пациенти работният лист „Тест на мислите ви“ е по-подходящ от пълния запис на мислите?</p><p>А. За никого — винаги се използва пълният<br />Б. За пациенти, за които пълният запис би бил твърде объркващ или сложен<br />В. Само за деца</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: 9.7</p></div></details></div>
+            <div class="card"><p><strong>Q12 (вярно/невярно).</strong> Ако попълването на работен лист не донесе облекчение, това означава, че пациентът е направил нещо грешно.</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Невярно.</strong> Това е възможност за учене, не провал. Source: 9.7</p></div></details></div>
+            <div class="card"><p><strong>Q13.</strong> Работният лист „Тест на мислите ви“ следва логиката на кои по-ранни въпроси?</p><p>А. Изцяло нови, несвързани въпроси<br />Б. Същите шест оценъчни категории от 9.2, на по-опростен език<br />В. Само доказателства</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: 9.2/9.7</p></div></details></div>
+            <div class="card"><p><strong>Q14 (вярно/невярно).</strong> Тази страница кани читателя да попълни собствени автоматични мисли в интерактивна форма.</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Невярно.</strong> Демонстрацията е фиксиран, преразказан пример от източника — не самооценъчен инструмент. Source: safety framing · 9.13</p></div></details></div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Изводи">
+        <h2 id="review-map" tabindex="-1">9.11 · Карта за повторение</h2>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>Преди да разгънеш картата, опитай да си спомниш основните знаниеви клъстери на седмицата.</p>
+                <ConceptGraph ComponentId="week9-mindmap-review" Model="@_week9MindMapRender" />
+            </div>
+        </details>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Retrieval practice: подреди без да гледаш назад</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Подредете тези четири колони на записа на мислите в правилния ред: <em>Емоция</em> ·
+                    <em>Ситуация</em> · <em>Когнитивно изкривяване</em> · <em>Автоматична мисъл</em>.
+                </p>
+                <details>
+                    <summary>Покажи верния ред</summary>
+                    <ol>
+                        <li>Ситуация</li>
+                        <li>Автоматична мисъл</li>
+                        <li>Емоция</li>
+                        <li>Когнитивно изкривяване</li>
+                    </ol>
+                    <p><a href="/kurs/sedmica-9#zapis-na-mislite">Виж пълната структура в 9.6 →</a></p>
+                </details>
+            </div>
+        </details>
+        <div class="learning-grid learning-grid--balanced">
+            <div>
+                <h3>Какво да запомните</h3>
+                <ul>
+                    <li>Терапевтът избира кои мисли си струва да оцени, не оценява всяка една.</li>
+                    <li>Автоматичните мисли рядко се оспорват директно — колаборативен емпиризъм вместо това.</li>
+                    <li>Дванадесет типични когнитивни изкривявания, всяко с ясен пример.</li>
+                    <li>Когато мисълта е вярна: решаване на проблема, невалидно заключение, или приемане.</li>
+                    <li>Записът на мислите и по-опростеният работен лист следват същата логика — различна сложност.</li>
+                    <li>Тази страница представя модел и демонстрация, не инструмент за лични данни.</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Академичен контекст</h3>
+                <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
+                    <p>
+                        Когнитивните изкривявания и записът на мислите са систематично представени в
+                        трудовете на Джудит С. Бек — Глава 11 описва оценката на автоматични мисли и
+                        списъка с изкривявания, Глава 12 — структурираното отговаряне и записване.
+                    </p>
+                    <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
+                </ProgressiveExplanation>
+            </div>
+            <div>
+                <DisclaimerCallout Text="Тази страница представя задълбочен образователен преглед на когнитивните изкривявания и записа на мислите. Тя не обучава за самостоятелно провеждане на терапия, не оценява личното ви състояние и не заменя професионална психологическа или медицинска помощ." />
+            </div>
+            <div>
+                <h3>Връзки напред и назад</h3>
+                <p>
+                    <a href="/kurs/sedmica-10">Седмица 10 — Сократически въпроси и съвместно изследване</a> (пълно разгръщане на оценъчните въпроси)<br />
+                    <a href="/kurs/sedmica-8">Седмица 8 — Автоматични мисли и емоции</a><br />
+                    Основни вярвания (Глава 14 на източника) — тема на бъдеща седмица, не разгъната тук<br />
+                    <a href="/kurs">← Обратно към 15-седмичния курс</a>
+                </p>
+            </div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Източници">
+        <h2 id="izvori" tabindex="-1">9.13 · Източници и допълнително четене</h2>
+        <SourceReferences Citations="@_citations" />
+        <OptionalReadingSource
+            Title="Когнитивно-поведенческа терапия: Основи и отвъд"
+            Author="Джудит С. Бек"
+            Edition="2-ро издание, Guilford Press, 2011 (оригинално заглавие: Cognitive Behavior Therapy: Basics and Beyond)"
+            RelevantSection="Глава 11 — Оценяване на автоматични мисли; Глава 12 — Отговаряне на автоматични мисли"
+            Description="Главите представят подробно, с пълни диалогови примери, шестте категории оценъчни въпроси, дванадесетте когнитивни изкривявания, записа на мислите и по-опростения работен лист." />
+
+        <WeekCompletionControl WeekNumber="@_week.Number" />
+    </LearningSection>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 9);
+
+    private static readonly GraphRenderModel _week9MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek9MindMap());
+
+    // ThoughtRecordNetworkLayout must be declared before _thoughtRecordStructureRender — static
+    // field initializers run in declaration order, and ToRenderModel needs the dictionary already
+    // built, not null (same trap Week 3's/Week 7's own code comments warn about).
+    //
+    // Every edge here is deliberately same-row-adjacent-column or same-column-adjacent-row — the
+    // engine's two cleanest curve types — so nothing needs a long cross-column arc. An earlier draft
+    // put "outcome" two columns away from "response" (and "distortion" two columns from "thought"),
+    // which produced two arcs bowing above the diagram whose endpoints visually clustered together,
+    // reading as a false direct connection between "Автоматична мисъл" and "Резултат" — verified
+    // wrong in a real browser, not just guessed. Fixed by keeping distortion/response one row below
+    // thought/emotion, and outcome directly beneath response.
+    private static readonly IReadOnlyDictionary<string, ConceptNetworkPosition> ThoughtRecordNetworkLayout = new Dictionary<string, ConceptNetworkPosition>
+    {
+        ["tr-situation"] = new("", 0, 0),
+        ["tr-thought"] = new("", 1, 0),
+        ["tr-emotion"] = new("", 2, 0),
+        ["tr-distortion"] = new("", 2, 1),
+        ["tr-response"] = new("", 3, 0),
+        ["tr-outcome"] = new("", 3, 1)
+    };
+
+    private static readonly GraphRenderModel _thoughtRecordStructureRender = ConceptMapAdapter.ToRenderModel(
+        BuildThoughtRecordStructure(), CourseCatalog.Weeks, ConceptGraphLayout.Network, ThoughtRecordNetworkLayout);
+
+    private static MindMapModel BuildWeek9MindMap() => new(
+        "Седмица 9 — знаниеви клъстери",
+        "Мисловна карта на когнитивните изкривявания и записа на мислите, групирана по клъстери от знание, не по номер на секция.",
+        [
+            new("root", "Когнитивни изкривявания и дневник на мислите", null, null, null, ConceptState.Introduced),
+
+            new("zashto-otsenka", "Защо оценяваме, не оспорваме", "root", "Колаборативен емпиризъм, зрънце истина.", "/kurs/sedmica-9#zashto-otsenka", ConceptState.Introduced),
+
+            new("vaprosi-pregled", "Преглед: въпроси за оценка", "root", "Пълно разгръщане в Седмица 10.", "/kurs/sedmica-9#vaprosi-pregled",
+                ConceptStateResolver.Derive(10, [9], CourseCatalog.Weeks)),
+
+            new("izkrivyavaniya", "12-те когнитивни изкривявания", "root", null, "/kurs/sedmica-9#izkrivyavaniya", ConceptState.Introduced),
+
+            new("koga-verni", "Кога мислите са верни", "root", "Решаване на проблема, невалидно заключение, приемане.", "/kurs/sedmica-9#koga-verni", ConceptState.Introduced),
+
+            new("zashto-ne-pomaga", "Защо оценката понякога не помага", "root", "Петте причини — случаят на Джон.", "/kurs/sedmica-9#zashto-ne-pomaga", ConceptState.Introduced),
+
+            new("zapis-na-mislite", "Записът на мислите", "root", "Шест колони, пълна структура.", "/kurs/sedmica-9#zapis-na-mislite", ConceptState.Introduced),
+
+            new("raboten-list", "По-опростеният работен лист", "root", "„Тест на мислите ви“ — работен пример.", "/kurs/sedmica-9#raboten-list", ConceptState.Introduced)
+        ]);
+
+    // Structural-only Network map (Figure 12.1's six columns) — no case narrative attached, per the
+    // owner decision to keep the full Thought Record demonstration-free and let Figure 12.2 (9.7)
+    // carry the actual worked example. Deliberately short (Chain-like single row), so it stays well
+    // within the shared engine's proven column-width budget (see Week 7's Sali map fix comment).
+    private static ConceptMapModel BuildThoughtRecordStructure() => new(
+        "Структура на записа на мислите (Фигура 12.1)",
+        "Шестте колони на пълния запис на мислите — структурен преглед, не работен пример с конкретен случай.",
+        [
+            new("tr-situation", "Ситуация", "Кога и къде възниква мисълта.", 9, [], null),
+            new("tr-thought", "Автоматична мисъл (+вяра %)", "Точните думи или образ, и колко силно се вярва в тях.", 9, [], null),
+            new("tr-emotion", "Емоция (+интензивност %)", "Името на емоцията и колко силна е.", 9, [], null),
+            new("tr-distortion", "Когнитивно изкривяване", "Кое от 12-те изкривявания отразява мисълта.", 9, [], null),
+            new("tr-response", "Отговор", "Прилагане на оценъчните въпроси от 9.2.", 9, [], null),
+            new("tr-outcome", "Резултат", "Преоценена вяра в мисълта и интензивност на емоцията.", 9, [], null)
+        ],
+        [
+            new("tr-situation", "tr-thought", RelationType.LeadsTo, "поражда"),
+            new("tr-thought", "tr-emotion", RelationType.LeadsTo, "поражда"),
+            new("tr-thought", "tr-distortion", RelationType.IsExampleOf, "класифицирана като"),
+            new("tr-distortion", "tr-response", RelationType.LeadsTo, "насочва"),
+            new("tr-response", "tr-outcome", RelationType.LeadsTo, "води до")
+        ]);
+
+    private readonly IReadOnlyList<string> _objectives = _week.LearningObjectives;
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — Глава 11, оценяване на автоматични мисли (стр. 167–186).",
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — Глава 12, отговаряне на автоматични мисли (стр. 187–197).",
+        "Учебната последователност на тази седмица е използвана само за тематична ориентация, без институционални твърдения."
+    ];
+}

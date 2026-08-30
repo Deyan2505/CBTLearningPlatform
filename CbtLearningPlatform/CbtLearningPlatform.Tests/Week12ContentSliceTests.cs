@@ -45,9 +45,9 @@ public sealed class Week12ContentSliceTests
     }
 
     [Fact]
-    public void RemainingEightWeeks_StayFullyUnrouted()
+    public void RemainingSevenWeeks_StayFullyUnrouted()
     {
-        int[] routedNumbers = [1, 3, 6, 7, 8, 10, 12];
+        int[] routedNumbers = [1, 3, 6, 7, 8, 9, 10, 12];
 
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks.Where(w => !routedNumbers.Contains(w.Number)))
         {
@@ -55,7 +55,7 @@ public sealed class Week12ContentSliceTests
             Assert.NotEqual(CourseWeekStatus.Available, week.Status);
         }
 
-        Assert.Equal(8, CourseCatalog.Weeks.Count(w => !routedNumbers.Contains(w.Number)));
+        Assert.Equal(7, CourseCatalog.Weeks.Count(w => !routedNumbers.Contains(w.Number)));
     }
 
     [Fact]
@@ -228,10 +228,10 @@ public sealed class Week12ContentSliceTests
     }
 
     [Fact]
-    public void KursPage_StartPanelStillListsOnlyTheSixTrulyAvailableWeeks()
+    public void KursPage_StartPanelStillListsOnlyTheSevenTrulyAvailableWeeks()
     {
-        // Week 12 is AcademicOverview, not Available — it must not be added to the "Шест седмици"
-        // fully-developed/self-guided start-panel alongside Weeks 1, 3, 6, 7, 8, 10.
+        // Week 12 is AcademicOverview, not Available — it must not be added to the start-panel
+        // alongside Weeks 1, 3, 6, 7, 8, 9, 10.
         string source = ReadPage("Kurs.razor");
 
         Assert.Contains("/kurs/sedmica-1", source);
@@ -239,8 +239,9 @@ public sealed class Week12ContentSliceTests
         Assert.Contains("/kurs/sedmica-6", source);
         Assert.Contains("/kurs/sedmica-7", source);
         Assert.Contains("/kurs/sedmica-8", source);
+        Assert.Contains("/kurs/sedmica-9", source);
         Assert.Contains("/kurs/sedmica-10", source);
-        Assert.Contains("Шест седмици", source);
+        Assert.Contains("Седем седмици", source);
 
         int startPanelStart = source.IndexOf("start-panel", StringComparison.Ordinal);
         int startPanelEnd = source.IndexOf("</div>", startPanelStart, StringComparison.Ordinal);

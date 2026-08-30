@@ -41,9 +41,20 @@
   LOCKED`. Eligibility is `CourseWeekDefinition.Route is not null` (not `CourseWeekStatus`), so
   Week 12 (`AcademicOverview`, routed) counts correctly. Committed `7b62e45`/`95c888b`. Does not
   touch the locked Course Map/Knowledge Map engine.
-- **Седмица 7** — `UNBLOCKED` / `NEXT`. Source-first audit complete (this checkpoint), read-only —
-  see `00_PROJECT_OS/_blueprints/WEEK_07_SOURCE_COVERAGE_AUDIT_v1.md`. Implementation not started,
-  awaiting owner blueprint review.
+- **Седмица 7** (Поведенческа активация, SRC-041 Гл. 6) — `OWNER APPROVED / LOCKED`. 54/54 KUs
+  Included (0 Needs Review/Deferred/Excluded/Unaccounted) — see
+  `00_PROJECT_OS/_blueprints/WEEK_07_SOURCE_COVERAGE_AUDIT_v1.md`. Final Sally Concept Map desktop
+  layout (spatial Network layout, not the stacked Chain column) owner-approved. **594/594** теста,
+  Debug+Release build 0/0, production deploy successful (commit `20833aa`).
+- **Седмица 9** (Когнитивни изкривявания и дневник на мислите, SRC-041 Гл. 11–12) —
+  `OWNER APPROVED / LOCKED`. 76 KUs — 39 Included / 3 Deferred / 34 Excluded / 0 Needs Review /
+  0 Unaccounted — see `00_PROJECT_OS/_blueprints/WEEK_09_SOURCE_COVERAGE_AUDIT_v1.md`. Evaluation
+  questions kept at recap depth (cross-linked to Седмица 10); Сали not extended with new biography —
+  Джон (source-named) carries "why evaluation fails"; Thought Record is a fixed, source-grounded
+  demonstration only (Figure 12.2's own generic worksheet example), separate scope from the
+  still-open product-level MVP Thought Record requirement. **623/623** теста, Debug+Release build
+  0/0.
+- **Седмица 11** — `UNBLOCKED` / `NEXT`. Not started.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
   Netlify (static-only host). Commit `4135988`.
