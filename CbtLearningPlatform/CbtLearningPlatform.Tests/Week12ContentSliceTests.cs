@@ -199,7 +199,11 @@ public sealed class Week12ContentSliceTests
     {
         string source = ReadPage("Sedmica12.razor");
 
-        string[] anchorIds = ["niva", "osnovno-vyarvane", "trite-kategorii", "akademichen-obzor", "proverka", "izvori"];
+        string[] anchorIds =
+        [
+            "niva", "osnovno-vyarvane", "trite-kategorii", "poddarzhane-na-vyarvaneto",
+            "razvitie-na-novo-vyarvane", "akademichen-obzor", "proverka", "izvori"
+        ];
 
         foreach (string id in anchorIds)
         {
@@ -265,6 +269,101 @@ public sealed class Week12ContentSliceTests
         Assert.DoesNotContain("style=", source);
         Assert.DoesNotContain("position: absolute", source);
         Assert.DoesNotContain("position:absolute", source);
+    }
+
+    // ---- WEEK_12_RETROFIT_AUDIT_v1 (owner-approved, conservative AcademicContextOnly retrofit) ----
+
+    [Fact]
+    public void Week12Page_ExplainsSchemaVsCoreBeliefDistinction()
+    {
+        string source = ReadPage("Sedmica12.razor");
+
+        Assert.Contains("Бек разграничава", source);
+        Assert.Contains("когнитивна структура", source);
+    }
+
+    [Fact]
+    public void Week12Page_ExplainsTheAbstractScreenMechanism_WithoutSelfAssessment()
+    {
+        string publicMarkup = ReadPublicMarkup("Sedmica12.razor");
+
+        Assert.Contains("id=\"poddarzhane-na-vyarvaneto\"", publicMarkup);
+        Assert.Contains("филтър", publicMarkup);
+
+        // Abstract explanatory concept only — no invitation to apply it to oneself.
+        Assert.DoesNotContain("твоя", publicMarkup);
+        Assert.DoesNotContain("твоето вярване", publicMarkup);
+        Assert.DoesNotContain("твоята схема", publicMarkup);
+    }
+
+    [Fact]
+    public void Week12Page_DescribesDevelopingANewBelief_DescriptivelyNotAsSelfTreatmentSteps()
+    {
+        string publicMarkup = ReadPublicMarkup("Sedmica12.razor");
+
+        Assert.Contains("id=\"razvitie-na-novo-vyarvane\"", publicMarkup);
+        Assert.Contains("терапевтичния процес", publicMarkup);
+        Assert.Contains("comparison-matrix", publicMarkup);
+        Assert.Contains("\"Аз съм безсилен.\"", publicMarkup);
+        Assert.Contains("\"Имам контрол над много неща.\"", publicMarkup);
+
+        // Descriptive/academic register only — never a second-person instruction to act.
+        string[] selfTreatmentPhrases = ["Направете", "Опитайте", "Запишете", "Проследете вашето"];
+        foreach (string phrase in selfTreatmentPhrases)
+        {
+            Assert.DoesNotContain(phrase, publicMarkup);
+        }
+    }
+
+    [Fact]
+    public void Week12Page_DoesNotReproduceFigure14_1AsASelfRecognitionChecklist()
+    {
+        // Owner decision: enrich category *themes* (U13), but do NOT reproduce Figure 14.1's
+        // full concrete belief-phrase lists (U14) — that would read as a self-recognition tool.
+        string publicMarkup = ReadPublicMarkup("Sedmica12.razor");
+
+        string[] figure141OnlyPhrases =
+        [
+            "Аз съм жертва", "Аз съм извън контрол", "Аз съм хванат в капан",
+            "Аз съм токсичен", "Не заслужавам да живея", "предопределен да бъда отхвърлен"
+        ];
+
+        foreach (string phrase in figure141OnlyPhrases)
+        {
+            Assert.DoesNotContain(phrase, publicMarkup);
+        }
+    }
+
+    [Fact]
+    public void Week12Page_ExcludesTheClinicalTechniqueCatalog()
+    {
+        // WEEK_12_RETROFIT_AUDIT_v1 §0 final accounting keeps 22 KUs Excluded — the entire
+        // therapist-led technique/case-demonstration catalog stays off this AcademicContextOnly page.
+        string publicMarkup = ReadPublicMarkup("Sedmica12.razor");
+
+        string[] excludedTechniqueTerms =
+        [
+            "Работен лист за основни вярвания", "екстремни контрасти", "исторически тест",
+            "реструктуриране на ранни спомени", "Сали", "Анни"
+        ];
+
+        foreach (string term in excludedTechniqueTerms)
+        {
+            Assert.DoesNotContain(term, publicMarkup);
+        }
+    }
+
+    [Fact]
+    public void Week12Page_HasFiveComprehensionQuestions_NewOnesTestConceptsNotSelfDiagnosis()
+    {
+        string source = ReadPage("Sedmica12.razor");
+
+        Assert.Contains("Въпрос 1.", source);
+        Assert.Contains("Въпрос 2.", source);
+        Assert.Contains("Въпрос 3.", source);
+        Assert.Contains("Въпрос 4.", source);
+        Assert.Contains("Въпрос 5.", source);
+        Assert.DoesNotContain("Въпрос 6.", source);
     }
 
     private static string ReadPage(string fileName)

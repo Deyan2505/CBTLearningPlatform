@@ -55,6 +55,13 @@
   still-open product-level MVP Thought Record requirement. Includes the Thought Record map's
   edge-label micro-fix (scoped CSS only, same technique as Week 3's Sally-map precedent).
   **623/623** теста, Debug+Release build 0/0, production deploy successful (commit `1cd2171`).
+- **Седмица 10** (Сократически въпроси и съвместно изследване, SRC-041 Гл. 11 — retrofit of a
+  pre-Deep-Learning page) — `OWNER APPROVED / LOCKED`. 54 KUs (same chapter as Седмица 9) — 23
+  Included / 30 Deferred (Седмица 9's territory) / 1 Excluded / 0 Needs Review / 0 Unaccounted —
+  see `00_PROJECT_OS/_blueprints/WEEK_10_RETROFIT_AUDIT_v1.md`. Four-category compression replaced
+  by the source's real six categories; invented dialogue scenario retired for a source-grounded
+  Сали/Карен worked example; terminology migrated to "адаптивен отговор" (page-scoped only).
+  **627/627** теста, Debug+Release build 0/0, production deploy successful (commit `fc5b9f4`).
 - **Седмица 11** — `UNBLOCKED` / `NEXT`. Not started.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
