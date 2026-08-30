@@ -8,7 +8,10 @@
    this component's longer step labels (3 fit a row, 4th dangles alone with a trailing arrow
    into empty space). Fixed with a local ".research-turn-stepper" CSS Grid variant (app.css) —
    scoped to this component only, CbtModelDiagram's own layout is untouched. DOM/tab order stays
-   1→2→3→4 at every breakpoint; only the CSS visual placement changes. *@
+   1→2→3→4 at every breakpoint; only the CSS visual placement changes.
+   WEEK_01_RETROFIT_AUDIT_v1: same 4 steps/labels, explanations enriched with SRC-041 Chapter 1's
+   actual dream-study narrative (hypothesis, method, surprising result, the "two streams of
+   thinking" reformulation) instead of the previous fully generic wording. *@
 
 <div class="cbt-diagram research-turn-stepper">
     <ol class="cbt-diagram__steps" aria-label="Изследователският обрат: от хипотеза до преформулиране">
@@ -55,13 +58,13 @@
     private static readonly IReadOnlyList<ResearchTurnStep> Steps =
     [
         new("Първоначална хипотеза",
-            "Бек е обучен в психоаналитичната традиция и изследва нейни предположения за депресията, очаквайки резултатите да ги потвърдят."),
+            "Бек е обучен в психоаналитичната традиция и тества хипотезата, че депресията е резултат от враждебност, обърната навътре към себе си — включително чрез изследване на сънищата на депресирани пациенти, очаквайки в тях повече теми на враждебност."),
         new("Наблюдение и проверка",
-            "Той организира емпирично изследване, за да провери тези предположения систематично — не само въз основа на клинично впечатление."),
+            "Вместо да разчита само на клинично впечатление, той организира систематично изследване на съдържанието на тези сънища, за да провери хипотезата емпирично."),
         new("Резултатът не потвърждава очакването",
-            "Данните не подкрепят първоначалната хипотеза по начина, по който е била формулирана."),
+            "Сънищата показват по-малко, а не повече, теми на враждебност — вместо това много повече теми за дефектност, лишение и загуба, съвпадащи с начина, по който пациентите мислят и будни."),
         new("Преформулиране: нов фокус върху мисли и значения",
-            "Изследователският въпрос се пренасочва към повтарящите се модели на мислене и към начина, по който хората интерпретират ситуациите — основата на когнитивния модел.")
+            "Слушайки пациентите си, Бек забелязва и втори, бърз поток от самооценъчни мисли, тясно свързан с емоциите им — наблюдение, потвърдено и с други пациенти, довело до метод за идентифициране, оценяване и реагиране на това мислене.")
     ];
 
     private void Select(int index) => _selected = index;

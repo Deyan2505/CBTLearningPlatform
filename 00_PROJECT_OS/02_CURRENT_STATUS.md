@@ -62,6 +62,14 @@
   by the source's real six categories; invented dialogue scenario retired for a source-grounded
   Сали/Карен worked example; terminology migrated to "адаптивен отговор" (page-scoped only).
   **627/627** теста, Debug+Release build 0/0, production deploy successful (commit `fc5b9f4`).
+- **Седмица 12** (Основни вярвания и схеми, SRC-041 Гл. 14 — conservative retrofit of an already
+  clean-source page) — `OWNER APPROVED / LOCKED`. 40 KUs — 12 Included / 6 Deferred / 22 Excluded /
+  0 Needs Review / 0 Unaccounted — see `00_PROJECT_OS/_blueprints/WEEK_12_RETROFIT_AUDIT_v1.md`.
+  Added schema-vs-core-belief distinction, developmental origin, the abstract "screen" filtering
+  mechanism, and a descriptive account of developing/strengthening a new belief; full clinical-
+  technique catalog (Sally/Annie dialogues, CBW walkthrough, etc.) stays Excluded — AcademicContextOnly
+  boundary preserved, zero new interactivity. **633/633** теста, Debug+Release build 0/0, production
+  deploy successful (commit `c72593b`).
 - **Седмица 11** — `UNBLOCKED` / `NEXT`. Not started.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to

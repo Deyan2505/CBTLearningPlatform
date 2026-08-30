@@ -353,6 +353,81 @@ public sealed class Week1ContentSliceTests
         Assert.DoesNotContain("overflow-x:hidden", source);
     }
 
+    // ---- WEEK_01_RETROFIT_AUDIT_v1 (owner-approved, conservative retrofit) ----
+
+    [Fact]
+    public void Week1Page_TellsTheDreamStudyOriginStory()
+    {
+        string source = ReadPage("Sedmica1.razor");
+
+        Assert.Contains("сънищата на депресирани пациенти", source);
+        Assert.Contains("дефектност, лишение и загуба", source);
+    }
+
+    [Fact]
+    public void Week1Page_TellsTheTwoStreamsDiscovery_PatientAnecdoteParaphrasedNotQuoted()
+    {
+        string publicMarkup = ReadPublicMarkup("Sedmica1.razor");
+
+        Assert.Contains("два", publicMarkup);
+        Assert.Contains("самооценъчни мисли", publicMarkup);
+
+        // Paraphrased, never the book's literal quoted dialogue lines.
+        Assert.DoesNotContain("Мислехте, че ви критикувам", publicMarkup);
+        Assert.DoesNotContain("страхувах се, че ви отегчавам", publicMarkup);
+        Assert.DoesNotContain("сексуалните си подвизи", publicMarkup);
+    }
+
+    [Fact]
+    public void Week1Page_Has1977RushRctSection_ReplacingTheUnsupportedManualsSection()
+    {
+        string source = ReadPage("Sedmica1.razor");
+
+        Assert.Contains("id=\"izsledvane-1977\"", source);
+        Assert.Contains("А. Джон Ръш", source);
+        Assert.Contains("имипраминът", source);
+
+        // The old, source-unsupported "four roles of manuals" framing is gone.
+        Assert.DoesNotContain("играят четири основни роли", source);
+        Assert.DoesNotContain("id=\"zashto-struktura\"", source);
+    }
+
+    [Fact]
+    public void Week1Page_HasNoStandaloneInfluencesOrRelatedTherapiesList()
+    {
+        // Owner decision: no standalone name-list — none of these names were necessary to
+        // explain the specific historical sequence that was implemented.
+        string source = ReadPage("Sedmica1.razor");
+
+        string[] namesNotNeededHere = ["Епиктет", "Карън Хорни", "Алфред Адлер", "Албърт Елис"];
+        foreach (string name in namesNotNeededHere)
+        {
+            Assert.DoesNotContain(name, source);
+        }
+    }
+
+    [Fact]
+    public void Week1Page_HasFourComprehensionQuestions()
+    {
+        string source = ReadPage("Sedmica1.razor");
+
+        Assert.Contains("Въпрос 1.", source);
+        Assert.Contains("Въпрос 2.", source);
+        Assert.Contains("Въпрос 3.", source);
+        Assert.Contains("Въпрос 4.", source);
+        Assert.DoesNotContain("Въпрос 5.", source);
+    }
+
+    [Fact]
+    public void ResearchTurnStepper_StepsEnrichedWithTheRealDreamStudyNarrative()
+    {
+        string source = ReadClientComponent("ResearchTurnStepper.razor");
+
+        Assert.Contains("сънища", source);
+        Assert.Contains("дефектност", source);
+        Assert.Contains("самооценъчни мисли", source);
+    }
+
     private static string ReadPage(string fileName)
     {
         string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages");
