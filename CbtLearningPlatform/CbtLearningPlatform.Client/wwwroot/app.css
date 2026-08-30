@@ -873,6 +873,16 @@ h3[tabindex="-1"]:focus-visible {
     padding: var(--space-5);
 }
 
+/* Week 1 §05 only — the automatic-thought example is 3 short lines; once Section 04/05
+   stopped sharing a half-width grid column (owner visual fix), an unconstrained .card
+   stretched to the full content width and read as an oversized, mostly-empty box. A
+   dedicated modifier class (not a shared .card change) — note this can't be scoped via
+   the section's #avtomatichni-misli-preview id: that id sits on the <h2>, a sibling of
+   this card, not an ancestor, so a descendant selector would silently never match. */
+.card--compact-example {
+    max-width: 34rem;
+}
+
 /* Single surface + internal dividers, not a stack of full bordered cards inside an
    already-bordered LearningSection (Session 23 — "card in card" chrome cleanup). */
 .module-list {
@@ -1912,6 +1922,16 @@ h3[tabindex="-1"]:focus-visible {
         letter-spacing: 0.02em;
         white-space: normal;
     }
+
+/* Week 1 §04 only — its two columns hold full sentences, not short 2-4 word phrases like
+   Week 3/12's tables. The shared td white-space:nowrap above forced every row onto one very
+   wide line, which is what actually caused the horizontal scrollbar (owner visual fix) —
+   not the grid width. Scoped via sibling combinator, not a descendant selector: the
+   #predi-i-sled id sits on this section's <h2>, a sibling of .comparison-matrix-wrapper,
+   not its ancestor — a descendant selector here would silently never match. */
+#predi-i-sled ~ .comparison-matrix-wrapper .comparison-matrix td {
+    white-space: normal;
+}
 
 /* Two clearly distinct columns (e.g. education vs. professional support) — a subtle
    surface tint difference, never warning/error coloring on either side. */
