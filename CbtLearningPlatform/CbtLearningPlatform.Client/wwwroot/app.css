@@ -3037,6 +3037,24 @@ h3[tabindex="-1"]:focus-visible {
     transform: translate(-50%, -100%) translateY(5px);
 }
 
+/* Owner review (Week 9 — Thought Record structure map micro-fix): the "класифицирана като" label
+   (tr-thought → tr-distortion, the 3rd relation defined in BuildThoughtRecordStructure) had its
+   bezier-midpoint position land inside the bottom-left corner of the "Емоция" node (measured
+   ~25px horizontal overlap), because that node sits directly above the diagonal connector's
+   midpoint. Scoped to this one label only, via the general sibling combinator off this map's own
+   unique title id (#week9-thought-record-structure-title) — never touches ConceptGraph.razor/the
+   shared engine, so no other ConceptGraph instance (including Week 3's/Week 7's own maps) is
+   affected. :nth-of-type(3) counts only among the direct-child <span> siblings inside
+   .concept-graph__network-canvas (the 5 edge labels here; node-label spans live one level deeper,
+   inside each node's own div, so they don't affect this count) — the same order as the 3rd
+   relation in BuildThoughtRecordStructure, so this rule stays correct only as long as
+   "класифицирана като" remains the 3rd one there. Shifted down into the empty row-gap band between
+   row 0 and row 1 — no node occupies that vertical range, so the label clears both rows instead of
+   sitting at the raw midpoint. */
+#week9-thought-record-structure-title ~ .concept-graph__network-canvas > .concept-graph__network-edge-label:nth-of-type(3) {
+    transform: translate(-50%, -100%) translateY(15px);
+}
+
 .concept-graph__network-node-absolute {
     position: absolute;
     display: flex;
