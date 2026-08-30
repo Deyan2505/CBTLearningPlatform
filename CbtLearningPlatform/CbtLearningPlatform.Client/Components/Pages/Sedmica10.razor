@@ -1,18 +1,33 @@
-@* ACADEMIC/CLINICAL REVIEW PENDING internally — no staffed reviewer yet (RISK-010), not shown
-   as an uppercase status in the public UI (Week 1 owner-review correction lesson applied).
-   CONTENT-DRIVEN TEMPLATE VALIDATION, Slice 3: "Guided Practice" archetype — distinct from
-   Week 1's "Theory and History", Week 3's "Concept and Diagram", and Week 8's "Simulator
-   Workspace". Curriculum topic from kpt_syllabus.pdf (Week 10) — map only, never verbatim
-   text. Content basis: SRC-041 (Judith Beck) on guided discovery, Socratic questioning and
-   collaborative empiricism. Reconciled syllabus claims (10_SESSION_LOG.md, this session):
-   Socratic questions are framed as exploration, not persuasion/interrogation/covert advice;
-   a balanced response is not forced positivity; decatastrophizing does not deny a real
-   problem; an alternative explanation doesn't cancel the first one just for being nicer.
-   One interactive island (SocraticDialogueExplorer) — reuses the proven .cbt-diagram
-   step-select pattern (0 new CSS). Categorization/knowledge checks reuse native
-   <details>/<summary> (Week 1/3 pattern), not a second quiz engine. Section 08/09 kept as
-   separate full-width LearningSection blocks from the start (Week 3 owner-review lesson on
-   pairing mismatched-height content in a shared grid row). *@
+@* WEEK 10 — DEEP LEARNING RETROFIT. Migrated per the owner-approved
+   00_PROJECT_OS/_blueprints/WEEK_10_RETROFIT_AUDIT_v1.md (final accounting in that file's §0 —
+   see the coverage matrix there for the full KU-by-KU disposition).
+
+   SOURCE: SRC-041 (Judith Beck), Глава 11 "Оценяване на автоматични мисли" (printed стр. 167–186)
+   — the SAME chapter already fully read for Week 9's audit (extraction cached, gitignored, at
+   00_PROJECT_OS/_source_corpus/SRC-041_ch11_bg_extracted.txt — never committed). Chapter 12
+   (Thought Record) is Week 9's exclusive territory, not touched here.
+
+   OWNER MIGRATION DECISIONS (this session, all applied):
+   1. The old "four families" compression is replaced by the source's real six evaluation-
+      question categories (Figure 11.1), in the chapter's own order, with the chapter's own
+      sub-questions verbatim.
+   2. Worked example: Сали's real, source-verified case about her friend Карен (printed стр. 168,
+      171–175) — retold, not verbatim, across all six categories — replaces the old invented
+      "prepared material" scenario in SocraticDialogueExplorer.razor. No new Сали history beyond
+      what this chapter directly supports.
+   3. U50–U54 added as a closing section: teaching the patient to self-evaluate, and the
+      "shortcut" (skip straight to an adaptive response) — both source-grounded, both previously
+      unclaimed by any week.
+   4. Terminology: canonical learner-facing term is "адаптивен отговор". First occurrence in this
+      page reads "адаптивен (балансиран) отговор" for continuity with the page's existing
+      vocabulary; every later occurrence uses "адаптивен отговор". No other week's locked content
+      was touched for this.
+   5. Sections 04–09 (advice-vs-question, facts/assumptions/conclusions, decatastrophizing concept,
+      the practical 6-step sequence, the final check) are PRESERVED — the audit found them
+      source-consistent. Only the terminology in "Балансиран отговор" → "Адаптивен отговор" and one
+      node label change, nothing structural.
+   6. Week 9 boundary: distortions and the Thought Record stay Week 9's — this page cross-links
+      instead of re-teaching them. *@
 @page "/kurs/sedmica-10"
 
 <PageTitle>Седмица 10: Сократически въпроси и съвместно изследване — 15-седмичен курс — КПТ Академия</PageTitle>
@@ -33,22 +48,43 @@
     </div>
 
     <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-10#karta">Карта на седмицата</a>
         <a href="/kurs/sedmica-10#izsledvane">Какво е изследване</a>
-        <a href="/kurs/sedmica-10#semeystva">Семейства въпроси</a>
-        <a href="/kurs/sedmica-10#dialog">Насочен диалог</a>
+        <a href="/kurs/sedmica-10#kategorii">Шестте категории въпроси</a>
+        <a href="/kurs/sedmica-10#sluchay-sali-karen">Случаят на Сали и Карен</a>
         <a href="/kurs/sedmica-10#prikrit-savet">Въпрос или съвет</a>
         <a href="/kurs/sedmica-10#fakti-zakliucheniya">Факти и заключения</a>
         <a href="/kurs/sedmica-10#dekatastrofizirane">Декатастрофизиране</a>
-        <a href="/kurs/sedmica-10#balansiran-otgovor">Балансиран отговор</a>
+        <a href="/kurs/sedmica-10#adaptiven-otgovor">Адаптивен отговор</a>
         <a href="/kurs/sedmica-10#flow">Практическа последователност</a>
+        <a href="/kurs/sedmica-10#samostoyatelno">Приложи сам</a>
         <a href="/kurs/sedmica-10#proverka">Проверка</a>
+        <a href="/kurs/sedmica-10#review-map">Карта за повторение</a>
         <a href="/kurs/sedmica-10#izvori">Източници</a>
     </nav>
 </div>
 
 <div class="workspace">
+
+    <LearningSection Role="theory" RoleLabel="Карта">
+        <h2 id="karta" tabindex="-1">10.0 · Карта на седмицата</h2>
+        <p>
+            <strong>Какво ще научите:</strong> шестте категории оценъчни въпроси от източника, как се
+            прилагат в реален пример, разликата между факт и заключение, декатастрофизирането, адаптивния
+            отговор, и как пациентът постепенно поема самостоятелната оценка на собственото си мислене.
+        </p>
+        <p>
+            <strong>Връзка със Седмица 9:</strong> <a href="/kurs/sedmica-9#vaprosi-pregled">Седмица 9</a>
+            вече представи тези шест категории накратко, като преговор. Тук ги разгръщаме напълно — с
+            пълните формулировки на въпросите и работен пример. Дванадесетте когнитивни изкривявания и
+            записът на мислите остават тема на Седмица 9 — не са разгърнати тук отново.
+        </p>
+        <h3>Мисловна карта на седмицата — преглед</h3>
+        <ConceptGraph ComponentId="week10-mindmap-preview" Model="@_week10MindMapRender" />
+    </LearningSection>
+
     <LearningSection Role="theory" RoleLabel="Теория">
-        <h2 id="izsledvane" tabindex="-1">01 · Какво е сократическо изследване</h2>
+        <h2 id="izsledvane" tabindex="-1">10.1 · Какво е сократическо изследване</h2>
         <ol class="concept-map__flow concept-map__flow--process" aria-label="Процес на сократическото изследване, шест стъпки">
             <li class="concept-map__node">Мисъл или интерпретация</li>
             <li class="concept-map__connector" aria-hidden="true">↓</li>
@@ -60,7 +96,7 @@
             <li class="concept-map__connector" aria-hidden="true">↓</li>
             <li class="concept-map__node">Последствия и перспектива</li>
             <li class="concept-map__connector" aria-hidden="true">↓</li>
-            <li class="concept-map__node concept-map__node--highlight">По-балансирано заключение</li>
+            <li class="concept-map__node concept-map__node--highlight">По-адаптивен отговор</li>
         </ol>
 
         <div class="learning-grid learning-grid--balanced">
@@ -90,53 +126,92 @@
             информация. Не всеки затворен въпрос е насочващ — важна е целта и духът на въпроса, не само
             граматичната му форма.
         </p>
+        <p>
+            Терапевтът рядко оспорва автоматична мисъл директно — по три причини: рядко се знае
+            предварително колко изкривена е дадена мисъл (тя може да се окаже валидна); директното
+            оспорване рискува пациентът да се почувства невалидиран; и оспорването нарушава
+            <strong>колаборативния емпиризъм</strong> — терапевтът и пациентът заедно изследват мисълта,
+            вместо терапевтът просто да я поправя отвън.
+        </p>
     </LearningSection>
 
-    <LearningSection Role="visual" RoleLabel="Визуален модел">
-        <h2 id="semeystva" tabindex="-1">02 · Четири семейства въпроси</h2>
+    <LearningSection Role="theory" RoleLabel="Понятия">
+        <h2 id="kategorii" tabindex="-1">10.2 · Шестте категории оценъчни въпроси</h2>
+        <p>
+            Източникът предлага шест категории въпроси (Фигура 11.1), които заедно помагат на пациента да
+            разгледа автоматична мисъл от повече страни. Не всички шест винаги пасват на дадена мисъл —
+            обикновено се използват само една-две наведнъж, не цялата поредица механично.
+        </p>
         <div class="concept-map__side-notes">
             <div class="card">
                 <h3>Доказателства</h3>
                 <ul>
-                    <li>Какво пряко подкрепя тази мисъл?</li>
-                    <li>Каква информация не се вписва напълно в нея?</li>
-                    <li>Кое е наблюдаем факт и кое е заключение?</li>
+                    <li>Какви са доказателствата, които подкрепят тази идея?</li>
+                    <li>Какви са доказателствата срещу тази идея?</li>
                 </ul>
             </div>
             <div class="card">
-                <h3>Алтернативи</h3>
+                <h3>Алтернативно обяснение</h3>
                 <ul>
-                    <li>Има ли друго правдоподобно обяснение?</li>
-                    <li>Как би изглеждала ситуацията от друга гледна точка?</li>
-                    <li>Какво още не знаем?</li>
+                    <li>Има ли алтернативно обяснение или гледна точка?</li>
                 </ul>
             </div>
             <div class="card">
-                <h3>Вероятни последствия</h3>
+                <h3>Декатастрофизиране</h3>
                 <ul>
-                    <li>Какъв е най-трудният възможен изход?</li>
-                    <li>Какъв е най-благоприятният?</li>
-                    <li>Кой изглежда най-вероятен според наличните данни?</li>
-                    <li>Какви възможности за действие съществуват?</li>
+                    <li>Какво е най-лошото, което може да се случи?</li>
+                    <li>Ако се случи, как мога да се справя?</li>
+                    <li>Какво е най-доброто, което може да се случи?</li>
+                    <li>Какъв е най-реалистичният резултат?</li>
                 </ul>
             </div>
             <div class="card">
-                <h3>Дистанциране и полезност</h3>
+                <h3>Ефект от вярването</h3>
                 <ul>
-                    <li>Какво бихте казали на приятел в същата ситуация?</li>
-                    <li>Какъв е ефектът от това да приемем мисълта без проверка?</li>
-                    <li>Помага ли тази интерпретация да реагираме разумно?</li>
+                    <li>Какъв е ефектът от това, че вярвам в автоматичната мисъл?</li>
+                    <li>Какъв може да бъде ефектът от промяната на моето мислене?</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Дистанциране</h3>
+                <ul>
+                    <li>Какво бих казал/а на приятел или член на семейството, ако той/тя беше в същата ситуация?</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Решаване на проблема</h3>
+                <ul>
+                    <li>Какво трябва да направя?</li>
                 </ul>
             </div>
         </div>
+        <p class="concept-map__feedback">
+            Тези шест категории са и практическата основа на записа на мислите от
+            <a href="/kurs/sedmica-9#zapis-na-mislite">Седмица 9</a> — колоната „Отговор“ там се попълва
+            именно с въпроси от този списък.
+        </p>
     </LearningSection>
 
-    <h2 id="dialog" tabindex="-1">03 · Насочен диалог: изследвайте стъпка по стъпка</h2>
-    <SocraticDialogueExplorer />
+    <LearningSection Role="example" RoleLabel="Работен пример">
+        <h2 id="sluchay-sali-karen" tabindex="-1">10.3 · Случаят на Сали и Карен</h2>
+        <p>
+            Сали е случаят, който източникът на курса вече използва в предишни седмици. Тук Глава 11 я
+            показва в момент на автоматична мисъл за приятелката ѝ Карен — преразказано, не дословно,
+            стъпка по стъпка през шестте категории от 10.2. Разгледайте всяка стъпка, за да видите какви
+            въпроси и отговори биха се появили в реална сесия.
+        </p>
+        <SocraticDialogueExplorer />
+        <p>
+            В края на разговора Сали преоценява първоначалната си мисъл: вярата ѝ в „Тя всъщност не се
+            интересува какво ще ми се случи“ пада от 90% на около 20%, а тъгата ѝ значително намалява.
+            Преоценката след разглеждането — не самото „позитивно мислене“ — е това, което променя
+            усещането ѝ.
+        </p>
+    </LearningSection>
 
     <div class="learning-grid learning-grid--balanced">
         <LearningSection Role="example" RoleLabel="Сравнение">
-            <h2 id="prikrit-savet" tabindex="-1">04 · Въпрос или прикрит съвет</h2>
+            <h2 id="prikrit-savet" tabindex="-1">10.4 · Въпрос или прикрит съвет</h2>
             <p>Изберете как бихте класифицирали всеки пример, после разгънете обяснението.</p>
             <div class="concept-map__side-notes">
                 <div class="card">
@@ -179,7 +254,7 @@
         </LearningSection>
 
         <LearningSection Role="theory" RoleLabel="Сравнение">
-            <h2 id="fakti-zakliucheniya" tabindex="-1">05 · Факти, предположения и заключения</h2>
+            <h2 id="fakti-zakliucheniya" tabindex="-1">10.5 · Факти, предположения и заключения</h2>
             <div class="category-compare">
                 <div class="category-compare__item category-compare__item--fact">
                     <p class="category-compare__label">Факт</p>
@@ -197,13 +272,13 @@
             <p>
                 Едно заключение може да съдържа вярна част, възможна част и непотвърдена част едновременно.
                 Пълният модел мисъл-емоция-поведение е разгледан в
-                <a href="/programa/modul-2/avtomatichni-misli">урока за автоматичните мисли</a>.
+                <a href="/kurs/sedmica-8">Седмица 8</a>.
             </p>
         </LearningSection>
     </div>
 
     <LearningSection Role="example" RoleLabel="Пример">
-        <h2 id="dekatastrofizirane" tabindex="-1">06 · От „ужасно“ към конкретно и управляемо</h2>
+        <h2 id="dekatastrofizirane" tabindex="-1">10.6 · Декатастрофизиране</h2>
         <ProgressiveExplanation SummaryLabel="Покажи пълното обяснение">
             <p>При декатастрофизиране разглеждаме заедно:</p>
             <ul>
@@ -215,13 +290,15 @@
             </ul>
             <p>
                 Декатастрофизирането не твърди, че няма проблем. То превръща общото усещане за катастрофа
-                в по-конкретна оценка на вероятността, последствията и възможните действия.
+                в по-конкретна оценка на вероятността, последствията и възможните действия — точно както в
+                примера със Сали в 10.3, където „най-лошото“ (Карен наистина не я харесва) се разглежда
+                редом с „най-реалистичното“ (Карен просто е била заета).
             </p>
         </ProgressiveExplanation>
     </LearningSection>
 
     <LearningSection Role="academic" RoleLabel="Пример">
-        <h2 id="balansiran-otgovor" tabindex="-1">07 · Балансиран отговор</h2>
+        <h2 id="adaptiven-otgovor" tabindex="-1">10.7 · Адаптивен (балансиран) отговор</h2>
         <div class="concept-map__side-notes">
             <div class="card">
                 <h3>Прекалено отрицателно</h3>
@@ -232,15 +309,15 @@
                 <p>„Със сигурност всичко е идеално.“</p>
             </div>
             <div class="card">
-                <h3>Балансирано</h3>
+                <h3>Адаптивно</h3>
                 <p>„От краткия отговор не мога да заключа каква е оценката. Възможно е да има корекции, но разговорът ще даде повече информация.“</p>
             </div>
         </div>
-        <p>Балансираната мисъл трябва да бъде правдоподобна и съвместима с фактите, а не просто по-приятна.</p>
+        <p>Адаптивният отговор трябва да бъде правдоподобен и съвместим с фактите, а не просто по-приятен.</p>
     </LearningSection>
 
     <LearningSection Role="visual" RoleLabel="Визуален модел">
-        <h2 id="flow" tabindex="-1">08 · Практическа последователност</h2>
+        <h2 id="flow" tabindex="-1">10.8 · Практическа последователност</h2>
         <ol class="guided-practice-sequence" aria-label="Практическа последователност, шест стъпки">
             <li class="guided-practice-sequence__step">
                 <span class="guided-practice-sequence__unit">
@@ -287,8 +364,42 @@
         <p class="concept-map__feedback">Това е образователна демонстрация, не универсална терапевтична процедура.</p>
     </LearningSection>
 
+    <LearningSection Role="theory" RoleLabel="Самостоятелно приложение">
+        <h2 id="samostoyatelno" tabindex="-1">10.9 · Приложи сам: самостоятелна оценка и краткия път</h2>
+        <p>
+            С времето терапевтът дава на пациента копие от шестте категории въпроси, за да ги използва
+            самостоятелно между сесиите. Много пациенти се справят по-добре, ако научат само един-два
+            въпроса наведнъж, вместо целия списък — ученето да оценяваш собственото си мислене е умение,
+            което отнема практика, не нещо, което се получава автоматично от първия път.
+        </p>
+        <p>
+            Предвиждането, че могат да възникнат трудности, помага да се намали самоосъждането, ако
+            задачата не потръгне гладко — трудностите с прилагането на въпросите са очаквана част от
+            ученето, не знак за провал.
+        </p>
+        <p>
+            Когато пациентът напредне достатъчно, терапевтът понякога съкращава процеса — вместо да минава
+            през всички шест категории, просто пита: „Можеш ли да измислиш по-адаптивен начин да погледнеш
+            на това?“ Например:
+        </p>
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Мисъл:</strong> „Съквартирантът ми трябва просто да си държи кухнята чиста сам.“</p>
+                <p><strong>По-адаптивен отговор:</strong> „По-добре да застана за себе си и да го помоля — това е разумно, не съм лош/а, и вероятно ще приеме добре, както миналия път.“</p>
+            </div>
+            <div class="card">
+                <p><strong>Мисъл:</strong> „Има твърде много работа за домашното по химия, ще се преуморя.“</p>
+                <p><strong>По-адаптивен отговор:</strong> „Не трябва да го направя цялото наведнъж и не трябва да го разбера перфектно от първия път.“</p>
+            </div>
+        </div>
+        <p class="concept-map__feedback">
+            Тази страница показва как терапевт постепенно предава умението на пациента — не е покана
+            читателят да прилага краткия път върху себе си без предварителна практика с пълните въпроси.
+        </p>
+    </LearningSection>
+
     <LearningSection Role="theory" RoleLabel="Рефлексия">
-        <h2 id="proverka" tabindex="-1">09 · Проверка на разбирането</h2>
+        <h2 id="proverka" tabindex="-1">10.10 · Проверка на разбирането</h2>
         <p>Изберете отговор, след което разгънете обяснението. Проверката не се оценява и не запазва отговори.</p>
 
         <div class="learning-grid learning-grid--balanced">
@@ -326,12 +437,34 @@
             </div>
 
             <div class="card">
-                <p><strong>Въпрос 4.</strong> Кое прави един балансиран отговор убедителен?</p>
+                <p><strong>Въпрос 4.</strong> Кое прави един адаптивен отговор убедителен?</p>
                 <p>А. Че звучи оптимистично<br />Б. Че е правдоподобен и съвместим с наличните факти<br />В. Че отговаря точно на първоначалната мисъл</p>
                 <details class="progressive-explanation">
                     <summary>Покажи отговора</summary>
                     <div class="progressive-explanation__body">
-                        <p><strong>Б.</strong> Балансираният отговор трябва да издържи на проверка с фактите, не само да звучи добре.</p>
+                        <p><strong>Б.</strong> Адаптивният отговор трябва да издържи на проверка с фактите, не само да звучи добре.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 5 (случаят на Сали).</strong> Каква е ролята на „дистанциране“ въпроса в примера със Сали и Карен?</p>
+                <p>А. Да докаже, че Карен греши<br />Б. Да ѝ помогне да погледне на ситуацията както би я погледнала за приятел, не за себе си<br />В. Да прекрати темата</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Представяйки си какво би казала на приятелката си Алисън в същата ситуация, Сали получава дистанция от собствената си мисъл. Source: 10.3</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 6.</strong> Защо терапевтът понякога учи пациента само на един-два въпроса, а не на всичките шест наведнъж?</p>
+                <p>А. Останалите не са важни<br />Б. Пълният списък може да претовари пациента, а оценяването на мисленето е умение, изградено постепенно<br />В. Няма конкретна причина</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Source: 10.9</p>
                     </div>
                 </details>
             </div>
@@ -339,17 +472,45 @@
     </LearningSection>
 
     <LearningSection Role="academic" RoleLabel="Изводи">
-        <h2 id="izvori" tabindex="-1">10 · Обобщение, академичен контекст и източници</h2>
+        <h2 id="review-map" tabindex="-1">10.11 · Карта за повторение</h2>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>Преди да разгънеш картата, опитай да си спомниш основните знаниеви клъстери на седмицата.</p>
+                <ConceptGraph ComponentId="week10-mindmap-review" Model="@_week10MindMapRender" />
+            </div>
+        </details>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Retrieval practice: подреди без да гледаш назад</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Подредете тези четири от шестте категории въпроси в реда, в който източникът ги
+                    представя: <em>Дистанциране</em> · <em>Доказателства</em> · <em>Декатастрофизиране</em> ·
+                    <em>Алтернативно обяснение</em>.
+                </p>
+                <details>
+                    <summary>Покажи верния ред</summary>
+                    <ol>
+                        <li>Доказателства</li>
+                        <li>Алтернативно обяснение</li>
+                        <li>Декатастрофизиране</li>
+                        <li>Дистанциране</li>
+                    </ol>
+                    <p><a href="/kurs/sedmica-10#kategorii">Виж пълния списък в 10.2 →</a></p>
+                </details>
+            </div>
+        </details>
 
         <div class="learning-grid learning-grid--balanced">
             <div>
                 <h3>Какво да запомните</h3>
                 <ul>
                     <li>Въпросите трябва да подпомагат изследването, не убеждаването.</li>
+                    <li>Шест категории оценъчни въпроси — рядко всичките наведнъж.</li>
                     <li>Фактът и заключението не са едно и също.</li>
                     <li>Алтернативата трябва да бъде правдоподобна.</li>
-                    <li>Балансираният отговор не е принудително позитивен.</li>
-                    <li>Рефлексията не гарантира единствен правилен извод.</li>
+                    <li>Адаптивният отговор не е принудително позитивен.</li>
+                    <li>Оценяването на собственото мислене е умение, изградено постепенно.</li>
                 </ul>
             </div>
 
@@ -357,9 +518,10 @@
                 <h3>Академичен контекст</h3>
                 <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
                     <p>
-                        Методът на сократическото изследване се основава на традицията на съвместното емпирично
-                        изследване (collaborative empiricism) в когнитивно-поведенческата терапия, систематично
-                        представена в трудовете на Джудит С. Бек.
+                        Методът на сократическото изследване и шестте категории оценъчни въпроси са
+                        систематично представени в трудовете на Джудит С. Бек — Глава 11 описва оценката на
+                        автоматични мисли в пълния ѝ академичен контекст, в традицията на съвместното
+                        емпирично изследване (collaborative empiricism) в когнитивно-поведенческата терапия.
                     </p>
                     <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
                 </ProgressiveExplanation>
@@ -370,24 +532,26 @@
             </div>
 
             <div>
-                <h3>Източници и следващи стъпки</h3>
+                <h3>Връзки напред и назад</h3>
                 <p>
                     <a href="/kurs/sedmica-3">Седмица 3 — Архитектура на когнитивния модел</a><br />
                     <a href="/kurs/sedmica-8">Седмица 8 — Автоматични мисли и емоции</a><br />
-                    <a href="/programa/modul-2/avtomatichni-misli">Урок: Автоматични мисли</a><br />
-                    <a href="/programa/modul-2">Модул 2</a><br />
+                    <a href="/kurs/sedmica-9">Седмица 9 — Когнитивни изкривявания и дневник на мислите</a> (изкривявания и записът на мислите)<br />
                     <a href="/kurs">← Обратно към 15-седмичния курс</a>
                 </p>
-                <SourceReferences Citations="@_citations" />
             </div>
         </div>
+    </LearningSection>
 
+    <LearningSection Role="academic" RoleLabel="Източници">
+        <h2 id="izvori" tabindex="-1">10.12 · Източници и допълнително четене</h2>
+        <SourceReferences Citations="@_citations" />
         <OptionalReadingSource
             Title="Когнитивно-поведенческа терапия: Основи и отвъд"
             Author="Джудит С. Бек"
             Edition="2-ро издание, Guilford Press, 2011 (оригинално заглавие: Cognitive Behavior Therapy: Basics and Beyond)"
-            RelevantSection="Насочено откриване и сократически въпроси"
-            Description="Учебникът представя насоченото откриване, сократическите въпроси и съвместното изследване (collaborative empiricism) в пълния им академичен контекст." />
+            RelevantSection="Глава 11 — Оценяване на автоматични мисли"
+            Description="Главата представя подробно, с пълни диалогови примери, шестте категории оценъчни въпроси, декатастрофизирането, и как пациентите постепенно поемат самостоятелната оценка на собственото си мислене." />
 
         <WeekCompletionControl WeekNumber="@_week.Number" />
     </LearningSection>
@@ -396,19 +560,35 @@
 @code {
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 10);
 
-    private readonly IReadOnlyList<string> _objectives =
-    [
-        "Различавате изследващ от насочващ въпрос.",
-        "Разпознавате основните семейства сократически въпроси.",
-        "Разбирате разликата между факт, предположение и заключение.",
-        "Проследявате кратък пример за насочено изследване на мисъл.",
-        "Разбирате, че целта не е насилствено положителна мисъл.",
-        "Разпознавате границата между образователно упражнение и професионална терапия."
-    ];
+    private static readonly GraphRenderModel _week10MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek10MindMap());
+
+    private static MindMapModel BuildWeek10MindMap() => new(
+        "Седмица 10 — знаниеви клъстери",
+        "Мисловна карта на сократическото изследване, групирана по клъстери от знание, не по номер на секция.",
+        [
+            new("root", "Сократически въпроси и съвместно изследване", null, null, null, ConceptState.Introduced),
+
+            new("izsledvane", "Какво е сократическо изследване", "root", "Изследване, не насочващо убеждаване.", "/kurs/sedmica-10#izsledvane", ConceptState.Introduced),
+
+            new("kategorii", "Шестте категории въпроси", "root", null, "/kurs/sedmica-10#kategorii", ConceptState.Introduced),
+
+            new("sluchay", "Случаят на Сали и Карен", "root", "Работен пример през шестте категории.", "/kurs/sedmica-10#sluchay-sali-karen",
+                ConceptStateResolver.Derive(3, [10], CourseCatalog.Weeks)),
+
+            new("fakti", "Факти, предположения, заключения", "root", null, "/kurs/sedmica-10#fakti-zakliucheniya", ConceptState.Introduced),
+
+            new("dekatastrofizirane", "Декатастрофизиране", "root", "Не отрича проблема — прави го конкретен.", "/kurs/sedmica-10#dekatastrofizirane", ConceptState.Introduced),
+
+            new("adaptiven-otgovor", "Адаптивен отговор", "root", "Правдоподобен, не принудително позитивен.", "/kurs/sedmica-10#adaptiven-otgovor", ConceptState.Introduced),
+
+            new("samostoyatelno", "Самостоятелно приложение", "root", "Постепенно поемане на собствената оценка; краткия път.", "/kurs/sedmica-10#samostoyatelno", ConceptState.Introduced)
+        ]);
+
+    private readonly IReadOnlyList<string> _objectives = _week.LearningObjectives;
 
     private readonly IReadOnlyList<string> _citations =
     [
-        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — глава за насочено откриване и сократически въпроси.",
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — Глава 11, оценяване на автоматични мисли (стр. 167–186).",
         "Аарон Т. Бек и традицията на collaborative empiricism в когнитивно-поведенческата терапия.",
         "Учебната последователност на тази седмица е използвана само за тематична ориентация, без институционални твърдения."
     ];

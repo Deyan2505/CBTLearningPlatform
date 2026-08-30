@@ -68,19 +68,20 @@ public sealed class OptionalReadingSourceTests
     public void ChapterNumbers_AppearOnlyWhereSourceConfirmed()
     {
         // Session log confirms Chapter 1 (Въведение) and Chapter 3 (Когнитивна концептуализация)
-        // were actually read from SRC-041. Week 8 and Week 10 themes have no confirmed chapter
-        // number, so they must use a thematic RelevantSection instead of an invented "Глава N".
+        // were actually read from SRC-041. Week 8 theme has no confirmed chapter number in this
+        // test's own scope, so it still uses a thematic RelevantSection instead of an invented
+        // "Глава N". Week 10's retrofit confirmed Chapter 11 (full chapter read, same one already
+        // used for Week 9) — no longer an open item.
         Assert.Contains("Глава 1 — Въведение в когнитивно-поведенческата терапия", ReadPage("Sedmica1.razor"));
         Assert.Contains("Глава 3 — Когнитивна концептуализация", ReadPage("Sedmica3.razor"));
         Assert.Contains("Глава 5 — Структура на първата терапевтична сесия", ReadPage("Sedmica6.razor"));
         Assert.Contains("Глава 14 — Идентификация и модифициране на основни вярвания", ReadPage("Sedmica12.razor"));
+        Assert.Contains("Глава 11 — Оценяване на автоматични мисли", ReadPage("Sedmica10.razor"));
 
         Assert.Contains("RelevantSection=\"Разпознаване на автоматичните мисли\"", ReadPage("Sedmica8.razor"));
-        Assert.Contains("RelevantSection=\"Насочено откриване и сократически въпроси\"", ReadPage("Sedmica10.razor"));
 
-        // No invented chapter numbers on the two weeks without a confirmed chapter.
+        // No invented chapter numbers on the one week without a confirmed chapter.
         Assert.DoesNotContain("RelevantSection=\"Глава", ReadPage("Sedmica8.razor"));
-        Assert.DoesNotContain("RelevantSection=\"Глава", ReadPage("Sedmica10.razor"));
     }
 
     [Fact]

@@ -68,14 +68,32 @@ public sealed class Week10ContentSliceTests
     }
 
     [Fact]
-    public void Week10Page_HasAllFourQuestionFamilies()
+    public void Week10Page_HasAllSixEvaluationQuestionCategories()
     {
+        // Retrofit migration: the old "four families" compression is replaced by SRC-041 Chapter
+        // 11's real six categories (Figure 11.1), matching what Week 9's recap already promises.
         string source = ReadPage("Sedmica10.razor");
 
         Assert.Contains(">Доказателства<", source);
-        Assert.Contains(">Алтернативи<", source);
-        Assert.Contains(">Вероятни последствия<", source);
-        Assert.Contains(">Дистанциране и полезност<", source);
+        Assert.Contains(">Алтернативно обяснение<", source);
+        Assert.Contains(">Декатастрофизиране<", source);
+        Assert.Contains(">Ефект от вярването<", source);
+        Assert.Contains(">Дистанциране<", source);
+        Assert.Contains(">Решаване на проблема<", source);
+    }
+
+    [Fact]
+    public void Week10Page_SixCategoriesHaveTheSourcesFullSubQuestions()
+    {
+        string source = ReadPage("Sedmica10.razor");
+
+        Assert.Contains("Какви са доказателствата, които подкрепят тази идея?", source);
+        Assert.Contains("Какви са доказателствата срещу тази идея?", source);
+        Assert.Contains("Има ли алтернативно обяснение или гледна точка?", source);
+        Assert.Contains("Какво е най-лошото, което може да се случи?", source);
+        Assert.Contains("Какъв е най-реалистичният резултат?", source);
+        Assert.Contains("Какъв е ефектът от това, че вярвам в автоматичната мисъл?", source);
+        Assert.Contains("Какво трябва да направя?", source);
     }
 
     [Fact]
@@ -93,6 +111,9 @@ public sealed class Week10ContentSliceTests
     [Fact]
     public void SocraticDialogueExplorer_UsesAFixedScenario_NoFreeTextOrPersonalDataInput()
     {
+        // The retold percentages (belief 90%→20%, matching the source's own re-rating) are static
+        // narrative text describing the fixed case, not a live scoring control — an interactive
+        // input/slider/textarea is what this test actually guards against.
         string source = ReadClientComponent("SocraticDialogueExplorer.razor");
 
         Assert.DoesNotContain("<input", source);
@@ -100,7 +121,38 @@ public sealed class Week10ContentSliceTests
         Assert.DoesNotContain("localStorage", source);
         Assert.DoesNotContain("sessionStorage", source);
         Assert.DoesNotContain("HttpClient", source);
-        Assert.DoesNotContain("%", source);
+    }
+
+    [Fact]
+    public void SocraticDialogueExplorer_UsesSaliAndKarenSourceGroundedCase_NotTheOldInventedScenario()
+    {
+        string source = ReadClientComponent("SocraticDialogueExplorer.razor");
+
+        Assert.Contains("Сали", source);
+        Assert.Contains("Карен", source);
+        Assert.Contains("Тя всъщност не се интересува какво ще ми се случи", source);
+        Assert.DoesNotContain("Изпращате подготвен материал", source);
+        Assert.DoesNotContain("Сигурно материалът е лош", source);
+    }
+
+    [Fact]
+    public void SocraticDialogueExplorer_HasAllSixCategorySteps_InSourceOrder()
+    {
+        string source = ReadClientComponent("SocraticDialogueExplorer.razor");
+
+        string[] stepsInOrder =
+        [
+            "Доказателства", "Алтернативно обяснение", "Декатастрофизиране",
+            "Ефект от вярването", "Дистанциране", "Решаване на проблема"
+        ];
+
+        int lastIndex = -1;
+        foreach (string step in stepsInOrder)
+        {
+            int index = source.IndexOf($"new(\"{step}\"", StringComparison.Ordinal);
+            Assert.True(index > lastIndex, $"'{step}' must appear after the previous step in declaration order.");
+            lastIndex = index;
+        }
     }
 
     [Fact]
@@ -134,23 +186,27 @@ public sealed class Week10ContentSliceTests
     }
 
     [Fact]
-    public void Week10Page_BalancedResponseIsNotForcedPositivity()
+    public void Week10Page_AdaptiveResponseIsNotForcedPositivity()
     {
+        // Terminology migration: canonical term is now "адаптивен отговор" (first occurrence reads
+        // "адаптивен (балансиран) отговор" for continuity), per the owner's decision — the concept
+        // itself (not forced positivity) is unchanged.
         string source = ReadPage("Sedmica10.razor");
 
+        Assert.Contains("Адаптивен (балансиран) отговор", source);
         Assert.Contains("Принудително положително", source);
-        Assert.Contains("правдоподобна и съвместима с фактите, а не просто по-приятна", source);
+        Assert.Contains("правдоподобен и съвместим с фактите, а не просто по-приятен", source);
     }
 
     [Fact]
-    public void Week10Page_HasFourKnowledgeCheckQuestions()
+    public void Week10Page_HasSixKnowledgeCheckQuestions()
     {
         string source = ReadPage("Sedmica10.razor");
 
-        Assert.Contains("Въпрос 1.", source);
-        Assert.Contains("Въпрос 2.", source);
-        Assert.Contains("Въпрос 3.", source);
-        Assert.Contains("Въпрос 4.", source);
+        for (int i = 1; i <= 6; i++)
+        {
+            Assert.Contains($"Въпрос {i}", source);
+        }
         Assert.Contains("Проверката не се оценява и не запазва отговори", source);
     }
 
@@ -232,8 +288,9 @@ public sealed class Week10ContentSliceTests
 
         string[] anchorIds =
         [
-            "izsledvane", "semeystva", "dialog", "prikrit-savet", "fakti-zakliucheniya",
-            "dekatastrofizirane", "balansiran-otgovor", "flow", "proverka", "izvori"
+            "karta", "izsledvane", "kategorii", "sluchay-sali-karen", "prikrit-savet",
+            "fakti-zakliucheniya", "dekatastrofizirane", "adaptiven-otgovor", "flow",
+            "samostoyatelno", "proverka", "review-map", "izvori"
         ];
 
         foreach (string id in anchorIds)
@@ -245,14 +302,16 @@ public sealed class Week10ContentSliceTests
     }
 
     [Fact]
-    public void Week10Page_CrossLinksToWeek3Week8Modul2AndKurs_NoDeadLinks()
+    public void Week10Page_CrossLinksToWeek3Week8Week9AndKurs_NoDeadLinks()
     {
+        // Retrofit: the old Module 2 lesson links (pre-CourseCatalog era) are replaced by real
+        // routed weeks — Week 9 specifically, to preserve the boundary (distortions/Thought Record
+        // stay there) instead of duplicating.
         string source = ReadPage("Sedmica10.razor");
 
         Assert.Contains("/kurs/sedmica-3", source);
         Assert.Contains("/kurs/sedmica-8", source);
-        Assert.Contains("/programa/modul-2/avtomatichni-misli", source);
-        Assert.Contains("href=\"/programa/modul-2\"", source);
+        Assert.Contains("/kurs/sedmica-9", source);
         Assert.Contains("href=\"/kurs\"", source);
     }
 
@@ -335,7 +394,7 @@ public sealed class Week10ContentSliceTests
         string[] stepsInOrder =
         [
             "Мисъл или интерпретация", "Изясняване на значението", "Разглеждане на фактите",
-            "Алтернативни обяснения", "Последствия и перспектива", "По-балансирано заключение"
+            "Алтернативни обяснения", "Последствия и перспектива", "По-адаптивен отговор"
         ];
 
         int lastIndex = -1;
@@ -347,7 +406,7 @@ public sealed class Week10ContentSliceTests
         }
 
         // The last node's text must be the final content in the list — no connector li after it.
-        int lastStepIndex = process.LastIndexOf("По-балансирано заключение", StringComparison.Ordinal);
+        int lastStepIndex = process.LastIndexOf("По-адаптивен отговор", StringComparison.Ordinal);
         string afterLastStep = process[lastStepIndex..];
         Assert.DoesNotContain("<li", afterLastStep);
     }
@@ -383,14 +442,34 @@ public sealed class Week10ContentSliceTests
     }
 
     [Fact]
-    public void Week10Page_Section10HasFourSemanticInternalSubblocks()
+    public void Week10Page_ReviewMapSectionHasFourSemanticInternalSubblocks()
     {
+        // Retrofit: the old single "Section 10" is now split into "Карта за повторение" (review +
+        // takeaways/context/disclaimer/forward-back links) and a separate "Източници" section
+        // (SourceReferences + OptionalReadingSource), matching Week 7/9's established pattern.
         string source = ReadPage("Sedmica10.razor");
 
         Assert.Contains("<h3>Какво да запомните</h3>", source);
         Assert.Contains("<h3>Академичен контекст</h3>", source);
-        Assert.Contains("<h3>Източници и следващи стъпки</h3>", source);
+        Assert.Contains("<h3>Връзки напред и назад</h3>", source);
         Assert.Contains("<DisclaimerCallout", source);
+    }
+
+    [Fact]
+    public void Week10Page_HasADistinctSourcesSection()
+    {
+        string source = ReadPage("Sedmica10.razor");
+
+        int izvoriHeadingIndex = source.IndexOf("id=\"izvori\"", StringComparison.Ordinal);
+        Assert.True(izvoriHeadingIndex >= 0, "Expected a distinct id=\"izvori\" heading.");
+
+        int sectionTagStart = source.LastIndexOf("<LearningSection", izvoriHeadingIndex, StringComparison.Ordinal);
+        int sectionTagEnd = source.IndexOf("</LearningSection>", izvoriHeadingIndex, StringComparison.Ordinal);
+        string izvoriSection = source[sectionTagStart..sectionTagEnd];
+
+        Assert.Contains("<SourceReferences", izvoriSection);
+        Assert.Contains("<OptionalReadingSource", izvoriSection);
+        Assert.Contains("<WeekCompletionControl WeekNumber=\"@_week.Number\" />", izvoriSection);
     }
 
     [Fact]

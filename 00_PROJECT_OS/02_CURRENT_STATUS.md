@@ -47,15 +47,14 @@
   layout (spatial Network layout, not the stacked Chain column) owner-approved. **594/594** теста,
   Debug+Release build 0/0, production deploy successful (commit `20833aa`).
 - **Седмица 9** (Когнитивни изкривявания и дневник на мислите, SRC-041 Гл. 11–12) —
-  `IMPLEMENTED — AWAITING OWNER VISUAL/LEARNING REVIEW`, **not** owner-approved yet. 76 KUs —
-  39 Included / 3 Deferred / 34 Excluded / 0 Needs Review / 0 Unaccounted — see
-  `00_PROJECT_OS/_blueprints/WEEK_09_SOURCE_COVERAGE_AUDIT_v1.md`. Evaluation questions kept at
-  recap depth (cross-linked to Седмица 10); Сали not extended with new biography — Джон
-  (source-named) carries "why evaluation fails"; Thought Record is a fixed, source-grounded
+  `OWNER APPROVED / LOCKED`. 76 KUs — 39 Included / 3 Deferred / 34 Excluded / 0 Needs Review /
+  0 Unaccounted — see `00_PROJECT_OS/_blueprints/WEEK_09_SOURCE_COVERAGE_AUDIT_v1.md`. Evaluation
+  questions kept at recap depth (cross-linked to Седмица 10); Сали not extended with new biography —
+  Джон (source-named) carries "why evaluation fails"; Thought Record is a fixed, source-grounded
   demonstration only (Figure 12.2's own generic worksheet example), separate scope from the
   still-open product-level MVP Thought Record requirement. Includes the Thought Record map's
   edge-label micro-fix (scoped CSS only, same technique as Week 3's Sally-map precedent).
-  **623/623** теста, Debug+Release build 0/0.
+  **623/623** теста, Debug+Release build 0/0, production deploy successful (commit `1cd2171`).
 - **Седмица 11** — `UNBLOCKED` / `NEXT`. Not started.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
