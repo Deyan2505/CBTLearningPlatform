@@ -1,0 +1,323 @@
+@* ACADEMIC/CLINICAL REVIEW PENDING internally — no staffed reviewer yet (RISK-010), not shown
+   as an uppercase status in the public UI. WEEK_02_SOURCE_AUDIT_v1 (owner-approved): a
+   cross-source build, not a single-chapter retrofit — SRC-041 (Judith Beck) covers Beck's side
+   and gives two exact bridge sentences (Ch.1, p.2: Ellis named as an influence; REBT listed as a
+   related CBT-family therapy) but is otherwise silent on REBT itself. The Ellis/REBT half is
+   built from SRC-042 (Daniel David, Ph.D., official Albert Ellis Institute article — ABC model,
+   rational/irrational belief criteria, secondary consequences, unconditional self-acceptance)
+   and SRC-006 (Michael R. Edelstein, Ph.D., Psychology Today — corroborating/illustrative only
+   where it doesn't conflict with SRC-042). Framing follows 23_CLINICAL_SAFETY_BOUNDARIES.md §10
+   verbatim: contested cross-school topics are presented as "different specialists emphasize
+   different aspects," never one side as correct. Deliberately excluded: REBT's formal ABCDE
+   model/"disputing" technique (not in SRC-042), the old prototype's 4-dimensional comparison
+   frame (GAP-008, unconfirmed by any reviewed source), any REBT claim traceable only to
+   unattributed web-search aggregation (therapist style, session-count comparisons).
+   Zero new components, zero new CSS: reuses LearningSection/LearningObjectives/
+   ProgressiveExplanation/DisclaimerCallout/SourceReferences, .category-compare (Week 12) for the
+   ABC boxes, .comparison-matrix--dual (Week 1) for the belief-criteria and final comparison
+   tables. *@
+@page "/kurs/sedmica-2"
+
+<PageTitle>Седмица 2: Когнитивна терапия на Бек и REBT на Елис — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--format">Сравнение</span>
+        </div>
+        <p><em>Академичен паралел между две основополагащи когнитивни школи, не спор кой е прав</em></p>
+        <p>
+            Аарон Бек и Албърт Елис разработват своите подходи независимо, с различен акцент. Тази седмица
+            разглежда допусканията на всеки от тях — включително ABC модела на Елис — като академично
+            сравнение, не като избор на "правилната" школа.
+        </p>
+        <LearningObjectives Objectives="@_objectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-2#nakratko">Накратко</a>
+        <a href="/kurs/sedmica-2#bek-kratko">Бек: припомняне</a>
+        <a href="/kurs/sedmica-2#elis-i-rebt">Елис и REBT</a>
+        <a href="/kurs/sedmica-2#abc-modelat">ABC моделът</a>
+        <a href="/kurs/sedmica-2#racionalni-irracionalni">Рационални и ирационални вярвания</a>
+        <a href="/kurs/sedmica-2#posledstvia-vyarvaniya">Последствия от вярванията</a>
+        <a href="/kurs/sedmica-2#most-i-sravnenie">Мостът и сравнението</a>
+        <a href="/kurs/sedmica-2#proverka">Проверка</a>
+        <a href="/kurs/sedmica-2#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    <LearningSection Role="theory" RoleLabel="Рамка">
+        <h2 id="nakratko" tabindex="-1">01 · Накратко</h2>
+        <p>
+            Когнитивната терапия на Бек и рационално-емоционалната поведенческа терапия (REBT) на Елис са две
+            независимо развити школи с обща по същество идея — мислите оформят емоциите и поведението. Тази
+            страница представя допусканията на всяка школа академично: различните специалисти подчертават
+            различни аспекти на един и същ проблем, не че единият подход е верен, а другият — грешен.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Връзка">
+        <h2 id="bek-kratko" tabindex="-1">02 · Бек: кратко припомняне</h2>
+        <p>
+            Бек изхожда от идеята, че дисфункционалното мислене е общо за повечето психологически трудности и
+            пряко влияе на настроението и поведението. Методът му включва идентифициране, оценяване и отговаряне
+            на автоматични мисли чрез насочено откритие.
+        </p>
+        <p>
+            Пълната историческа линия е разгледана в
+            <a href="/kurs/sedmica-1">Седмица 1 — Как се ражда когнитивната терапия</a>, а йерархията от
+            автоматични мисли, междинни и основни вярвания — в
+            <a href="/kurs/sedmica-3">Седмица 3 — Архитектура на когнитивния модел</a>. Тази страница не
+            повтаря нито едното, нито другото.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Нова школа">
+        <h2 id="elis-i-rebt" tabindex="-1">03 · Елис и REBT</h2>
+        <p>
+            Албърт Елис разработва рационално-емоционалната поведенческа терапия (REBT) през 50-те години на
+            миналия век — преди Бек да разработи своята когнитивна терапия през 60-те. REBT е независима школа
+            със собствена терминология и акценти, представени по-долу.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="visual" RoleLabel="Модел">
+        <h2 id="abc-modelat" tabindex="-1">04 · ABC моделът</h2>
+        <p>
+            Според официалния сайт на Albert Ellis Institute, REBT обяснява психологическите последствия чрез
+            модела ABC: активиращо събитие, вярвания за него и произтичащите последствия. Влиянието на A върху C
+            се опосредства от B — не самото събитие, а начинът, по който е осмислено, определя последствията.
+        </p>
+        <div class="category-compare">
+            <div class="category-compare__item">
+                <p class="category-compare__label">A — Активиращо събитие</p>
+                <p>Ситуация или преживяване (напр. загуба на близък човек, практически проблем).</p>
+            </div>
+            <div class="category-compare__item">
+                <p class="category-compare__label">B — Вярвания</p>
+                <p>Как събитието се осмисля — обработката на информацията/когниции, които го посрещат.</p>
+            </div>
+            <div class="category-compare__item">
+                <p class="category-compare__label">C — Последствия</p>
+                <p>Резултатните емоционални, поведенчески, когнитивни и психофизиологични реакции.</p>
+            </div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="example" RoleLabel="Сравнение">
+        <h2 id="racionalni-irracionalni" tabindex="-1">05 · Рационални и ирационални вярвания</h2>
+        <p>
+            REBT разграничава два вида вярвания по това как се отнасят към действителността и какви последствия
+            произвеждат.
+        </p>
+        <div class="comparison-matrix-wrapper">
+            <table class="comparison-matrix comparison-matrix--dual">
+                <caption>Критерии за ирационални срещу рационални вярвания (Albert Ellis Institute)</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Ирационално вярване</th>
+                        <th scope="col">Рационално вярване</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Нелогично, неподкрепено от фактите и/или непрактично — води до дисфункционални последствия.</td>
+                        <td>Логически, емпирично и/или прагматично подкрепено — води до функционални последствия.</td>
+                    </tr>
+                    <tr>
+                        <td>Категорично изискване ("Трябва да успея — и не мога да приема, че може да не успея").</td>
+                        <td>Гъвкаво предпочитание с приемане ("Бих искал да успея, но мога да приема, че нещата не винаги се случват както искам").</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Последствия">
+        <h2 id="posledstvia-vyarvaniya" tabindex="-1">06 · Последствия от вярванията</h2>
+        <p>
+            Ирационалните вярвания често се изразяват като категорични изисквания — например за одобрение от
+            другите, за справедливо отношение или за справедливост на живота като цяло — докато рационалните
+            вярвания изразяват същите желания като гъвкави предпочитания.
+        </p>
+        <p>
+            REBT отделя внимание и на "вторични последствия": последствие (C) може само да стане ново активиращо
+            събитие (A), което поражда допълнителна реакция — например тревога заради самата тревога. Официалният
+            източник и допълнителна вторична публикация независимо потвърждават и понятието за
+            <strong>безусловно самоприемане</strong>: приемане на себе си като несъвършен човек, без цялостна
+            положителна или отрицателна самооценка, за разлика от изграждането на самочувствие чрез позитивни
+            качества.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Мост">
+        <h2 id="most-i-sravnenie" tabindex="-1">07 · Мостът между Бек и Елис и честно сравнение</h2>
+        <p>
+            Бек изрично посочва Елис сред своите интелектуални влияния, а REBT е изброена сред терапиите от
+            когнитивно-поведенческото семейство, споделящи основните характеристики на подхода на Бек, но с
+            различен акцент и концептуализация.
+        </p>
+        <div class="comparison-matrix-wrapper">
+            <table class="comparison-matrix comparison-matrix--dual">
+                <caption>Академично сравнение — не оценка кой подход е верен</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Бек — когнитивна терапия</th>
+                        <th scope="col">Елис — REBT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Разработена през 60-те години на XX в.</td>
+                        <td>Разработена през 50-те години на XX в., преди Бек.</td>
+                    </tr>
+                    <tr>
+                        <td>Тръгва от конкретната автоматична мисъл в дадена ситуация.</td>
+                        <td>Тръгва от общите вярвания (рационални/ирационални) зад реакцията към събитието.</td>
+                    </tr>
+                    <tr>
+                        <td>Оценка на конкретни мисли чрез насочено откритие.</td>
+                        <td>Разграничаване на вярвания по логическа/емпирична/прагматична поддръжка.</td>
+                    </tr>
+                    <tr>
+                        <td>Промяна на мисленето подобрява настроението и поведението.</td>
+                        <td>Безусловно самоприемане вместо цялостна само­оценка, положителна или отрицателна.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>
+            Академичен източник, сравняващ директно двата подхода, препоръчва съчетаване на рамките, не избор на
+            "правилната". Тази страница следва същия принцип.
+        </p>
+        <DisclaimerCallout Text="Тази страница представя академичен паралел между две терапевтични школи. Тя не препоръчва едната пред другата за лична употреба, не поставя диагноза и не заменя професионална психологическа или медицинска помощ." />
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Рефлексия">
+        <h2 id="proverka" tabindex="-1">08 · Проверка на разбирането</h2>
+        <p>Изберете отговор, след което разгънете обяснението. Проверката не се оценява и не запазва отговори.</p>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Въпрос 1.</strong> Как тази страница представя сравнението между Бек и Елис?</p>
+                <p>А. Като спор кой от двамата е прав<br />Б. Като академичен паралел — различни специалисти подчертават различни аспекти<br />В. Като доказателство, че REBT е остаряла</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> И двете школи са валидни академични рамки; съдържанието избягва представянето на едната като единствено вярна.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 2.</strong> В ABC модела какво представлява "B"?</p>
+                <p>А. Поведението, което следва<br />Б. Вярванията, чрез които се осмисля събитието<br />В. Биологичната реакция на тялото</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> B (Beliefs) е вярванията, които опосредстват влиянието на активиращото събитие (A) върху последствията (C).</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 3.</strong> Кое отличава рационално от ирационално вярване според REBT?</p>
+                <p>А. Дължината на изречението, с което е изразено<br />Б. Логическа/емпирична/прагматична поддръжка срещу липсата ѝ<br />В. Дали е изказано на глас пред терапевта</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Рационалните вярвания са логически, емпирично и/или прагматично подкрепени и водят до функционални последствия; ирационалните — не.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 4.</strong> Какво описва понятието "вторични последствия" в REBT?</p>
+                <p>А. Странични ефекти от медикаменти<br />Б. Как едно последствие (C) може само да стане ново активиращо събитие (A)<br />В. Втората сесия от терапията</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Например тревога заради самата тревога — последствието се превръща в ново активиращо събитие.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <p><strong>Въпрос 5.</strong> Каква е историческата връзка между Бек и Елис?</p>
+                <p>А. Не са свързани по никакъв начин<br />Б. Бек изрично посочва Елис сред интелектуалните си влияния<br />В. Елис е ученик на Бек</p>
+                <details class="progressive-explanation">
+                    <summary>Покажи отговора</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Б.</strong> Бек посочва Елис сред своите влияния, а REBT е изброена сред свързаните когнитивно-поведенчески терапии.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Изводи">
+        <h2 id="izvori" tabindex="-1">09 · Обобщение, академичен контекст и източници</h2>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div>
+                <h3>Какво да запомните</h3>
+                <ul>
+                    <li>Бек и Елис разработват своите подходи независимо, с различен акцент.</li>
+                    <li>ABC моделът на Елис: активиращо събитие (A) → вярвания (B) → последствия (C).</li>
+                    <li>Рационалните вярвания водят до функционални, ирационалните — до дисфункционални последствия.</li>
+                    <li>REBT набляга и на вторични последствия и на безусловно самоприемане.</li>
+                    <li>Бек изрично посочва Елис сред влиянията си — школите са свързани, не идентични.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Академичен контекст</h3>
+                <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
+                    <p>
+                        Съдържанието за Елис/REBT се основава на официална публикация на Albert Ellis Institute
+                        (Daniel David, Ph.D.), а не на учебника на Джудит Бек, който само споменава REBT в
+                        библиографски контекст.
+                    </p>
+                    <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
+                </ProgressiveExplanation>
+            </div>
+
+            <div>
+                <h3>Източници и следващи стъпки</h3>
+                <p>
+                    <a href="/kurs/sedmica-1">Седмица 1 — Как се ражда когнитивната терапия</a><br />
+                    <a href="/kurs/sedmica-3">Седмица 3 — Архитектура на когнитивния модел</a><br />
+                    <a href="/kurs">← Обратно към 15-седмичния курс</a>
+                </p>
+                <SourceReferences Citations="@_citations" />
+            </div>
+        </div>
+
+        <WeekCompletionControl WeekNumber="@_week.Number" />
+    </LearningSection>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 2);
+
+    private readonly IReadOnlyList<string> _objectives =
+    [
+        "Сравнявате основните допускания на Бек и Елис.",
+        "Разбирате, че различните школи подчертават различни аспекти, не че една е \"вярна\".",
+        "Обяснявате ABC модела на Елис — активиращо събитие, вярване, последствие.",
+        "Разграничавате рационални от ирационални вярвания.",
+        "Разпознавате историческата връзка между Бек и Елис."
+    ];
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — Глава 1, стр. 2 (Елис сред влиянията на Бек; REBT сред свързаните терапии).",
+        "Daniel David, Ph.D., \"REBT in the Context of Modern Psychological Research\" — Albert Ellis Institute, albertellis.org (ABC модел, рационални/ирационални вярвания, вторични последствия, безусловно самоприемане).",
+        "Michael R. Edelstein, Ph.D., \"5 Major Differences Between REBT & CBT\" — Psychology Today (допълнителен, потвърждаващ контекст).",
+        "Учебната последователност на тази седмица е използвана само за тематична ориентация, без институционални твърдения."
+    ];
+}

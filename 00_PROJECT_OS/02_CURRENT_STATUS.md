@@ -70,6 +70,14 @@
   technique catalog (Sally/Annie dialogues, CBW walkthrough, etc.) stays Excluded — AcademicContextOnly
   boundary preserved, zero new interactivity. **633/633** теста, Debug+Release build 0/0, production
   deploy successful (commit `c72593b`).
+- **Седмица 1** (Как се ражда когнитивната терапия, SRC-041 Гл. 1 — conservative retrofit of an
+  already clean-source page) — `OWNER APPROVED / LOCKED`. 27 KUs — 13 Included / 10 Deferred /
+  4 Excluded / 0 Needs Review / 0 Unaccounted — see `00_PROJECT_OS/_blueprints/WEEK_01_RETROFIT_AUDIT_v1.md`.
+  Enriched HistoricalTimeline/ResearchTurnStepper with the real dream-study/two-streams/1977
+  Beck-Rush RCT narrative (patient anecdote paraphrased, never quoted); removed an unsupported
+  "why manuals matter" section; later visual fix un-nested Sections 04–05 from a shared grid and
+  corrected a shared-CSS `white-space: nowrap` root cause behind the Section 04 table's clipping.
+  **639/639** теста, Debug+Release build 0/0, production deploy successful (commit `6b7f352`).
 - **Седмица 11** — `UNBLOCKED` / `NEXT`. Not started.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to

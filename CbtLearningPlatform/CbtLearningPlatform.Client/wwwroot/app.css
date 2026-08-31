@@ -1933,6 +1933,13 @@ h3[tabindex="-1"]:focus-visible {
     white-space: normal;
 }
 
+/* Week 2 §05/§07 — same root cause, same fix, caught during QA before it ever shipped: both
+   comparison tables hold full-sentence cells. */
+#racionalni-irracionalni ~ .comparison-matrix-wrapper .comparison-matrix td,
+#most-i-sravnenie ~ .comparison-matrix-wrapper .comparison-matrix td {
+    white-space: normal;
+}
+
 /* Two clearly distinct columns (e.g. education vs. professional support) — a subtle
    surface tint difference, never warning/error coloring on either side. */
 .comparison-matrix--dual th:first-child,

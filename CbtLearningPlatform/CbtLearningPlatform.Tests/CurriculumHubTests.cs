@@ -36,13 +36,17 @@ public sealed class CurriculumHubTests
     }
 
     [Fact]
-    public void CourseCatalog_OnlyWeeksOneThreeSixSevenEightNineTenAndTwelveHaveARealRoute()
+    public void CourseCatalog_OnlyWeeksOneTwoThreeSixSevenEightNineTenAndTwelveHaveARealRoute()
     {
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks)
         {
             if (week.Number == 1)
             {
                 Assert.Equal("/kurs/sedmica-1", week.Route);
+            }
+            else if (week.Number == 2)
+            {
+                Assert.Equal("/kurs/sedmica-2", week.Route);
             }
             else if (week.Number == 3)
             {
@@ -160,6 +164,7 @@ public sealed class CurriculumHubTests
 
         Assert.Contains("start-panel", source);
         Assert.Contains("/kurs/sedmica-1", source);
+        Assert.Contains("/kurs/sedmica-2", source);
         Assert.Contains("/kurs/sedmica-3", source);
         Assert.Contains("/kurs/sedmica-6", source);
         Assert.Contains("/kurs/sedmica-7", source);
