@@ -454,10 +454,30 @@ Sources used: `CourseCatalog.cs` (syllabus-derived metadata, kpt_syllabus.pdf re
 
 ### B. Week 5 source status
 
-- **Потвърдено:** Гл. 1 явно съдържа "10-те принципа" (сесия-лог, дословен запис). "Collaborative empiricism" вече е установен, source-backed термин в проекта (потвърден и цитиран за Седмица 10) — пряко релевантен академичен анкор за "терапевтичен съюз/сътрудничество" темата на Седмица 5, макар и без собствен отделен глава-номер locator.
-- **Непотвърдено:** точна страница/фигура специфично за думата "alliance"/"съюз" — не е отделно наративно потвърдена в session log, отвъд общото Гл.1 покритие.
-- **WEEK 5 CONTENT CONTRACT:** 10-те принципа — цитируеми директно от Гл. 1; "сътрудничество" се представя чрез установения термин collaborative empiricism (не нов, непотвърден claim), без специфични твърдения, изискващи отделен locator.
-- **Статус:** `READY` (не PARTIALLY — Гл. 1 покрива основното съдържание; softness-ът е само в точния citation locator за една дума, не структурен риск).
+**Superseded by the full Deep Source + Coverage Audit (2026-09-01) — see
+`00_PROJECT_OS/_blueprints/WEEK_05_SOURCE_AUDIT_v1.md`.** The note below (originally a planning-stage
+guess) is kept only as history; it under-estimated the source: the "alliance" gap it flagged as
+"unconfirmed beyond general Ch.1 coverage" turned out to require — and got — a full Chapter 2 read,
+per explicit owner authorization.
+
+- **OWNER APPROVED, final:** SRC-041 Гл. 1 (printed pp.6–11, the 10 principles) + Гл. 2 (printed
+  pp.17–28 in full, "Обзор на лечението") — **52 KUs, 30 Included / 10 Deferred / 12 Excluded / 0
+  Needs Review / 0 Unaccounted.** Alliance depth comes from Гл. 2's first thread (pp.17–21):
+  6 concrete alliance-building actions, therapist stance, rupture monitoring/repair, personalization,
+  and an explicit alliance↔technique boundary — not just Гл. 1's Principle 2 paragraph.
+- **Terminology (owner-locked):** learner-facing canonical term is `терапевтичен съюз`; Гл.2's
+  alternate wording `алианс` stays in source/terminology notes only, never learner-facing;
+  `колаборативен емпиризъм` (not Гл.1's own "съвместен емпиризъм") aligned with locked Weeks 9/10.
+- **New finding, not previously known:** Гл. 2 names 5 threads running through every session; only
+  the alliance thread is Седмица 5's. Two of the other four — "подчертаване на положителното" and
+  "домашна работа/между-сесийна промяна" — have real source content but **no curriculum owner** —
+  see **GAP-014** (`15_GAPS_AND_CONFLICTS.md`). Owner-confirmed (2026-09-01): kept Deferred/unassigned,
+  not forced into Седмица 5 or any other week.
+- **WEEK 5 CONTENT CONTRACT (final):** 10-principle card grid (Гл.1) + a substantial therapeutic-
+  alliance section (Гл.2 thread 1) + a collaboration before/after comparison (Principle 3, reinforced
+  by Гл.2's "joint decisions" content) + a descriptive, non-protocol Principle 7 tapering sequence.
+  No Mind Map, no Concept Map, no new component.
+- **Статус:** `SOURCE-READY FOR IMPLEMENTATION` — full owner sign-off 2026-09-01.
 
 ### C. Week 9 safe content contract
 
