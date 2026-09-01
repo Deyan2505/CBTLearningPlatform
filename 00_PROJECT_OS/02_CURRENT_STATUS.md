@@ -93,6 +93,12 @@
   safety-sensitive KUs (суициден риск, DSM, automatic-thought bridge), нула възпроизведен
   терапевт-пациент диалог. **677/677** теста, Debug+Release build 0/0. Routed
   (`/kurs/sedmica-4`), resolves to `AcademicOverview` (same treatment as Седмица 12).
+  **PENDING OWNER-REVIEW ITEM (before LOCK):** Section 08 visual/safety framing refinement —
+  keep all five conceptualization questions, but reframe as professional-clinician reasoning, not
+  learner self-assessment; move the five questions into an existing academic/info card pattern;
+  split the Sally synthesis into two readable paragraphs without changing facts; preserve the
+  final statement that conceptualization is revised throughout therapy. No KU accounting change.
+  After the fix: desktop/mobile QA → production review → explicit `OWNER APPROVAL` → `LOCK`.
 - **Седмица 11** — `UNBLOCKED` / `NEXT` (след Седмица 4/5's build order). Not started.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
