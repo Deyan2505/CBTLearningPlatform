@@ -45,9 +45,9 @@ public sealed class Week12ContentSliceTests
     }
 
     [Fact]
-    public void RemainingSixWeeks_StayFullyUnrouted()
+    public void RemainingFiveWeeks_StayFullyUnrouted()
     {
-        int[] routedNumbers = [1, 2, 3, 6, 7, 8, 9, 10, 12];
+        int[] routedNumbers = [1, 2, 3, 4, 6, 7, 8, 9, 10, 12];
 
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks.Where(w => !routedNumbers.Contains(w.Number)))
         {
@@ -55,7 +55,7 @@ public sealed class Week12ContentSliceTests
             Assert.NotEqual(CourseWeekStatus.Available, week.Status);
         }
 
-        Assert.Equal(6, CourseCatalog.Weeks.Count(w => !routedNumbers.Contains(w.Number)));
+        Assert.Equal(5, CourseCatalog.Weeks.Count(w => !routedNumbers.Contains(w.Number)));
     }
 
     [Fact]

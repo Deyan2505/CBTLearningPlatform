@@ -1947,6 +1947,18 @@ h3[tabindex="-1"]:focus-visible {
     background: var(--accent-example-surface);
 }
 
+/* Week 4's title overflowed the 390px mobile viewport by ~2.5px. Root cause: .week-navigator__row
+   is a flex container, and flex items default to min-width:auto — they refuse to shrink below
+   their own content's intrinsic (max-content) width no matter how much wrapping CSS is applied,
+   the same flex gotcha already fixed once for .learning-grid children project-wide. overflow-wrap
+   alone did nothing until min-width:0 let the item actually shrink to the row's available width.
+   Scoped to this opt-in class (added only on Sedmica4's h1) rather than the shared h1/row rules,
+   so no other week's heading rendering changes. */
+.week-navigator__title--wrap {
+    min-width: 0;
+    overflow-wrap: break-word;
+}
+
 .comparison-matrix--dual th:last-child,
 .comparison-matrix--dual td:last-child {
     background: var(--accent-academic-surface);

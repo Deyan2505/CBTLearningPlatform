@@ -47,9 +47,10 @@ public sealed class Week10ContentSliceTests
         {
             Assert.NotEqual(CourseWeekStatus.Available, week.Status);
 
-            // Week 12 is AcademicContextOnly: it later gained a real, routed AcademicOverview
-            // page without becoming Available — every other non-available week still has no route.
-            if (week.Number != 12)
+            // Weeks 4 and 12 are AcademicContextOnly: they later gained a real, routed
+            // AcademicOverview page without becoming Available — every other non-available week
+            // still has no route.
+            if (week.Number != 4 && week.Number != 12)
             {
                 Assert.Null(week.Route);
             }

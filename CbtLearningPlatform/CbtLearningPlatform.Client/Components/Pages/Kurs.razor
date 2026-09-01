@@ -1,15 +1,16 @@
 @* Weekly Course Hub. Metadata comes entirely from CourseCatalog (Curriculum/CourseCatalog.cs) —
-   no lesson text duplicated here. Only Weeks 1, 2, 3, 6, 7, 8, 9, 10 and 12 have a real Route; every other
-   week intentionally has Route=null so this page never links to a page that doesn't exist yet.
-   Week 12 is AcademicContextOnly, so it resolves to AcademicOverview status rather than Available —
-   the start-panel below lists only the Available weeks, since AcademicOverview is a
-   different, non-self-guided category. Main hub area uses a wide/narrow two-column learning-grid
-   (timeline left, contextual panel right) — not sticky, to avoid footer-overlap and zoom/
-   accessibility risk for modest benefit. Course-progress bar + per-week done marker (MVP
-   progress feature) read learner-local completion via CourseProgressService — localStorage only,
-   no backend, no account; only CourseWeekDefinition.Number, never lesson content, is stored.
-   Completion eligibility (CourseProgressCalculator) is Route is not null, not CourseWeekStatus —
-   Week 12 is routed and completable despite being AcademicOverview, not Available. *@
+   no lesson text duplicated here. Only Weeks 1, 2, 3, 4, 6, 7, 8, 9, 10 and 12 have a real Route;
+   every other week intentionally has Route=null so this page never links to a page that doesn't
+   exist yet. Weeks 4 and 12 are AcademicContextOnly, so they resolve to AcademicOverview status
+   rather than Available — the start-panel below lists only the Available weeks, since
+   AcademicOverview is a different, non-self-guided category. Main hub area uses a wide/narrow
+   two-column learning-grid (timeline left, contextual panel right) — not sticky, to avoid
+   footer-overlap and zoom/accessibility risk for modest benefit. Course-progress bar + per-week
+   done marker (MVP progress feature) read learner-local completion via CourseProgressService —
+   localStorage only, no backend, no account; only CourseWeekDefinition.Number, never lesson
+   content, is stored. Completion eligibility (CourseProgressCalculator) is Route is not null, not
+   CourseWeekStatus — Weeks 4 and 12 are routed and completable despite being AcademicOverview,
+   not Available. *@
 @page "/kurs"
 @inject CourseProgressService Progress
 

@@ -18,10 +18,11 @@ public sealed record CourseWeekDefinition(
 /// module grouping (Модул I–IV), not an invented structure.</summary>
 public sealed record CourseModule(int Number, string Title, string WeekRangeLabel, string Description);
 
-/// <summary>Single source of truth for the 15-week curriculum reference. Only Weeks 1, 3, 6, 8, 10 and 12 have
-/// a real Route so far — every other week is intentionally InPreparation/AcademicOverview/ProfessionalReviewRequired
-/// with Route=null, so the hub never links to a page that doesn't exist. Week 12 is AcademicContextOnly, so it
-/// resolves to AcademicOverview status even though routed — see CurriculumLabels.DeriveStatus.</summary>
+/// <summary>Single source of truth for the 15-week curriculum reference. Only Weeks 1, 2, 3, 4, 6, 7, 8, 9, 10
+/// and 12 have a real Route so far — every other week is intentionally InPreparation/AcademicOverview/
+/// ProfessionalReviewRequired with Route=null, so the hub never links to a page that doesn't exist. Weeks 4 and
+/// 12 are AcademicContextOnly, so they resolve to AcademicOverview status even though routed — see
+/// CurriculumLabels.DeriveStatus.</summary>
 public static class CourseCatalog
 {
     public static IReadOnlyList<CourseModule> Modules { get; } =
@@ -77,7 +78,7 @@ public static class CourseCatalog
         Week(4, "Как работи КПТ и терапевтичният процес",
             "Клинична оценка и когнитивна концептуализация",
             "Общ преглед как професионалист организира информация за случай — не диагностичен инструмент за самооценка.",
-            CurriculumSafetyLevel.AcademicContextOnly, route: null,
+            CurriculumSafetyLevel.AcademicContextOnly, route: "/kurs/sedmica-4",
             objectives:
             [
                 "Разбирате в общи линии как професионалист изгражда разбиране за случай.",

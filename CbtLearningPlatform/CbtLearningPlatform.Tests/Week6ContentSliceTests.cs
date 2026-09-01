@@ -61,7 +61,7 @@ public sealed class Week6ContentSliceTests
         {
             Assert.NotEqual(CourseWeekStatus.Available, week.Status);
 
-            if (week.Number != 12)
+            if (week.Number != 4 && week.Number != 12)
             {
                 Assert.Null(week.Route);
             }

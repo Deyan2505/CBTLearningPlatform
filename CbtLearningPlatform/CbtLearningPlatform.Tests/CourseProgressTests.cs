@@ -173,6 +173,7 @@ public sealed class CourseProgressTests
     [Theory]
     [InlineData("Sedmica1.razor", 1)]
     [InlineData("Sedmica3.razor", 3)]
+    [InlineData("Sedmica4.razor", 4)] // routed but AcademicOverview — same as Week 12, route decides
     [InlineData("Sedmica6.razor", 6)]
     [InlineData("Sedmica7.razor", 7)]
     [InlineData("Sedmica8.razor", 8)]

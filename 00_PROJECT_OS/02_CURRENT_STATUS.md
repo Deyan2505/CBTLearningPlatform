@@ -78,7 +78,22 @@
   "why manuals matter" section; later visual fix un-nested Sections 04–05 from a shared grid and
   corrected a shared-CSS `white-space: nowrap` root cause behind the Section 04 table's clipping.
   **639/639** теста, Debug+Release build 0/0, production deploy successful (commit `6b7f352`).
-- **Седмица 11** — `UNBLOCKED` / `NEXT`. Not started.
+- **Седмица 2** (Когнитивна терапия на Бек и REBT на Елис, SRC-041 Гл. 1 бридж-изречения + нов
+  SRC-042 — Albert Ellis Institute, build-from-scratch академично сравнение) — `OWNER APPROVED /
+  LOCKED`. 20 KUs — 14 Included / 2 Deferred / 4 Excluded / 0 Needs Review / 0 Unaccounted — виж
+  `00_PROJECT_OS/_blueprints/WEEK_02_SOURCE_AUDIT_v1.md`. Затворен source gap за ABC модела чрез
+  ново регистриран SRC-042 (официална Albert Ellis Institute статия); честно сравнение Бек/Елис
+  без "победител", без дублиране на Седмица 1/3. **658/658** теста, Debug+Release build 0/0,
+  production deploy successful (commit `90acb56`).
+- **Седмица 4** (Клинична оценка и когнитивна концептуализация, SRC-041 Гл. 4 — build-from-scratch,
+  `AcademicContextOnly`) — **`IMPLEMENTED, TECHNICALLY READY — NOT YET OWNER APPROVED / LOCKED`.**
+  38 KUs — 27 Included / 4 Deferred / 7 Excluded / 0 Needs Review / 0 Unaccounted — виж
+  `00_PROJECT_OS/_blueprints/WEEK_04_SOURCE_AUDIT_v1.md`. Мостът "Сесия по оценка → начална
+  когнитивна концептуализация" (връзка към Седмица 3) е централната секция; три owner-resolved
+  safety-sensitive KUs (суициден риск, DSM, automatic-thought bridge), нула възпроизведен
+  терапевт-пациент диалог. **677/677** теста, Debug+Release build 0/0. Routed
+  (`/kurs/sedmica-4`), resolves to `AcademicOverview` (same treatment as Седмица 12).
+- **Седмица 11** — `UNBLOCKED` / `NEXT` (след Седмица 4/5's build order). Not started.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
   Netlify (static-only host). Commit `4135988`.
