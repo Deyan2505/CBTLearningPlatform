@@ -37,9 +37,9 @@ public sealed class Week3ContentSliceTests
     }
 
     [Fact]
-    public void RemainingEightWeeks_StayUnavailable()
+    public void RemainingSixWeeks_StayUnavailable()
     {
-        int[] availableNumbers = [1, 2, 3, 6, 7, 8, 9, 10];
+        int[] availableNumbers = [1, 2, 3, 5, 6, 7, 8, 9, 10];
 
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks.Where(w => !availableNumbers.Contains(w.Number)))
         {
@@ -54,7 +54,7 @@ public sealed class Week3ContentSliceTests
             }
         }
 
-        Assert.Equal(7, CourseCatalog.Weeks.Count(w => !availableNumbers.Contains(w.Number)));
+        Assert.Equal(6, CourseCatalog.Weeks.Count(w => !availableNumbers.Contains(w.Number)));
     }
 
     [Fact]

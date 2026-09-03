@@ -99,7 +99,26 @@
   split the Sally synthesis into two readable paragraphs without changing facts; preserve the
   final statement that conceptualization is revised throughout therapy. No KU accounting change.
   After the fix: desktop/mobile QA → production review → explicit `OWNER APPROVAL` → `LOCK`.
-- **Седмица 11** — `UNBLOCKED` / `NEXT` (след Седмица 4/5's build order). Not started.
+- **Седмица 5** (Принципи на КПТ и терапевтичен съюз, SRC-041 Гл. 1 стр. 6–11 + Гл. 2 стр. 17–21,
+  `PublicWithAdaptation`) — **`IMPLEMENTED, TECHNICALLY READY — NOT YET OWNER APPROVED / LOCKED`.**
+  52 KUs (two-chapter, owner-approved final audit) — 30 Included / 10 Deferred / 12 Excluded /
+  0 Needs Review / 0 Unaccounted — виж `00_PROJECT_OS/_blueprints/WEEK_05_SOURCE_AUDIT_v1.md`.
+  Десетте принципа на ниво принцип (Гл. 1) + задълбочена секция за терапевтичния съюз (Гл. 2,
+  нишка 1: доверие/резултати, шест конкретни действия, терапевтична позиция, мониторинг/поправка
+  на алианса, персонализация, alliance-is-dynamic) + collaboration before/after сравнение
+  (`.category-compare`) + описателна, изрично не-протоколна времева последователност за Принцип 7
+  (`.guided-practice-sequence`). Терминология заключена: `терапевтичен съюз` (никога „алианс"),
+  `колаборативен емпиризъм` (не Гл.1's „съвместен емпиризъм"); C2-K02's OCR-несигурна citation без
+  име на автор. Нула нов компонент, нула Mind Map/Concept Map, нула възпроизведен диалог. Реален
+  browser smoke test (Playwright, headless Chromium) потвърди: 13/13 секции, 10/10 принципа,
+  category-compare + guided-practice-sequence рендерирани коректно, 0 console/page грешки, `/kurs`
+  hub-ът коректно линква към новата седмица („Девет седмици" вместо „Осем"). **691/691** теста,
+  Debug+Release build 0/0, `git diff --check` чист (само LF/CRLF предупреждения). Routed
+  (`/kurs/sedmica-5`), resolves to `Available` (PublicWithAdaptation, като Седмица 6/7/9). **GAP-014**
+  (Гл. 2's "подчертаване на положителното"/"домашна работа" нишки нямат curriculum owner) остава
+  съзнателно извън тази страница — виж `15_GAPS_AND_CONFLICTS.md`. Некомитнато — предстои owner
+  visual/learning review преди `OWNER APPROVAL`/`LOCK`.
+- **Седмица 11** — `UNBLOCKED` / `NEXT` (след Седмица 5's build order). Not started.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
   Netlify (static-only host). Commit `4135988`.

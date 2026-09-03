@@ -36,7 +36,7 @@ public sealed class CurriculumHubTests
     }
 
     [Fact]
-    public void CourseCatalog_OnlyWeeksOneTwoThreeFourSixSevenEightNineTenAndTwelveHaveARealRoute()
+    public void CourseCatalog_OnlyWeeksOneTwoThreeFourFiveSixSevenEightNineTenAndTwelveHaveARealRoute()
     {
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks)
         {
@@ -55,6 +55,10 @@ public sealed class CurriculumHubTests
             else if (week.Number == 4)
             {
                 Assert.Equal("/kurs/sedmica-4", week.Route);
+            }
+            else if (week.Number == 5)
+            {
+                Assert.Equal("/kurs/sedmica-5", week.Route);
             }
             else if (week.Number == 6)
             {
