@@ -19,8 +19,18 @@
 
    REPRESENTATION (owner-locked): 10-principle card grid + a substantial alliance section +
    a collaboration before/after comparison (.category-compare) + a descriptive, explicitly
-   non-protocol Principle 7 tapering sequence (.guided-practice-sequence). No Mind Map, no Concept
-   Map, no new component — zero new .razor files, zero new CSS classes.
+   non-protocol Principle 7 tapering sequence (.guided-practice-sequence). No new content-relation
+   Concept Map, no new component — zero new .razor files, zero new CSS classes.
+
+   WEEKLY MIND MAP (added after production review — real omission, not a content change): the
+   standard organizational Mind Map (COGNITIVE_LEARNING_ARCHITECTURE_v1.md / Week 6's locked
+   pattern) was missing. Added using the existing ConceptGraph/MindMapAdapter/MindMapBranch engine
+   only — same semantic MindMapModel rendered in both Preview (5.0) and Review (5.11), single-parent
+   hierarchy, collapsed by default, in-place expansion, no anchor jump. This is orientation/memory
+   structure, not a causal or conceptual relationship network — it does not imply any principle
+   causes another, and does not reopen the "no Concept Map" decision above (that decision was about
+   not inventing a relationship diagram between the principles; the Mind Map is the separate,
+   platform-wide standard every routed week carries). No new KUs, no content/wording change.
 
    No Sally case-intro facts, no reproduced dialogue anywhere (Ch.2's worked transcript and its
    conceptualization-sharing dialogue are excluded per the established dialogue-reproduction
@@ -86,6 +96,13 @@
             автоматични мисли (Седмици 8–10) или основните вярвания (Седмица 12) — тази страница
             препраща натам, вместо да я преразказва.
         </p>
+
+        <h3>Мисловна карта на седмицата — преглед</h3>
+        <p>
+            Nodes-овете по-долу са <strong>знаниевите клъстери</strong> на седмицата, не номерата на
+            секциите — организационна карта, не причинно-следствена връзка между принципите.
+        </p>
+        <ConceptGraph ComponentId="week5-mindmap-preview" Model="@_week5MindMapRender" />
     </LearningSection>
 
     <LearningSection Role="theory" RoleLabel="Теория">
@@ -524,6 +541,13 @@
 
     <LearningSection Role="academic" RoleLabel="Изводи">
         <h2 id="review-map" tabindex="-1">5.11 · Карта за повторение</h2>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>Преди да разгънеш картата, опитай да си спомниш основните знаниеви клъстери на седмицата.</p>
+                <ConceptGraph ComponentId="week5-mindmap-review" Model="@_week5MindMapRender" />
+            </div>
+        </details>
         <div class="learning-grid learning-grid--balanced">
             <div>
                 <h3>Какво да запомните</h3>
@@ -580,6 +604,42 @@
 
 @code {
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 5);
+
+    private static readonly GraphRenderModel _week5MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek5MindMap());
+
+    // Standard Weekly Mind Map (added after production review — a genuine omission, not a content
+    // change): single-parent hierarchy, same model rendered in both Preview (5.0) and Review (5.11).
+    // Two branches only — the 10 principles (Ch.1) and the therapeutic-alliance topics (Ch.2 §1) —
+    // matching exactly what 5.2/5.4/5.6 already teach, no new relationships invented between
+    // principles. Principle leaves route to their shared "10-те принципа" section anchor except
+    // Principle 7, which has its own dedicated 5.3 subsection; alliance leaves route to 5.4 except
+    // the alliance/technique boundary, which is 5.6's own content.
+    private static MindMapModel BuildWeek5MindMap() => new(
+        "Седмица 5 — знаниеви клъстери",
+        "Мисловна карта на десетте принципа и терапевтичния съюз, групирана по знаниеви клъстери, не по номер на секция.",
+        [
+            new("root", "Седмица 5 — Принципи на КПТ и терапевтичен съюз", null, null, null, ConceptState.Introduced),
+
+            new("printsipi", "Десетте принципа", "root", "Всеки принцип — на ниво общо твърдение.", "/kurs/sedmica-5#desette-printsipa", ConceptState.Introduced),
+            new("printsip-1", "Принцип 1 — Индивидуална концептуализация", "printsipi", null, "/kurs/sedmica-5#desette-printsipa", ConceptState.Introduced),
+            new("printsip-2", "Принцип 2 — Стабилен терапевтичен съюз", "printsipi", null, "/kurs/sedmica-5#desette-printsipa", ConceptState.Introduced),
+            new("printsip-3", "Принцип 3 — Сътрудничество и активно участие", "printsipi", null, "/kurs/sedmica-5#desette-printsipa", ConceptState.Introduced),
+            new("printsip-4", "Принцип 4 — Целенасоченост и фокус върху проблема", "printsipi", null, "/kurs/sedmica-5#desette-printsipa", ConceptState.Introduced),
+            new("printsip-5", "Принцип 5 — Фокус върху настоящето (с две изключения)", "printsipi", null, "/kurs/sedmica-5#desette-printsipa", ConceptState.Introduced),
+            new("printsip-6", "Принцип 6 — Образователност и превенция на рецидив", "printsipi", null, "/kurs/sedmica-5#desette-printsipa", ConceptState.Introduced),
+            new("printsip-7", "Принцип 7 — Времево ограничение", "printsipi", null, "/kurs/sedmica-5#vremevo-ogranichenie", ConceptState.Introduced),
+            new("printsip-8", "Принцип 8 — Структурирани сесии", "printsipi", null, "/kurs/sedmica-5#desette-printsipa", ConceptState.Introduced),
+            new("printsip-9", "Принцип 9 — Работа с дисфункционални мисли и вярвания", "printsipi", null, "/kurs/sedmica-5#desette-printsipa", ConceptState.Introduced),
+            new("printsip-10", "Принцип 10 — Разнообразие от техники", "printsipi", null, "/kurs/sedmica-5#desette-printsipa", ConceptState.Introduced),
+
+            new("suyuz", "Терапевтичен съюз", "root", "Задълбочена секция, отделна от Принцип 2.", "/kurs/sedmica-5#terapevtichen-suyuz", ConceptState.Introduced),
+            new("suyuz-znachenie", "Защо има значение", "suyuz", null, "/kurs/sedmica-5#terapevtichen-suyuz", ConceptState.Introduced),
+            new("suyuz-deystviya", "Действия за изграждане на съюза", "suyuz", null, "/kurs/sedmica-5#terapevtichen-suyuz", ConceptState.Introduced),
+            new("suyuz-nablyudenie", "Наблюдение и поправяне на разрив", "suyuz", null, "/kurs/sedmica-5#terapevtichen-suyuz", ConceptState.Introduced),
+            new("suyuz-personalizirane", "Персонализиране на терапевтичния стил", "suyuz", null, "/kurs/sedmica-5#terapevtichen-suyuz", ConceptState.Introduced),
+            new("suyuz-dinamichen", "Съюзът е динамичен", "suyuz", null, "/kurs/sedmica-5#terapevtichen-suyuz", ConceptState.Introduced),
+            new("suyuz-granitsa", "Граница между съюз и техника", "suyuz", null, "/kurs/sedmica-5#struktura-sluzhi", ConceptState.Introduced)
+        ]);
 
     private readonly IReadOnlyList<string> _objectives = _week.LearningObjectives;
 

@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.RegularExpressions;
 using CbtLearningPlatform.Client.Curriculum;
 
 namespace CbtLearningPlatform.Tests;
@@ -114,8 +115,10 @@ public sealed class Week5ContentSliceTests
         Assert.Contains("category-compare", source);
         Assert.Contains("guided-practice-sequence", source);
 
-        // Locked decision: no Mind Map / Concept Map, no simulator, no new component.
-        Assert.DoesNotContain("<ConceptGraph", source);
+        // Weekly Mind Map (added after production review) reuses the existing shared
+        // ConceptGraph/MindMapAdapter engine — not a new component. No content-relation Concept Map,
+        // no simulator, no other new component.
+        Assert.Contains("<ConceptGraph", source);
         Assert.DoesNotContain("<ScenarioSimulator", source);
         Assert.DoesNotContain("<SourceArtifact", source);
         Assert.DoesNotContain("<CbtChainSimulator", source);
@@ -130,6 +133,95 @@ public sealed class Week5ContentSliceTests
         {
             Assert.Contains($"Принцип {i} —", source);
         }
+    }
+
+    [Fact]
+    public void Week5Page_HasWeeklyMindMap_PreviewAndReview_SameModel()
+    {
+        string source = ReadPage("Sedmica5.razor");
+
+        // Preview (5.0) and Review (5.11) each render a ConceptGraph, both bound to the same static
+        // model field — the platform's "same semantic MindMapModel" requirement.
+        Assert.Contains("ComponentId=\"week5-mindmap-preview\" Model=\"@_week5MindMapRender\"", source);
+        Assert.Contains("ComponentId=\"week5-mindmap-review\" Model=\"@_week5MindMapRender\"", source);
+
+        int conceptGraphCount = Regex.Matches(source, "<ConceptGraph").Count;
+        Assert.Equal(2, conceptGraphCount);
+
+        // Review instance sits behind an attempt-before-reveal <details>, same pattern as every other
+        // locked week's Mind Map review (Week 6/9/10 precedent) — not an unconditional second render.
+        Assert.Contains("concept-graph__retrieval-check", source);
+    }
+
+    [Fact]
+    public void Week5Page_MindMap_HasRootAndBothTopLevelBranches()
+    {
+        string source = ReadPage("Sedmica5.razor");
+
+        Assert.Contains("new(\"root\", \"Седмица 5 — Принципи на КПТ и терапевтичен съюз\", null, null, null, ConceptState.Introduced)", source);
+        Assert.Contains("new(\"printsipi\", \"Десетте принципа\", \"root\",", source);
+        Assert.Contains("new(\"suyuz\", \"Терапевтичен съюз\", \"root\",", source);
+    }
+
+    [Fact]
+    public void Week5Page_MindMap_HasAllTenPrincipleNodes_UnderPrintsipiBranch()
+    {
+        string source = ReadPage("Sedmica5.razor");
+
+        string[] principleNodeIds =
+        [
+            "printsip-1", "printsip-2", "printsip-3", "printsip-4", "printsip-5",
+            "printsip-6", "printsip-7", "printsip-8", "printsip-9", "printsip-10"
+        ];
+
+        foreach (string id in principleNodeIds)
+        {
+            string principleNumber = id.Split('-')[1];
+            Assert.Contains($"new(\"{id}\", \"Принцип {principleNumber} —", source);
+        }
+
+        // Each principle node's parent is the "printsipi" branch, not the root or each other — a flat
+        // single-parent fan-out, no invented relationships between principles.
+        foreach (string id in principleNodeIds)
+        {
+            int idIndex = source.IndexOf($"new(\"{id}\",", StringComparison.Ordinal);
+            Assert.True(idIndex >= 0, $"Node {id} not found");
+            int lineEnd = source.IndexOf('\n', idIndex);
+            string line = source[idIndex..lineEnd];
+            Assert.Contains("\"printsipi\"", line);
+        }
+    }
+
+    [Fact]
+    public void Week5Page_MindMap_HasAllSixAllianceSubtopics_UnderSuyuzBranch()
+    {
+        string source = ReadPage("Sedmica5.razor");
+
+        string[] allianceNodeIds =
+        [
+            "suyuz-znachenie", "suyuz-deystviya", "suyuz-nablyudenie",
+            "suyuz-personalizirane", "suyuz-dinamichen", "suyuz-granitsa"
+        ];
+
+        foreach (string id in allianceNodeIds)
+        {
+            int idIndex = source.IndexOf($"new(\"{id}\",", StringComparison.Ordinal);
+            Assert.True(idIndex >= 0, $"Node {id} not found");
+            int lineEnd = source.IndexOf('\n', idIndex);
+            string line = source[idIndex..lineEnd];
+            Assert.Contains("\"suyuz\"", line);
+        }
+    }
+
+    [Fact]
+    public void Week5Page_MindMap_DoesNotInventRelationsBetweenPrinciples()
+    {
+        // Organizational hierarchy only — no ConceptRelation/edge list, no causal wording near the
+        // mind-map model (the page's own edge-free MindMapModel type enforces single-parent shape).
+        string source = ReadPage("Sedmica5.razor");
+
+        Assert.DoesNotContain("ConceptRelation", source);
+        Assert.Contains("не по номер на секция", source);
     }
 
     [Fact]
