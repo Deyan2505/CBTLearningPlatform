@@ -213,10 +213,7 @@ public sealed class Week9ContentSliceTests
     {
         string source = ReadPage("Sedmica9.razor");
 
-        for (int i = 1; i <= 14; i++)
-        {
-            Assert.Contains($"Q{i:D2}", source);
-        }
+        Assert.Equal(14, TestPaths.CountFinalAssessmentQuestions(source, "_week9FinalAssessment"));
     }
 
     [Fact]

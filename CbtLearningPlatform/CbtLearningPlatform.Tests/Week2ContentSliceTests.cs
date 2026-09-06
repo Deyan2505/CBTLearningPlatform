@@ -135,7 +135,7 @@ public sealed class Week2ContentSliceTests
         }
 
         Assert.Contains("не спор кой е прав", publicMarkup);
-        Assert.Contains("<strong>Б.</strong> И двете школи са валидни академични рамки", publicMarkup);
+        Assert.Contains("И двете школи са валидни академични рамки", publicMarkup);
     }
 
     [Fact]
@@ -213,11 +213,7 @@ public sealed class Week2ContentSliceTests
     {
         string source = ReadPage("Sedmica2.razor");
 
-        for (int i = 1; i <= 5; i++)
-        {
-            Assert.Contains($"Въпрос {i}.", source);
-        }
-        Assert.DoesNotContain("Въпрос 6.", source);
+        Assert.Equal(5, TestPaths.CountFinalAssessmentQuestions(source, "_week2FinalAssessment"));
     }
 
     [Fact]

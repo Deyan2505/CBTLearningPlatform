@@ -1,0 +1,123 @@
+@* Interactive WebAssembly island — shared Weekly Final Assessment Standard (00_PROJECT_OS/21_CONTENT_AND_DATA_MODEL.md
+   "Weekly Final Assessment Standard"). One component drives every routed week's summative check: answer all
+   questions first (no correctness shown while answering), submit to lock answers + score, review each question's
+   correct/incorrect verdict with the existing source-grounded explanation, retry to reset to a blank test.
+   All state/scoring lives in FinalAssessmentState (Curriculum/) — a plain, Blazor-free class kept separate so
+   it's unit-testable directly; this file only renders it. In-memory only — no account/cloud storage, consistent
+   with the rest of the platform (CategorizationCheck, CbtChainSimulator); a page reload naturally returns to the
+   unanswered state, which is the intended behavior, not a persistence gap. Never touches
+   WeekCompletionControl/CourseProgressService — score does not gate completion. Correctness is never
+   color-only: every verdict also carries a ✓/✗ glyph plus real text. *@
+@namespace CbtLearningPlatform.Client.Interactive
+@using CbtLearningPlatform.Client.Curriculum
+
+<div class="final-assessment" aria-labelledby="@SectionId">
+    <p class="final-assessment__progress" aria-live="polite">@_state.AnsweredCount от @_state.Total отговорени</p>
+
+    <ol class="final-assessment__list learning-grid learning-grid--balanced">
+        @for (int i = 0; i < _state.Total; i++)
+        {
+            int index = i;
+            AssessmentQuestion q = Model.Questions[index];
+            int? selected = _state.SelectedOption(index);
+            bool isCorrect = _state.IsCorrect(index);
+
+            <li class="final-assessment__question card@(_state.Submitted ? (isCorrect ? " final-assessment__question--correct" : " final-assessment__question--incorrect") : "")">
+                <fieldset>
+                    <legend>
+                        <span class="final-assessment__q-number">@(index + 1).</span> @((MarkupString)q.Text)
+                        @if (_state.Submitted)
+                        {
+                            <span class="final-assessment__status@(isCorrect ? " final-assessment__status--correct" : " final-assessment__status--incorrect")">
+                                <span aria-hidden="true">@(isCorrect ? "✓" : "✗")</span> @(isCorrect ? "Верен" : "Грешен")
+                            </span>
+                        }
+                    </legend>
+
+                    @for (int o = 0; o < q.Options.Count; o++)
+                    {
+                        int option = o;
+                        bool isCorrectOption = _state.Submitted && option == q.CorrectOptionIndex;
+                        bool isWrongSelected = _state.Submitted && option == selected && !isCorrectOption;
+
+                        <label class="@OptionClass(isCorrectOption, isWrongSelected)">
+                            <input type="radio"
+                                   name="@($"{SectionId}-q{index}")"
+                                   checked="@(selected == option)"
+                                   disabled="@_state.Submitted"
+                                   @onchange="() => SelectAnswer(index, option)" />
+                            <span>@q.Options[option]</span>
+                            @if (isCorrectOption)
+                            {
+                                <span aria-hidden="true">✓</span>
+                                <span class="visually-hidden">верен отговор</span>
+                            }
+                            else if (isWrongSelected)
+                            {
+                                <span aria-hidden="true">✗</span>
+                                <span class="visually-hidden">избран, грешен отговор</span>
+                            }
+                        </label>
+                    }
+                </fieldset>
+
+                @if (_state.Submitted)
+                {
+                    <div class="final-assessment__explanation">
+                        <p><strong>Вашият отговор:</strong> @q.Options[selected!.Value]</p>
+                        @if (!isCorrect)
+                        {
+                            <p><strong>Верен отговор:</strong> @q.Options[q.CorrectOptionIndex]</p>
+                        }
+                        <p>@((MarkupString)q.Explanation)</p>
+                    </div>
+                }
+            </li>
+        }
+    </ol>
+
+    @if (!_state.Submitted)
+    {
+        <button type="button" class="btn btn-primary" disabled="@(!_state.AllAnswered)" @onclick="Submit">Предай теста</button>
+    }
+    else
+    {
+        <div class="final-assessment__result card" aria-live="polite">
+            <p class="final-assessment__score">Резултат: @_state.ScorePercent / 100</p>
+            <p>@_state.CorrectCount от @_state.Total верни</p>
+            <p>@_state.IncorrectCount грешни</p>
+            <p class="final-assessment__interpretation">@_state.Interpretation</p>
+        </div>
+        <button type="button" class="btn btn-neutral" @onclick="Retry">Опитай отново</button>
+    }
+</div>
+
+@code {
+    /// <summary>Id of the page's own section heading (e.g. "assessment") — used both for aria-labelledby and to
+    /// namespace each question's radio-group name, so no title/instruction text is duplicated here.</summary>
+    [Parameter, EditorRequired]
+    public string SectionId { get; set; } = default!;
+
+    // Author-supplied curriculum content only (compiled into the app, never learner input) — some
+    // explanations carry a real Source citation <a> link, so this is rendered as trusted markup.
+    [Parameter, EditorRequired]
+    public FinalAssessmentModel Model { get; set; } = default!;
+
+    private FinalAssessmentState _state = default!;
+
+    protected override void OnInitialized() => _state = new FinalAssessmentState(Model);
+
+    private void SelectAnswer(int questionIndex, int optionIndex) => _state.SelectAnswer(questionIndex, optionIndex);
+
+    private void Submit() => _state.Submit();
+
+    private void Retry() => _state.Retry();
+
+    private static string OptionClass(bool isCorrectOption, bool isWrongSelected)
+    {
+        string cls = "final-assessment__option";
+        if (isCorrectOption) cls += " final-assessment__option--correct";
+        if (isWrongSelected) cls += " final-assessment__option--incorrect";
+        return cls;
+    }
+}

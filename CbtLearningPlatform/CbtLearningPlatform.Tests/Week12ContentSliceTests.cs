@@ -360,12 +360,7 @@ public sealed class Week12ContentSliceTests
     {
         string source = ReadPage("Sedmica12.razor");
 
-        Assert.Contains("Въпрос 1.", source);
-        Assert.Contains("Въпрос 2.", source);
-        Assert.Contains("Въпрос 3.", source);
-        Assert.Contains("Въпрос 4.", source);
-        Assert.Contains("Въпрос 5.", source);
-        Assert.DoesNotContain("Въпрос 6.", source);
+        Assert.Equal(5, TestPaths.CountFinalAssessmentQuestions(source, "_week12FinalAssessment"));
     }
 
     private static string ReadPage(string fileName)

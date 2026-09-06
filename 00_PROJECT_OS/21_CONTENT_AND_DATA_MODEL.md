@@ -65,6 +65,30 @@ Markdown/JSON. **Тази добавка затваря документален
 `CourseWeekDefinition`. `ConceptState` никога не се задава ръчно за learner-специфичен смисъл — винаги
 изведено от кои седмици реално са routed, огледало на `CurriculumLabels.DeriveStatus()`.
 
+## Добавка (2026-09-06) — Weekly Final Assessment Standard
+
+Платформено споделен, точкуван модел за **финалния** тест на всяка routed седмица — заменя, само за
+тази една консолидирана секция на седмица, ограничението от реда **AnswerOption** по-горе ("Не в
+MVP... без 'верен/грешен' отговор — REQ-FUNC-003"). REQ-FUNC-003 остава непроменено в сила за всички
+**локални** ("Проверка на разбирането"-стил, in-lesson) рефлективни проверки — те продължават да са
+чисто reveal-базирани, без точкуване, без заключен/предаден статус.
+
+| Модел | Файл | Предназначение | Ключови полета | Чувствителни данни? | Версиониране |
+|---|---|---|---|---|---|
+| **AssessmentQuestion** | `Curriculum/AssessmentModels.cs` | Един въпрос с единствен верен отговор — MC и вярно/невярно са един и същ shape (T/F е просто 2-опционен `Choice`) | Id, Text, Options, CorrectOptionIndex, Explanation | Не | Git |
+| **FinalAssessmentModel** | `Curriculum/AssessmentModels.cs` | Пълният тест на седмицата — списък от `AssessmentQuestion` | Questions | Не | Git |
+| **FinalAssessmentState** | `Curriculum/FinalAssessmentState.cs` | Чист, Blazor-независим state machine (избор → предаване/заключване → резултат → retry) — единствено оттук идва score логиката, unit-тествана директно | Selected, Submitted, CorrectCount, IncorrectCount, ScorePercent | Не | Git |
+| **FinalAssessment.razor** | `Interactive/FinalAssessment.razor` | Единственият споделен UI компонент, рендиращ `FinalAssessmentState` — 11-те routed седмици го ползват еднакво, без дублирана логика | ComponentId parameter: `SectionId`; Model: `FinalAssessmentModel` | Не | Git |
+
+**Резултат = `round(верни / общо * 100)`** (закръгляне away-from-zero при .5). **Изрично НЕ включва:**
+account/cloud storage (state е чисто in-memory в компонента — презарежда се на reload, това е
+очакваното поведение, не пропуск), gamification (без leaderboard/badges/streaks), никакво влияние
+върху `WeekCompletionControl`/`ProgressRecord` (седмица може да се маркира завършена независимо от
+резултата от теста). Два въпроса в Седмица 6 (оригинални Q02/Q08) нямат буквени опции в
+източника (свободен "подреждане"/"идентифицирай грешката" формат) — останаха извън точкувания модел
+вместо да се изобретяват MC дистрактори за LOCKED седмица; вижте коментара над `_week6FinalAssessment`
+в `Sedmica6.razor`.
+
 ## Ключово архитектурно решение
 
 **ProgressRecord е единственият модел с потенциално чувствителни данни в MVP**, и той **никога не напуска браузъра на потребителя** (local storage, ADR-002). Няма сървърна база данни, следователно няма сървърно съхранени лични данни за изтичане или неправомерен достъп в MVP архитектурата.

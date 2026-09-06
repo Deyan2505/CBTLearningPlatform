@@ -334,10 +334,13 @@ public sealed class Week6ContentSliceTests
     {
         string source = ReadPage("Sedmica6.razor");
 
-        for (int i = 1; i <= 20; i++)
-        {
-            Assert.Contains($"Q{i:D2}", source);
-        }
+        // 18 are in the shared scored component; the original Q02 (ordering) and Q08 (identify-the-
+        // error) have no lettered options in the source and are kept as separate, unscored static
+        // items instead of inventing multiple-choice distractors for a LOCKED week — see the code
+        // comment above _week6FinalAssessment. All 20 original questions still exist on the page.
+        Assert.Equal(18, TestPaths.CountFinalAssessmentQuestions(source, "_week6FinalAssessment"));
+        Assert.Contains("Подредете: Обратна връзка / Задаване на дневния ред / Обобщение / Проверка на настроението", source);
+        Assert.Contains("\"Черната боя\" метафората означава, че светът обективно е тъмен.", source);
     }
 
     [Fact]
@@ -356,7 +359,7 @@ public sealed class Week6ContentSliceTests
         // The revised Q19 tests source-grounded CBT knowledge (deviation criteria) instead.
         string source = ReadPage("Sedmica6.razor");
 
-        Assert.Contains("Q19", source);
+        Assert.Contains("AssessmentQuestion.Choice(\"q19\"", source);
         Assert.Contains("Кои основания легитимно оправдават отлагане на планираната стъпка", source);
     }
 

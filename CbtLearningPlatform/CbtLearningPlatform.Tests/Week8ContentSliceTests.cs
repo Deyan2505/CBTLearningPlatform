@@ -122,24 +122,24 @@ public sealed class Week8ContentSliceTests
 
         Assert.Contains("id=\"proverka-znania\"", source);
         Assert.Contains("Проверка на знанията", source);
-        Assert.Contains("Проверката не се оценява и не запазва отговори", source);
-        Assert.Contains("Въпрос 1.", source);
-        Assert.Contains("Въпрос 2.", source);
-        Assert.Contains("Въпрос 3.", source);
-        Assert.Contains("Въпрос 4.", source);
-        Assert.Contains("Въпрос 5.", source);
+        Assert.Contains("<FinalAssessment SectionId=\"proverka-znania\" Model=\"_week8FinalAssessment\" />", source);
+        Assert.Equal(5, TestPaths.CountFinalAssessmentQuestions(source, "_week8FinalAssessment"));
     }
 
     [Fact]
-    public void Week8Page_KnowledgeCheckReusesNativeDetailsSummary_NotANewQuizEngine()
+    public void Week8Page_KnowledgeCheckUsesSharedFinalAssessmentComponent()
     {
+        // Weekly Final Assessment Standard: every routed week's final check shares ONE component/model
+        // (FinalAssessment.razor) instead of each week hand-rolling its own reveal markup or scoring
+        // logic — Week 8's check is no exception, so this looks for the shared component, not raw
+        // <details> elements.
         string source = ReadPage("Sedmica8.razor");
         int checkIndex = source.IndexOf("id=\"proverka-znania\"", StringComparison.Ordinal);
         int nextSectionIndex = source.IndexOf("id=\"karta-povtorenie\"", StringComparison.Ordinal);
         string checkBlock = source[checkIndex..nextSectionIndex];
 
-        int detailsCount = System.Text.RegularExpressions.Regex.Matches(checkBlock, "<details").Count;
-        Assert.Equal(5, detailsCount);
+        Assert.Contains("<FinalAssessment SectionId=\"proverka-znania\"", checkBlock);
+        Assert.DoesNotContain("<details", checkBlock);
     }
 
     [Fact]

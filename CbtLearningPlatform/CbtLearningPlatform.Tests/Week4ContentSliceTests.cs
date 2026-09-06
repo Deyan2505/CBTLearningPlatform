@@ -226,11 +226,7 @@ public sealed class Week4ContentSliceTests
     {
         string source = ReadPage("Sedmica4.razor");
 
-        for (int i = 1; i <= 5; i++)
-        {
-            Assert.Contains($"Въпрос {i}.", source);
-        }
-        Assert.DoesNotContain("Въпрос 6.", source);
+        Assert.Equal(5, TestPaths.CountFinalAssessmentQuestions(source, "_week4FinalAssessment"));
     }
 
     [Fact]

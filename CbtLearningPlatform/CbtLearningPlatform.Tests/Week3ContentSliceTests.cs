@@ -249,8 +249,7 @@ public sealed class Week3ContentSliceTests
     {
         string source = ReadPage("Sedmica3.razor");
 
-        Assert.Contains("Въпрос 5.", source);
-        Assert.Contains("Въпрос 6", source);
+        Assert.Equal(6, TestPaths.CountFinalAssessmentQuestions(source, "_week3FinalAssessment"));
     }
 
     [Fact]
@@ -277,11 +276,11 @@ public sealed class Week3ContentSliceTests
     {
         string source = ReadPage("Sedmica3.razor");
 
-        Assert.Contains("Въпрос 1.", source);
-        Assert.Contains("Въпрос 2.", source);
-        Assert.Contains("Въпрос 3.", source);
-        Assert.Contains("Въпрос 4.", source);
-        Assert.Contains("Проверката не се оценява и не запазва отговори", source);
+        Assert.Contains("Кое е най-ситуативното когнитивно ниво?", source);
+        Assert.Contains("Какво включват междинните вярвания?", source);
+        Assert.Contains("Какво означава \\\"схема като филтър\\\"?", source);
+        Assert.Contains("Кое твърдение за \\\"по-сложния модел\\\" е най-точно?", source);
+        Assert.Contains("<FinalAssessment SectionId=\"proverka\" Model=\"_week3FinalAssessment\" />", source);
     }
 
     [Fact]

@@ -748,29 +748,17 @@
 
     <LearningSection Role="academic" RoleLabel="Финален тест">
         <h2 id="assessment" tabindex="-1">6.11 · Финална проверка</h2>
-        <p>20 въпроса, разнообразни по тип. Не се оценява, не се пази — образователна самопроверка.</p>
+        <p>18 въпроса. Отговорете на всички, за да предадете теста и видите резултата — не се пази между посещения.</p>
+        <FinalAssessment SectionId="assessment" Model="_week6FinalAssessment" />
 
+        <!-- Q02 (подреждане) and Q08 (идентифицирай грешката) have no lettered options in the source —
+             true open-response items, not single-answer MC/true-false. Converting them would mean
+             inventing multiple-choice distractors that never existed in this LOCKED week's approved
+             content, so they stay exactly as originally authored and are not part of the scored count. -->
+        <p><em>Още два въпроса (не се включват в резултата по-горе — отворени, без затворени отговори за избор):</em></p>
         <div class="learning-grid learning-grid--balanced">
-            <div class="card"><p><strong>Q01.</strong> Коя е първата стъпка на първата сесия?</p><p>А. Проверка на настроението Б. Задаване на дневния ред В. Дискусия за диагнозата</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Дневният ред се задава първи. Source: U02 · <a href="/kurs/sedmica-6#struktura">6.1</a></p></div></details></div>
-            <div class="card"><p><strong>Q02 (подреждане).</strong> Подредете: Обратна връзка / Задаване на дневния ред / Обобщение / Проверка на настроението — от първо към последно.</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p>Дневен ред → Проверка на настроението → Обобщение → Обратна връзка. Source: U02 · <a href="/kurs/sedmica-6#struktura">6.1</a></p></div></details></div>
-            <div class="card"><p><strong>Q03 (сценарий).</strong> Пациент настоява да говори свободно, без дневен ред. Кое НАЙ-добре описва подхода на терапевта?</p><p>А. Отказва напълно Б. Може да предложи разделено време, ако участието е застрашено В. Прекратява сесията</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U05/U06 · <a href="/kurs/sedmica-6#nachalo">6.2</a></p></div></details></div>
-            <div class="card"><p><strong>Q04.</strong> Проверката на настроението в първата сесия включва:</p><p>А. Само устен разказ Б. Само стандартизирани въпросници В. И двете</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>В.</strong> Source: U07 · <a href="/kurs/sedmica-6#nachalo">6.2</a></p></div></details></div>
-            <div class="card"><p><strong>Q05 (сценарий + обяснение).</strong> Пациент разкрива активен риск за самонараняване по средата на планирана психообразователна тема. Кое основание НАЙ-пряко оправдава отклонение от дневния ред?</p><p>А. Риск за пациента Б. Пациентът изглежда уморен В. Времето почти изтича</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>А.</strong> Риск за пациента е едно от трите легитимни основания. Source: U08/U13/U22 · <a href="/kurs/sedmica-6#deep-dive">6.4</a></p></div></details></div>
-            <div class="card"><p><strong>Q06 (вярно/невярно + обяснение).</strong> Всяко отклонение от дневния ред е нарушение на добрата практика.</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Невярно.</strong> Три легитимни основания оправдават отклонение. Source: U13 · <a href="/kurs/sedmica-6#nachalo">6.2</a></p></div></details></div>
-            <div class="card"><p><strong>Q07.</strong> Защо терапевтът избягва етикет за личностно разстройство при обсъждане на диагнозата?</p><p>А. Юридически причини Б. По-общо, нежаргонно описание е по-разбираемо и по-малко стигматизиращо В. Без конкретна причина</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U15 · <a href="/kurs/sedmica-6#nachalo">6.2</a></p></div></details></div>
-            <div class="card"><p><strong>Q08 (идентифицирай грешката).</strong> "Черната боя" метафората означава, че светът обективно е тъмен." Каква е грешката?</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p>Метафората описва <strong>изкривено възприятие</strong>, не обективна реалност — терапията изсветлява възприятието, не променя фактите на света. Source: U16 · <a href="/kurs/sedmica-6#beck-praktika">6.5</a></p></div></details></div>
-            <div class="card"><p><strong>Q09 (сценарий).</strong> Пациент казва "всичко е бъркотия". Каква е следващата стъпка на терапевта?</p><p>А. Да остави твърдението неразгледано Б. Да помогне за разбиване на 2-3 конкретни, управляеми проблема В. Да смени темата</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U21/U22 · <a href="/kurs/sedmica-6#beck-praktika">6.5</a></p></div></details></div>
-            <div class="card"><p><strong>Q10 (сценарий).</strong> Пациент поставя цел за поведението на друг човек. Кой отговор НАЙ-добре отразява подхода на терапевта?</p><p>А. Обещава да промени другия човек Б. Помага целта да бъде преформулирана в нещо в контрола на пациента В. Отхвърля целта изцяло</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U25 · <a href="/kurs/sedmica-6#beck-praktika">6.5</a></p></div></details></div>
-            <div class="card"><p><strong>Q11 (съпоставяне).</strong> Свържете елемента с примера: "Обядвах със съученици" ↔ ?</p><p>А. Автоматична мисъл Б. Ситуация В. Реакция</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U27 · <a href="/kurs/sedmica-6#beck-praktika">6.5</a></p></div></details></div>
-            <div class="card"><p><strong>Q12 (интерпретация на случай).</strong> Пациентка вижда усмихната жена в чакалнята и се натъжава. Кое е автоматичната мисъл в примера?</p><p>А. "Тя е щастлива" Б. "Никога повече няма да бъда така" В. Самата тъга</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Мисълта е изречение между ситуацията и реакцията, не самата реакция. Source: U28 · <a href="/kurs/sedmica-6#beck-praktika">6.5</a></p></div></details></div>
-            <div class="card"><p><strong>Q13.</strong> Защо терапевтът моли пациента да формулира модела със собствени думи?</p><p>А. Формалност Б. Проверява реално разбиране, не просто съгласие В. Пести време</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U29 · <a href="/kurs/sedmica-6#beck-praktika">6.5</a></p></div></details></div>
-            <div class="card"><p><strong>Q14.</strong> Кое обобщава синтеза на целите на първата сесия?</p><p>А. Само диагноза Б. Връзка, концептуализация, социализиране, образоване, надежда В. Само домашна работа</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U45 · <a href="/kurs/sedmica-6#review-map">6.12</a></p></div></details></div>
-            <div class="card"><p><strong>Q15 (сценарий).</strong> Пациент казва домашното ще отнеме "поне 20 минути" за тривиална задача. Какво прави терапевтът?</p><p>А. Приема твърдението без коментар Б. Уточнява реалистичния разход на време на глас В. Премахва задачата</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Пациентите системно надценяват трудността. Source: U36 · <a href="/kurs/sedmica-6#kray">6.7</a></p></div></details></div>
-            <div class="card"><p><strong>Q16 (вярно/невярно + обяснение).</strong> Опционалната рамка на домашното означава, че то е маловажно.</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Невярно.</strong> Целта е да се избегне претовареност/самообвинение, не омаловажаване. Source: U39 · <a href="/kurs/sedmica-6#kray">6.7</a></p></div></details></div>
-            <div class="card"><p><strong>Q17.</strong> Кой инструмент проверява алианса директно с въпрос към пациента?</p><p>А. Списък с домашни Б. Доклад за терапия В. Дневен ред</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Source: U40/U42 · <a href="/kurs/sedmica-6#kray">6.7</a></p></div></details></div>
-            <div class="card"><p><strong>Q18 (интерпретация на случай, многостъпков).</strong> Пациент изглежда напрегнат в края на сесията, после признава съмнение в терапията и претовареност от домашното. Кое действие НАЙ-добре следва принципите от главата?</p><p>А. Настоява на пълното домашно Б. Прави домашното частично опционално и изяснява притеснението В. Премахва цялото домашно завинаги</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Гъвкавост без пълно отказване от структурата. Source: U43/U44 · <a href="/kurs/sedmica-6#kray">6.7</a></p></div></details></div>
-            <div class="card"><p><strong>Q19 (advanced, анализ).</strong> Пациент разкрива нова, силно обезпокоителна информация точно преди терапевтът да премине към обучение за когнитивния модел (стъпка 06). Кои основания легитимно оправдават отлагане на планираната стъпка?</p><p>А. Само ако пациентът изрично поиска Б. Риск за пациента/други, невъзможност за фокус, или риск за алианса В. Никога — планът трябва да се спазва стриктно</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Същите три критерия от 6.2/6.4 важат за всяко решение да се отклони от плана, не само за дневния ред. Source: U13 · <a href="/kurs/sedmica-6#deep-dive">6.4</a></p></div></details></div>
-            <div class="card"><p><strong>Q20.</strong> Коя следваща седмица от курса се свързва пряко с обучението за когнитивния модел тук?</p><p>А. Седмица 1 Б. Седмица 3 В. Седмица 12</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p><strong>Б.</strong> Седмица 3 преподава същата верига Ситуация→Мисъл→Реакция в пълния ѝ вид. Source: U46 · <a href="/kurs/sedmica-6#review-map">6.12</a></p></div></details></div>
+            <div class="card"><p><strong>Допълнителен въпрос (подреждане).</strong> Подредете: Обратна връзка / Задаване на дневния ред / Обобщение / Проверка на настроението — от първо към последно.</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p>Дневен ред → Проверка на настроението → Обобщение → Обратна връзка. Source: U02 · <a href="/kurs/sedmica-6#struktura">6.1</a></p></div></details></div>
+            <div class="card"><p><strong>Допълнителен въпрос (идентифицирай грешката).</strong> "Черната боя" метафората означава, че светът обективно е тъмен." Каква е грешката?</p><details class="progressive-explanation"><summary>Отговор</summary><div class="progressive-explanation__body"><p>Метафората описва <strong>изкривено възприятие</strong>, не обективна реалност — терапията изсветлява възприятието, не променя фактите на света. Source: U16 · <a href="/kurs/sedmica-6#beck-praktika">6.5</a></p></div></details></div>
         </div>
     </LearningSection>
 
@@ -864,6 +852,64 @@
 
 @code {
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 6);
+
+    // Weekly Final Assessment Standard — same 18 (of the original 20) questions, wording, and answer
+    // keys as before the retrofit; only the interaction changed (scored submit/retry instead of a
+    // static reveal). Q02 and Q08 are excluded — see the two standalone cards in the markup above.
+    private static readonly FinalAssessmentModel _week6FinalAssessment = new([
+        AssessmentQuestion.Choice("q01", "Коя е първата стъпка на първата сесия?",
+            ["Проверка на настроението", "Задаване на дневния ред", "Дискусия за диагнозата"], 1,
+            "Дневният ред се задава първи. Source: U02 · <a href=\"/kurs/sedmica-6#struktura\">6.1</a>"),
+        AssessmentQuestion.Choice("q03", "(сценарий) Пациент настоява да говори свободно, без дневен ред. Кое НАЙ-добре описва подхода на терапевта?",
+            ["Отказва напълно", "Може да предложи разделено време, ако участието е застрашено", "Прекратява сесията"], 1,
+            "Source: U05/U06 · <a href=\"/kurs/sedmica-6#nachalo\">6.2</a>"),
+        AssessmentQuestion.Choice("q04", "Проверката на настроението в първата сесия включва:",
+            ["Само устен разказ", "Само стандартизирани въпросници", "И двете"], 2,
+            "Source: U07 · <a href=\"/kurs/sedmica-6#nachalo\">6.2</a>"),
+        AssessmentQuestion.Choice("q05", "(сценарий + обяснение) Пациент разкрива активен риск за самонараняване по средата на планирана психообразователна тема. Кое основание НАЙ-пряко оправдава отклонение от дневния ред?",
+            ["Риск за пациента", "Пациентът изглежда уморен", "Времето почти изтича"], 0,
+            "Риск за пациента е едно от трите легитимни основания. Source: U08/U13/U22 · <a href=\"/kurs/sedmica-6#deep-dive\">6.4</a>"),
+        AssessmentQuestion.TrueFalse("q06", "Всяко отклонение от дневния ред е нарушение на добрата практика.",
+            false, "Три легитимни основания оправдават отклонение. Source: U13 · <a href=\"/kurs/sedmica-6#nachalo\">6.2</a>"),
+        AssessmentQuestion.Choice("q07", "Защо терапевтът избягва етикет за личностно разстройство при обсъждане на диагнозата?",
+            ["Юридически причини", "По-общо, нежаргонно описание е по-разбираемо и по-малко стигматизиращо", "Без конкретна причина"], 1,
+            "Source: U15 · <a href=\"/kurs/sedmica-6#nachalo\">6.2</a>"),
+        AssessmentQuestion.Choice("q09", "(сценарий) Пациент казва \"всичко е бъркотия\". Каква е следващата стъпка на терапевта?",
+            ["Да остави твърдението неразгледано", "Да помогне за разбиване на 2-3 конкретни, управляеми проблема", "Да смени темата"], 1,
+            "Source: U21/U22 · <a href=\"/kurs/sedmica-6#beck-praktika\">6.5</a>"),
+        AssessmentQuestion.Choice("q10", "(сценарий) Пациент поставя цел за поведението на друг човек. Кой отговор НАЙ-добре отразява подхода на терапевта?",
+            ["Обещава да промени другия човек", "Помага целта да бъде преформулирана в нещо в контрола на пациента", "Отхвърля целта изцяло"], 1,
+            "Source: U25 · <a href=\"/kurs/sedmica-6#beck-praktika\">6.5</a>"),
+        AssessmentQuestion.Choice("q11", "(съпоставяне) Свържете елемента с примера: \"Обядвах със съученици\" ↔ ?",
+            ["Автоматична мисъл", "Ситуация", "Реакция"], 1,
+            "Source: U27 · <a href=\"/kurs/sedmica-6#beck-praktika\">6.5</a>"),
+        AssessmentQuestion.Choice("q12", "(интерпретация на случай) Пациентка вижда усмихната жена в чакалнята и се натъжава. Кое е автоматичната мисъл в примера?",
+            ["\"Тя е щастлива\"", "\"Никога повече няма да бъда така\"", "Самата тъга"], 1,
+            "Мисълта е изречение между ситуацията и реакцията, не самата реакция. Source: U28 · <a href=\"/kurs/sedmica-6#beck-praktika\">6.5</a>"),
+        AssessmentQuestion.Choice("q13", "Защо терапевтът моли пациента да формулира модела със собствени думи?",
+            ["Формалност", "Проверява реално разбиране, не просто съгласие", "Пести време"], 1,
+            "Source: U29 · <a href=\"/kurs/sedmica-6#beck-praktika\">6.5</a>"),
+        AssessmentQuestion.Choice("q14", "Кое обобщава синтеза на целите на първата сесия?",
+            ["Само диагноза", "Връзка, концептуализация, социализиране, образоване, надежда", "Само домашна работа"], 1,
+            "Source: U45 · <a href=\"/kurs/sedmica-6#review-map\">6.12</a>"),
+        AssessmentQuestion.Choice("q15", "(сценарий) Пациент казва домашното ще отнеме \"поне 20 минути\" за тривиална задача. Какво прави терапевтът?",
+            ["Приема твърдението без коментар", "Уточнява реалистичния разход на време на глас", "Премахва задачата"], 1,
+            "Пациентите системно надценяват трудността. Source: U36 · <a href=\"/kurs/sedmica-6#kray\">6.7</a>"),
+        AssessmentQuestion.TrueFalse("q16", "Опционалната рамка на домашното означава, че то е маловажно.",
+            false, "Целта е да се избегне претовареност/самообвинение, не омаловажаване. Source: U39 · <a href=\"/kurs/sedmica-6#kray\">6.7</a>"),
+        AssessmentQuestion.Choice("q17", "Кой инструмент проверява алианса директно с въпрос към пациента?",
+            ["Списък с домашни", "Доклад за терапия", "Дневен ред"], 1,
+            "Source: U40/U42 · <a href=\"/kurs/sedmica-6#kray\">6.7</a>"),
+        AssessmentQuestion.Choice("q18", "(интерпретация на случай, многостъпков) Пациент изглежда напрегнат в края на сесията, после признава съмнение в терапията и претовареност от домашното. Кое действие НАЙ-добре следва принципите от главата?",
+            ["Настоява на пълното домашно", "Прави домашното частично опционално и изяснява притеснението", "Премахва цялото домашно завинаги"], 1,
+            "Гъвкавост без пълно отказване от структурата. Source: U43/U44 · <a href=\"/kurs/sedmica-6#kray\">6.7</a>"),
+        AssessmentQuestion.Choice("q19", "(advanced, анализ) Пациент разкрива нова, силно обезпокоителна информация точно преди терапевтът да премине към обучение за когнитивния модел (стъпка 06). Кои основания легитимно оправдават отлагане на планираната стъпка?",
+            ["Само ако пациентът изрично поиска", "Риск за пациента/други, невъзможност за фокус, или риск за алианса", "Никога — планът трябва да се спазва стриктно"], 1,
+            "Същите три критерия от 6.2/6.4 важат за всяко решение да се отклони от плана, не само за дневния ред. Source: U13 · <a href=\"/kurs/sedmica-6#deep-dive\">6.4</a>"),
+        AssessmentQuestion.Choice("q20", "Коя следваща седмица от курса се свързва пряко с обучението за когнитивния модел тук?",
+            ["Седмица 1", "Седмица 3", "Седмица 12"], 1,
+            "Седмица 3 преподава същата верига Ситуация→Мисъл→Реакция в пълния ѝ вид. Source: U46 · <a href=\"/kurs/sedmica-6#review-map\">6.12</a>")
+    ]);
 
     // Cognitive Learning Architecture v1.1 reference implementation (Phases 1-3): semantic models
     // built once, adapted to the domain-ignorant ConceptGraph renderer. Preview and Review reuse the

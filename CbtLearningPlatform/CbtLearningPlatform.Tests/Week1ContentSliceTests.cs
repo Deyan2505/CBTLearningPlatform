@@ -261,12 +261,14 @@ public sealed class Week1ContentSliceTests
     }
 
     [Fact]
-    public void Week1Page_KnowledgeCheckInstructionIsUpdated_StillNonScoredNativeDetails()
+    public void Week1Page_KnowledgeCheckUsesSharedScoredFinalAssessment()
     {
+        // Weekly Final Assessment Standard: the check is now genuinely scored (submit/retry), so it
+        // no longer claims to be a non-scored native-details reveal — it uses the shared component.
         string source = ReadPage("Sedmica1.razor");
 
-        Assert.Contains("Проверката не се оценява и не запазва отговори", source);
-        Assert.DoesNotContain("нерезултатна проверка", source);
+        Assert.Contains("<FinalAssessment SectionId=\"proverka\" Model=\"_week1FinalAssessment\" />", source);
+        Assert.DoesNotContain("Проверката не се оценява и не запазва отговори", source);
     }
 
     [Fact]
@@ -412,11 +414,7 @@ public sealed class Week1ContentSliceTests
     {
         string source = ReadPage("Sedmica1.razor");
 
-        Assert.Contains("Въпрос 1.", source);
-        Assert.Contains("Въпрос 2.", source);
-        Assert.Contains("Въпрос 3.", source);
-        Assert.Contains("Въпрос 4.", source);
-        Assert.DoesNotContain("Въпрос 5.", source);
+        Assert.Equal(4, TestPaths.CountFinalAssessmentQuestions(source, "_week1FinalAssessment"));
     }
 
     [Fact]

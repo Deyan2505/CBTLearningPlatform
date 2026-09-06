@@ -204,11 +204,7 @@ public sealed class Week10ContentSliceTests
     {
         string source = ReadPage("Sedmica10.razor");
 
-        for (int i = 1; i <= 6; i++)
-        {
-            Assert.Contains($"Въпрос {i}", source);
-        }
-        Assert.Contains("Проверката не се оценява и не запазва отговори", source);
+        Assert.Equal(6, TestPaths.CountFinalAssessmentQuestions(source, "_week10FinalAssessment"));
     }
 
     [Fact]

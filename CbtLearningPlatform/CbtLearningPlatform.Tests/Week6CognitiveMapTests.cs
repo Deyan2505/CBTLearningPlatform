@@ -216,10 +216,9 @@ public sealed class Week6CognitiveMapTests
     {
         string source = ReadPage("Sedmica6.razor");
 
-        for (int i = 1; i <= 20; i++)
-        {
-            Assert.Contains($"<strong>Q{i:D2}", source);
-        }
+        Assert.Equal(18, TestPaths.CountFinalAssessmentQuestions(source, "_week6FinalAssessment"));
+        Assert.Contains("Подредете: Обратна връзка / Задаване на дневния ред / Обобщение / Проверка на настроението", source);
+        Assert.Contains("\"Черната боя\" метафората означава, че светът обективно е тъмен.", source);
 
         Assert.Contains("<ScenarioSimulator", source);
         Assert.Contains("6.9 · Интерактивен симулатор", source);

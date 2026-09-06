@@ -3756,6 +3756,107 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
 }
 
 /* ==========================================================================
+   Weekly Final Assessment Standard (FinalAssessment.razor, Interactive/) —
+   shared scored quiz for every routed week's summative check. Verdicts are
+   never color-only: each carries a real ✓/✗ glyph plus text, color is a
+   redundant cue on top of that, not the only one.
+   ========================================================================== */
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.final-assessment__progress {
+    font-weight: 700;
+}
+
+.final-assessment__list {
+    list-style: none;
+    padding: 0;
+}
+
+.final-assessment__question fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.final-assessment__question legend {
+    padding: 0;
+    margin-bottom: var(--space-3);
+    font-weight: 400;
+}
+
+.final-assessment__question--correct {
+    border-left: 4px solid var(--color-success-text);
+}
+
+.final-assessment__question--incorrect {
+    border-left: 4px solid var(--color-error-text);
+}
+
+.final-assessment__status {
+    display: inline-block;
+    margin-left: var(--space-2);
+    font-weight: 700;
+}
+
+.final-assessment__status--correct {
+    color: var(--color-success-text);
+}
+
+.final-assessment__status--incorrect {
+    color: var(--color-error-text);
+}
+
+.final-assessment__option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+    .final-assessment__option span {
+        min-width: 0;
+    }
+
+.final-assessment__option--correct {
+    background: var(--color-success-bg);
+    color: var(--color-success-text);
+}
+
+.final-assessment__option--incorrect {
+    background: var(--color-error-bg);
+    color: var(--color-error-text);
+}
+
+.final-assessment__explanation {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+}
+
+.final-assessment__result {
+    margin-top: var(--space-5);
+}
+
+.final-assessment__score {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+/* ==========================================================================
    Blazor framework hooks (kept, restyled with tokens instead of hardcoded
    Bootstrap-era colors — this project does not use Bootstrap)
    ========================================================================== */
