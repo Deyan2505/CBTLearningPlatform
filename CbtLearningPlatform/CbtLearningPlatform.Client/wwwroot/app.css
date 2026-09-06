@@ -3521,6 +3521,44 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
     }
 }
 
+/* Week 5's two primary branches are asymmetric (10 leaves vs 6) — far more than any other routed
+   week. The shared engine's root-to-branch connector is a fixed 2rem elbow anchored at the top of
+   each <li>, tuned for small, similarly-sized branches (Weeks 6/8/9) where that roughly lands on
+   the branch label anyway. Here it doesn't: .mindmap-branch centers its label against its own
+   (much taller) leaf list, so the label sits far below where the fixed elbow stops, leaving it
+   visually disconnected — owner-reported as reading "like an intermediate label attached to the
+   leaf column." Fix: turn the connector into a real flex item so it centers via the same flex
+   layout math as the label (.mindmap-branch already uses align-items: center), instead of a
+   hardcoded pixel drop. Week 5 only — shared engine and Weeks 6/8/9 untouched. */
+@container (min-width: 700px) {
+    #week5-mindmap-preview-title ~ .mindmap-tree > .mindmap-branch__children--top,
+    #week5-mindmap-review-title ~ .mindmap-tree > .mindmap-branch__children--top {
+        padding-left: 0;
+    }
+
+    #week5-mindmap-preview-title ~ .mindmap-tree > .mindmap-branch__children--top > li,
+    #week5-mindmap-review-title ~ .mindmap-tree > .mindmap-branch__children--top > li {
+        display: flex;
+        align-items: center;
+    }
+
+    #week5-mindmap-preview-title ~ .mindmap-tree > .mindmap-branch__children--top > li::before,
+    #week5-mindmap-review-title ~ .mindmap-tree > .mindmap-branch__children--top > li::before {
+        position: static;
+        width: 1.75rem;
+        height: 3px;
+        flex-shrink: 0;
+        border: none;
+        border-radius: 0;
+        background: var(--color-border);
+    }
+
+    #week5-mindmap-preview-title ~ .mindmap-tree > .mindmap-branch__children--top > li:last-child::after,
+    #week5-mindmap-review-title ~ .mindmap-tree > .mindmap-branch__children--top > li:last-child::after {
+        content: none;
+    }
+}
+
 /* Karta mode switch (/kurs/karta, Phase 5) — two plain, full server-navigation links, not a JS tab
    widget: each mode is its own real, deep-linkable URL (?mode=course/knowledge), so a real <nav>
    with aria-current is both simpler and more correct than a client-side toggle. */
