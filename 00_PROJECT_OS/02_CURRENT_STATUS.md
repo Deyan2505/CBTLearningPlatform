@@ -118,7 +118,46 @@
   (Гл. 2's "подчертаване на положителното"/"домашна работа" нишки нямат curriculum owner) остава
   съзнателно извън тази страница — виж `15_GAPS_AND_CONFLICTS.md`. Некомитнато — предстои owner
   visual/learning review преди `OWNER APPROVAL`/`LOCK`.
-- **Седмица 11** — `UNBLOCKED` / `NEXT` (след Седмица 5's build order). Not started.
+- **Weekly Final Assessment Standard** (платформено споделен точкуван финален тест — `Curriculum/AssessmentModels.cs`,
+  `FinalAssessmentState.cs`, `Interactive/FinalAssessment.razor`; виж addendum в
+  `21_CONTENT_AND_DATA_MODEL.md`) — **`OWNER APPROVED / PLATFORM STANDARD`** (2026-09-07, след production
+  owner review). Ретрофитнат на всичките 11 routed седмици (1,2,3,4,5,6,7,8,9,10,12); резултат =
+  round(верни/общо × 100); отговорите остават скрити до предаване, тестът се заключва след предаване,
+  retry нулира изцяло; `WeekCompletionControl` остава напълно независим от резултата; без account/cloud
+  storage, без gamification. Локалните "Проверка на разбирането" reveal-проверки в уроците остават
+  непроменени, извън точкуването (REQ-FUNC-003 в сила за тях). Не отваря отново question wording/answer
+  keys/explanations на LOCKED седмици (byte-for-byte запазени) и не променя lock статуса на никоя
+  седмица. Commit `bf73154` (плюс предходния Седмица 5 Mind Map commit `a428961`/`573c50a`, отделен logical
+  change). 741/741 теста, Debug+Release build 0/0, GitHub Actions build+test+deploy зелено. **Този запис
+  не одобрява/заключва Седмица 4 или Седмица 5** — виж техните собствени статус записи по-горе (Седмица 4
+  остава `IMPLEMENTED, NOT LOCKED` заради Section 08 pending item; Седмица 5 остава `IMPLEMENTED, NOT YET
+  OWNER APPROVED / LOCKED`).
+- **Седмица 11** (Междинни вярвания, SRC-041 Гл. 13, печатни стр. 198–227 — NET-NEW-scope retrofit of
+  the owner-approved audit) — **`IMPLEMENTED, TECHNICALLY READY — NOT YET OWNER APPROVED / LOCKED`.**
+  Пълен одит + одобрени owner решения + имплементация в тази сесия (2026-09-07) — виж
+  `00_PROJECT_OS/_blueprints/WEEK_11_SOURCE_AUDIT_v1.md` за пълния KU одит и §11 за resolution log.
+  **40 KUs — 32 Included / 5 Deferred / 3 Excluded / 0 Needs Review / 0 Unaccounted.** Страницата
+  съзнателно НЕ преподава повторно Седмица 3's (LOCKED) йерархия/Attitude-Rule-Assumption разделение/
+  установеното основно вярване и developmental origin на Сали — само кратък recap + cross-link (02).
+  Ново, реално обхванато съдържание: Диаграмата за когнитивна концептуализация като инструмент (03),
+  стратегии за справяне (04, сравнителна таблица), 6 метода за идентифициране + техниката на
+  низходящата стрела спомената само по име/авторство без процедура (05), рамка "трябва ли да се
+  модифицира" (06), 7 категории техники за модифициране (07, таблица), продължение на случая на Сали
+  само с Figure 13.5's преди/след двойки вярвания, без нова биография (08). Owner-resolved изключения:
+  без downward-arrow self-tool, без Emily/Rebecca като нови recurring фигури (обобщени/анонимни), без
+  клиничните въпросници (Dysfunctional Attitude Scale/Personality Belief Questionnaire). Routed
+  (`/kurs/sedmica-11`), `CurriculumSafetyLevel.ProfessionalReviewRequired` запазено непроменено →
+  статус остава "Изисква професионален преглед" (никога "Налично"), completion-eligible през
+  съществуващата progress архитектура. Нова Weekly Mind Map (6 branches: Концептуализация/Стратегии за
+  справяне/Идентифициране/Решение дали да се модифицира/Модифициране/Сали: промяна във вярването) —
+  същия семантичен модел в Preview (01) и Review (09), collapsed по подразбиране, без Concept Map.
+  Споделен `FinalAssessment` (8 въпроса). **764/764** теста, Debug+Release build 0/0, `git diff
+  --check` чист (само LF/CRLF предупреждения). Browser QA (Playwright, headless Chromium) на 1440px и
+  390px: 0 horizontal overflow, 0 console/page грешки, status badge коректен и на двата breakpoint-а,
+  Mind Map preview/review рендерират коректно, FinalAssessment реално тестван end-to-end (8/8 верни →
+  100/100, "Отлично усвояване", retry нулира, `WeekCompletionControl` независим от резултата).
+  Некомитнато — предстои owner production review преди `OWNER APPROVAL`/`LOCK`. Седмица 4/5
+  недокоснати.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
   Netlify (static-only host). Commit `4135988`.

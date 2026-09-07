@@ -21,8 +21,9 @@ public sealed class ConceptGraphModelTests
     [Fact]
     public void ConceptStateResolver_ReturnsIntroduced_WhenNoRevisitedWeekIsRouted()
     {
-        // Week 3 is routed; Week 11 (a revisit) is not.
-        Assert.Equal(ConceptState.Introduced, ConceptStateResolver.Derive(3, [11], Weeks));
+        // Week 3 is routed; Week 13 (a revisit) is not — Week 11 was this fixture's original
+        // example but gained a real route (WEEK_11_SOURCE_AUDIT_v1, owner-approved implementation).
+        Assert.Equal(ConceptState.Introduced, ConceptStateResolver.Derive(3, [13], Weeks));
     }
 
     [Fact]

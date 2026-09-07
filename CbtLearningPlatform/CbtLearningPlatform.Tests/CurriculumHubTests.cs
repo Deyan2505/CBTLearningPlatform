@@ -36,7 +36,7 @@ public sealed class CurriculumHubTests
     }
 
     [Fact]
-    public void CourseCatalog_OnlyWeeksOneTwoThreeFourFiveSixSevenEightNineTenAndTwelveHaveARealRoute()
+    public void CourseCatalog_OnlyWeeksOneThroughTwelveExceptElevenSkippedHaveARealRoute()
     {
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks)
         {
@@ -80,6 +80,10 @@ public sealed class CurriculumHubTests
             {
                 Assert.Equal("/kurs/sedmica-10", week.Route);
             }
+            else if (week.Number == 11)
+            {
+                Assert.Equal("/kurs/sedmica-11", week.Route);
+            }
             else if (week.Number == 12)
             {
                 Assert.Equal("/kurs/sedmica-12", week.Route);
@@ -105,9 +109,10 @@ public sealed class CurriculumHubTests
         {
             Assert.NotEqual(CourseWeekStatus.Available, week.Status);
 
-            // AcademicContextOnly weeks may have a real, routed AcademicOverview page (e.g. Week 12) —
-            // ProfessionalReviewRequired / NotEligibleForSelfGuidedSimulator weeks never do.
-            if (week.SafetyLevel != CurriculumSafetyLevel.AcademicContextOnly)
+            // AcademicContextOnly weeks may have a real, routed AcademicOverview page (e.g. Week 12),
+            // and Week 11 is a routed ProfessionalReviewRequired exception (WEEK_11_SOURCE_AUDIT_v1,
+            // owner-approved) — every other clinically sensitive week still has no route.
+            if (week.SafetyLevel != CurriculumSafetyLevel.AcademicContextOnly && week.Number != 11)
             {
                 Assert.Null(week.Route);
             }

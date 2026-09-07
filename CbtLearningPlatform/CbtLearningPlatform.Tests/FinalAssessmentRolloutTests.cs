@@ -3,13 +3,13 @@ using System.Text.RegularExpressions;
 namespace CbtLearningPlatform.Tests;
 
 /// <summary>Weekly Final Assessment Standard — platform-wide regression coverage. Confirms every
-/// currently routed week (1-10, 12; no Week 11 route exists) migrated its final assessment to the one
-/// shared FinalAssessment component, and that in-lesson formative/retrieval checks were left as the
-/// original static reveal interaction — never swept into the scored component.</summary>
+/// currently routed week (1-12) migrated its final assessment to the one shared FinalAssessment
+/// component, and that in-lesson formative/retrieval checks were left as the original static reveal
+/// interaction — never swept into the scored component.</summary>
 public class FinalAssessmentRolloutTests
 {
     public static IEnumerable<object[]> RoutedWeeks =>
-        new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12 }.Select(n => new object[] { n });
+        new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }.Select(n => new object[] { n });
 
     [Theory]
     [MemberData(nameof(RoutedWeeks))]
