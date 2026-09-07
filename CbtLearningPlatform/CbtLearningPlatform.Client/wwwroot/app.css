@@ -1954,6 +1954,21 @@ h3[tabindex="-1"]:focus-visible {
     white-space: normal;
 }
 
+/* Week 11 §08 ("Сали — преди/след вярване") — same root cause as §07 and Week 1/2: both columns
+   hold full-sentence comparisons (e.g., "Ако не се справям толкова добре, колкото другите, съм провал."
+   vs "Ако не се справям толкова добре, колкото другите, не съм провал — просто съм човек."), and
+   the shared nowrap forced the ~1709px table width (530px + 1179px header cells), overflowing desktop
+   and mobile alike. Same conservative fix: allow natural wrapping. Table semantics/content/order unchanged.
+   Desktop: centered max-width (900px) for visual compactness. Mobile: width: 100% for full responsive reflow. */
+#sali-predi-sled ~ .comparison-matrix-wrapper {
+    width: 100%;
+    max-width: 900px;
+    margin-inline: auto;
+}
+#sali-predi-sled ~ .comparison-matrix-wrapper .comparison-matrix td {
+    white-space: normal;
+}
+
 /* Two clearly distinct columns (e.g. education vs. professional support) — a subtle
    surface tint difference, never warning/error coloring on either side. */
 .comparison-matrix--dual th:first-child,
