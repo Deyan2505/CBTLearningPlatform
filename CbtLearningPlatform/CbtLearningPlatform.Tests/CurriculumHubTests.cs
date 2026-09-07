@@ -88,6 +88,10 @@ public sealed class CurriculumHubTests
             {
                 Assert.Equal("/kurs/sedmica-12", week.Route);
             }
+            else if (week.Number == 13)
+            {
+                Assert.Equal("/kurs/sedmica-13", week.Route);
+            }
             else
             {
                 Assert.Null(week.Route);
@@ -110,9 +114,10 @@ public sealed class CurriculumHubTests
             Assert.NotEqual(CourseWeekStatus.Available, week.Status);
 
             // AcademicContextOnly weeks may have a real, routed AcademicOverview page (e.g. Week 12),
-            // and Week 11 is a routed ProfessionalReviewRequired exception (WEEK_11_SOURCE_AUDIT_v1,
-            // owner-approved) — every other clinically sensitive week still has no route.
-            if (week.SafetyLevel != CurriculumSafetyLevel.AcademicContextOnly && week.Number != 11)
+            // and Weeks 11/13 are routed ProfessionalReviewRequired/NotEligibleForSelfGuidedSimulator
+            // exceptions (WEEK_11_SOURCE_AUDIT_v1, WEEK_13_SOURCE_AUDIT_v1, both owner-approved) — every
+            // other clinically sensitive week still has no route.
+            if (week.SafetyLevel != CurriculumSafetyLevel.AcademicContextOnly && week.Number is not (11 or 13))
             {
                 Assert.Null(week.Route);
             }

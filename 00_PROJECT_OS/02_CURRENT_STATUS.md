@@ -133,7 +133,7 @@
   остава `IMPLEMENTED, NOT LOCKED` заради Section 08 pending item; Седмица 5 остава `IMPLEMENTED, NOT YET
   OWNER APPROVED / LOCKED`).
 - **Седмица 11** (Междинни вярвания, SRC-041 Гл. 13, печатни стр. 198–227 — NET-NEW-scope retrofit of
-  the owner-approved audit) — **`IMPLEMENTED, TECHNICALLY READY — NOT YET OWNER APPROVED / LOCKED`.**
+  the owner-approved audit) — **`OWNER APPROVED / LOCKED`** (2026-09-07, след production owner review).
   Пълен одит + одобрени owner решения + имплементация в тази сесия (2026-09-07) — виж
   `00_PROJECT_OS/_blueprints/WEEK_11_SOURCE_AUDIT_v1.md` за пълния KU одит и §11 за resolution log.
   **40 KUs — 32 Included / 5 Deferred / 3 Excluded / 0 Needs Review / 0 Unaccounted.** Страницата
@@ -156,8 +156,10 @@
   390px: 0 horizontal overflow, 0 console/page грешки, status badge коректен и на двата breakpoint-а,
   Mind Map preview/review рендерират коректно, FinalAssessment реално тестван end-to-end (8/8 верни →
   100/100, "Отлично усвояване", retry нулира, `WeekCompletionControl` независим от резултата).
-  Некомитнато — предстои owner production review преди `OWNER APPROVAL`/`LOCK`. Седмица 4/5
-  недокоснати.
+  Commits: `3821698` (съдържание) + два scoped CSS table-layout фикса — `299d7e3` (§07 „Категории
+  техники") и `136ca89` (§08 „Сали — преди/след вярване": `white-space: normal` + centered
+  `max-width: 900px` wrapper, sibling-combinator scoped, без промяна по споделеното поведение на
+  таблиците). Production deploy successful. Седмица 4/5 недокоснати.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
   Netlify (static-only host). Commit `4135988`.

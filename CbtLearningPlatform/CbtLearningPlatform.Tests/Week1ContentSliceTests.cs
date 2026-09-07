@@ -47,10 +47,10 @@ public sealed class Week1ContentSliceTests
         {
             Assert.NotEqual(CourseWeekStatus.Available, week.Status);
 
-            // Weeks 4 and 12 are AcademicContextOnly, and Week 11 is ProfessionalReviewRequired:
-            // all three later gained a real, routed page without becoming Available — every other
-            // non-available week still has no route.
-            if (week.Number != 4 && week.Number != 11 && week.Number != 12)
+            // Weeks 4 and 12 are AcademicContextOnly, and Weeks 11/13 are ProfessionalReviewRequired/
+            // NotEligibleForSelfGuidedSimulator: all four later gained a real, routed page without
+            // becoming Available — every other non-available week still has no route.
+            if (week.Number != 4 && week.Number != 11 && week.Number != 12 && week.Number != 13)
             {
                 Assert.Null(week.Route);
             }

@@ -180,6 +180,7 @@ public sealed class CourseProgressTests
     [InlineData("Sedmica9.razor", 9)]
     [InlineData("Sedmica10.razor", 10)]
     [InlineData("Sedmica12.razor", 12)] // routed but AcademicOverview — still completable, route decides
+    [InlineData("Sedmica13.razor", 13)] // routed but NotEligibleForSelfGuidedSimulator — still completable, route decides
     public void RoutedWeekPage_UsesTheSharedCompletionControl(string fileName, int weekNumber)
     {
         string source = ReadPage(fileName);

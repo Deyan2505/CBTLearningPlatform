@@ -1969,6 +1969,25 @@ h3[tabindex="-1"]:focus-visible {
     white-space: normal;
 }
 
+/* Week 13 — same nowrap root cause, found at implementation time (net-new page, never shipped with
+   the bug live): every comparison table on this page holds full-sentence or full-clause cell content
+   (e.g. "По-субтилно избягване — поведенчески стратегии за безопасност", or the distraction/skills
+   comparison paragraphs), so the shared .comparison-matrix td { white-space: nowrap } forced
+   wrapper-local horizontal scroll up to ~2925px at desktop and page-adjacent overflow down to mobile.
+   Same conservative fix as Weeks 1/2/7/11: allow natural wrapping only, scoped per section via the
+   sibling-combinator pattern. Table semantics/content/order unchanged. The Figure 15.3 illustration
+   lives one level deeper (inside its <details> disclosure), so its selector reaches through that
+   wrapper with a plain descendant combinator after the sibling combinator reaches the <details>. */
+#vzemane-na-reshenia ~ .comparison-matrix-wrapper .comparison-matrix td,
+#izbyagvane-i-bezopasnost ~ .comparison-matrix-wrapper .comparison-matrix th[scope="row"],
+#izbyagvane-i-bezopasnost ~ .comparison-matrix-wrapper .comparison-matrix td,
+#izbyagvane-i-bezopasnost ~ details.progressive-explanation .comparison-matrix-wrapper .comparison-matrix td,
+#prenasochvane-na-vnimanieto ~ .comparison-matrix-wrapper .comparison-matrix td,
+#deficit-na-umenia-ili-vyarvane ~ .comparison-matrix-wrapper .comparison-matrix td,
+#sebesravnenie-i-zaslugi ~ .comparison-matrix-wrapper .comparison-matrix td {
+    white-space: normal;
+}
+
 /* Two clearly distinct columns (e.g. education vs. professional support) — a subtle
    surface tint difference, never warning/error coloring on either side. */
 .comparison-matrix--dual th:first-child,

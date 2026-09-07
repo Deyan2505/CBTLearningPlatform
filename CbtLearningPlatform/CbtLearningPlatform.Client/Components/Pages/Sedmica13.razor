@@ -1,0 +1,606 @@
+@* Owner-approved final source contract (2026-09-07) — see _blueprints/WEEK_13_SOURCE_AUDIT_v1.md for the
+   full 123-KU accounting (88 Included / 26 Deferred / 9 Excluded / 0 Needs Review / 0 Unaccounted).
+   Content basis: SRC-041 (Judith Beck), Глава 15 ("Допълнителни когнитивни и поведенчески техники"),
+   printed pp. 256-276.
+
+   SAFETY (CurriculumSafetyLevel.NotEligibleForSelfGuidedSimulator — one tier stricter than Week 11's
+   ProfessionalReviewRequired): routed and completion-eligible (WeekCompletionControl works off Route,
+   not Status), but CourseCatalog.cs keeps the safety level, so CurriculumLabels.DeriveStatus still
+   resolves this week's public status to "Изисква професионален преглед", never "Налично". Format is
+   InteractiveModel, never Simulator — the catalog-level contradiction flagged in the source audit is
+   resolved here, not carried forward.
+
+   Resolved owner decisions applied (final source contract, turn 3):
+   - AWARE technique: Deferred — not mentioned on this page at all.
+   - Mindfulness: Deferred — named once with the locked term (осъзнатост (mindfulness)) as an
+     acknowledgement that the source covers it, but no practice/procedure is taught; ownership question
+     stays open for the Week 15 audit, not assigned here.
+   - Figure 15.3 ("Персонализиран монитор"): included ONLY as a fixed, already-completed illustration —
+     the single source example row, no blank template, no adjacent usage instructions (the exposure
+     procedure itself stays excluded).
+   - First-person homework script ("Хващам се, когато се сравнявам...") and the lowest-point/team-framing
+     passage: excluded entirely from learner-facing content.
+   - K122 (Core Belief Worksheet cross-reference): the source text itself says "Глава 11", but this
+     edition's own table of contents places core beliefs in Глава 14 — a genuine source cross-reference
+     anomaly, documented in the audit. The wrong chapter number is never repeated here; the forward link
+     goes to Week 12 (which owns Глава 14 / core beliefs) instead.
+   - Terminology locks (learner-facing canonical forms only — translation variants stay in the audit):
+     "пренасочване на вниманието (refocusing)" on first mention, then "пренасочване на вниманието";
+     "градуирани задачи"; "кръгова диаграма на отговорността"; "списък на заслугите";
+     "осъзнатост (mindfulness)" on first mention, then "осъзнатост".
+   - Battered-spouse referral, the problem-behavior list (overeating/gambling/substance use/etc.), the
+     exposure procedure/adherence monitor/cross-out step/hierarchy literature: all excluded (frozen
+     safety contract, WEEK_13_SOURCE_AUDIT_v1.md §7).
+   - Zero self-input anywhere on this page (no <input>/<textarea>/<form>), zero reproduced
+     therapist-patient dialogue transcripts, zero simulator — every method is described in the third
+     person (what the therapist does), matching Week 11's precedent.
+
+   OVERLAP BOUNDARIES (see audit §4c): does not re-teach Week 7's vicious cycle or its energy-sized
+   activity-schedule steps (only cross-linked and explicitly distinguished from this chapter's
+   feared-goal ladder); does not re-teach Week 7's credit-list rationale (cross-linked, this page adds
+   only the written instrument + the comparison-bias diagnosis); positions refocusing as a complement to,
+   not a replacement for, Week 10's evaluation; distinguishes structured decision-making between life
+   options from Week 11's advantages/disadvantages-of-a-belief (same device, different job); cross-links
+   Week 12 for core-belief depth only.
+
+   REPRESENTATIONS: Weekly Mind Map (Week 6's locked ConceptGraph/MindMapAdapter engine, same semantic
+   model Preview+Review, collapsed by default, 8 knowledge-cluster branches, single-parent, no invented
+   causal relations) + up to three comparisons (.comparison-matrix, reusing Week 3/7/11/12's precedent)
+   + one native <details> reveal-based formative check (Week 9's unscored pattern, not a new component)
+   + shared FinalAssessment. No Concept Map, no new .razor component, no new CSS class.
+
+   SALLY: exactly the four audit-approved worked examples (Fig 15.1 decision grid, Fig 15.2 ladder,
+   Fig 15.5 responsibility pie, Fig 15.6 credit list) — no new biography, no invented dialogue, no
+   merging with unrelated source examples. Figure 15.4 (goal-setting pies) is intentionally not
+   reproduced — its slice proportions are not recoverable from the flattened source extraction. *@
+@page "/kurs/sedmica-13"
+
+<PageTitle>Седмица 13: Допълнителни когнитивни и поведенчески техники — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--format">Изисква професионален преглед</span>
+        </div>
+        <p><em>Как терапевтът избира и прилага допълнителни когнитивни и поведенчески техники, отвъд вече представените</em></p>
+        <p>
+            Тази седмица не преповтаря Сократическите въпроси, поведенческите експерименти, ролевата игра
+            за вярвания или работните листове за основни убеждения — те вече бяха представени в
+            <a href="/kurs/sedmica-9">Седмица 9</a>, <a href="/kurs/sedmica-10">Седмица 10</a>,
+            <a href="/kurs/sedmica-11">Седмица 11</a> и <a href="/kurs/sedmica-12">Седмица 12</a>. Вместо
+            това представя нов набор от техники: структурирано вземане на решения, градуирани задачи,
+            избягване и стратегии за безопасност, пренасочване на вниманието, разграничението между
+            дефицит на умения и блокирано от вярване поведение, и работата с негативно себесравнение.
+        </p>
+        <LearningObjectives Objectives="@_objectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-13#nakratko">Накратко</a>
+        <a href="/kurs/sedmica-13#izbor-na-tehnika">Избор на техника</a>
+        <a href="/kurs/sedmica-13#vzemane-na-reshenia">Вземане на решения</a>
+        <a href="/kurs/sedmica-13#graduirani-zadachi">Градуирани задачи</a>
+        <a href="/kurs/sedmica-13#izbyagvane-i-bezopasnost">Избягване и безопасност</a>
+        <a href="/kurs/sedmica-13#prenasochvane-na-vnimanieto">Пренасочване на вниманието</a>
+        <a href="/kurs/sedmica-13#deficit-na-umenia-ili-vyarvane">Дефицит на умения или вярване</a>
+        <a href="/kurs/sedmica-13#krugova-diagrama-na-otgovornostta">Диаграма на отговорността</a>
+        <a href="/kurs/sedmica-13#sebesravnenie-i-zaslugi">Себесравнение и списък на заслугите</a>
+        <a href="/kurs/sedmica-13#review">Седмичен преглед</a>
+        <a href="/kurs/sedmica-13#assessment">Финална проверка</a>
+        <a href="/kurs/sedmica-13#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    <LearningSection Role="theory" RoleLabel="Карта">
+        <h2 id="nakratko" tabindex="-1">01 · Накратко</h2>
+        <p>
+            <strong>Какво ще научите:</strong> как терапевтът избира конкретна техника според
+            концептуализацията на случая; как протича структурирано вземане на решения и работата с
+            диаграмата на отговорността; принципа на градуираните задачи; избягването като поддържащ
+            механизъм и поведенческите стратегии за безопасност; пренасочването на вниманието като
+            алтернатива на оценяването на мисли; разликата между дефицит на умения и блокирано от
+            вярване поведение; и работата с негативно себесравнение и списък на заслугите.
+        </p>
+        <p>
+            <strong>Предпоставки:</strong> тази страница разчита на вече представени понятия —
+            автоматична мисъл и оценяването ѝ (<a href="/kurs/sedmica-9">Седмица 9</a>,
+            <a href="/kurs/sedmica-10">Седмица 10</a>), даването на кредит на себе си при поведенческа
+            активация (<a href="/kurs/sedmica-7">Седмица 7</a>), и предимства/недостатъци на вярване
+            (<a href="/kurs/sedmica-11">Седмица 11</a>) — тук не се преподават отново, само се допълват.
+        </p>
+        <h3>Мисловна карта на седмицата — преглед</h3>
+        <ConceptGraph ComponentId="week13-mindmap-preview" Model="@_week13MindMapRender" />
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Рамка">
+        <h2 id="izbor-na-tehnika" tabindex="-1">02 · Как терапевтът избира техника</h2>
+        <p>
+            Източникът вече е представил няколко когнитивни и поведенчески техники — Сократически въпроси,
+            поведенчески експерименти, интелектуално-емоционална ролева игра, работни листове за основни
+            убеждения, визуализация и разглеждане на предимствата и недостатъците на дадено вярване. Тази
+            седмица представя няколко допълнителни техники, много от които съчетават когнитивен и
+            поведенчески елемент едновременно.
+        </p>
+        <p>
+            Изборът на конкретна техника за дадена сесия следва общата концептуализация на случая и
+            конкретните цели на терапевта за тази сесия — не се прилага механично „по ред" или по
+            предпочитание. Всички техники в тази глава, както всички техники на когнитивно-поведенческата
+            терапия, целят да повлияят на мисленето, поведението, настроението и физиологичното
+            възбуждане на пациента.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Метод">
+        <h2 id="vzemane-na-reshenia" tabindex="-1">03 · Структурирано вземане на решения</h2>
+        <p>
+            Много пациенти, особено депресираните, срещат затруднения при вземането на решения. Методът:
+            пациентът изброява предимствата <em>и</em> недостатъците на всяка от разглежданите опции
+            поотделно, а после терапевтът му помага да изработи система за оценяване на всеки елемент и да
+            стигне до заключение коя опция изглежда най-добра. Записването на списъците на хартия — не
+            само прегледът им „в главата" — само по себе си прави решението по-ясно.
+        </p>
+        <p>
+            Тази техника използва същия принцип като предимствата/недостатъците на вярване от
+            <a href="/kurs/sedmica-11">Седмица 11</a>, но с различна цел: там се претегля дали едно
+            вярване си заслужава да се държи, тук — кой от два реални житейски варианта да се избере.
+        </p>
+        <p>Пример от източника — Сали обмисля дали да отиде на лятно училище или да си намери работа:</p>
+        <div class="comparison-matrix-wrapper">
+            <table class="comparison-matrix comparison-matrix--dual">
+                <caption>Анализ на предимствата и недостатъците на Сали</caption>
+                <thead>
+                    <tr><th scope="col">Предимства на работата</th><th scope="col">Недостатъци на работата</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Да печели пари</td><td>Трябва да намери работа</td></tr>
+                    <tr><td>Може би да научи умения</td><td>По-малко свободно време</td></tr>
+                    <tr><td>Почивка от учебната работа</td><td>Може да не ѝ хареса</td></tr>
+                    <tr><td>Да срещне различни хора</td><td></td></tr>
+                    <tr><td>Да се чувства по-продуктивна</td><td></td></tr>
+                    <tr><td>Добро за автобиографията</td><td></td></tr>
+                </tbody>
+            </table>
+            <table class="comparison-matrix comparison-matrix--dual">
+                <caption>Предимства и недостатъци на лятното училище</caption>
+                <thead>
+                    <tr><th scope="col">Предимства на лятното училище</th><th scope="col">Недостатъци на лятното училище</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Двама приятели също отиват</td><td>Не печели пари, а и струва пари</td></tr>
+                    <tr><td>Може да вземе един курс по-малко през есента</td><td>Не увеличава уменията ѝ</td></tr>
+                    <tr><td>Много свободно време</td><td>Повече от същото, което вече прави</td></tr>
+                    <tr><td>Позната стойност</td><td>Не я кара да се чувства толкова продуктивна</td></tr>
+                    <tr><td>Може да срещне нови хора</td><td>Не помага на автобиографията ѝ</td></tr>
+                    <tr><td>По-лесно е да се запише, отколкото да намери работа</td><td></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p>
+            След като пациентът е записал списъците изчерпателно, той обгражда най-важните за него
+            елементи — не непременно най-многобройните — и терапевтът го насочва да заключи в каква
+            посока се накланя. В края терапевтът увеличава вероятността пациентът да използва техниката и
+            за бъдещи решения, като го пита открито дали я е намерил полезна.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Процес">
+        <h2 id="graduirani-zadachi" tabindex="-1">04 · Градуирани задачи</h2>
+        <p>
+            Постигането на цел обикновено изисква поредица от стъпки. Пациентите често се чувстват
+            претоварени, когато се фокусират върху това колко далеч са от крайната цел, вместо върху
+            текущата си стъпка — графичното представяне на стъпките, разбити на <strong>градуирани
+            задачи</strong>, обикновено е успокояващо.
+        </p>
+        <p>
+            Тази стъпаловидна разбивка на страшна крайна цел е различна от <a href="/kurs/sedmica-7">Седмица
+            7</a>'s разбиване на дейности на малки, енергийно-съобразени части в графика на дейности — там
+            целта е да се направи една дейност изпълнима при ниска енергия; тук — да се направи страшна,
+            далечна цел постижима чрез поредица от все по-трудни стъпки.
+        </p>
+        <p>Пример от източника — Сали иска да може доброволно да говори в клас:</p>
+        <ol class="guided-practice-sequence" aria-label="Стъпалото на Сали за говорене в клас">
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">01</span>
+                    <span class="guided-practice-sequence__label">Задава въпрос на друг студент след клас</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">02</span>
+                    <span class="guided-practice-sequence__label">Задава въпрос на преподавателя след клас</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">03</span>
+                    <span class="guided-practice-sequence__label">Задава въпрос в клас</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">04</span>
+                    <span class="guided-practice-sequence__label">Отговаря на въпрос в клас</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step guided-practice-sequence__step--final">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">05</span>
+                    <span class="guided-practice-sequence__label">Изразява мнение в клас</span>
+                </span>
+            </li>
+        </ol>
+        <p>
+            Ключовото правило: пациентът трябва да се почувства наистина комфортно на дадена стъпка,
+            <strong>преди</strong> да опита следващата — точно преди финалната стъпка той вече ще е станал
+            наистина добър в стъпката непосредствено под нея. Когато мисълта за крайната цел отново стане
+            плашеща, терапевтът насочва пациента да си припомни стълбата и точно на коя стъпка се намира
+            сега.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Механизъм">
+        <h2 id="izbyagvane-i-bezopasnost" tabindex="-1">05 · Избягване и поведенчески стратегии за безопасност</h2>
+        <p>
+            Депресираните и тревожните пациенти често прибягват до избягване — само по себе си стратегия
+            за справяне. Мотивите обикновено са два: безнадеждност („няма да има полза") или страх („ще се
+            случи нещо лошо").
+        </p>
+        <div class="comparison-matrix-wrapper">
+            <table class="comparison-matrix">
+                <caption>Две форми на избягване</caption>
+                <thead><tr><th scope="col">Форма</th><th scope="col">Пример от източника</th></tr></thead>
+                <tbody>
+                    <tr><th scope="row">Очевидно избягване</th><td>Прекарване на много време в леглото; избягване на самообслужване, домакински задачи, социализиране, учебни задачи.</td></tr>
+                    <tr><th scope="row">По-субтилно избягване — поведенчески стратегии за безопасност</th><td>Избягване на зрителен контакт, усмихване, водене на разговори, споделяне на мнения — пациентът вярва, че тези навици ще предотвратят тревожността.</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p>
+            Избягването обикновено носи незабавно облекчение и точно затова е силно подсилващо — но
+            запазва проблема: докато пациентът избягва, той не получава възможност да провери
+            автоматичните си мисли и да събере данни, които биха ги оборили.
+        </p>
+        <details class="progressive-explanation">
+            <summary>Как изглежда фиксиран пример за монитор на градуирано изправяне пред трудна ситуация?</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Източникът показва един-единствен, вече попълнен пример — не празен формуляр за
+                    попълване. Представен е тук само като илюстрация какво е монитор от този вид, не като
+                    процедура за самостоятелно прилагане:
+                </p>
+                <div class="comparison-matrix-wrapper">
+                    <table class="comparison-matrix">
+                        <caption>Персонализиран монитор — единственият пример от източника</caption>
+                        <thead>
+                            <tr><th scope="col">Дата</th><th scope="col">Дейност</th><th scope="col">Предвидено ниво на тревожност (0–100)</th><th scope="col">Действително ниво (0–100)</th><th scope="col">Предсказания</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>4/4</td><td>Задаване на въпроси в клас</td><td>80</td><td>50</td><td>Няма да мога да го направя. Нищо няма да излезе от устата ми. Ще се изложа.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </details>
+        <p>
+            Пациентите могат да получат полза и от техники за релаксация — прогресивна мускулна релаксация,
+            визуализация, контролирано дишане. <strong>Важно:</strong> някои пациенти изпитват парадоксален
+            ефект — стават по-напрегнати и тревожни от самите релаксационни упражнения, затова релаксацията
+            винаги се предлага като експеримент, никога като гарантирано решение. Източникът споменава и
+            <strong>осъзнатост (mindfulness)</strong> — ненасочено, без осъждане наблюдение на вътрешния
+            опит — но задълбочаването в практиката на осъзнатостта остава извън обхвата на тази седмица.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Алтернатива">
+        <h2 id="prenasochvane-na-vnimanieto" tabindex="-1">06 · Пренасочване на вниманието</h2>
+        <p>
+            <a href="/kurs/sedmica-10">Седмица 10</a> представи оценяването на автоматични мисли на място —
+            източникът потвърждава, че това често е най-добрият подход. Но понякога тази стратегия е
+            неприемлива или нежелателна — например когато е нужна концентрация за конкретна задача (писане,
+            разговор, шофиране), или когато мислите са обсесивни и рационалната оценка се оказва
+            неефективна. В тези случаи терапевтът учи пациента на <strong>пренасочване на вниманието
+            (refocusing)</strong>: пациентът обозначава и приема опита си — „Просто имам автоматични мисли.
+            Мога да приема факта, че ги имам, и да се пренасоча към това, което правех" — и внимателно
+            насочва вниманието обратно към текущата задача.
+        </p>
+        <p>
+            Пренасочването на вниманието не е „по-добрият" метод, който заменя оценяването — двете са
+            алтернативи за различни ситуации, избирани от терапевта според контекста.
+        </p>
+        <div class="comparison-matrix-wrapper">
+            <table class="comparison-matrix">
+                <caption>Разсейване като краткосрочен инструмент срещу разсейване като избягване</caption>
+                <thead><tr><th scope="col">Разсейване като краткосрочен инструмент</th><th scope="col">Прекомерно разсейване (избягване)</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>Полезно, когато пациентът е твърде разстроен, за да се пренасочи към задача, или няма конкретна задача, върху която да се фокусира — не е крайното решение, но помага за момента.</td>
+                        <td>Мислите не изчезват — само се изтласкват на заден план, откъдето отново изплуват. Тъгата може да изглежда болезнена, но не е вредна; постоянното разсейване пречи на пациента да научи този урок.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Разграничение">
+        <h2 id="deficit-na-umenia-ili-vyarvane" tabindex="-1">07 · Дефицит на умения или блокирано от вярване поведение</h2>
+        <p>
+            Ролевата игра се използва и за учене и упражняване на социални умения — отделно от вече
+            представената ѝ употреба за разкриване на автоматични мисли и модифициране на вярвания
+            (<a href="/kurs/sedmica-10">Седмица 10</a>, <a href="/kurs/sedmica-11">Седмица 11</a>).
+            Преди да учи пациента на социални умения, терапевтът първо преценява какво ниво умения
+            пациентът вече притежава — много пациенти знаят точно какво да кажат, но не го правят заради
+            дисфункционално вярване, не заради липса на умение.
+        </p>
+        <div class="comparison-matrix-wrapper">
+            <table class="comparison-matrix comparison-matrix--dual">
+                <caption>Дефицит на умения срещу блокирано от вярване поведение</caption>
+                <thead><tr><th scope="col">Реален дефицит на умения</th><th scope="col">Умение налично, блокирано от вярване</th></tr></thead>
+                <tbody>
+                    <tr><td>Пациентът общо взето не разполага с уменията или има само един комуникативен стил, без гъвкавост да го адаптира при нужда.</td><td>Пациентът знае какво да каже, но дисфункционално вярване („Ако изразя мнение, ще бъда отхвърлен") пречи да го използва.</td></tr>
+                    <tr><td>Обучението в социални умения (включително чрез ролева игра) реално помага.</td><td>Ролевата игра тук е насочена не към учене на умение, а към разкриване на автоматичните мисли по време на настоятелно поведение.</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Терапевтът разполага с два индикатора, за да разграничи двете:</p>
+        <details class="progressive-explanation">
+            <summary>Тест 1 — приемане на положителен изход (опитайте да предвидите отговора, преди да разгънете)</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Терапевтът пита пациента да приеме положителен изход за даден: „Ако знаехте със
+                    сигурност, че помощник-преподавателят ще е готов да говори с вас, какво бихте казали?"
+                    Ако пациентът веднага формулира ясен, адекватен отговор — той разполага с умението;
+                    пречката е вярването, не липсата на умение.
+                </p>
+            </div>
+        </details>
+        <details class="progressive-explanation">
+            <summary>Тест 2 — умението се проявява в друг контекст</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Ако пациентът е напълно адекватно настоятелен на работа, но не и с приятели — уменията
+                    очевидно съществуват, само не се прилагат навсякъде. И в двата теста заключението е
+                    едно и също: не е нужно обучение в умения, а работа с вярването, което блокира вече
+                    наличното умение.
+                </p>
+            </div>
+        </details>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Инструмент">
+        <h2 id="krugova-diagrama-na-otgovornostta" tabindex="-1">08 · Кръгова диаграма на отговорността</h2>
+        <p>
+            Често е полезно пациентите да видят идеите си в графична форма. <strong>Кръговата диаграма на
+            отговорността</strong> позволява на пациента графично да разгледа възможните причини за даден
+            резултат — вместо автоматично да приписва целия резултат на един-единствен, обикновено
+            себеосъждащ фактор. (Същата пай-диаграма техника има и друга употреба в източника — за
+            изобразяване на баланса между области от живота при поставяне на цели; тя не е възпроизведена
+            тук.)
+        </p>
+        <p>
+            Пример от източника — Сали вярва близо 100%, че е получила оценка C на изпита си, защото по
+            същество е некомпетентна. Терапевтът я насочва да потърси и други възможни обяснения, преди да
+            прецени крайния резултат:
+        </p>
+        <ol>
+            <li>Преподавателят не е обяснил материала достатъчно добре.</li>
+            <li>Тестът е бил наистина труден.</li>
+            <li>Не е познала правилно кой материал да учи.</li>
+            <li>Записките от лекции, които е заела от друг, не са били особено добри.</li>
+            <li>Част от материала на изпита изобщо не е бил покрит в час.</li>
+            <li>Депресията и тревожността ѝ са пречили на концентрацията.</li>
+            <li><em>(оценено последно)</em> Тя самата е некомпетентна.</li>
+        </ol>
+        <p>
+            Редът тук не е случаен: <strong>дисфункционалното обяснение винаги се оценява последно</strong>,
+            за да може пациентът първо напълно да обмисли всички останали, по-вероятни обяснения. Едва след
+            като секторите на диаграмата са разпределени, некомпетентността на Сали заема само една малка
+            част от кръга — не целия резултат.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Пример">
+        <h2 id="sebesravnenie-i-zaslugi" tabindex="-1">09 · Себесравнение и списък на заслугите</h2>
+        <p>
+            Пациентите с психични разстройства имат тенденция към негативно пристрастие в обработката на
+            информация, особено при самооценка — забелязват данни, тълкувани като негативни, а игнорират,
+            подценяват или направо забравят положителната информация. Това често включва и дисфункционално
+            сравнение: сравняване на себе си в настоящия момент с това как са били <em>преди</em>
+            разстройството, с желаното си бъдещо Аз, или с хора без психично разстройство.
+        </p>
+        <p>
+            Терапевтът предлага коригиращо сравнение — сравняване не с най-добрия момент, а със
+            <strong>себе си в най-лошия момент</strong>. В примера на Сали: тя посещава всички часове и
+            си води бележки, но се укорява, защото „никой друг вероятно не се е налагало да се насилва".
+            Терапевтът ѝ помага да разпознае нечестното сравнение чрез аналогия — би ли била толкова строга
+            към себе си, ако причината за умората ѝ беше пневмония, не депресия? Правилото за напредък: да
+            се фокусира върху напредъка от най-лошата си точка, не върху разстоянието до най-добрата.
+        </p>
+        <p>
+            <strong>Списък на заслугите</strong> е ежедневен списък (наум или писмен) на положителните
+            неща, които пациентът прави, или на неща, за които заслужава признание — включително обичайни
+            задачи, които в момента изискват реално усилие. <a href="/kurs/sedmica-7">Седмица 7</a> вече
+            представи защо подобно признание има значение при депресия; тук се добавя писменият инструмент
+            и диагнозата на пристрастието, което го прави нужен.
+        </p>
+        <p>Пример от източника — списъкът на Сали за един ден:</p>
+        <div class="comparison-matrix-wrapper">
+            <table class="comparison-matrix">
+                <caption>Списък на заслугите на Сали</caption>
+                <thead><tr><th scope="col">Нещо, което направих и беше положително, или беше поне малко трудно, но все пак го направих</th></tr></thead>
+                <tbody>
+                    <tr><td>Опитах се да следвам обясненото в час по статистика.</td></tr>
+                    <tr><td>Завърших реферата и го изпратих по имейл на професора.</td></tr>
+                    <tr><td>Говорих с Джули на обяд.</td></tr>
+                    <tr><td>Обадих се на Джереми, за да потвърдя задача по химия.</td></tr>
+                    <tr><td>Излязох да тичам, вместо да спя следобед.</td></tr>
+                    <tr><td>Прочетох глава 5 от икономическата книга.</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p>
+            Източникът отбелязва, че редовната работа със списък на заслугите в началото на лечението
+            подготвя пациента и за по-нататъшната задача по разкриване на положителни данни за работния
+            лист за основни убеждения — тема, представена изцяло в <a href="/kurs/sedmica-12">Седмица
+            12</a>, не тук.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Обобщение">
+        <h2 id="review" tabindex="-1">10 · Седмичен преглед</h2>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>Преди да разгънеш картата, опитай да си спомниш основните клъстери на тази седмица.</p>
+                <ConceptGraph ComponentId="week13-mindmap-review" Model="@_week13MindMapRender" />
+            </div>
+        </details>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Финален тест">
+        <h2 id="assessment" tabindex="-1">11 · Финална проверка</h2>
+        <p>8 въпроса. Отговорете на всички, за да предадете теста и видите резултата — не се пази между посещения.</p>
+        <FinalAssessment SectionId="assessment" Model="_week13FinalAssessment" />
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Изводи">
+        <h2 id="izvori" tabindex="-1">12 · Обобщение, академичен контекст и източници</h2>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div>
+                <h3>Какво да запомните</h3>
+                <ul>
+                    <li>Терапевтът избира конкретна техника според концептуализацията на случая, не механично.</li>
+                    <li>Структурираното вземане на решения претегля предимства/недостатъци на реални житейски опции — различно от претеглянето на едно вярване.</li>
+                    <li>Градуираните задачи разбиват страшна крайна цел на все по-трудни стъпки, всяка усвоена преди следващата.</li>
+                    <li>Избягването облекчава веднага, но запазва проблема — включително по-субтилните поведенчески стратегии за безопасност.</li>
+                    <li>Пренасочването на вниманието е алтернатива на оценяването на мисли, не негов заместител.</li>
+                    <li>Дефицит на умения и блокирано от вярване поведение изискват различен терапевтичен отговор.</li>
+                    <li>Кръговата диаграма на отговорността се оценява с дисфункционалното обяснение винаги последно.</li>
+                    <li>Списъкът на заслугите коригира негативното пристрастие в самооценката, особено чрез сравнение с най-лошия момент, не с идеала.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Академичен контекст</h3>
+                <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
+                    <p>
+                        Съдържанието на тази страница е изведено единствено от SRC-041, Глава 15
+                        ("Допълнителни когнитивни и поведенчески техники", печатни стр. 256–276).
+                        Задълбочената практика на осъзнатостта остава извън обхвата на тази седмица;
+                        цялата процедура на градирано изправяне пред трудна ситуация (мониторинг,
+                        йерархия, ежедневно повтаряне) остава изключена — платформата не предлага
+                        self-guided инструмент за нея, съгласно най-строгото ниво на безопасност в
+                        системата.
+                    </p>
+                    <p>Съдържанието предстои да премине независим клиничен и професионален преглед.</p>
+                </ProgressiveExplanation>
+            </div>
+
+            <div>
+                <DisclaimerCallout Text="Тази страница представя академичен преглед на допълнителни когнитивни и поведенчески техники от гледна точка на терапевта. Тя не е инструмент за самооценка или самостоятелно прилагане, не поставя диагноза и не заменя професионална психологическа или медицинска помощ." />
+            </div>
+
+            <div>
+                <h3>Източници и следващи стъпки</h3>
+                <p>
+                    <a href="/kurs/sedmica-7">Седмица 7 — Поведенческа активация</a><br />
+                    <a href="/kurs/sedmica-10">Седмица 10 — Сократически въпроси и съвместно изследване</a><br />
+                    <a href="/kurs/sedmica-11">Седмица 11 — Междинни вярвания</a><br />
+                    <a href="/kurs/sedmica-12">Седмица 12 — Основни вярвания и схеми</a><br />
+                    <a href="/kurs">← Обратно към 15-седмичния курс</a>
+                </p>
+                <SourceReferences Citations="@_citations" />
+            </div>
+        </div>
+
+        <OptionalReadingSource
+            Title="Когнитивно-поведенческа терапия: Основи и отвъд"
+            Author="Джудит С. Бек"
+            Edition="2-ро издание, Guilford Press, 2011 (оригинално заглавие: Cognitive Behavior Therapy: Basics and Beyond)"
+            RelevantSection="Глава 15 — Допълнителни когнитивни и поведенчески техники"
+            Description="Главата представя структурирано вземане на решения, градуирани задачи, избягване и стратегии за безопасност, пренасочване на вниманието, кръговата диаграма на отговорността и работата с негативно себесравнение в оригиналния им клиничен контекст." />
+
+        <WeekCompletionControl WeekNumber="@_week.Number" />
+    </LearningSection>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 13);
+
+    private static readonly GraphRenderModel _week13MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek13MindMap());
+
+    private static MindMapModel BuildWeek13MindMap() => new(
+        "Седмица 13 — допълнителни когнитивни и поведенчески техники",
+        "Мисловна карта на допълнителните техники: избор на техника, структурирано вземане на решения, градуирани задачи, избягване и безопасност, пренасочване на вниманието, дефицит на умения или вярване, диаграма на отговорността, и себесравнение със списък на заслугите.",
+        [
+            new("root", "Допълнителни техники", null, null, null, ConceptState.Introduced),
+
+            new("izbor", "Избор на техника", "root", "Изборът следва концептуализацията на случая, не механичен ред.", "/kurs/sedmica-13#izbor-na-tehnika", ConceptState.Introduced),
+
+            new("reshenia", "Структурирано вземане на решения", "root", "Предимства/недостатъци на реални опции, с оценъчна система.", "/kurs/sedmica-13#vzemane-na-reshenia", ConceptState.Introduced),
+
+            new("zadachi", "Градуирани задачи", "root", "Разбиване на страшна цел на все по-трудни стъпки.", "/kurs/sedmica-13#graduirani-zadachi", ConceptState.Introduced),
+
+            new("izbyagvane", "Избягване и безопасност", "root", "Поддържащ механизъм на избягването и поведенчески стратегии за безопасност.", "/kurs/sedmica-13#izbyagvane-i-bezopasnost", ConceptState.Introduced),
+
+            new("prenasochvane", "Пренасочване на вниманието", "root", "Алтернатива на оценяването на мисли, не негов заместител.", "/kurs/sedmica-13#prenasochvane-na-vnimanieto", ConceptState.Introduced),
+
+            new("deficit", "Дефицит на умения или вярване", "root", "Два теста, разграничаващи липса на умение от блокирано вярване.", "/kurs/sedmica-13#deficit-na-umenia-ili-vyarvane", ConceptState.Introduced),
+
+            new("otgovornost", "Диаграма на отговорността", "root", "Графично разпределение на причини; дисфункционалната последна.", "/kurs/sedmica-13#krugova-diagrama-na-otgovornostta", ConceptState.Introduced),
+
+            new("zaslugi", "Себесравнение и списък на заслугите", "root", "Коригиращо сравнение с най-лошия момент, не с идеала.", "/kurs/sedmica-13#sebesravnenie-i-zaslugi", ConceptState.Introduced)
+        ]);
+
+    private static readonly FinalAssessmentModel _week13FinalAssessment = new([
+        AssessmentQuestion.Choice("q01", "Какво определя коя техника ще избере терапевтът в дадена сесия?",
+            ["Фиксиран ред от техники, приложим за всеки пациент", "Общата концептуализация на случая и конкретните цели за тази сесия", "Личното предпочитание на терапевта"], 1,
+            "Изборът на техника следва концептуализацията и целите за конкретната сесия — не механичен ред или предпочитание."),
+        AssessmentQuestion.Choice("q02", "При структурираното вземане на решения, какво прави терапевтът, след като пациентът изброи предимства и недостатъци?",
+            ["Сам избира вместо пациента", "Помага му да изработи система за оценяване и да стигне до заключение", "Прекратява процеса — самото изброяване е достатъчно"], 1,
+            "След изброяването терапевтът помага на пациента да оцени елементите и да стигне до собствено заключение."),
+        AssessmentQuestion.Choice("q03", "Кое правило важи при градуираните задачи, преди пациентът да опита следващата стъпка?",
+            ["Трябва да се чувства наистина комфортно на текущата стъпка", "Трябва веднага да премине към финалната стъпка", "Всички стъпки се изпълняват в един и същи ден"], 0,
+            "Мастъри-принципът: пациентът трябва да овладее текущата стъпка, преди да опита следващата."),
+        AssessmentQuestion.Choice("q04", "Защо избягването „запазва“ проблема, въпреки че носи незабавно облекчение?",
+            ["Защото пациентът никога не получава възможност да провери автоматичните си мисли и да събере опровергаващи данни", "Защото облекчението е само въображаемо", "Защото избягването винаги влошава физическите симптоми"], 0,
+            "Избягването е подсилващо точно защото носи незабавно облекчение, но пречи на пациента да тества мислите си на практика."),
+        AssessmentQuestion.Choice("q05", "Кога терапевтът избира пренасочване на вниманието вместо оценяване на автоматична мисъл?",
+            ["Никога — оценяването винаги е по-добрият избор", "Когато е нужна концентрация за конкретна задача или когато мислите са обсесивни и оценяването е неефективно", "Само при пациенти без никакви симптоми"], 1,
+            "Пренасочването е алтернатива за конкретни ситуации — не заместител на оценяването като цяло."),
+        AssessmentQuestion.Choice("q06", "Кое от следните показва, че проблемът е блокирано от вярване поведение, а не дефицит на умения?",
+            ["Пациентът формулира ясен, адекватен отговор веднага щом приеме положителен изход като даден", "Пациентът никога не е практикувал уменията", "Пациентът избягва напълно ситуацията"], 0,
+            "Ако пациентът веднага се справя добре при хипотетично положителен изход (или използва умението в друг контекст), уменията реално съществуват — пречи вярването."),
+        AssessmentQuestion.Choice("q07", "В кръговата диаграма на отговорността, кое обяснение терапевтът кара пациента да оцени последно?",
+            ["Дисфункционалната, себеосъждаща атрибуция", "Първото обяснение, което дойде наум", "Обяснението, свързано с късмет"], 0,
+            "Дисфункционалната атрибуция се оценява последна, за да могат всички останали, по-вероятни обяснения да бъдат обмислени първо."),
+        AssessmentQuestion.Choice("q08", "Кое сравнение терапевтът предлага като коригиращо на дисфункционалното себесравнение?",
+            ["Сравнение със себе си в най-лошия момент, а не с идеала или с недепресирани хора", "Сравнение само с най-успешните връстници", "Пълно избягване на всякакво сравнение"], 0,
+            "Коригиращото сравнение е с най-лошата собствена точка — то показва реален напредък, вместо да подчертава разстоянието до идеала.")
+    ]);
+
+    private readonly IReadOnlyList<string> _objectives =
+    [
+        "Разбирате как терапевтичната концептуализация насочва избора на конкретна техника от терапевта.",
+        "Запознавате се със структурираното вземане на решения между два варианта и с диаграмата на отговорността.",
+        "Разбирате принципа на градуираните задачи и разграничението между дефицит на умения и блокирано от вярване поведение.",
+        "Запознавате се с избягването като поддържащ механизъм и с поведенческите стратегии за безопасност — академично, не като инструмент за самостоятелно прилагане.",
+        "Разбирате пренасочването на вниманието като алтернатива на оценяването на мисли и кога всяко от двете е подходящо.",
+        "Запознавате се с негативното информационно пристрастие, дисфункционалното себесравнение и механизма на списъка на заслугите."
+    ];
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — Глава 15, допълнителни когнитивни и поведенчески техники.",
+        "Салковскис, П. М. (1996) — цитиран в източника относно поведенческите стратегии за безопасност.",
+        "Д'Зурила, Т. Дж. и Незу, А. М. (2006) — цитирани в източника относно директно обучение в решаване на проблеми."
+    ];
+}

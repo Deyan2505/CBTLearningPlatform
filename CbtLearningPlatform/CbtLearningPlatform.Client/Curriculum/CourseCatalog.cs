@@ -19,10 +19,11 @@ public sealed record CourseWeekDefinition(
 public sealed record CourseModule(int Number, string Title, string WeekRangeLabel, string Description);
 
 /// <summary>Single source of truth for the 15-week curriculum reference. Only Weeks 1, 2, 3, 4, 5, 6, 7, 8, 9,
-/// 10 and 12 have a real Route so far — every other week is intentionally InPreparation/AcademicOverview/
+/// 10, 11, 12 and 13 have a real Route so far — every other week is intentionally InPreparation/AcademicOverview/
 /// ProfessionalReviewRequired with Route=null, so the hub never links to a page that doesn't exist. Weeks 4 and
-/// 12 are AcademicContextOnly, so they resolve to AcademicOverview status even though routed — see
-/// CurriculumLabels.DeriveStatus.</summary>
+/// 12 are AcademicContextOnly, so they resolve to AcademicOverview status even though routed; Weeks 11 and 13
+/// are ProfessionalReviewRequired/NotEligibleForSelfGuidedSimulator, so they resolve to ProfessionalReviewRequired
+/// status even though routed — see CurriculumLabels.DeriveStatus.</summary>
 public static class CourseCatalog
 {
     public static IReadOnlyList<CourseModule> Modules { get; } =
@@ -184,15 +185,19 @@ public static class CourseCatalog
             formats: [InteractiveFormat.AcademicOnly]),
 
         Week(13, "Разширени техники и академичен контекст",
-            "Вземане на решения и поведенчески техники",
-            "Инструменти за преценка на решения (decision balance, отговорност) и поетапно, безопасно изправяне пред трудни ситуации. Смесен обхват — вижте simulator opportunity matrix в 24_IMPLEMENTATION_ROADMAP.md за разбивка по под-тема; поведенческото излагане (exposure) остава най-строго ограничено, докато не мине отделен професионален преглед.",
-            CurriculumSafetyLevel.NotEligibleForSelfGuidedSimulator, route: null,
+            "Допълнителни когнитивни и поведенчески техники",
+            "Как терапевтът избира техника според концептуализацията, и допълнителен набор от техники отвъд вече представените — структурирано вземане на решения, градуирани задачи, избягване и пренасочване на вниманието — представени академично, не като self-guided инструмент.",
+            CurriculumSafetyLevel.NotEligibleForSelfGuidedSimulator, route: "/kurs/sedmica-13",
             objectives:
             [
-                "Запознавате се с инструменти за преценка на решения.",
-                "Разбирате принципа на поетапност при изправяне пред трудни ситуации."
+                "Разбирате как терапевтичната концептуализация насочва избора на конкретна техника от терапевта.",
+                "Запознавате се със структурираното вземане на решения между два варианта и с диаграмата на отговорността.",
+                "Разбирате принципа на градуираните задачи и разграничението между дефицит на умения и блокирано от вярване поведение.",
+                "Запознавате се с избягването като поддържащ механизъм и с поведенческите стратегии за безопасност — академично, не като инструмент за самостоятелно прилагане.",
+                "Разбирате пренасочването на вниманието като алтернатива на оценяването на мисли и кога всяко от двете е подходящо.",
+                "Запознавате се с негативното информационно пристрастие, дисфункционалното себесравнение и механизма на списъка на заслугите."
             ],
-            formats: [InteractiveFormat.Simulator]),
+            formats: [InteractiveFormat.InteractiveModel]),
 
         Week(14, "Разширени техники и академичен контекст",
             "Домашна работа, приключване и превенция на рецидив",
