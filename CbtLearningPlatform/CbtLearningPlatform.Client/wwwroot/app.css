@@ -1940,6 +1940,20 @@ h3[tabindex="-1"]:focus-visible {
     white-space: normal;
 }
 
+/* Week 11 §07 ("Категории техники за модифициране на вярвания") — same root cause/fix as above:
+   the "Същност" column holds full-sentence descriptions, and the shared nowrap forced each row onto
+   one very wide line (owner production-review visual fix). th[scope=row] included too since a couple
+   of technique names ("Интелектуално-емоционална ролева игра") are long enough to want wrapping too.
+   Tried table-layout:fixed + an explicit 30% first-column width first, for a steadier desktop split —
+   reverted: fixed-width forced the (breakable-at-hyphen only) technique names into ugly mid-word
+   overflow-wrap breaks on mobile's much narrower 30%. Auto layout + wrap reads cleanly at both sizes
+   and leaves only a small (~16px), wrapper-local scroll on the narrowest phones — within the accepted
+   "minimal and localized" fallback. Table semantics/content/order unchanged. */
+#metodi-za-modificirane ~ .comparison-matrix-wrapper .comparison-matrix th[scope="row"],
+#metodi-za-modificirane ~ .comparison-matrix-wrapper .comparison-matrix td {
+    white-space: normal;
+}
+
 /* Two clearly distinct columns (e.g. education vs. professional support) — a subtle
    surface tint difference, never warning/error coloring on either side. */
 .comparison-matrix--dual th:first-child,
