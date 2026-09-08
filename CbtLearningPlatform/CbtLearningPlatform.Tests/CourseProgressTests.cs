@@ -110,17 +110,25 @@ public sealed class CourseProgressTests
     [Fact]
     public void Calculator_CompletedSetNamingARouteLessWeek_DoesNotCountIt()
     {
-        // Week 15 has no lesson page at all (Route is null) in the real CourseCatalog — stale or
-        // tampered localStorage naming it must never inflate the learner's shown progress, no
+        // Week 15 gained a real route (WEEK_15_SOURCE_AUDIT_v1, owner-approved implementation) and
+        // the real CourseCatalog now has zero unrouted weeks, so this uses a synthetic route-less
+        // fixture instead — the same isolation pattern as
+        // Calculator_StatusAloneNeverDeterminesEligibility_OnlyRouteDoes below. Stale or tampered
+        // localStorage naming a route-less week must never inflate the learner's shown progress, no
         // matter what CourseWeekStatus it happens to carry.
-        CourseWeekDefinition week15 = Weeks.Single(w => w.Number == 15);
-        Assert.Null(week15.Route);
+        CourseWeekDefinition routed = new(
+            1, "Test", "Routed", "", CourseWeekStatus.Available,
+            CurriculumSafetyLevel.PublicCore, "/kurs/sedmica-1", [], []);
+        CourseWeekDefinition routeLess = new(
+            101, "Test", "Route-less", "", CourseWeekStatus.Available,
+            CurriculumSafetyLevel.PublicCore, null, [], []);
+        CourseWeekDefinition[] syntheticWeeks = [routed, routeLess];
 
-        HashSet<int> completed = [1, 15];
+        HashSet<int> completed = [1, 101];
 
-        CourseProgressSummary summary = CourseProgressCalculator.Summarize(Weeks, completed);
+        CourseProgressSummary summary = CourseProgressCalculator.Summarize(syntheticWeeks, completed);
 
-        Assert.Equal(1, summary.CompletedCount); // only week 1 counts, not the route-less week 15
+        Assert.Equal(1, summary.CompletedCount); // only the routed week counts, not the route-less one
     }
 
     [Fact]
@@ -146,7 +154,7 @@ public sealed class CourseProgressTests
     {
         Assert.True(CourseProgressCalculator.IsCounted(Weeks, 1));
         Assert.True(CourseProgressCalculator.IsCounted(Weeks, 12)); // AcademicOverview, but routed
-        Assert.False(CourseProgressCalculator.IsCounted(Weeks, 15)); // no Route at all
+        Assert.True(CourseProgressCalculator.IsCounted(Weeks, 15)); // AcademicOverview, but routed (WEEK_15_SOURCE_AUDIT_v1)
         Assert.False(CourseProgressCalculator.IsCounted(Weeks, 999)); // doesn't exist at all
     }
 
@@ -182,6 +190,7 @@ public sealed class CourseProgressTests
     [InlineData("Sedmica12.razor", 12)] // routed but AcademicOverview — still completable, route decides
     [InlineData("Sedmica13.razor", 13)] // routed but NotEligibleForSelfGuidedSimulator — still completable, route decides
     [InlineData("Sedmica14.razor", 14)] // routed but ProfessionalReviewRequired — still completable, route decides
+    [InlineData("Sedmica15.razor", 15)] // routed but AcademicOverview — same as Week 12, route decides
     public void RoutedWeekPage_UsesTheSharedCompletionControl(string fileName, int weekNumber)
     {
         string source = ReadPage(fileName);

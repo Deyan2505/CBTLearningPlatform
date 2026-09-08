@@ -1,0 +1,495 @@
+@* Owner-approved final source contract (turn 2) — see _blueprints/WEEK_15_SOURCE_AUDIT_v1.md §14 for
+   the full 76-KU accounting (50 Included / 9 Deferred / 17 Excluded / 0 Needs Review / 0 Unaccounted).
+   Content basis: SRC-041 (Judith Beck), Гл. 1, printed p.2-3 (the CBT-family passage — DBT and ACT are
+   named there with citations) + SRC-013 (Beck Institute, "What is Recovery-Oriented Cognitive Therapy
+   (CT-R)?", FULLY REVIEWED) as the primary Week 15 source for CT-R. SRC-041 has NO chapter on this
+   week's topic — verified by a full-text scan of all 414 pages; this is the first week in the course
+   without a source-textbook chapter behind it.
+
+   CORE DIRECTION (owner, turn 2): the page is NOT built around a "third wave" historical framing. The
+   learner-facing title and every section heading avoid it. "Трета вълна" appears exactly once, in §03,
+   as a named secondary-literature label with an explicit caveat that it is not used here as a settled
+   taxonomy — never as an organizing structure. No wave decade ranges appear anywhere (the two live
+   sources that supplied them, SRC-014/SRC-023, no longer support those claims when re-checked). MBCT is
+   Excluded from the learner-facing page entirely.
+
+   SAFETY (CurriculumSafetyLevel.AcademicContextOnly, InteractiveFormat.AcademicOnly, both preserved
+   unchanged from the pre-audit catalog entry): routed and completion-eligible (WeekCompletionControl
+   works off Route, not Status), resolving to CourseWeekStatus.AcademicOverview — the same treatment as
+   Weeks 4 and 12. Zero self-input anywhere on this page (no <input>/<textarea>/<form>), zero
+   self-assessment, zero belief-category self-classification, zero psychosis/severe-mental-illness
+   screening, zero treatment planner, zero self-guided CT-R, zero clinical case simulator. Severe mental
+   illness/psychosis is discussed only as a population CT-R was developed for, in the third person,
+   never as a symptom checklist and never inviting self-recognition.
+
+   Resolved owner decisions applied:
+   - ACT and DBT are named because SRC-041 itself cites them (Гл. 1, p.2, with author/year) — no
+     detailed ACT or DBT mini-lesson beyond that citation-grounded mention.
+   - The two CT-R belief categories (defeatist performance beliefs, asocial beliefs) are named with their
+     function; their specimen statements appear only as paraphrased, static, third-person illustrations —
+     never a "which one are you" prompt, never self-rated.
+   - The evidence section states the source-supported caveat that reviews may find no superiority of
+     third-wave/newer approaches over standard CBT for depression, explicitly attributed to secondary
+     review literature and separated from CT-R's own study evidence — the page never implies newer
+     approaches are inherently superior, and never overstates CT-R's evidence base as proof of anything
+     beyond what the cited studies show.
+   - Chapter 21 ("Напредване като терапевт") is NOT used — read in full during the audit and found to be
+     a self-application protocol (practice techniques on yourself, complete worksheets about yourself)
+     with no learner-facing place on this platform. C15-K05 (therapist development) remains
+     Deferred/Unassigned — not routed here merely because Week 15 is the last week.
+   - GAP-014's remaining "подчертаване на положителното" half remains Open/Unassigned — no Week 15 source
+     touches it.
+   - No Sally, no invented case, no psychosis case study — none of the Week 15 sources contain case
+     material, and inventing one would violate the source-first rule.
+
+   REPRESENTATIONS: Weekly Mind Map (Week 6's locked ConceptGraph/MindMapAdapter engine, same semantic
+   model Preview+Review, collapsed by default, 6 top-level branches per owner's suggested structure, 2
+   of them with children — single-parent, no invented relations) + one process visualization
+   (.guided-practice-sequence, the four CT-R stages) + two comparisons (.comparison-matrix, CT-R vs CBTp;
+   .category-compare, the two belief categories) + a plain evidence list + shared FinalAssessment. No
+   Concept Map, no simulator, no new .razor component, no new CSS class. *@
+@page "/kurs/sedmica-15"
+
+<PageTitle>Седмица 15: Съвременни разширения на КПТ и възстановително-ориентирана терапия — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--format">Академичен обзор</span>
+        </div>
+        <p><em>Когнитивно-поведенческата терапия като семейство от подходи, и въведение във възстановително-ориентираната когнитивна терапия (CT-R)</em></p>
+        <p>
+            Тази последна седмица не преповтаря нищо вече преподадено. Тя разглежда как терапията на Бек се
+            свързва с други, сходни форми на когнитивно-поведенческа терапия, и представя
+            <strong>възстановително-ориентираната когнитивна терапия (CT-R)</strong> — разширение на модела
+            за хора с тежки психични състояния, което не се среща никъде другаде в курса.
+        </p>
+        <LearningObjectives Objectives="@_objectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-15#nakratko">Накратко</a>
+        <a href="/kurs/sedmica-15#kpt-kato-semeystvo">КПТ като семейство</a>
+        <a href="/kurs/sedmica-15#po-kasni-adaptatsii">По-късни адаптации</a>
+        <a href="/kurs/sedmica-15#ct-r">Възстановително-ориентирана терапия (CT-R)</a>
+        <a href="/kurs/sedmica-15#adaptiven-rezhim">Адаптивният режим</a>
+        <a href="/kurs/sedmica-15#protses-na-ct-r">Процесът на CT-R</a>
+        <a href="/kurs/sedmica-15#ct-r-sreshtu-cbtp">CT-R срещу CBTp</a>
+        <a href="/kurs/sedmica-15#vyarvaniya">Две вярвания</a>
+        <a href="/kurs/sedmica-15#dokazatelstva-i-granitsi">Доказателства и граници</a>
+        <a href="/kurs/sedmica-15#granitsite-na-kursa">Границите на този курс</a>
+        <a href="/kurs/sedmica-15#review">Седмичен преглед</a>
+        <a href="/kurs/sedmica-15#assessment">Финална проверка</a>
+        <a href="/kurs/sedmica-15#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    <LearningSection Role="theory" RoleLabel="Карта">
+        <h2 id="nakratko" tabindex="-1">01 · Накратко</h2>
+        <p>
+            <strong>Какво ще научите:</strong> че когнитивно-поведенческата терапия на Бек е едно от
+            семейство сходни подходи, а не единствен метод; кои по-късни адаптации на КПТ споменава
+            самият източник и защо теоретичните допускания остават постоянни през тях; какво е
+            възстановително-ориентираната когнитивна терапия (CT-R) и за кои пациенти е разработена; какво
+            е „адаптивният режим" и през кои четири стъпки терапевтът работи с него; как CT-R се различава
+            от когнитивно-поведенческата терапия за психоза (CBTp); какво показват изследванията за CT-R и
+            какви са границите на тези изследвания.
+        </p>
+        <p>
+            <strong>Предпоставки:</strong> тази страница разчита на вече представени понятия — раждането на
+            когнитивната терапия (<a href="/kurs/sedmica-1">Седмица 1</a>), сравнението с REBT на Елис
+            (<a href="/kurs/sedmica-2">Седмица 2</a>), поведенческата активация
+            (<a href="/kurs/sedmica-7">Седмица 7</a>), и осъзнатостта като техника
+            (<a href="/kurs/sedmica-13">Седмица 13</a>) — тук не се преподават отново, само се
+            допълват.
+        </p>
+        <h3>Мисловна карта на седмицата — преглед</h3>
+        <ConceptGraph ComponentId="week15-mindmap-preview" Model="@_week15MindMapRender" />
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Основа">
+        <h2 id="kpt-kato-semeystvo" tabindex="-1">02 · КПТ като едно семейство от подходи</h2>
+        <p>
+            Бек разработва когнитивната терапия в началото на 60-те години на XX век. Оттогава той и други
+            я адаптират към изненадващо разнообразен набор от популации и разстройства — тези адаптации
+            променят фокуса, техниките и продължителността на лечението, но <strong>теоретичните
+            допускания остават постоянни</strong>. Работата на Бек продължава да бъде разширявана от
+            изследователи и теоретици в САЩ и извън тях — полето продължава да се развива.
+        </p>
+        <p>
+            Източникът изрично изброява редица форми на терапия, които споделят характеристиките на
+            терапията на Бек, но с известно вариране в концептуализацията и акцента: рационална
+            емоционална поведенческа терапия (вижте <a href="/kurs/sedmica-2">Седмица 2</a>),
+            диалектическа поведенческа терапия, терапия за решаване на проблеми, терапия на приемане и
+            ангажираност, експозиционна терапия, терапия с когнитивни процеси, когнитивно-поведенческа
+            аналитична система на психотерапията, поведенческа активация (вижте
+            <a href="/kurs/sedmica-7">Седмица 7</a>) и модификация на когнитивното поведение. Когнитивно-
+            поведенческата терапия на Бек често включва техники от тези терапии в рамките на собствената
+            си когнитивна рамка.
+        </p>
+        <p>
+            Терапията е адаптирана за пациенти с различни нива на образование и доходи, различни култури и
+            възрасти; използва се в първична медицинска помощ, училища, професионални програми и затвори,
+            в индивидуален, групов, семеен и двойков формат.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Ориентация">
+        <h2 id="po-kasni-adaptatsii" tabindex="-1">03 · По-късни адаптации на КПТ</h2>
+        <p>
+            От изброените форми две са особено релевантни за днешната практика и се споменават от самия
+            източник с автор и година: <strong>диалектическата поведенческа терапия</strong> (Линехан,
+            1993) и <strong>терапията на приемане и ангажираност</strong> (Хейс, Фолет и Линехан, 2004).
+            Източникът не описва техниките им подробно — само ги посочва като адаптации, споделящи
+            характеристиките на терапията на Бек.
+        </p>
+        <ProgressiveExplanation SummaryLabel='Защо тук не се използва етикетът „трета вълна"'>
+            <p>
+                Част от по-новата литература понякога групира подобни адаптации под етикета <strong>„трета
+                вълна"</strong> на КПТ — идея, че по-новите подходи наблягат повече на отношението на
+                човека към собствените му мисли, отколкото на самото им съдържание. Този учебен курс не
+                използва това понятие като организираща структура: то не се среща в основния учебен
+                източник на курса, а по-новата литература, в която се среща, дава непоследователни данни за
+                кои точно подходи влизат в „трета вълна" и в кои десетилетия. Тук етикетът се споменава
+                само с тази уговорка — не като общоприета, точно дефинирана таксономия.
+            </p>
+            <p>
+                Осъзнатостта (вижте <a href="/kurs/sedmica-13#izbyagvane-i-bezopasnost">Седмица 13</a>) е
+                сред принципите, около които някои от по-новите подходи се организират — тук остава на
+                нивото, вече представено в Седмица 13; тази страница не добавя ново упражнение, водена
+                практика или задълбочаване в осъзнатостта.
+            </p>
+        </ProgressiveExplanation>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Определение">
+        <h2 id="ct-r" tabindex="-1">04 · Възстановително-ориентирана когнитивна терапия (CT-R)</h2>
+        <p>
+            Възстановително-ориентираната когнитивна терапия (CT-R) е разширение на когнитивния модел на
+            Аарон Бек, разработено първоначално от Пол Грант и Аарон Т. Бек, което надгражда
+            когнитивно-поведенческата терапия за психоза (CBTp). Тя въплъщава принципите на движението за
+            възстановяване в психичното здраве и е <strong>силно ориентирана към силните страни</strong> на
+            човека — фокусът е върху активирането на „адаптивния режим" на живот, не само върху намаляване
+            на симптомите.
+        </p>
+        <p>
+            CT-R е разработена за хора с тежки психични състояния — включително случаи с изразено
+            недоверие, продължителна институционализация или трудности в достъпа до собствената мотивация.
+            Самият основен учебен източник на курса отбелязва отделно, че някои пациенти — например тези с
+            шизофрения — често не могат да понесат пълноценна 45-минутна сесия, а част от специалистите
+            прилагат техники на когнитивна терапия и извън формата на пълна терапевтична сесия, например по
+            време на медицински или рехабилитационен преглед.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="visual" RoleLabel="Ключово понятие">
+        <h2 id="adaptiven-rezhim" tabindex="-1">05 · Адаптивният режим</h2>
+        <p>
+            <strong>Адаптивният режим</strong> обхваща положителните вярвания, емоции и действия, които се
+            проявяват, когато човек е в своето най-добро състояние. Той е централното понятие, около което
+            е изграден целият процес на CT-R.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Процес">
+        <h2 id="protses-na-ct-r" tabindex="-1">06 · Процесът на CT-R — четири стъпки</h2>
+        <p>
+            Източникът описва процеса на CT-R като четири последователни стъпки, през които адаптивният
+            режим се достига, развива, прилага и заздравява:
+        </p>
+        <ol class="guided-practice-sequence" aria-label="Четирите стъпки на процеса на CT-R">
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">01</span>
+                    <span class="guided-practice-sequence__label">Достъп и активиране — чрез споделена дейност, изграждаща доверие</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">02</span>
+                    <span class="guided-practice-sequence__label">Развитие — чрез лично значими стремежи</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">03</span>
+                    <span class="guided-practice-sequence__label">Актуализиране — чрез позитивно действие в посока на стремежа</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step guided-practice-sequence__step--final">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">04</span>
+                    <span class="guided-practice-sequence__label">Заздравяване — овластяване и устойчивост, докато адаптивният режим стане водещ</span>
+                </span>
+            </li>
+        </ol>
+        <p>
+            Във втората стъпка терапевтът помага на пациента да открие <strong>смисъла зад собствения му
+            стремеж</strong> — не самата цел, а причината тя да е важна. Пример от източника: пациент, чийто
+            стремеж е да стане медицинска сестра, открива, че скритият смисъл е „да помагам на хората и да
+            правя света по-добро място"; друг пациент, чийто стремеж е партньорска връзка, открива смисъла
+            „да споделям добри преживявания и да получавам взаимна подкрепа". Стремежите пораждат надежда,
+            изясняват ценностите на човека и насочват ежедневните му действия към лично значима цел.
+        </p>
+        <p>
+            В четвъртата стъпка терапевтът използва когнитивния модел, за да помогне на пациента да разбере
+            собствените си негативни вярвания и да активира позитивните — особено вярвания, свързани с
+            енергия, способност, контрол и връзка с другите.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Сравнение">
+        <h2 id="ct-r-sreshtu-cbtp" tabindex="-1">07 · CT-R срещу когнитивно-поведенческа терапия за психоза</h2>
+        <p>
+            CT-R надгражда CBTp, но с различен фокус:
+        </p>
+        <div class="comparison-matrix-wrapper">
+            <table class="comparison-matrix comparison-matrix--dual">
+                <caption>CBTp срещу CT-R</caption>
+                <thead>
+                    <tr><th scope="col">CBTp</th><th scope="col">CT-R</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Основен фокус върху намаляване на симптомите — за да се редуцира дистресът и да се подобри качеството на живот.</td>
+                        <td>Основен фокус върху идентифициране и постигане на желания от самия пациент живот.</td>
+                    </tr>
+                    <tr>
+                        <td>Симптомите са централната мишена на интервенцията.</td>
+                        <td>Интервенциите насърчават овластяване спрямо предизвикателства, включително симптомите — не само тяхното редуциране.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>
+            CT-R се прилага в различни условия — от болнични и резидентни програми до амбулаторни и
+            общностни екипи, индивидуално или групово — но самото прилагане изисква специализирано
+            професионално обучение и остава извън обхвата на този академичен курс.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Вярвания">
+        <h2 id="vyarvaniya" tabindex="-1">08 · Две вярвания, свързани с мотивация и участие</h2>
+        <p>
+            Изследванията зад CT-R установяват две именувани категории вярвания, свързани съответно с
+            трудности в достъпа до мотивация и с ограничено социално участие. Представени са тук само на
+            ниво категория и функция — не като списък за самооценка.
+        </p>
+        <div class="category-compare">
+            <div class="category-compare__item">
+                <p class="category-compare__label">Дефеатистки вярвания за собствената ефективност</p>
+                <p>
+                    Свързани са с трудности в достъпа до мотивация. Пример за такова вярване: идеята, че
+                    поемането дори на малък риск е неразумно, защото евентуалната загуба почти сигурно ще
+                    бъде бедствие; или идеята, че частичен неуспех е също толкова лош, колкото пълен провал.
+                </p>
+            </div>
+            <div class="category-compare__item">
+                <p class="category-compare__label">Асоциални вярвания</p>
+                <p>
+                    Свързани са с ограничено социално участие. Пример: предпочитание към самостоятелни
+                    занимания пред дейности с други хора; или усещането, че околните погрешно тълкуват
+                    предпочитаната самота като срамежливост.
+                </p>
+            </div>
+        </div>
+        <p class="concept-map__feedback">
+            Категориите обясняват защо терапевтът избира определен фокус на работа — те не са диагностичен
+            въпросник и тази страница не пита „коя категория си ти".
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Доказателства">
+        <h2 id="dokazatelstva-i-granitsi" tabindex="-1">09 · Доказателства и граници</h2>
+        <p>Изследванията, цитирани от основния източник за CT-R, включват:</p>
+        <ul>
+            <li>Грант и Бек (2009) — дефеатистките вярвания са медиатор между когнитивно затруднение, негативни симптоми и функциониране при шизофрения.</li>
+            <li>Грант и Бек (2010) — асоциалните вярвания предсказват асоциално поведение при шизофрения.</li>
+            <li>Грант и др. (2012) — рандомизирано контролирано изследване: CT-R подобрява участието в общността, мотивацията и позитивните симптоми в по-голяма степен от обичайното лечение.</li>
+            <li>Грант и др. (2017) — подобренията от CT-R са запазени 6 месеца след края на лечението.</li>
+            <li>Грант и др. (2020) — публикувана книга за CT-R при тежки психични състояния (Guilford Press) — полето продължава да се развива.</li>
+        </ul>
+        <p>
+            Според източника подобрения от CT-R са наблюдавани независимо от продължителността на
+            заболяването — но това е констатация на цитираните изследвания, не универсално доказан извод.
+        </p>
+        <p>
+            <strong>Важна уговорка:</strong> прегледи на изследвания за по-новите подходи в КПТ като цяло
+            (не специфично за CT-R) откриват, че <em>може да няма разлика</em> в ефективността им спрямо
+            стандартната когнитивно-поведенческа терапия при лечение на депресия. Тази страница не твърди,
+            че по-новите подходи са по същество по-добри от вече представените в курса — доказателствата за
+            конкретен подход и доказателството за неговото превъзходство над друг са две различни неща.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Граница">
+        <h2 id="granitsite-na-kursa" tabindex="-1">10 · Границите на този курс</h2>
+        <p>
+            Тази страница е академичен обзор, не клинично обучение. Работата с хора с тежки психични
+            състояния — включително прилагането на CT-R — изисква супервизирано професионално обучение,
+            което остава извън обхвата на този курс.
+        </p>
+        <p>
+            Когнитивно-поведенческата терапия остава поле, което продължава да се развива — както
+            показва разширяването на модела на Бек към CT-R от собствени негови сътрудници. Учащите, които
+            искат да продължат отвъд този курс, биха се насочили към супервизирано клинично обучение и
+            допълнителна специализирана литература, не към самостоятелно прилагане на наученото тук.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Обобщение">
+        <h2 id="review" tabindex="-1">11 · Седмичен преглед</h2>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>Преди да разгънеш картата, опитай да си спомниш основните клъстери на тази седмица.</p>
+                <ConceptGraph ComponentId="week15-mindmap-review" Model="@_week15MindMapRender" />
+            </div>
+        </details>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Финален тест">
+        <h2 id="assessment" tabindex="-1">12 · Финална проверка</h2>
+        <p>8 въпроса. Отговорете на всички, за да предадете теста и видите резултата — не се пази между посещения.</p>
+        <FinalAssessment SectionId="assessment" Model="_week15FinalAssessment" />
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Изводи">
+        <h2 id="izvori" tabindex="-1">13 · Обобщение, академичен контекст и източници</h2>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div>
+                <h3>Какво да запомните</h3>
+                <ul>
+                    <li>Когнитивно-поведенческата терапия на Бек е едно от семейство сходни подходи — теоретичните допускания остават постоянни през адаптациите.</li>
+                    <li>Диалектическата поведенческа терапия и терапията на приемане и ангажираност са именувани от самия основен източник на курса.</li>
+                    <li>Етикетът „трета вълна" се споменава само с изрична уговорка — не е организиращата структура на тази страница.</li>
+                    <li>CT-R разширява когнитивния модел за хора с тежки психични състояния, с фокус върху адаптивния режим, не само върху симптомите.</li>
+                    <li>Процесът на CT-R има четири стъпки: достъп, развитие, актуализиране и заздравяване.</li>
+                    <li>CT-R се различава от CBTp по фокуса си — желания живот на пациента, не само редукция на симптоми.</li>
+                    <li>Дефеатистките и асоциалните вярвания са категории, обясняващи фокуса на терапевта — не диагностичен въпросник.</li>
+                    <li>Доказателствата за CT-R не са доказателство за превъзходство над стандартната КПТ.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Академичен контекст</h3>
+                <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
+                    <p>
+                        Основният учебен източник на курса (Джудит Бек) не съдържа глава за темите на тази
+                        седмица — потвърдено чрез пълно текстово претърсване на книгата. Съдържанието за
+                        CT-R е изведено от официален източник на Beck Institute, а не от основния учебник.
+                        Глава 21 на основния източник ("Напредване като терапевт") не е използвана — тя е
+                        протокол за самостоятелно прилагане на техники върху себе си и няма място на тази
+                        страница.
+                    </p>
+                    <p>Съдържанието предстои да премине независим академичен и професионален преглед.</p>
+                </ProgressiveExplanation>
+            </div>
+
+            <div>
+                <DisclaimerCallout Text="Тази страница представя академичен обзор на по-късните адаптации на когнитивно-поведенческата терапия и на възстановително-ориентираната когнитивна терапия (CT-R). Тя не е инструмент за самооценка, не определя категория вярвания, не оценява психично състояние, не поставя диагноза и не заменя супервизирано професионално обучение или психологическа/медицинска помощ." />
+            </div>
+
+            <div>
+                <h3>Източници и следващи стъпки</h3>
+                <p>
+                    <a href="/kurs/sedmica-1">Седмица 1 — Как се ражда когнитивната терапия</a><br />
+                    <a href="/kurs/sedmica-2">Седмица 2 — Когнитивна терапия на Бек и REBT на Елис</a><br />
+                    <a href="/kurs/sedmica-7">Седмица 7 — Поведенческа активация</a><br />
+                    <a href="/kurs/sedmica-13">Седмица 13 — Допълнителни когнитивни и поведенчески техники</a><br />
+                    <a href="/kurs">← Обратно към 15-седмичния курс</a>
+                </p>
+                <SourceReferences Citations="@_citations" />
+            </div>
+        </div>
+
+        <OptionalReadingSource
+            Title="Когнитивно-поведенческа терапия: Основи и отвъд"
+            Author="Джудит С. Бек"
+            Edition="2-ро издание, Guilford Press, 2011 (оригинално заглавие: Cognitive Behavior Therapy: Basics and Beyond)"
+            RelevantSection="Глава 1, стр. 2-3 — семейството на когнитивно-поведенческите терапии"
+            Description="Уводната глава именува диалектическата поведенческа терапия и терапията на приемане и ангажираност сред формите, споделящи характеристиките на терапията на Бек — единственото място в основния източник, докосващо темата на тази седмица." />
+
+        <WeekCompletionControl WeekNumber="@_week.Number" />
+    </LearningSection>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 15);
+
+    private static readonly GraphRenderModel _week15MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek15MindMap());
+
+    private static MindMapModel BuildWeek15MindMap() => new(
+        "Седмица 15 — съвременни разширения на КПТ и възстановително-ориентирана терапия",
+        "Мисловна карта на седмицата: КПТ като семейство, по-късни адаптации, възстановително-ориентирана терапия (CT-R) с подклонове CT-R срещу CBTp и двете вярвания, адаптивният режим, процесът на CT-R, и доказателства и граници.",
+        [
+            new("root", "Съвременни разширения на КПТ и CT-R", null, null, null, ConceptState.Introduced),
+
+            new("semeystvo", "КПТ като семейство", "root", "Теоретичните допускания остават постоянни през адаптациите.", "/kurs/sedmica-15#kpt-kato-semeystvo", ConceptState.Introduced),
+
+            new("adaptatsii", "По-късни адаптации", "root", "DBT и ACT, именувани от основния източник; „трета вълна\" само с уговорка.", "/kurs/sedmica-15#po-kasni-adaptatsii", ConceptState.Introduced),
+
+            new("ctr", "Възстановително-ориентирана терапия (CT-R)", "root", "Разширение за хора с тежки психични състояния, фокус върху адаптивния режим.", "/kurs/sedmica-15#ct-r", ConceptState.Introduced),
+
+            new("ctr-cbtp", "CT-R срещу CBTp", "ctr", "Фокус върху желания живот на пациента, не само редукция на симптоми.", "/kurs/sedmica-15#ct-r-sreshtu-cbtp", ConceptState.Introduced),
+
+            new("vyarvaniya", "Две вярвания — мотивация и участие", "ctr", "Дефеатистки и асоциални вярвания, само на ниво категория.", "/kurs/sedmica-15#vyarvaniya", ConceptState.Introduced),
+
+            new("rezhim", "Адаптивният режим", "root", "Положителните вярвания, емоции и действия при най-доброто състояние на човека.", "/kurs/sedmica-15#adaptiven-rezhim", ConceptState.Introduced),
+
+            new("protses", "Процесът на CT-R", "root", "Четири стъпки: достъп, развитие, актуализиране, заздравяване.", "/kurs/sedmica-15#protses-na-ct-r", ConceptState.Introduced),
+
+            new("dokazatelstva", "Доказателства и граници", "root", "Изследвания за CT-R плюс уговорката, че по-ново не значи по-добро.", "/kurs/sedmica-15#dokazatelstva-i-granitsi", ConceptState.Introduced)
+        ]);
+
+    private static readonly FinalAssessmentModel _week15FinalAssessment = new([
+        AssessmentQuestion.Choice("q01", "Какво остава постоянно във всички адаптации на терапията на Бек, докато фокусът, техниките и продължителността се променят?",
+            ["Броят на сесиите", "Теоретичните допускания", "Цената на терапията"], 1,
+            "Адаптациите променят фокуса, техниките и продължителността, но теоретичните допускания остават постоянни."),
+        AssessmentQuestion.Choice("q02", "Кои две по-късни адаптации на КПТ именува самият основен учебен източник на курса, с автор и година?",
+            ["Диалектическа поведенческа терапия и терапия на приемане и ангажираност", "Психоанализа и хуманистична терапия", "Фамилна терапия и групова терапия"], 0,
+            "Източникът именува диалектическата поведенческа терапия (Линехан, 1993) и терапията на приемане и ангажираност (Хейс, Фолет и Линехан, 2004)."),
+        AssessmentQuestion.Choice("q03", "Как тази страница третира етикета „трета вълна\"?",
+            ["Като основната организираща структура на седмицата", "Като именуван етикет от литературата, споменат само с уговорка, че не е общоприета таксономия", "Като официално признат термин от основния учебен източник"], 1,
+            "Етикетът се среща само в по-новата литература, не в основния източник, и се споменава тук само с изрична уговорка."),
+        AssessmentQuestion.Choice("q04", "Върху какво е фокусирана възстановително-ориентираната когнитивна терапия (CT-R)?",
+            ["Единствено върху намаляване на симптомите", "Върху идентифициране и постигане на желания от пациента живот, чрез активиране на адаптивния режим", "Върху бързо диагностициране на разстройството"], 1,
+            "CT-R се фокусира върху желания от пациента живот и активирането на адаптивния режим, не само върху симптомите."),
+        AssessmentQuestion.Choice("q05", "Какво представлява „адаптивният режим\" в CT-R?",
+            ["Списък от лекарства", "Положителните вярвания, емоции и действия, които се проявяват, когато човек е в най-доброто си състояние", "Диагностичен въпросник за терапевта"], 1,
+            "Адаптивният режим обхваща положителните вярвания, емоции и действия при най-доброто състояние на човека."),
+        AssessmentQuestion.Choice("q06", "Коя е втората от четирите стъпки на процеса на CT-R?",
+            ["Заздравяване чрез овластяване", "Развитие на адаптивния режим чрез лично значими стремежи", "Диагностична оценка на пациента"], 1,
+            "Втората стъпка е развитие на адаптивния режим чрез стремежи и смисъла зад тях."),
+        AssessmentQuestion.Choice("q07", "Как тази страница представя дефеатистките и асоциалните вярвания?",
+            ["Като въпросник за самооценка, питащ директно коя категория пасва на ученика", "Като именувани категории с обяснена функция, с примери в трето лице, без самооценка", "Като диагностични критерии за конкретно разстройство"], 1,
+            "Категориите се представят само на ниво име и функция, с паразифрирани примери в трето лице — не като инструмент за самооценка."),
+        AssessmentQuestion.Choice("q08", "Какво казва страницата за доказателствата за по-новите подходи в КПТ спрямо стандартната КПТ?",
+            ["Че по-новите подходи винаги превъзхождат стандартната КПТ", "Че прегледи на изследвания понякога не откриват разлика в ефективността спрямо стандартната КПТ при депресия", "Че въпросът никога не е бил изследван"], 1,
+            "Прегледи на изследвания могат да не открият разлика в ефективността — страницата изрично не твърди превъзходство на по-новите подходи.")
+    ]);
+
+    private readonly IReadOnlyList<string> _objectives =
+    [
+        "Разбирате, че когнитивно-поведенческата терапия е семейство от сходни подходи, не един-единствен метод.",
+        "Запознавате се с по-късни адаптации на КПТ, включително диалектическата поведенческа терапия и терапията на приемане и ангажираност.",
+        "Разбирате какво е възстановително-ориентирана когнитивна терапия (CT-R) и за кои пациенти е разработена.",
+        "Запознавате се с адаптивния режим и с четирите стъпки на процеса на CT-R.",
+        "Разбирате разликата между CT-R и когнитивно-поведенческата терапия за психоза (CBTp).",
+        "Запознавате се с доказателствата за CT-R и с ограниченията на изследванията за по-новите подходи в КПТ."
+    ];
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — Глава 1, стр. 2-3, семейството на когнитивно-поведенческите терапии.",
+        "Beck Institute for Cognitive Behavior Therapy — \"What is Recovery-Oriented Cognitive Therapy (CT-R)?\" (Feldman, Best, Beck, Inverso & Grant) — основен източник за CT-R.",
+        "Grant, P. M., Huh, G. A., Perivoliotis, D., Stolar, N. M., & Beck, A. T. (2012) — рандомизирано контролирано изследване, цитирано от Beck Institute."
+    ];
+}

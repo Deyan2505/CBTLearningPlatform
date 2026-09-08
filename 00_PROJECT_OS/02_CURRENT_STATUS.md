@@ -170,6 +170,42 @@
   йерархия/процедура, нула клиничен въпросник. K122 source anomaly документиран (Core Belief Worksheet е
   Fig. 14.3, не Гл. 11 — cross-link към Седмица 12). **792/792** теста, Debug+Release build 0/0.
   Commit `5d0fad5`. Production deploy successful. Седмица 4/5 недокоснати.
+- **Седмица 14** (Домашна работа, прекратяване и превенция на рецидив, SRC-041 Гл. 17–18, печатни
+  стр. 294–331) — **`OWNER APPROVED / LOCKED`** (2026-09-08, след production owner review).
+  **176 KUs — 126 Included / 31 Deferred / 19 Excluded / 0 Needs Review / 0 Unaccounted** — виж
+  `00_PROJECT_OS/_blueprints/WEEK_14_SOURCE_AUDIT_v1.md` (§12 owner решения, §13 mobile фикс).
+  Routed (`/kurs/sedmica-14`), `ProfessionalReviewRequired` запазено → статус "Изисква професионален
+  преглед"; declared format коригиран от `StaticVisualization` на `InteractiveModel`; заглавието
+  „приключване" → „прекратяване" (терминологичен lock). Weekly Mind Map (8 branches, Preview+Review),
+  споделен `FinalAssessment` (8 въпроса). Figures 18.3/18.5 включени **само описателно** (без
+  използваеми формуляри/чеклисти); нула self-input, нула възпроизведен диалог, нула клиничен
+  въпросник, нула exposure йерархия. **GAP-014** — половината „домашна работа" е затворена тук;
+  половината „подчертаване на положителното" остава `Open`/unassigned. C15-K05 (професионално
+  развитие на терапевта) съзнателно НЕ е присвоен тук. **821/821** теста, Debug+Release build 0/0.
+  Commit `c2ca4b9`. Production deploy successful. Седмица 4/5 недокоснати.
+- **Седмица 15** (Съвременни разширения на КПТ и възстановително-ориентирана терапия — SRC-041 Гл. 1,
+  печатни стр. 2–3, единственото място в основния източник, докосващо тази тема + SRC-013, Beck
+  Institute, FULLY REVIEWED, основен източник за CT-R) — **`IMPLEMENTED, TECHNICALLY READY — NOT YET
+  OWNER APPROVED / LOCKED`.** **76 KUs — 50 Included / 9 Deferred / 17 Excluded / 0 Needs Review /
+  0 Unaccounted** — виж `00_PROJECT_OS/_blueprints/WEEK_15_SOURCE_AUDIT_v1.md` §14 за final resolution
+  log. Първата седмица без глава от основния учебен източник — потвърдено чрез пълно текстово
+  претърсване на всичките 414 страници. Заглавието изрично изоставя "трета вълна" рамкирането
+  (owner decision); етикетът се появява само веднъж, като именуван литературен етикет с уговорка, без
+  wave-decade диапазони; MBCT изключен изцяло. CT-R представена изцяло нова: адаптивен режим, четири
+  стъпки на процеса, сравнение с CBTp, две именувани категории вярвания (само на ниво категория,
+  paraphrased примери, без самооценка), доказателствена база с изрична non-superiority уговорка. Routed
+  (`/kurs/sedmica-15`) — последната седмица, която се маршрутизира; `AcademicContextOnly`/`AcademicOnly`
+  запазени непроменени → резолвира се до `AcademicOverview` (Седмица 4/12 прецедент). Weekly Mind Map
+  (6 top-level branches + 2 деца под CT-R, Preview+Review), споделен `FinalAssessment` (8 въпроса). C15-
+  K05 (професионално развитие на терапевта, Гл. 21) и GAP-014's остатъчна половина остават
+  Deferred/Unassigned — не присвоени тук само защото Седмица 15 е последна. GAP-011 затворено (виж
+  `15_GAPS_AND_CONFLICTS.md`) — CT-R claim-ът в него беше грешен (SRC-013 е отдавна FULLY REVIEWED).
+  **850/850** теста, Debug+Release build 0/0, `git diff --check` чист. Browser QA (Playwright,
+  headless Chromium) на 1440/1024/390px: 0 page-level horizontal overflow навсякъде; един scoped CSS
+  fix намерен и приложен по време на QA (`#ct-r-sreshtu-cbtp` `white-space: normal`, същия прецедент
+  като Седмици 1/2/7/11/13/14 — table-layout auto's min-content под non-wrapping текст). FinalAssessment
+  реално тестван end-to-end (mixed resultat, retry, `WeekCompletionControl` независим). Некомитнато.
+  Седмица 4/5 недокоснати.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
   Netlify (static-only host). Commit `4135988`.

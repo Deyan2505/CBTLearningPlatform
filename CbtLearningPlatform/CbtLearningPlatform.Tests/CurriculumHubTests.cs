@@ -96,6 +96,10 @@ public sealed class CurriculumHubTests
             {
                 Assert.Equal("/kurs/sedmica-14", week.Route);
             }
+            else if (week.Number == 15)
+            {
+                Assert.Equal("/kurs/sedmica-15", week.Route);
+            }
             else
             {
                 Assert.Null(week.Route);

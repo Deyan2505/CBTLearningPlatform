@@ -2000,6 +2000,14 @@ h3[tabindex="-1"]:focus-visible {
     white-space: normal;
 }
 
+/* Week 15 §07 ("CT-R срещу CBTp") — same nowrap root cause, found during QA at every breakpoint
+   including desktop (scrollWidth 1869px in a 1039px wrapper at 1440px): both columns hold
+   full-sentence cell content. Same scoped sibling-combinator fix as Weeks 1/2/7/11/13/14 — natural
+   wrapping only, table semantics/content/order unchanged. */
+#ct-r-sreshtu-cbtp ~ .comparison-matrix-wrapper .comparison-matrix td {
+    white-space: normal;
+}
+
 /* Week 14 §04 ("Диагностика на неизпълнение") mobile fallback — owner production-review found the
    white-space fix above insufficient: 468px measured table width in a 289px wrapper at 390px, well
    past the "minimal, localized" tolerance. Root cause is NOT nowrap (already fixed) — it's CSS

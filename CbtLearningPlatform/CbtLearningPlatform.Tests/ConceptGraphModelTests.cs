@@ -13,20 +13,32 @@ public sealed class ConceptGraphModelTests
     [Fact]
     public void ConceptStateResolver_ReturnsUpcoming_WhenIntroducingWeekHasNoRoute()
     {
-        // Week 15 is catalogued but Route is null (AcademicContextOnly — the last unrouted week).
-        // Weeks 11, 13 and 14 were this fixture's earlier examples but each gained a real route in
-        // turn (WEEK_11_SOURCE_AUDIT_v1, WEEK_13_SOURCE_AUDIT_v1, WEEK_14_SOURCE_AUDIT_v1, all
-        // owner-approved implementations).
-        Assert.Equal(ConceptState.Upcoming, ConceptStateResolver.Derive(15, [], Weeks));
+        // Weeks 11, 13, 14 and 15 were this fixture's real-catalog examples in turn, but each
+        // gained a real route (WEEK_11_SOURCE_AUDIT_v1, WEEK_13_SOURCE_AUDIT_v1,
+        // WEEK_14_SOURCE_AUDIT_v1, WEEK_15_SOURCE_AUDIT_v1, all owner-approved implementations) —
+        // the real CourseCatalog now has zero unrouted weeks, so this uses a synthetic route-less
+        // fixture instead, isolated from CourseCatalog (same pattern as CourseProgressTests.cs).
+        CourseWeekDefinition unrouted = new(
+            101, "Test", "Unrouted", "", CourseWeekStatus.AcademicOverview,
+            CurriculumSafetyLevel.AcademicContextOnly, null, [], []);
+        CourseWeekDefinition[] syntheticWeeks = [unrouted];
+
+        Assert.Equal(ConceptState.Upcoming, ConceptStateResolver.Derive(101, [], syntheticWeeks));
     }
 
     [Fact]
     public void ConceptStateResolver_ReturnsIntroduced_WhenNoRevisitedWeekIsRouted()
     {
-        // Week 3 is routed; Week 15 (a revisit) is not — Week 11 was this fixture's original
-        // example but gained a real route (WEEK_11_SOURCE_AUDIT_v1, owner-approved implementation),
-        // and Weeks 13/14 likewise (WEEK_13_SOURCE_AUDIT_v1, WEEK_14_SOURCE_AUDIT_v1).
-        Assert.Equal(ConceptState.Introduced, ConceptStateResolver.Derive(3, [15], Weeks));
+        // Week 3 is routed; the revisited week here is unrouted — Weeks 11, 13, 14 and 15 were this
+        // fixture's real-catalog examples in turn, but each gained a route
+        // (WEEK_11_SOURCE_AUDIT_v1, WEEK_13_SOURCE_AUDIT_v1, WEEK_14_SOURCE_AUDIT_v1,
+        // WEEK_15_SOURCE_AUDIT_v1), so this now uses a synthetic route-less fixture instead.
+        CourseWeekDefinition unrouted = new(
+            101, "Test", "Unrouted", "", CourseWeekStatus.AcademicOverview,
+            CurriculumSafetyLevel.AcademicContextOnly, null, [], []);
+        CourseWeekDefinition[] syntheticWeeks = [.. Weeks, unrouted];
+
+        Assert.Equal(ConceptState.Introduced, ConceptStateResolver.Derive(3, [101], syntheticWeeks));
     }
 
     [Fact]

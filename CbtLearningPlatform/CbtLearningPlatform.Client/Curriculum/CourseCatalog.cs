@@ -18,12 +18,11 @@ public sealed record CourseWeekDefinition(
 /// module grouping (Модул I–IV), not an invented structure.</summary>
 public sealed record CourseModule(int Number, string Title, string WeekRangeLabel, string Description);
 
-/// <summary>Single source of truth for the 15-week curriculum reference. Only Weeks 1, 2, 3, 4, 5, 6, 7, 8, 9,
-/// 10, 11, 12 and 13 have a real Route so far — every other week is intentionally InPreparation/AcademicOverview/
-/// ProfessionalReviewRequired with Route=null, so the hub never links to a page that doesn't exist. Weeks 4 and
-/// 12 are AcademicContextOnly, so they resolve to AcademicOverview status even though routed; Weeks 11 and 13
-/// are ProfessionalReviewRequired/NotEligibleForSelfGuidedSimulator, so they resolve to ProfessionalReviewRequired
-/// status even though routed — see CurriculumLabels.DeriveStatus.</summary>
+/// <summary>Single source of truth for the 15-week curriculum reference. All 15 weeks now have a real
+/// Route — Week 15 (the last to join) closes out the routed set, so the hub never links to a page that
+/// doesn't exist. Weeks 4, 12 and 15 are AcademicContextOnly, so they resolve to AcademicOverview status
+/// even though routed; Weeks 11, 13 and 14 are ProfessionalReviewRequired/NotEligibleForSelfGuidedSimulator,
+/// so they resolve to ProfessionalReviewRequired status even though routed — see CurriculumLabels.DeriveStatus.</summary>
 public static class CourseCatalog
 {
     public static IReadOnlyList<CourseModule> Modules { get; } =
@@ -215,13 +214,17 @@ public static class CourseCatalog
             formats: [InteractiveFormat.InteractiveModel]),
 
         Week(15, "Разширени техники и академичен контекст",
-            "Трета вълна и възстановително-ориентирана терапия",
-            "Кратък обзор на по-новите направления в КПТ традицията.",
-            CurriculumSafetyLevel.AcademicContextOnly, route: null,
+            "Съвременни разширения на КПТ и възстановително-ориентирана терапия",
+            "Как когнитивно-поведенческата терапия се разгръща в семейство от сходни подходи, и въведение във възстановително-ориентираната когнитивна терапия (CT-R) за хора с тежки психични състояния.",
+            CurriculumSafetyLevel.AcademicContextOnly, route: "/kurs/sedmica-15",
             objectives:
             [
-                "Получавате кратък обзор на по-новите направления в КПТ.",
-                "Разбирате, че полето продължава да се развива."
+                "Разбирате, че когнитивно-поведенческата терапия е семейство от сходни подходи, не един-единствен метод.",
+                "Запознавате се с по-късни адаптации на КПТ, включително диалектическата поведенческа терапия и терапията на приемане и ангажираност.",
+                "Разбирате какво е възстановително-ориентирана когнитивна терапия (CT-R) и за кои пациенти е разработена.",
+                "Запознавате се с адаптивния режим и с четирите стъпки на процеса на CT-R.",
+                "Разбирате разликата между CT-R и когнитивно-поведенческата терапия за психоза (CBTp).",
+                "Запознавате се с доказателствата за CT-R и с ограниченията на изследванията за по-новите подходи в КПТ."
             ],
             formats: [InteractiveFormat.AcademicOnly])
     ];
