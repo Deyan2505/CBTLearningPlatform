@@ -185,8 +185,8 @@
   Commit `c2ca4b9`. Production deploy successful. Седмица 4/5 недокоснати.
 - **Седмица 15** (Съвременни разширения на КПТ и възстановително-ориентирана терапия — SRC-041 Гл. 1,
   печатни стр. 2–3, единственото място в основния източник, докосващо тази тема + SRC-013, Beck
-  Institute, FULLY REVIEWED, основен източник за CT-R) — **`IMPLEMENTED, TECHNICALLY READY — NOT YET
-  OWNER APPROVED / LOCKED`.** **76 KUs — 50 Included / 9 Deferred / 17 Excluded / 0 Needs Review /
+  Institute, FULLY REVIEWED, основен източник за CT-R) — **`OWNER APPROVED / LOCKED`** (2026-09-08,
+  след production owner review). **76 KUs — 50 Included / 9 Deferred / 17 Excluded / 0 Needs Review /
   0 Unaccounted** — виж `00_PROJECT_OS/_blueprints/WEEK_15_SOURCE_AUDIT_v1.md` §14 за final resolution
   log. Първата седмица без глава от основния учебен източник — потвърдено чрез пълно текстово
   претърсване на всичките 414 страници. Заглавието изрично изоставя "трета вълна" рамкирането
@@ -204,8 +204,8 @@
   headless Chromium) на 1440/1024/390px: 0 page-level horizontal overflow навсякъде; един scoped CSS
   fix намерен и приложен по време на QA (`#ct-r-sreshtu-cbtp` `white-space: normal`, същия прецедент
   като Седмици 1/2/7/11/13/14 — table-layout auto's min-content под non-wrapping текст). FinalAssessment
-  реално тестван end-to-end (mixed resultat, retry, `WeekCompletionControl` независим). Некомитнато.
-  Седмица 4/5 недокоснати.
+  реално тестван end-to-end (mixed resultat, retry, `WeekCompletionControl` независим). Commit `1b6fa83`.
+  Production deploy successful. Седмица 4/5 недокоснати.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
   Netlify (static-only host). Commit `4135988`.
