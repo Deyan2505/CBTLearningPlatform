@@ -1,0 +1,574 @@
+@* Owner-approved final source contract (2026-09-07) — see _blueprints/WEEK_14_SOURCE_AUDIT_v1.md for the
+   full 176-KU accounting (126 Included / 31 Deferred / 19 Excluded / 0 Needs Review / 0 Unaccounted).
+   Content basis: SRC-041 (Judith Beck), Глава 17 ("Домашна работа", printed pp. 294-315) + Глава 18
+   ("Прекратяване и превенция на рецидив", printed pp. 316-331). Глава 16 ("Образи") is deliberately
+   NOT annexed — imagery is trauma-sensitive and has no curriculum owner.
+
+   SAFETY (CurriculumSafetyLevel.ProfessionalReviewRequired, unchanged from the pre-audit catalog entry):
+   routed and completion-eligible (WeekCompletionControl works off Route, not Status), but the safety
+   level keeps CurriculumLabels.DeriveStatus resolving this week's public status to "Изисква
+   професионален преглед", never "Налично". Format is InteractiveModel, never StaticVisualization — the
+   stale format assigned while this week was NOT READY is corrected here, matching Week 13's precedent.
+
+   Resolved owner decisions applied (final source contract, turn 3):
+   - Figure 18.3 (self-therapy session guide) and Figure 18.5 (booster session guide): both Included,
+     DESCRIPTIVE ONLY — explained as what such a plan reviews/covers, in third person, paraphrased from
+     the copyrighted worksheet. Neither is reproduced as a usable form, checklist, or first-person guide.
+   - The 0-100% adherence-likelihood question and the sub-90% "change the task" fallback: presented as
+     clinician-perspective description/fixed process only — no slider, no percentage input, no self-rating
+     control, no homework planner or adherence calculator anywhere on this page.
+   - The four-way homework-failure diagnosis (practical / psychological / masked / therapist-side) is
+     academic explanation of how a THERAPIST conceptualizes non-completion — never a learner
+     self-assessment, never phrased as "why didn't you...".
+   - Covert rehearsal and intellectual-emotional role play (the other two sub-90% fallbacks): Deferred —
+     imagery and role-play-mechanics exclusions inherited from Week 13's precedent, not reproduced here.
+   - Excluded entirely: all reproduced therapist-patient dialogue transcripts, the BDI reference, the
+     seven specimen therapist-cognition examples, the deliberately-imperfect-Thought-Record exercise,
+     induced-imagery procedures, Sally's first-person setback coping card (Figure 18.4), and — inherited
+     verbatim from Week 13's strictest-tier exclusion — the exposure/avoided-task hierarchy PROCEDURE
+     (named once in the maintenance inventory, never taught).
+   - Whenever relaxation is named (maintenance inventory, item 6), Week 13's K53 paradoxical-arousal
+     caution is co-located in the same sentence, not just linked.
+   - Terminology locks (learner-facing canonical forms only — competing translations stay in the audit):
+     "прекратяване" (never "приключване"); "поддържаща сесия" (never "бустер сесия"/"сесия за
+     усилване"/"сесия за подсилване"/"сесия за повишаване на мотивацията"); "списък на заслугите"
+     (Week 13's lock, never "списък с кредити").
+   - GAP-014's homework half (15_GAPS_AND_CONFLICTS.md) is closed against this week — Гл. 17 is this
+     week's own primary source, not an orphaned chapter. C15-K05 (therapist development, Гл. 21) is
+     explicitly NOT assigned here — remains Deferred/Unassigned pending the Week 15 audit.
+   - Zero self-input anywhere on this page (no <input>/<textarea>/<form>), zero reproduced
+     therapist-patient dialogue, zero simulator — every method is described in the third person (what
+     the therapist does), matching Week 11/13's precedent.
+
+   OVERLAP BOUNDARIES (see audit §4): Week 6 owns homework as a session artifact/list (its own dated
+   list pattern and Sally's Figure 5.1 are never reproduced here — only cross-linked); this page owns
+   design, adherence, failure diagnosis and review depth instead. Week 13's ten-tool inventory items
+   (refocusing, credit list, advantages/disadvantages, relaxation, avoided-task hierarchy) are NAMED
+   and cross-linked in the maintenance inventory, never re-taught.
+
+   REPRESENTATIONS: Weekly Mind Map (Week 6's locked ConceptGraph/MindMapAdapter engine, same semantic
+   model Preview+Review, collapsed by default, 8 knowledge-cluster branches, single-parent, no invented
+   causal relations) + one process visualization (.guided-practice-sequence, the taper ladder) + one
+   fixed SourceArtifact illustration (Figure 18.1's recovery shape) + two comparisons (.comparison-matrix,
+   the four-way diagnosis and Figure 18.2) + shared FinalAssessment. No Concept Map, no new .razor
+   component, no new CSS class.
+
+   SALLY: Figure 18.2 (advantages/disadvantages of tapering) is the ONLY worked example — no new
+   biography, no invented dialogue, no merging with unrelated source examples. *@
+@page "/kurs/sedmica-14"
+
+<PageTitle>Седмица 14: Домашна работа, прекратяване и превенция на рецидив — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
+        <div class="week-navigator__row">
+            <h1>Седмица @_week.Number: @_week.Title</h1>
+            <span class="week-list__status week-list__status--format">Изисква професионален преглед</span>
+        </div>
+        <p><em>Как терапевтът проектира домашна работа, реагира на нейното неизпълнение, и насочва лечението към прекратяване и поддържане на постигнатото</em></p>
+        <p>
+            Тази седмица не преповтаря домашната работа като артефакт от структурата на сесията — Седмица 6
+            вече показа конкретния, датиран списък със задания на Сали. Вместо това представя как терапевтът
+            <strong>проектира</strong> домашна работа, увеличава вероятността тя да бъде изпълнена,
+            концептуализира защо не се изпълнява, и как целият терапевтичен процес се насочва към
+            прекратяване, поддържащи сесии и превенция на рецидив.
+        </p>
+        <LearningObjectives Objectives="@_objectives" />
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-14#nakratko">Накратко</a>
+        <a href="/kurs/sedmica-14#domashna-rabota-kato-instrument">Домашна работа като инструмент</a>
+        <a href="/kurs/sedmica-14#uvelichavane-na-izpalnenieto">Увеличаване на изпълнението</a>
+        <a href="/kurs/sedmica-14#diagnostika-na-neizpalnenie">Диагностика на неизпълнение</a>
+        <a href="/kurs/sedmica-14#pregled-na-domashnata">Преглед на домашното</a>
+        <a href="/kurs/sedmica-14#forma-na-vazstanovyavaneto">Форма на възстановяването</a>
+        <a href="/kurs/sedmica-14#pripisvane-na-napreduka">Приписване на напредъка</a>
+        <a href="/kurs/sedmica-14#namalyavane-i-prekratyavane">Намаляване и прекратяване</a>
+        <a href="/kurs/sedmica-14#podderzhane-sled-terapiyata">Поддържане след терапията</a>
+        <a href="/kurs/sedmica-14#review">Седмичен преглед</a>
+        <a href="/kurs/sedmica-14#assessment">Финална проверка</a>
+        <a href="/kurs/sedmica-14#izvori">Източници</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    <LearningSection Role="theory" RoleLabel="Карта">
+        <h2 id="nakratko" tabindex="-1">01 · Накратко</h2>
+        <p>
+            <strong>Какво ще научите:</strong> как терапевтът проектира домашна работа като част от
+            терапията, а не просто я задава; как увеличава вероятността тя да бъде изпълнена и преценява
+            шанса за успех; как концептуализира неизпълнението — практическо, психологическо, маскирано
+            като практическо, или свързано със собственото мислене на терапевта; каква дълбочина на
+            преглед заслужава домашната работа; как се концептуализират формата на възстановяването,
+            намаляването на сесиите, прекратяването и поддържащите сесии; и кои инструменти консолидират
+            вече наученото в курса за превенция на рецидив.
+        </p>
+        <p>
+            <strong>Предпоставки:</strong> тази страница разчита на вече представени понятия — домашната
+            работа като елемент от структурата на сесията (<a href="/kurs/sedmica-6">Седмица 6</a>),
+            поведенческа активация (<a href="/kurs/sedmica-7">Седмица 7</a>), записи на мисли
+            (<a href="/kurs/sedmica-9">Седмица 9</a>), Сократически въпроси
+            (<a href="/kurs/sedmica-10">Седмица 10</a>), предимства/недостатъци на вярване
+            (<a href="/kurs/sedmica-11">Седмица 11</a>), и допълнителните техники от
+            <a href="/kurs/sedmica-13">Седмица 13</a> (пренасочване на вниманието, списък на заслугите) —
+            тук не се преподават отново, само се допълват и консолидират.
+        </p>
+        <h3>Мисловна карта на седмицата — преглед</h3>
+        <ConceptGraph ComponentId="week14-mindmap-preview" Model="@_week14MindMapRender" />
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Проектиране">
+        <h2 id="domashna-rabota-kato-instrument" tabindex="-1">02 · Домашната работа като терапевтичен инструмент</h2>
+        <p>
+            Домашната работа е неразделна, не опционална част от когнитивно-поведенческата терапия —
+            изследванията показват, че пациентите, които я изпълняват, напредват по-добре от тези, които
+            не го правят. Целта ѝ е да разшири възможностите за когнитивна и поведенческа промяна през
+            седмицата на пациента, отвъд самата терапевтична сесия.
+        </p>
+        <p>
+            Терапевтът подготвя пациента за домашна работа от самата първа сесия — включително как да се
+            нарече самото понятие, тъй като „домашна работа“ носи училищни асоциации за мнозина. Важното
+            уточнение е, че това не е като училищното домашно — това е задача, която терапевтът и
+            пациентът проектират <strong>заедно</strong>, специално за конкретния човек.
+        </p>
+        <p>
+            Добре проектираната домашна работа отваря шест вида възможности за пациента: допълнително
+            самообразование, събиране на данни (например чрез наблюдение на собствените мисли, чувства и
+            поведение), тестване на мисли и вярвания, модифициране на мисленето, упражняване на
+            когнитивни и поведенчески инструменти, и експериментиране с ново поведение.
+        </p>
+        <p>
+            Няма установена формула за домашна работа — вместо това терапевтът я настройва спрямо
+            конкретния пациент: способностите му за четене и писане, мотивацията и готовността му,
+            текущото ниво на стрес и функциониране, и практическите ограничения. В началото на лечението
+            терапевтът обикновено поема водещата роля в предлагането на задания; с напредването на
+            терапията все повече насърчава пациента сам да предлага заданията си. <strong>Пациентите, които
+            рутинно сами задават домашната си работа към края на лечението, са по-склонни да продължат да
+            го правят и след прекратяването.</strong>
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Метод">
+        <h2 id="uvelichavane-na-izpalnenieto" tabindex="-1">03 · Увеличаване на вероятността за изпълнение</h2>
+        <p>Осем насоки увеличават вероятността пациентът да успее с домашната работа:</p>
+        <ol>
+            <li>Настройте задачата спрямо конкретния пациент — предпочитайте твърде лесна пред твърде трудна задача.</li>
+            <li>Осигурете ясна обосновка как и защо задачата ще помогне.</li>
+            <li>Определете домашната работа съвместно — потърсете мнението и съгласието на пациента.</li>
+            <li>Направете задачата безрискова — полезни данни се получават дори ако не бъде напълно изпълнена.</li>
+            <li>Започнете задачата, когато е възможно, направо в сесията — продължаването е много по-лесно от инициирането.</li>
+            <li>Помогнете за организиране на система за запомняне на заданието.</li>
+            <li>Предвиждайте възможни практически и психологически пречки, преди да зададете задачата.</li>
+            <li>Подгответе пациента за възможен неуспешен изход — какво би си помислил, ако експериментът не се получи.</li>
+        </ol>
+        <p>
+            Терапевтът преценява вероятността пациентът реално да изпълни заданието, като директно пита
+            колко вероятно е това да се случи, по скала от 0 до 100%. Ако увереността е под 90%,
+            терапевтът обикновено предприема действие — най-често насочва към промяна на самата задача,
+            например заместването ѝ с по-лесна версия, вместо да остави непроменена задача с нисък шанс
+            за успех.
+        </p>
+        <p>
+            Безрисковата рамка (насока 4) е ефективна само донякъде: ако пациентът пропусне значителна
+            част от заданията си две последователни седмици, терапевтът вече не продължава да я третира
+            като напълно безрискова — вместо това издирва конкретната пречка и подчертава колко е важно
+            заданието.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Диагноза">
+        <h2 id="diagnostika-na-neizpalnenie" tabindex="-1">04 · Защо не се изпълнява домашното — четири вида причини</h2>
+        <p>
+            Когато пациентът не изпълни зададена и подходяща задача, терапевтът концептуализира защо е
+            възникнал проблемът — не приема неизпълнението за лична слабост или мързел.
+        </p>
+        <div class="comparison-matrix-wrapper">
+            <table class="comparison-matrix">
+                <caption>Четири вида причини за неизпълнение на домашна работа</caption>
+                <thead>
+                    <tr><th scope="col">Тип</th><th scope="col">Как се разпознава</th><th scope="col">Отговор на терапевта</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Практически проблем</th>
+                        <td data-label="Как се разпознава">Пациентът съобщава липса на време, енергия или неясна задача; забравя обосновката, поради която е поел заданието; няма система за запомняне.</td>
+                        <td data-label="Отговор на терапевта">Изяснява практическата пречка, напомня обосновката, помага за организационна система — например ежедневен списък за отмятане на заданията.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Психологически проблем</th>
+                        <td data-label="Как се разпознава">Има конкретен момент, в който пациентът е мислил за заданието, но не го е направил; типични причини — негативни предсказания, перфекционизъм, преувеличаване на нужната енергия или време.</td>
+                        <td data-label="Отговор на терапевта">Изследва точно този момент — какви мисли и чувства са били налице; при нужда прави заданието по-базово; напомня, че ученето на нов навик прилича на учене на умение, не изисква перфектност.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Психологически проблем, маскиран като практически</th>
+                        <td data-label="Как се разпознава">Пациентът настоява, че пречката е чисто практическа (време, енергия, възможност), но терапевтът подозира и скрита мисъл или вярване отдолу.</td>
+                        <td data-label="Отговор на терапевта">Проверява хипотетично: „ако този практически проблем магически изчезне, колко вероятно е да го направите?“ — за да разкрие скритата мисъл.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Проблем в собственото мислене на терапевта</th>
+                        <td data-label="Как се разпознава">Терапевтът самият се колебае да настоява за заданието — от страх да не нарани пациента, да не го обиди, или от предположение, че заданието не е наистина необходимо.</td>
+                        <td data-label="Отговор на терапевта">Разпознава собствените си дисфункционални предположения; при нужда прави собствени записи на мисли или се консултира с колега — за да не лиши пациента от полезна, изследователски подкрепена интервенция.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>
+            Тази диагноза е <strong>клиничен инструмент на терапевта</strong>, не тест за самооценка на
+            пациента — целта ѝ е терапевтът да реагира точно на конкретната пречка, вместо да продължи да
+            задава непроменена задача.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Преценка">
+        <h2 id="pregled-na-domashnata" tabindex="-1">05 · Преглед на домашната работа</h2>
+        <p>
+            Преди всяка сесия терапевтът се подготвя, като преглежда бележките от предишната сесия и
+            отбелязва какво е било зададено за домашна работа — обсъждането ѝ обикновено е първата точка
+            от дневния ред (виж <a href="/kurs/sedmica-6">Седмица 6</a>), освен когато е очевидно
+            неуместно.
+        </p>
+        <p>
+            Колко време да се отдели за преглед е <strong>част от изкуството на терапията</strong> — не
+            съществува фиксирано правило. Терапевтът отделя повече време, когато заданието засяга важен,
+            продължаващ проблем, когато пациентът не го е завършил, или когато има какво ново да се научи
+            от резултата. Прекалено малко време лишава пациента от затвърждаване на важни знания и умения;
+            прекалено много — от задълбочено обсъждане на нови проблеми. В началото на лечението
+            терапевтът обикновено затвърждава наученото, като пита пациента доколко вярва в адаптивните
+            отговори, които е записал в предишната сесия и у дома; по-нататък съвместно решава кои задания
+            да продължат или да се променят за следващата седмица.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Процес">
+        <h2 id="forma-na-vazstanovyavaneto" tabindex="-1">06 · Терапевтичната цел и формата на възстановяването</h2>
+        <p>
+            Целта на когнитивно-поведенческата терапия е да улесни ремисията на разстройството на пациента
+            и да го научи на умения, които може да ползва през целия си живот — <strong>не</strong> да
+            реши всичките му проблеми. Терапевт, който се възприема като отговорен за помощ на пациента с
+            всеки проблем, рискува да създаде или подсили зависимост и лишава пациента от възможността сам
+            да тества и укрепва уменията си.
+        </p>
+        <p>
+            Терапевтът започва да подготвя пациента за прекратяване и за възможен спад дори в самата
+            начална сесия, като обяснява, че целта е лечението да бъде възможно най-времево ограничено — с
+            крайна цел пациентът да стане свой собствен терапевт. Щом пациентът започне да се чувства
+            по-добре, терапевтът провежда изрична дискусия за формата на самото възстановяване.
+        </p>
+        <SourceArtifact Title="Форма на възстановяването (Фигура 18.1)" SourceLabel="Възпроизведено по SRC-041, Гл. 18, печатна стр. 317 — собствен дизайн, не факсимиле на оригинала.">
+            <ol>
+                <li>Първоначално подобрение</li>
+                <li>Плато или временен спад</li>
+                <li>Ново подобрение</li>
+                <li>По-малък, по-кратък и по-лек спад</li>
+                <li>Продължаващо подобрение — с времето спадовете стават все по-редки, по-кратки и по-леки</li>
+            </ol>
+        </SourceArtifact>
+        <p>
+            Тази графика е важна, защото без нея спадът лесно се изтълкува погрешно — сякаш терапията не
+            работи или пациентът никога няма да се подобри — вместо като нормална, очаквана част от
+            възстановяването.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Механизъм">
+        <h2 id="pripisvane-na-napreduka" tabindex="-1">07 · Приписване на напредъка на пациента</h2>
+        <p>
+            Терапевтът остава наблюдателен на всяка сесия за възможности да подсили пациента за собствения
+            му напредък. Когато пациентът съобщи подобрение в настроението, терапевтът изследва защо смята,
+            че се чувства по-добре, и подсилва идеята, че самият пациент е довел до промяната чрез
+            конкретни промени в мисленето и поведението си.
+        </p>
+        <p>
+            Някои пациенти първоначално приписват цялото подобрение на терапевта, на промяна в
+            обстоятелствата или на медикаменти. Терапевтът признава подобни външни фактори, но продължава
+            да пита какво самият пациент е променил в мисленето или поведението си, което може да е
+            допринесло. Тази алтернативна атрибуция — че пациентът сам е отговорен за положителните
+            промени — укрепва усещането му за собствена ефективност.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Пример">
+        <h2 id="namalyavane-i-prekratyavane" tabindex="-1">08 · Намаляване на сесиите и прекратяване като експеримент</h2>
+        <p>
+            Сесиите по терапия обикновено се насрочват веднъж седмично, освен при практически ограничения;
+            пациенти с по-тежки симптоми могат да се възползват от по-чести срещи. След като пациентът
+            изпита намаление на симптомите и научи основните умения, терапевтът и пациентът съвместно се
+            договарят, на пробна основа, да намалят честотата — представено винаги като
+            <strong>експеримент</strong>, не като окончателно решение.
+        </p>
+        <ol class="guided-practice-sequence" aria-label="Намаляване на честотата на сесиите към поддържащи сесии">
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">01</span>
+                    <span class="guided-practice-sequence__label">Веднъж седмично</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">02</span>
+                    <span class="guided-practice-sequence__label">На всеки 2 седмици</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">03</span>
+                    <span class="guided-practice-sequence__label">На всеки 3–4 седмици</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">04</span>
+                    <span class="guided-practice-sequence__label">Прекратяване</span>
+                </span>
+                <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+            </li>
+            <li class="guided-practice-sequence__step guided-practice-sequence__step--final">
+                <span class="guided-practice-sequence__unit">
+                    <span class="guided-practice-sequence__number" aria-hidden="true">05</span>
+                    <span class="guided-practice-sequence__label">Поддържащи сесии (около 3, 6 и 12 месеца)</span>
+                </span>
+            </li>
+        </ol>
+        <p>
+            Когато пациентът не вижда предимство в намаляването, терапевтът първо изважда недостатъците,
+            после насочва пациента чрез въпроси към предимствата, и накрая му помага да преосмисли самите
+            недостатъци. Пример от източника — Сали обмисля намаляване на честотата на сесиите:
+        </p>
+        <div class="comparison-matrix-wrapper">
+            <table class="comparison-matrix">
+                <caption>Предимства на намаляването на терапията (Сали)</caption>
+                <thead><tr><th scope="col">Предимство</th></tr></thead>
+                <tbody>
+                    <tr><td>Ще имам повече възможности да използвам и усъвършенствам инструментите си.</td></tr>
+                    <tr><td>Ще бъда по-малко зависима от терапевта си.</td></tr>
+                    <tr><td>Мога да използвам таксата за терапия за други неща.</td></tr>
+                    <tr><td>Мога да прекарам повече време, правейки други неща.</td></tr>
+                </tbody>
+            </table>
+            <table class="comparison-matrix comparison-matrix--dual">
+                <caption>Недостатъци и преосмисляне (Сали)</caption>
+                <thead><tr><th scope="col">Недостатък</th><th scope="col">Преосмисляне</th></tr></thead>
+                <tbody>
+                    <tr><td>Може да рецидивирам.</td><td>Ако ще рецидивирам, по-добре е да се случи, докато все още съм в терапия, за да мога да науча как да се справя с това.</td></tr>
+                    <tr><td>Може да не мога да решавам проблеми сама.</td><td>Намаляването ми дава шанс да тествам идеята, че имам нужда от терапевта си — в дългосрочен план е по-добре да науча да решавам проблеми сама, защото няма да бъда в терапия завинаги.</td></tr>
+                    <tr><td>Ще ми липсва терапевтът ми.</td><td>Вероятно е вярно, но ще мога да го понеса — а това ще ме насърчи да изградя собствена мрежа за подкрепа.</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p>
+            С наближаването на прекратяването терапевтът изважда автоматичните мисли на пациента за самото
+            приключване — някои пациенти са развълнувани и обнадеждени, други уплашени или дори ядосани,
+            повечето изпитват смесени чувства: доволни от напредъка, но притеснени за спад. Терапевтът
+            признава чувствата на пациента и едновременно му помага да отговори на изкривяванията в тях.
+        </p>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Инструменти">
+        <h2 id="podderzhane-sled-terapiyata" tabindex="-1">09 · Поддържане след терапията</h2>
+        <p>
+            Много пациенти никога не провеждат официални сесии за самотерапия, но дори кратко обсъждане на
+            подобен план си заслужава. Терапевтът въвежда идеята, докато сесиите вече намаляват по
+            честота — пациентите, които опитат самотерапия по време на намаляването, са много по-склонни
+            да продължат да я практикуват и след прекратяването.
+        </p>
+        <p>
+            Общ план за сесия за самотерапия преминава през шест стъпки: преглед на изминалата седмица
+            (какво е минало добре, за какво заслужава признание), преглед на изпълнението на предишната
+            домашна работа, преглед на текущи проблемни ситуации, предвиждане на бъдещи проблеми, задаване
+            на нова домашна работа, и насрочване на следващата сесия за самотерапия. Терапевтът представя
+            този план като ориентир, който пациентът може да адаптира — не като задължителна процедура.
+        </p>
+        <p>
+            Терапевтът насърчава пациента да насрочва <strong>поддържащи сесии</strong> след
+            прекратяването. Причините са няколко: преглед как пациентът се е справил с възникнали
+            трудности; съвместно предвиждане на бъдещи трудности през следващите месеци; мотивиращият
+            ефект от самото знание, че напредъкът ще бъде проверен; засичане на реактивирани
+            дисфункционални вярвания; наблюдение за връщане на дисфункционални стратегии като избягване;
+            поставяне на нови или неизпълнени досега цели; съвместна преоценка на плана за самотерапия; и,
+            накрая, самото знаене за насрочена поддържаща сесия обикновено облекчава тревожността на
+            пациента относно самостоятелното справяне.
+        </p>
+        <p>
+            Подготовката за поддържаща сесия обикновено включва пациентът предварително да обмисли: какво
+            е вървяло добре; какви проблеми са възникнали и как е реагирал на тях; какви проблеми биха
+            могли да възникнат преди следващата поддържаща сесия; каква работа по когнитивно-поведенческа
+            терапия е свършил и какво планира да свърши; и какви допълнителни цели има за себе си.
+        </p>
+        <p>
+            Инструментите и техниките, научени по време на терапията, не са специфични само за едно
+            разстройство — те са доживотни помощни средства, които пациентът може да прилага винаги, когато
+            забележи, че реагира прекалено емоционално или дисфункционално спрямо дадена ситуация. Целта не
+            е да се премахнат всички негативни емоции — само реакциите, които са несъразмерни на самата
+            ситуация. Източникът обобщава десет инструмента, повечето вече представени в отделни седмици
+            на този курс:
+        </p>
+        <ol>
+            <li>Разделяне на големи проблеми на управляеми компоненти.</li>
+            <li>Генериране на решения на проблеми.</li>
+            <li>Идентифициране, тестване и отговор на автоматични мисли и вярвания (<a href="/kurs/sedmica-9">Седмица 9</a>, <a href="/kurs/sedmica-10">Седмица 10</a>).</li>
+            <li>Използване на записи на мисли (<a href="/kurs/sedmica-9">Седмица 9</a>).</li>
+            <li>Наблюдение и планиране на дейности (<a href="/kurs/sedmica-7">Седмица 7</a>).</li>
+            <li>Изпълнение на релаксационни упражнения — <strong>важно:</strong> някои пациенти изпитват парадоксален ефект от самите релаксационни упражнения, затова релаксацията винаги се предлага като експеримент, никога като гарантирано решение (виж <a href="/kurs/sedmica-13#izbyagvane-i-bezopasnost">Седмица 13</a>).</li>
+            <li>Използване на техники за разсейване и пренасочване на вниманието (<a href="/kurs/sedmica-13#prenasochvane-na-vnimanieto">Седмица 13</a>).</li>
+            <li>Създаване на йерархии на избягвани задачи или ситуации — само назовано тук; самата процедура остава извън обхвата на платформата (<a href="/kurs/sedmica-13#izbyagvane-i-bezopasnost">Седмица 13</a>).</li>
+            <li>Водене на списък на заслугите (<a href="/kurs/sedmica-13#sebesravnenie-i-zaslugi">Седмица 13</a>).</li>
+            <li>Идентифициране на предимства и недостатъци — на конкретни мисли, вярвания, поведения или житейски избори (<a href="/kurs/sedmica-11">Седмица 11</a>).</li>
+        </ol>
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Обобщение">
+        <h2 id="review" tabindex="-1">10 · Седмичен преглед</h2>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>Преди да разгънеш картата, опитай да си спомниш основните клъстери на тази седмица.</p>
+                <ConceptGraph ComponentId="week14-mindmap-review" Model="@_week14MindMapRender" />
+            </div>
+        </details>
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Финален тест">
+        <h2 id="assessment" tabindex="-1">11 · Финална проверка</h2>
+        <p>8 въпроса. Отговорете на всички, за да предадете теста и видите резултата — не се пази между посещения.</p>
+        <FinalAssessment SectionId="assessment" Model="_week14FinalAssessment" />
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Изводи">
+        <h2 id="izvori" tabindex="-1">12 · Обобщение, академичен контекст и източници</h2>
+
+        <div class="learning-grid learning-grid--balanced">
+            <div>
+                <h3>Какво да запомните</h3>
+                <ul>
+                    <li>Домашната работа се проектира заедно с пациента — няма установена формула, само тайлориране спрямо конкретния човек.</li>
+                    <li>Осемте насоки и въпросът „колко вероятно е, 0–100%“ увеличават шанса задачата да бъде изпълнена.</li>
+                    <li>Неизпълнението има четири вида причини — практическа, психологическа, маскирана като практическа, или в собственото мислене на терапевта.</li>
+                    <li>Дълбочината на прегледа на домашното е преценка, не фиксирано правило.</li>
+                    <li>Възстановяването включва нормални плата и спадове, които стават по-редки и по-леки с времето.</li>
+                    <li>Терапевтът активно приписва напредъка на самия пациент, не само на себе си.</li>
+                    <li>Намаляването на сесиите и прекратяването се представят като експеримент, не като окончателно решение.</li>
+                    <li>Поддържащите сесии и десетте инструмента консолидират наученото за превенция на рецидив.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Академичен контекст</h3>
+                <ProgressiveExplanation SummaryLabel="Покажи академичния контекст">
+                    <p>
+                        Съдържанието на тази страница е изведено единствено от SRC-041, Глава 17 ("Домашна
+                        работа", печатни стр. 294–315) и Глава 18 ("Прекратяване и превенция на рецидив",
+                        печатни стр. 316–331). Глава 16 ("Образи") не е включена — темата остава извън
+                        обхвата на курса. Процедурата за градирано изправяне пред трудна ситуация
+                        (йерархия, мониторинг) остава изключена навсякъде на тази страница, съгласно
+                        най-строгото ниво на безопасност, установено в Седмица 13.
+                    </p>
+                    <p>Съдържанието предстои да премине независим клиничен и професионален преглед.</p>
+                </ProgressiveExplanation>
+            </div>
+
+            <div>
+                <DisclaimerCallout Text="Тази страница представя академичен преглед на домашната работа, прекратяването и превенцията на рецидив от гледна точка на терапевта. Тя не е инструмент за самооценка или самостоятелно прилагане, не поставя диагноза и не заменя професионална психологическа или медицинска помощ." />
+            </div>
+
+            <div>
+                <h3>Източници и следващи стъпки</h3>
+                <p>
+                    <a href="/kurs/sedmica-6">Седмица 6 — Структура на първата терапевтична сесия</a><br />
+                    <a href="/kurs/sedmica-7">Седмица 7 — Поведенческа активация</a><br />
+                    <a href="/kurs/sedmica-9">Седмица 9 — Когнитивни изкривявания и дневник на мислите</a><br />
+                    <a href="/kurs/sedmica-11">Седмица 11 — Междинни вярвания</a><br />
+                    <a href="/kurs/sedmica-13">Седмица 13 — Допълнителни когнитивни и поведенчески техники</a><br />
+                    <a href="/kurs">← Обратно към 15-седмичния курс</a>
+                </p>
+                <SourceReferences Citations="@_citations" />
+            </div>
+        </div>
+
+        <OptionalReadingSource
+            Title="Когнитивно-поведенческа терапия: Основи и отвъд"
+            Author="Джудит С. Бек"
+            Edition="2-ро издание, Guilford Press, 2011 (оригинално заглавие: Cognitive Behavior Therapy: Basics and Beyond)"
+            RelevantSection="Глава 17 — Домашна работа; Глава 18 — Прекратяване и превенция на рецидив"
+            Description="Двете глави представят проектирането и прегледа на домашната работа, диагностиката на нейното неизпълнение, и целия процес на намаляване на сесиите, прекратяване и поддържащи сесии в оригиналния им клиничен контекст." />
+
+        <WeekCompletionControl WeekNumber="@_week.Number" />
+    </LearningSection>
+</div>
+
+@code {
+    private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 14);
+
+    private static readonly GraphRenderModel _week14MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek14MindMap());
+
+    private static MindMapModel BuildWeek14MindMap() => new(
+        "Седмица 14 — домашна работа, прекратяване и превенция на рецидив",
+        "Мисловна карта на седмицата: домашна работа като инструмент, увеличаване на изпълнението, диагностика на неизпълнение, преглед на домашното, форма на възстановяването, приписване на напредъка, намаляване и прекратяване, и поддържане след терапията.",
+        [
+            new("root", "Домашна работа, прекратяване и превенция на рецидив", null, null, null, ConceptState.Introduced),
+
+            new("instrument", "Домашна работа като инструмент", "root", "Проектира се заедно с пациента — няма установена формула, само тайлориране.", "/kurs/sedmica-14#domashna-rabota-kato-instrument", ConceptState.Introduced),
+
+            new("izpalnenie", "Увеличаване на изпълнението", "root", "Осем насоки плюс въпросът „колко вероятно е, 0–100%“.", "/kurs/sedmica-14#uvelichavane-na-izpalnenieto", ConceptState.Introduced),
+
+            new("diagnostika", "Диагностика на неизпълнение", "root", "Четири вида причини — практическа, психологическа, маскирана, терапевтова.", "/kurs/sedmica-14#diagnostika-na-neizpalnenie", ConceptState.Introduced),
+
+            new("pregled", "Преглед на домашното", "root", "Дълбочината на прегледа е преценка, не фиксирано правило.", "/kurs/sedmica-14#pregled-na-domashnata", ConceptState.Introduced),
+
+            new("vazstanovyavane", "Форма на възстановяването", "root", "Плата и спадове, които стават по-редки и по-леки с времето.", "/kurs/sedmica-14#forma-na-vazstanovyavaneto", ConceptState.Introduced),
+
+            new("pripisvane", "Приписване на напредъка", "root", "Терапевтът активно приписва подобрението на самия пациент.", "/kurs/sedmica-14#pripisvane-na-napreduka", ConceptState.Introduced),
+
+            new("prekratyavane", "Намаляване и прекратяване", "root", "Намаляването на честотата се представя като експеримент.", "/kurs/sedmica-14#namalyavane-i-prekratyavane", ConceptState.Introduced),
+
+            new("podderzhane", "Поддържане след терапията", "root", "Самотерапия, поддържащи сесии, и десетте консолидиращи инструмента.", "/kurs/sedmica-14#podderzhane-sled-terapiyata", ConceptState.Introduced)
+        ]);
+
+    private static readonly FinalAssessmentModel _week14FinalAssessment = new([
+        AssessmentQuestion.Choice("q01", "Какво определя формата и съдържанието на конкретно домашно задание?",
+            ["Фиксирана формула, приложима за всеки пациент", "Индивидуалните характеристики на пациента и обсъденото в сесията — няма установена формула", "Случаен избор измежду няколко стандартни задачи"], 1,
+            "Няма установена формула — терапевтът настройва заданието спрямо конкретния пациент и хода на сесията."),
+        AssessmentQuestion.Choice("q02", "Кой е единственият най-важен въпрос, който терапевтът задава, за да прецени вероятността пациентът да изпълни заданието?",
+            ["„Харесва ли ви тази задача?“", "„Колко вероятно е да го направите, по скала 0–100%?“", "„Колко часа свободно време имате тази седмица?“"], 1,
+            "Терапевтът пита директно за вероятността по скала 0–100% — под 90% обикновено следва промяна на задачата."),
+        AssessmentQuestion.Choice("q03", "Кога терапевтът спира да третира домашната работа като напълно безрискова?",
+            ["Никога — рамката важи неограничено", "Ако пациентът пропусне значителна част от заданията си две последователни седмици — тогава терапевтът издирва пречката и подчертава важността", "След първата пропусната задача"], 1,
+            "Безрисковата рамка има граница: две поредни седмици със значително неизпълнение сменят подхода към издирване на пречката."),
+        AssessmentQuestion.Choice("q04", "Пациент твърди, че не е направил заданието само защото „нямаше време“, но терапевтът подозира скрита мисъл. Как терапевтът проверява това?",
+            ["Приема обяснението без въпроси", "Пита хипотетично: ако практическата пречка магически изчезне, колко вероятно е пациентът да го направи", "Задава ново, по-трудно задание като тест"], 1,
+            "Хипотетичният въпрос разкрива дали зад привидно практическата пречка стои и мисъл или вярване."),
+        AssessmentQuestion.Choice("q05", "Кога терапевтът отделя повече време за преглед на домашната работа?",
+            ["Само в първата сесия", "Когато заданието засяга важен, продължаващ проблем, не е завършено, или има какво ново да се научи от него", "Никога — прегледът винаги е фиксиран на 5 минути"], 1,
+            "Дълбочината на прегледа е преценка според важността на проблема и това дали заданието е завършено."),
+        AssessmentQuestion.Choice("q06", "Какво показва графиката на формата на възстановяването (Фигура 18.1)?",
+            ["Възстановяването е права линия нагоре без изключения", "Подобрението обикновено е прекъсвано от плата и спадове, които стават по-редки, по-кратки и по-леки с времето", "Спадовете винаги означават, че терапията не работи"], 1,
+            "Графиката нормализира спадовете — те са очаквана част от възстановяването, не признак за неуспех."),
+        AssessmentQuestion.Choice("q07", "Пациент казва, че се чувства по-добре „заради лекарствата“. Какво прави терапевтът?",
+            ["Отхвърля твърдението напълно", "Признава външния фактор, но пита и какво самият пациент е променил в мисленето или поведението си", "Спира да обсъжда напредъка"], 1,
+            "Терапевтът признава външния фактор, но продължава да търси и приноса на самия пациент — това укрепва самоефективността му."),
+        AssessmentQuestion.Choice("q08", "Кое е сред посочените причини терапевтът да насърчи поддържащи сесии след прекратяването?",
+            ["Единствено за да таксува допълнителни часове", "Да засече реактивирани дисфункционални вярвания и да наблюдава за връщане на стратегии като избягване", "Поддържащите сесии нямат конкретна цел"], 1,
+            "Поддържащите сесии позволяват засичане на реактивирани вярвания и наблюдение за връщане на дисфункционални стратегии.")
+    ]);
+
+    private readonly IReadOnlyList<string> _objectives =
+    [
+        "Разбирате как домашната работа се проектира като част от терапията, а не просто се задава.",
+        "Запознавате се как терапевтът увеличава вероятността за изпълнение и преценява шанса за успех.",
+        "Разбирате как се концептуализира неизпълнението на домашна работа — практическо, психологическо, маскирано или свързано с терапевта.",
+        "Запознавате се как дълбочината на прегледа на домашното влияе на ученето.",
+        "Разбирате как се концептуализират възстановяването, намаляването на сесиите, прекратяването и поддържащите сесии в хода на лечението.",
+        "Запознавате се с инструментите за превенция на рецидив, които консолидират вече наученото в курса."
+    ];
+
+    private readonly IReadOnlyList<string> _citations =
+    [
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — Глава 17, домашна работа.",
+        "Джудит С. Бек, \"Когнитивно-поведенческа терапия: Основи и отвъд\" — Глава 18, прекратяване и превенция на рецидив.",
+        "Казанцис, Н., Уитингтън, Л. и Датилио, Ф. (2010) — цитирани в източника относно ефекта на домашната работа върху терапевтичния напредък."
+    ];
+}

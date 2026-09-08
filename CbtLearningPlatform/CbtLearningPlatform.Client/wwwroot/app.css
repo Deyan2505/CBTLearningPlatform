@@ -1988,6 +1988,90 @@ h3[tabindex="-1"]:focus-visible {
     white-space: normal;
 }
 
+/* Week 14 — same nowrap root cause, fixed pre-emptively at implementation time (never shipped live
+   with the bug): the four-way homework-failure diagnosis table and Figure 18.2's advantages/
+   disadvantages-with-reframe table both hold full-sentence cell content. Same scoped
+   sibling-combinator fix as Weeks 1/2/7/11/13 — natural wrapping only, table semantics/content/order
+   unchanged. This alone was enough for the 2-column namalyavane-i-prekratyavane tables (0 overflow at
+   every breakpoint), but not for the 3-column diagnosis table below — see that table's own comment. */
+#diagnostika-na-neizpalnenie ~ .comparison-matrix-wrapper .comparison-matrix th[scope="row"],
+#diagnostika-na-neizpalnenie ~ .comparison-matrix-wrapper .comparison-matrix td,
+#namalyavane-i-prekratyavane ~ .comparison-matrix-wrapper .comparison-matrix td {
+    white-space: normal;
+}
+
+/* Week 14 §04 ("Диагностика на неизпълнение") mobile fallback — owner production-review found the
+   white-space fix above insufficient: 468px measured table width in a 289px wrapper at 390px, well
+   past the "minimal, localized" tolerance. Root cause is NOT nowrap (already fixed) — it's CSS
+   auto table-layout's min-content floor: with white-space:normal, each of the 3 columns still can't
+   shrink below the width of its own longest unbreakable Cyrillic word (e.g. "необходимо",
+   "изследователски"), and the sum across three prose columns exceeds a 289px viewport even though
+   every column wraps correctly. table-layout:fixed was tried and rejected here for the same reason
+   Week 11 §07 rejected it (see that comment above): forcing narrow fixed columns breaks long
+   Bulgarian words mid-word, and 3 columns leaves even less room per column than Week 11's 2. Fix:
+   below 480px only, the SAME <table> (same rows/cells/order — only `data-label` attributes added in
+   Sedmica14.razor, no content/wording change) reflows into stacked label/value blocks, one card per
+   row. The header row is hidden with the project's existing .visually-hidden clip technique (kept in
+   the accessibility tree, not display:none) since data-label supplies the equivalent label visually.
+   1440px/1024px: untouched real table — already 0 overflow at both. */
+@media (max-width: 480px) {
+    #diagnostika-na-neizpalnenie ~ .comparison-matrix-wrapper .comparison-matrix {
+        display: block;
+    }
+
+    #diagnostika-na-neizpalnenie ~ .comparison-matrix-wrapper .comparison-matrix thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    #diagnostika-na-neizpalnenie ~ .comparison-matrix-wrapper .comparison-matrix tbody,
+    #diagnostika-na-neizpalnenie ~ .comparison-matrix-wrapper .comparison-matrix tr {
+        display: block;
+        width: 100%;
+    }
+
+    #diagnostika-na-neizpalnenie ~ .comparison-matrix-wrapper .comparison-matrix tr {
+        margin-bottom: var(--space-4);
+        border-bottom: 2px solid var(--color-border);
+    }
+
+    #diagnostika-na-neizpalnenie ~ .comparison-matrix-wrapper .comparison-matrix tr:last-child {
+        margin-bottom: 0;
+    }
+
+    #diagnostika-na-neizpalnenie ~ .comparison-matrix-wrapper .comparison-matrix th[scope="row"],
+    #diagnostika-na-neizpalnenie ~ .comparison-matrix-wrapper .comparison-matrix td {
+        display: block;
+        width: 100%;
+        white-space: normal;
+        border-bottom: none;
+        padding: var(--space-1) 0;
+    }
+
+    #diagnostika-na-neizpalnenie ~ .comparison-matrix-wrapper .comparison-matrix th[scope="row"] {
+        font-size: 1rem;
+        padding-top: var(--space-3);
+    }
+
+    #diagnostika-na-neizpalnenie ~ .comparison-matrix-wrapper .comparison-matrix td::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        color: var(--color-text-secondary);
+        margin-bottom: 2px;
+    }
+}
+
 /* Two clearly distinct columns (e.g. education vs. professional support) — a subtle
    surface tint difference, never warning/error coloring on either side. */
 .comparison-matrix--dual th:first-child,

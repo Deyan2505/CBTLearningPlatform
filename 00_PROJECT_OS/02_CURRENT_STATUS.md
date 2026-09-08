@@ -160,6 +160,16 @@
   техники") и `136ca89` (§08 „Сали — преди/след вярване": `white-space: normal` + centered
   `max-width: 900px` wrapper, sibling-combinator scoped, без промяна по споделеното поведение на
   таблиците). Production deploy successful. Седмица 4/5 недокоснати.
+- **Седмица 13** (Допълнителни когнитивни и поведенчески техники, SRC-041 Гл. 15, печатни стр. 256–276) —
+  **`OWNER APPROVED / LOCKED`** (2026-09-07, след production owner review). **123 KUs — 88 Included /
+  26 Deferred / 9 Excluded / 0 Needs Review / 0 Unaccounted** — виж
+  `00_PROJECT_OS/_blueprints/WEEK_13_SOURCE_AUDIT_v1.md`. Routed (`/kurs/sedmica-13`),
+  `NotEligibleForSelfGuidedSimulator` запазено → статус "Изисква професионален преглед"; declared format
+  коригиран от `Simulator` на `InteractiveModel` (разрешено противоречие с safety tier-а). Weekly Mind Map
+  (8 branches, Preview+Review), споделен `FinalAssessment` (8 въпроса). Нула self-input, нула exposure
+  йерархия/процедура, нула клиничен въпросник. K122 source anomaly документиран (Core Belief Worksheet е
+  Fig. 14.3, не Гл. 11 — cross-link към Седмица 12). **792/792** теста, Debug+Release build 0/0.
+  Commit `5d0fad5`. Production deploy successful. Седмица 4/5 недокоснати.
 - **App architecture** — standalone **.NET 10 Blazor WebAssembly**. The hosted Blazor Web App/server
   project was replaced by a standalone `CbtLearningPlatform.Client` WASM app so the site can deploy to
   Netlify (static-only host). Commit `4135988`.

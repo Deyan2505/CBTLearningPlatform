@@ -47,11 +47,11 @@ public sealed class Week12ContentSliceTests
     [Fact]
     public void RemainingWeeks_StayFullyUnrouted()
     {
-        // Weeks 11 and 13 joined the routed set after this test was first written
-        // (WEEK_11_SOURCE_AUDIT_v1, WEEK_13_SOURCE_AUDIT_v1, both owner-approved implementations) —
-        // updated here only to keep this global routing invariant accurate; no Week 12 content/
-        // approval changed.
-        int[] routedNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+        // Weeks 11, 13 and 14 joined the routed set after this test was first written
+        // (WEEK_11_SOURCE_AUDIT_v1, WEEK_13_SOURCE_AUDIT_v1, WEEK_14_SOURCE_AUDIT_v1, all
+        // owner-approved implementations) — updated here only to keep this global routing invariant
+        // accurate; no Week 12 content/approval changed.
+        int[] routedNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks.Where(w => !routedNumbers.Contains(w.Number)))
         {
@@ -59,7 +59,7 @@ public sealed class Week12ContentSliceTests
             Assert.NotEqual(CourseWeekStatus.Available, week.Status);
         }
 
-        Assert.Equal(2, CourseCatalog.Weeks.Count(w => !routedNumbers.Contains(w.Number)));
+        Assert.Equal(1, CourseCatalog.Weeks.Count(w => !routedNumbers.Contains(w.Number)));
     }
 
     [Fact]
