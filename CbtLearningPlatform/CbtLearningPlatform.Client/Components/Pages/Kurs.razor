@@ -85,7 +85,7 @@
                                     <span class="week-list__status week-list__status--done">✓ Завършена</span>
                                 }
                                 <span class="week-list__status week-list__status--@week.Status.ToStatusModifier()">
-                                    @week.Status.ToPublicLabel()
+                                    @week.ToPublicLabel()
                                 </span>
                             </div>
                             <h3 class="week-list__title">
@@ -145,8 +145,9 @@
                 <dl class="hub-sidebar__legend">
                     <div><dt>Налично</dt><dd>напълно разработена страница</dd></div>
                     <div><dt>В подготовка</dt><dd>планирана, все още не е написана</dd></div>
-                    <div><dt>Академичен обзор</dt><dd>само общ преглед, не self-guided</dd></div>
-                    <div><dt>Изисква професионален преглед</dt><dd>блокирано без клиничен преглед</dd></div>
+                    <div><dt>Академичен контекст</dt><dd>само общ преглед, не self-guided</dd></div>
+                    <div><dt>Професионален контекст</dt><dd>съдържание от професионалната практика</dd></div>
+                    <div><dt>Без самостоятелна практика</dt><dd>не е предназначено за self-guided упражняване</dd></div>
                 </dl>
             </div>
 

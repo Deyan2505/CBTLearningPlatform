@@ -33,7 +33,7 @@ public sealed class Week14ContentSliceTests
         Assert.Equal(CurriculumSafetyLevel.ProfessionalReviewRequired, week.SafetyLevel);
         Assert.Equal(CourseWeekStatus.ProfessionalReviewRequired, week.Status);
         Assert.NotEqual(CourseWeekStatus.Available, week.Status);
-        Assert.Equal("Изисква професионален преглед", week.Status.ToPublicLabel());
+        Assert.Equal("Професионален контекст", week.ToPublicLabel());
     }
 
     [Fact]
@@ -76,7 +76,7 @@ public sealed class Week14ContentSliceTests
         string source = ReadPage("Sedmica14.razor");
 
         Assert.Contains("<PageTitle>Седмица 14: Домашна работа, прекратяване и превенция на рецидив", source);
-        Assert.Contains("Изисква професионален преглед", source);
+        Assert.Contains("@_week.ToPublicLabel()", source);
     }
 
     [Fact]

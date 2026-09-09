@@ -36,10 +36,21 @@ public static class CurriculumLabels
     {
         CourseWeekStatus.Available => "Налично",
         CourseWeekStatus.InPreparation => "В подготовка",
-        CourseWeekStatus.AcademicOverview => "Академичен обзор",
-        CourseWeekStatus.ProfessionalReviewRequired => "Изисква професионален преглед",
+        CourseWeekStatus.AcademicOverview => "Академичен контекст",
+        CourseWeekStatus.ProfessionalReviewRequired => "Професионален контекст",
         _ => throw new ArgumentOutOfRangeException(nameof(status))
     };
+
+    /// <summary>Learner-facing label, safety-level-aware. CourseWeekStatus.ProfessionalReviewRequired
+    /// collapses two different internal SafetyLevel cases into one Status for eligibility purposes
+    /// (DeriveStatus below) — they must not read the same to a learner, since NotEligibleForSelfGuidedSimulator
+    /// (Week 13) is not the same claim as ProfessionalReviewRequired (Weeks 11/14). This overload adds
+    /// that one distinction on top of the plain Status label; every other case defers to it unchanged.
+    /// Internal enums, DeriveStatus, and routing/eligibility logic are untouched — display only.</summary>
+    public static string ToPublicLabel(this CourseWeekDefinition week) =>
+        week.SafetyLevel == CurriculumSafetyLevel.NotEligibleForSelfGuidedSimulator
+            ? "Без самостоятелна практика"
+            : week.Status.ToPublicLabel();
 
     public static string ToStatusModifier(this CourseWeekStatus status) => status switch
     {

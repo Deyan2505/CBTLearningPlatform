@@ -69,7 +69,7 @@ public sealed class Week12ContentSliceTests
         string source = ReadPage("Sedmica12.razor");
 
         Assert.Contains("<PageTitle>Седмица 12: Основни вярвания и схеми", source);
-        Assert.Contains("Академичен обзор", source);
+        Assert.Contains("@_week.ToPublicLabel()", source);
     }
 
     [Fact]

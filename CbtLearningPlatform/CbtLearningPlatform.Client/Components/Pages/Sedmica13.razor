@@ -6,7 +6,9 @@
    SAFETY (CurriculumSafetyLevel.NotEligibleForSelfGuidedSimulator — one tier stricter than Week 11's
    ProfessionalReviewRequired): routed and completion-eligible (WeekCompletionControl works off Route,
    not Status), but CourseCatalog.cs keeps the safety level, so CurriculumLabels.DeriveStatus still
-   resolves this week's public status to "Изисква професионален преглед", never "Налично". Format is
+   resolves this week's public status to ProfessionalReviewRequired, never Available — and the
+   safety-level-aware ToPublicLabel(CourseWeekDefinition) overload renders it as "Без самостоятелна
+   практика" (not "Професионален контекст", which Weeks 11/14 get), never "Налично". Format is
    InteractiveModel, never Simulator — the catalog-level contradiction flagged in the source audit is
    resolved here, not carried forward.
 
@@ -62,7 +64,7 @@
         <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
         <div class="week-navigator__row">
             <h1>Седмица @_week.Number: @_week.Title</h1>
-            <span class="week-list__status week-list__status--format">Изисква професионален преглед</span>
+            <span class="week-list__status week-list__status--format">@_week.ToPublicLabel()</span>
         </div>
         <p><em>Как терапевтът избира и прилага допълнителни когнитивни и поведенчески техники, отвъд вече представените</em></p>
         <p>

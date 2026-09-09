@@ -50,7 +50,7 @@ public sealed class Week4ContentSliceTests
 
         Assert.Contains("<PageTitle>Седмица 4: Клинична оценка и когнитивна концептуализация", source);
         Assert.Contains("<LearningObjectives", source);
-        Assert.Contains("Академичен обзор", source);
+        Assert.Contains("@_week.ToPublicLabel()", source);
     }
 
     [Fact]

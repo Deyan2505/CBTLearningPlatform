@@ -6,9 +6,10 @@
 
    SAFETY (CurriculumSafetyLevel.ProfessionalReviewRequired, unchanged from the pre-audit catalog entry):
    routed and completion-eligible (WeekCompletionControl works off Route, not Status), but the safety
-   level keeps CurriculumLabels.DeriveStatus resolving this week's public status to "Изисква
-   професионален преглед", never "Налично". Format is InteractiveModel, never StaticVisualization — the
-   stale format assigned while this week was NOT READY is corrected here, matching Week 13's precedent.
+   level keeps CurriculumLabels.DeriveStatus resolving this week's public status to
+   ProfessionalReviewRequired, rendered as "Професионален контекст" (never "Налично"). Format is
+   InteractiveModel, never StaticVisualization — the stale format assigned while this week was NOT
+   READY is corrected here, matching Week 13's precedent.
 
    Resolved owner decisions applied (final source contract, turn 3):
    - Figure 18.3 (self-therapy session guide) and Figure 18.5 (booster session guide): both Included,
@@ -64,7 +65,7 @@
         <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · @_week.ModuleLabel · Седмица @_week.Number</p>
         <div class="week-navigator__row">
             <h1>Седмица @_week.Number: @_week.Title</h1>
-            <span class="week-list__status week-list__status--format">Изисква професионален преглед</span>
+            <span class="week-list__status week-list__status--format">@_week.ToPublicLabel()</span>
         </div>
         <p><em>Как терапевтът проектира домашна работа, реагира на нейното неизпълнение, и насочва лечението към прекратяване и поддържане на постигнатото</em></p>
         <p>

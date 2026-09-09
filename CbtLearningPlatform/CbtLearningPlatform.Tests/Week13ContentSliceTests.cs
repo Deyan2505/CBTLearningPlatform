@@ -32,7 +32,13 @@ public sealed class Week13ContentSliceTests
         Assert.Equal(CurriculumSafetyLevel.NotEligibleForSelfGuidedSimulator, week.SafetyLevel);
         Assert.Equal(CourseWeekStatus.ProfessionalReviewRequired, week.Status);
         Assert.NotEqual(CourseWeekStatus.Available, week.Status);
-        Assert.Equal("Изисква професионален преглед", week.Status.ToPublicLabel());
+
+        // Status-only label collapses ProfessionalReviewRequired to the generic "Професионален
+        // контекст" — but Week 13's SafetyLevel is the stricter NotEligibleForSelfGuidedSimulator,
+        // so the safety-level-aware, actually-rendered label must read differently (Weeks 11/14 keep
+        // the generic label; only Week 13 gets this one).
+        Assert.Equal("Професионален контекст", week.Status.ToPublicLabel());
+        Assert.Equal("Без самостоятелна практика", week.ToPublicLabel());
     }
 
     [Fact]
@@ -72,7 +78,7 @@ public sealed class Week13ContentSliceTests
         string source = ReadPage("Sedmica13.razor");
 
         Assert.Contains("<PageTitle>Седмица 13: Допълнителни когнитивни и поведенчески техники", source);
-        Assert.Contains("Изисква професионален преглед", source);
+        Assert.Contains("@_week.ToPublicLabel()", source);
     }
 
     [Fact]

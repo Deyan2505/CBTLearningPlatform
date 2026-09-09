@@ -79,7 +79,7 @@ public sealed class Week15ContentSliceTests
         string source = ReadPage("Sedmica15.razor");
 
         Assert.Contains("<PageTitle>Седмица 15: Съвременни разширения на КПТ и възстановително-ориентирана терапия", source);
-        Assert.Contains("Академичен обзор", source);
+        Assert.Contains("@_week.ToPublicLabel()", source);
     }
 
     [Fact]
