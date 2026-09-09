@@ -1,29 +1,21 @@
+@* Data-driven from CourseCatalog.Modules — the 4 real curriculum blocks, not the old hardcoded
+   2-module + placeholder-third-step stub. All 15 weeks are routed now, so every module already
+   has real content — every step is "available" and links to its own detail anchor on /programa
+   (works whether this component is embedded on /programa itself or, as on Home.razor, elsewhere). *@
 <div class="learning-path" role="list" aria-label="Учебен път">
-    <div class="learning-path__step is-available" role="listitem">
-        <span class="learning-path__step-number" aria-hidden="true">1</span>
-        <div class="learning-path__step-body">
-            <h3><a href="/programa/modul-1">Модул 1 — Какво представлява КПТ</a></h3>
-            <p>Основна идея и граници на платформата.</p>
+    @for (int i = 0; i < CourseCatalog.Modules.Count; i++)
+    {
+        CourseModule module = CourseCatalog.Modules[i];
+        <div class="learning-path__step is-available" role="listitem">
+            <span class="learning-path__step-number" aria-hidden="true">@module.Number</span>
+            <div class="learning-path__step-body">
+                <h3><a href="/programa#modul-@module.Number">Модул @module.Number — @module.Title</a></h3>
+                <p>@module.WeekRangeLabel · @module.Description</p>
+            </div>
         </div>
-    </div>
-
-    <div class="learning-path__connector" aria-hidden="true"></div>
-
-    <div class="learning-path__step is-available" role="listitem">
-        <span class="learning-path__step-number" aria-hidden="true">2</span>
-        <div class="learning-path__step-body">
-            <h3><a href="/programa/modul-2">Модул 2 — Ситуация → Мисъл → Емоция → Поведение</a></h3>
-            <p>Основният когнитивен модел, в 3 урока.</p>
-        </div>
-    </div>
-
-    <div class="learning-path__connector" aria-hidden="true"></div>
-
-    <div class="learning-path__step is-future" role="listitem">
-        <span class="learning-path__step-number" aria-hidden="true">…</span>
-        <div class="learning-path__step-body">
-            <h3>Следващи модули</h3>
-            <p>Очаквайте скоро.</p>
-        </div>
-    </div>
+        if (i < CourseCatalog.Modules.Count - 1)
+        {
+            <div class="learning-path__connector" aria-hidden="true"></div>
+        }
+    }
 </div>

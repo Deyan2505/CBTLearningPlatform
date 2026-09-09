@@ -1,5 +1,9 @@
-@* Static SSR. Global two-column redesign (Session 21) — replaces the old single .content
-   column with the same wide/narrow workspace pattern used across the site. *@
+@* Static SSR. Global two-column redesign (Session 21) — same wide/narrow workspace pattern used
+   across the site. Modernization pass: the page used to show only Module 1/2 with a hardcoded
+   "Очаквайте скоро" stub for the rest — stale since all 4 modules / 15 weeks are now real, routed
+   content (CourseCatalog is the single source of truth, same as /kurs). This page stays a
+   higher-level program/curriculum overview (organization + module contents + format types) — the
+   week-by-week operational hub with progress tracking remains /kurs, not duplicated here. *@
 @page "/programa"
 
 <PageTitle>Обучителна програма — КПТ Академия</PageTitle>
@@ -8,8 +12,9 @@
     <p class="week-page__eyebrow">Обучителна програма</p>
     <h1>Обучителна програма</h1>
     <p>
-        Програмата преминава постепенно от основни към по-сложни концепции — всяка тема съчетава
-        кратко обяснение с практическо упражнение, без да замества специалист.
+        Програмата обхваща 15 седмици, организирани в 4 модула — от историческите основи на
+        когнитивния модел до по-новите направления в КПТ традицията. Преминава се последователно,
+        от основни към по-сложни концепции, без да замества специалист.
     </p>
 </div>
 
@@ -18,22 +23,67 @@
         <LearningSection Role="visual" RoleLabel="Учебен път">
             <h2>Модули</h2>
             <LearningPathVisualization />
+
+            @foreach (CourseModule module in CourseCatalog.Modules)
+            {
+                IReadOnlyList<CourseWeekDefinition> moduleWeeks =
+                    [.. CourseCatalog.Weeks.Where(w => w.ModuleLabel == module.Title)];
+
+                <h3 id="modul-@module.Number" tabindex="-1">Модул @module.Number — @module.Title</h3>
+                <p>@module.WeekRangeLabel · @module.Description</p>
+
+                <div class="module-list">
+                    @foreach (CourseWeekDefinition week in moduleWeeks)
+                    {
+                        <div class="module-card">
+                            <div class="week-list__header">
+                                <span class="week-list__number">Седмица @week.Number</span>
+                                <span class="week-list__status week-list__status--@week.Status.ToStatusModifier()">
+                                    @week.ToPublicLabel()
+                                </span>
+                            </div>
+                            <h4>
+                                @if (week.Route is not null)
+                                {
+                                    <a href="@week.Route">@week.Title</a>
+                                }
+                                else
+                                {
+                                    @week.Title
+                                }
+                            </h4>
+                            <p>@week.ShortSummary</p>
+                        </div>
+                    }
+                </div>
+            }
+
+            <p><a href="/kurs">Пълният 15-седмичен курс — списък по седмици, статус и проследяване на напредъка →</a></p>
         </LearningSection>
 
         <div class="hub-sidebar">
             <LearningSection Role="theory" RoleLabel="Насоки">
                 <h3>Как се използва програмата</h3>
-                <p>Модулите се преминават последователно. Всеки урок съдържа кратко обяснение, пример и проверка на разбирането — не изпит, само размисъл.</p>
+                <p>
+                    Четирите модула се преминават последователно — всяка седмица съдържа кратко
+                    обяснение, пример и проверка на разбирането. За списък по седмици, текущ статус
+                    на всяка и проследяване на личния напредък вижте <a href="/kurs">15-седмичния курс</a>.
+                </p>
             </LearningSection>
 
             <LearningSection Role="interactive" RoleLabel="Формати">
-                <h3>Видове съдържание в уроците</h3>
+                <h3>Видове учебни представяния</h3>
                 <dl class="hub-sidebar__legend">
-                    <div><dt>Теория</dt><dd>кратко обяснение и ключови понятия</dd></div>
-                    <div><dt>Диаграма</dt><dd>визуален модел на връзките</dd></div>
-                    <div><dt>Симулатор</dt><dd>контроли + жив резултат</dd></div>
-                    <div><dt>Проверка</dt><dd>рефлективни въпроси, без оценка</dd></div>
+                    @foreach (InteractiveFormat format in UsedFormats)
+                    {
+                        <div><dt>@format.ToPublicLabel()</dt><dd>@FormatDescriptions[format]</dd></div>
+                    }
                 </dl>
+                <p>
+                    Всяка от 15-те седмици завършва и с общ, точкуван финален тест (резултат в проценти,
+                    с възможност за повторен опит) — той е отделен от локалните проверки на разбирането
+                    по-горе, които остават бърза рефлексия без оценка.
+                </p>
             </LearningSection>
 
             <LearningSection Role="academic" RoleLabel="Образователна граница">
@@ -42,3 +92,19 @@
         </div>
     </div>
 </div>
+
+@code {
+    private static readonly IReadOnlyDictionary<InteractiveFormat, string> FormatDescriptions = new Dictionary<InteractiveFormat, string>
+    {
+        [InteractiveFormat.Simulator] = "контроли с жив, изчислен резултат — само за конкретни теми, не навсякъде",
+        [InteractiveFormat.InteractiveModel] = "изследване на структура или йерархия",
+        [InteractiveFormat.Comparison] = "две гледни точки, представени едновременно",
+        [InteractiveFormat.GuidedDemonstration] = "управляван, стъпков преглед",
+        [InteractiveFormat.KnowledgeCheck] = "бърза, безоценъчна рефлексия в самия урок",
+        [InteractiveFormat.StaticVisualization] = "статична визуализация на модел или процес",
+        [InteractiveFormat.AcademicOnly] = "текст, без self-guided инструмент"
+    };
+
+    private static IEnumerable<InteractiveFormat> UsedFormats =>
+        Enum.GetValues<InteractiveFormat>().Where(f => CourseCatalog.Weeks.Any(w => w.InteractiveFormats.Contains(f)));
+}

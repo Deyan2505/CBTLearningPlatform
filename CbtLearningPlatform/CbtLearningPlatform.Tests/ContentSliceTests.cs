@@ -125,13 +125,23 @@ public sealed class ContentSliceTests
     }
 
     [Fact]
-    public void LearningPathVisualization_LinksToTheRealModuleRoutes_NoDeadLinks()
+    public void LearningPathVisualization_LinksToAllFourRealModuleAnchors_NoDeadLinksNoComingSoon()
     {
+        // Data-driven from CourseCatalog.Modules (Programa modernization pass) — the old hardcoded
+        // 2-module + "Очаквайте скоро" stub is gone; all 4 real modules now render, each linking to
+        // its own detail anchor on /programa (works whether embedded there or, as on Home.razor,
+        // elsewhere) rather than to the legacy /programa/modul-1 and /programa/modul-2 pages.
         string pagesDirectory = Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Shared");
         string source = File.ReadAllText(Path.Combine(pagesDirectory, "LearningPathVisualization.razor"));
 
-        Assert.Contains(RouteOf("Modul1.razor"), source);
-        Assert.Contains(RouteOf("Modul2.razor"), source);
+        string programaRoute = RouteOf("Programa.razor");
+
+        // Templated href, not a hardcoded pair — proves every module gets a live anchor, not just 2.
+        Assert.Contains($"href=\"{programaRoute}#modul-@module.Number\"", source);
+        Assert.Contains("CourseCatalog.Modules", source);
+
+        Assert.DoesNotContain("Очаквайте скоро", source);
+        Assert.DoesNotContain("is-future", source);
     }
 
     [Theory]
