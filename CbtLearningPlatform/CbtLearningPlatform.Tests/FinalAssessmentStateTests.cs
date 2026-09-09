@@ -154,6 +154,62 @@ public class FinalAssessmentStateTests
         Assert.Equal(expected, state.Interpretation);
     }
 
+    // ---- LowScoreInterpretation override (course-level exam vs. per-week default) ----
+
+    [Fact]
+    public void Interpretation_BelowSixty_DefaultsToTheWeeklyWording_WhenModelSetsNoOverride()
+    {
+        // Every existing weekly model is built as `new(questions)` — LowScoreInterpretation defaults
+        // to null — so this must remain the exact pre-existing behavior with zero opt-in required.
+        FinalAssessmentModel model = MakeModel(4, correctOptionIndex: 0);
+        FinalAssessmentState state = new(model);
+        for (int i = 0; i < 4; i++) state.SelectAnswer(i, 1); // all wrong -> < 60%
+
+        state.Submit();
+
+        Assert.Equal("Препоръчителен повторен преглед на седмицата", state.Interpretation);
+    }
+
+    [Fact]
+    public void Interpretation_BelowSixty_UsesModelOverride_WhenModelSuppliesOne()
+    {
+        FinalAssessmentModel model = MakeModel(4, correctOptionIndex: 0) with
+        {
+            LowScoreInterpretation = "Препоръчителен повторен преглед на материала от курса"
+        };
+        FinalAssessmentState state = new(model);
+        for (int i = 0; i < 4; i++) state.SelectAnswer(i, 1); // all wrong -> < 60%
+
+        state.Submit();
+
+        Assert.Equal("Препоръчителен повторен преглед на материала от курса", state.Interpretation);
+    }
+
+    [Fact]
+    public void Interpretation_AtOrAboveSixty_IgnoresTheOverride_RegardlessOfModel()
+    {
+        // The override only ever applies to the below-60 tier — it must not leak into or otherwise
+        // change any other score band.
+        FinalAssessmentModel model = MakeModel(100, correctOptionIndex: 0) with
+        {
+            LowScoreInterpretation = "Препоръчителен повторен преглед на материала от курса"
+        };
+        FinalAssessmentState state = new(model);
+
+        foreach ((int correctOutOf100, string expected) in new[]
+                 {
+                     (90, "Отлично усвояване"),
+                     (75, "Добро усвояване"),
+                     (60, "Нужен е кратък преговор")
+                 })
+        {
+            for (int i = 0; i < 100; i++) state.SelectAnswer(i, i < correctOutOf100 ? 0 : 1);
+            state.Submit();
+            Assert.Equal(expected, state.Interpretation);
+            state.Retry();
+        }
+    }
+
     [Fact]
     public void Retry_ClearsAnswersScoreAndSubmittedState()
     {

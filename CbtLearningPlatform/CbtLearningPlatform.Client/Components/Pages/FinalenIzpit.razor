@@ -1,0 +1,75 @@
+@* Course-level final exam. NOT another weekly assessment: it draws on all 15 weeks at once and is
+   the only page outside a week that carries a scored test. It adds no quiz engine of its own — the
+   20 questions live in Curriculum/FinalExamCatalog.cs as one more FinalAssessmentModel, rendered by
+   the same shared FinalAssessment component and scored by the same FinalAssessmentState as every
+   weekly assessment (answer all before submit, no correctness revealed while answering, submit locks
+   and scores 0-100, retry resets the whole exam). In-memory only, like every other assessment on the
+   platform — deliberately no persistence, no certificate, no timer and no pass/fail threshold.
+   Review links to the source week(s) ride inside each question's own explanation markup (the same
+   place weekly assessments already put their Source citations), so they appear after submit without
+   touching the shared component. Zero new components, zero new CSS. *@
+@page "/kurs/finalen-izpit"
+
+<PageTitle>Краен изпит — 15-седмичен курс — КПТ Академия</PageTitle>
+
+<div class="content">
+    <div class="week-navigator">
+        <p class="week-page__eyebrow"><a href="/kurs">← 15-седмичен курс</a> · Целият курс</p>
+        <div class="week-navigator__row">
+            <h1>Краен изпит</h1>
+            <span class="week-list__status week-list__status--format">20 въпроса</span>
+        </div>
+        <p><em>Обобщаваща проверка на разбирането върху всички 15 седмици</em></p>
+        <p>
+            Изпитът съдържа 20 въпроса, които покриват целия курс. Отговорете на всички, за да
+            предадете теста и видите резултата — резултатът се дава в проценти от 0 до 100, заедно с
+            броя верни и грешни отговори, вашия отговор, верния отговор и обяснение за всеки въпрос.
+            Изпитът може да бъде повтарян неограничено: „Опитай отново“ нулира целия тест.
+        </p>
+        <p>
+            Това е образователна проверка на разбирането, не професионална квалификация. Резултатът
+            не е сертификат, не се пази между посещения и не дава право за практикуване на
+            когнитивно-поведенческа терапия.
+        </p>
+    </div>
+
+    <nav class="section-nav" aria-label="Секции на страницата">
+        <a href="/kurs/finalen-izpit#pokritie">Какво покрива изпитът</a>
+        <a href="/kurs/finalen-izpit#izpit">Изпитът</a>
+    </nav>
+</div>
+
+<div class="workspace">
+    <LearningSection Role="academic" RoleLabel="Обхват">
+        <h2 id="pokritie" tabindex="-1">01 · Какво покрива изпитът</h2>
+        <p>
+            Въпросите са от два вида. Първите 15 са по един на седмица — всеки проверява ключово
+            понятие или разграничение от съответната седмица. Последните 5 са интегративни: те
+            свързват съдържание от няколко седмици или модула и проверяват отношения и разграничения
+            между тях, а не изолирано запомняне.
+        </p>
+        <p>
+            Изпитът не проверява страници, автори, години или формулировки наизуст. Проверява
+            разбиране: концептуални разграничения, прилагане върху безопасни фиктивни примери и
+            разпознаване на верните връзки в когнитивно-поведенческия модел.
+        </p>
+        <p>
+            След предаване всеки въпрос показва и връзка към седмицата или седмиците, от които идва —
+            за преговор на местата, където отговорът не е бил верен.
+        </p>
+        <p><a href="/kurs">Списък на всички 15 седмици и текущият ви напредък в курса →</a></p>
+    </LearningSection>
+
+    <LearningSection Role="interactive" RoleLabel="Изпит">
+        <h2 id="izpit" tabindex="-1">02 · Изпитът</h2>
+        <p>
+            20 въпроса. Отговорете на всички, за да предадете теста и видите резултата — не се пази
+            между посещения и може да бъде повторен по всяко време.
+        </p>
+        <FinalAssessment SectionId="izpit" Model="FinalExamCatalog.Model" />
+    </LearningSection>
+
+    <LearningSection Role="academic" RoleLabel="Образователна граница">
+        <DisclaimerCallout />
+    </LearningSection>
+</div>

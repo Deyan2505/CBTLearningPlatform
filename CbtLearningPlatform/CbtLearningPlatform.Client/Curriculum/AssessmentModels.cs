@@ -17,4 +17,10 @@ public sealed record AssessmentQuestion(
         new(id, text, ["Вярно", "Невярно"], correctIsTrue ? 0 : 1, explanation);
 }
 
-public sealed record FinalAssessmentModel(IReadOnlyList<AssessmentQuestion> Questions);
+/// <summary><paramref name="LowScoreInterpretation"/> overrides the shared engine's default
+/// below-60% interpretation text (FinalAssessmentState.Interpretation), which otherwise reads
+/// "...на седмицата" — correct for every per-week assessment but wrong for a course-wide one (e.g.
+/// FinalExamCatalog's "...на материала от курса"). Defaults to null so every existing weekly model
+/// (all constructed as `new(questions)`) is completely unaffected; only a model that explicitly sets
+/// this gets different wording. Score bands, thresholds, and every other tier are untouched.</summary>
+public sealed record FinalAssessmentModel(IReadOnlyList<AssessmentQuestion> Questions, string? LowScoreInterpretation = null);
