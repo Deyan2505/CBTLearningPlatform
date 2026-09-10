@@ -2,11 +2,17 @@ using CbtLearningPlatform.Client.Curriculum;
 
 namespace CbtLearningPlatform.Tests;
 
-/// <summary>Course-level final exam (/kurs/finalen-izpit) — 20 questions across all 15 weeks, 15
-/// anchor + 5 integrative. Protects the exam's structure, its navigation entry points, its reuse of
-/// the one shared assessment engine (never a parallel quiz implementation), and the safety/product
-/// boundaries the owner set: no self-input clinical procedure, no pass/fail threshold, no persistence
-/// or certificate, and no correctness revealed before submit.</summary>
+/// <summary>Course-level final exam (/kurs/finalen-izpit) — 20 questions across all 15 weeks: 4
+/// Fundamental + 8 Applied + 8 Integrative. This is the difficulty-audit redesign of the original
+/// 15-anchor + 5-integrative set, which let an untrained reader score ~85% purely from mechanical
+/// defects (19/20 correct answers at option index 1, only 3 options per item, correct answer usually
+/// longest). Alongside the usual structure/navigation/engine-reuse/safety coverage, this file carries
+/// dedicated regression tests against those exact defects: exactly 4 options per item (never 3), and
+/// the correct-answer index distributed 5/5/5/5 across all four positions (never concentrated).
+/// Protects the exam's structure, its navigation entry points, its reuse of the one shared assessment
+/// engine (never a parallel quiz implementation), and the safety/product boundaries the owner set: no
+/// self-input clinical procedure, no pass/fail threshold, no persistence or certificate, and no
+/// correctness revealed before submit.</summary>
 public sealed class FinalExamTests
 {
     // ---- Route and navigation ----
@@ -72,29 +78,34 @@ public sealed class FinalExamTests
     }
 
     [Fact]
-    public void Exam_HasExactlyFifteenAnchorQuestions()
+    public void Exam_HasExactlyFourFundamental_EightApplied_EightIntegrative()
     {
-        Assert.Equal(15, FinalExamCatalog.Items.Count(item => item.IsAnchor));
+        Assert.Equal(4, FinalExamCatalog.Items.Count(item => item.Level == ExamQuestionLevel.Fundamental));
+        Assert.Equal(8, FinalExamCatalog.Items.Count(item => item.Level == ExamQuestionLevel.Applied));
+        Assert.Equal(8, FinalExamCatalog.Items.Count(item => item.Level == ExamQuestionLevel.Integrative));
     }
 
     [Fact]
-    public void Exam_HasExactlyFiveIntegrativeQuestions_EachSpanningAtLeastTwoWeeks()
+    public void Exam_EveryIntegrativeItem_SpansAtLeastTwoWeeks()
     {
-        FinalExamItem[] integrative = [.. FinalExamCatalog.Items.Where(item => item.IsIntegrative)];
-
-        Assert.Equal(5, integrative.Length);
-        Assert.All(integrative, item => Assert.True(item.SourceWeeks.Count >= 2));
+        // Fundamental/Applied items may legitimately span one week or several (e.g. a Fundamental item
+        // contrasting Week 12 and Week 3) — only Integrative carries a hard "at least two weeks" rule.
+        foreach (FinalExamItem item in FinalExamCatalog.Items.Where(item => item.Level == ExamQuestionLevel.Integrative))
+        {
+            Assert.True(item.SourceWeeks.Count >= 2);
+        }
     }
 
     [Fact]
-    public void Exam_HasExactlyOneAnchorPerWeek_AllFifteenWeeksRepresented()
+    public void Exam_AllFifteenWeeksAreRepresentedAtLeastOnce_AndNoWeekDominates()
     {
+        Assert.Equal(15, CourseCatalog.Weeks.Count);
+
         foreach (CourseWeekDefinition week in CourseCatalog.Weeks)
         {
-            Assert.Equal(1, FinalExamCatalog.Items.Count(item => item.IsAnchor && item.SourceWeeks[0] == week.Number));
+            int occurrences = FinalExamCatalog.Items.Count(item => item.SourceWeeks.Contains(week.Number));
+            Assert.InRange(occurrences, 1, 3);
         }
-
-        Assert.Equal(15, CourseCatalog.Weeks.Count);
     }
 
     [Fact]
@@ -127,6 +138,37 @@ public sealed class FinalExamTests
             Assert.Equal(question.Options.Count, question.Options.Distinct().Count());
             Assert.False(string.IsNullOrWhiteSpace(question.Text));
             Assert.False(string.IsNullOrWhiteSpace(question.Explanation));
+        }
+    }
+
+    // ---- Regression protection: the original mechanical defects (owner difficulty audit) ----
+    //
+    // The original 20-question set let an untrained reader score ~85% without course knowledge, for
+    // reasons that had nothing to do with question content: it used 3 options per item (33% guess
+    // baseline instead of 25%) and put the correct answer at option index 1 in 19 of 20 items, so
+    // "pick the middle option" alone was a winning strategy. These two tests guard the mechanical fix
+    // permanently — they must keep passing even if question wording changes in the future.
+
+    [Fact]
+    public void Exam_NoThreeOptionItemsRemain_EveryQuestionHasExactlyFourOptions()
+    {
+        foreach (AssessmentQuestion question in FinalExamCatalog.Model.Questions)
+        {
+            Assert.Equal(4, question.Options.Count);
+        }
+    }
+
+    [Fact]
+    public void Exam_CorrectAnswerPosition_HasNoConcentration_DistributionIsExactlyFiveAtEachIndex()
+    {
+        Dictionary<int, int> countsByIndex = FinalExamCatalog.Model.Questions
+            .GroupBy(q => q.CorrectOptionIndex)
+            .ToDictionary(g => g.Key, g => g.Count());
+
+        Assert.Equal(4, countsByIndex.Count); // all four indices (0-3) actually used
+        for (int index = 0; index <= 3; index++)
+        {
+            Assert.Equal(5, countsByIndex.GetValueOrDefault(index));
         }
     }
 
