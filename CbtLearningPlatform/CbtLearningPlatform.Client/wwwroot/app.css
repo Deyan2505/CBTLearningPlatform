@@ -4012,3 +4012,134 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
     .blazor-error-boundary::after {
         content: "Възникна неочакван проблем.";
     }
+
+/* ==========================================================================
+   Course Completion Certificate (/kurs/finalen-izpit) — session-only, no
+   persistence. Screen styling reuses existing tokens (no new palette); the
+   print block is scoped to .course-certificate only, so it never affects
+   any other printed page on the site.
+   ========================================================================== */
+
+.course-certificate__name-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    max-width: 24rem;
+    margin-bottom: var(--space-4);
+}
+
+.course-certificate {
+    max-width: 34rem;
+    margin: 0 auto;
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-elevated);
+    text-align: center;
+}
+
+.course-certificate__issuer {
+    margin: 0 0 var(--space-4) 0;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+}
+
+.course-certificate__title {
+    margin: 0 0 var(--space-5) 0;
+}
+
+.course-certificate__name {
+    margin: 0 0 var(--space-3) 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.course-certificate__disclaimer {
+    margin-top: var(--space-5);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+.course-certificate__print-action {
+    margin-top: var(--space-5);
+}
+
+@media print {
+    /* Print-isolates the certificate by removing every OTHER element from layout via display:none —
+       not the classic visibility:hidden "hide body *, unhide target" trick. That trick was tried
+       first and rejected: it left the (still very tall, just invisible) rest of this content-heavy
+       page's layout height intact, which Chromium still paginated into a dozen-plus blank trailing
+       pages, and fighting that height down through nested flexbox containers (.app-shell/.app-main
+       both being `display: flex` with content-sized children whose implicit `min-height: auto` resists
+       a collapsed flex parent) turned out to be fragile and browser-dependent. display:none instead
+       properly removes each element from layout entirely — no pagination artifact, no flexbox
+       min-height fights. The one rule this approach must respect: display:none on a common ANCESTOR
+       of the certificate would take the certificate down with it (a descendant's own display cannot
+       override an ancestor's none) — so every selector below targets a true sibling/cousin of the
+       certificate's own ancestor chain (.app-sidebar/.app-topbar/.site-footer, .content, and every
+       .workspace section other than #udostoverenie-section), never .app-shell/.app-main/.page-container/
+       .workspace themselves. Within #udostoverenie-section itself, everything but .course-certificate
+       needs the same treatment individually — its role-label badge, its own <h2>, the "Курсът е
+       успешно завършен" intro line and the name-entry field all sit alongside .course-certificate as
+       siblings/cousins, not ancestors, so each is named here rather than relying on a single blanket
+       rule. */
+    .skip-link,
+    .app-sidebar,
+    .app-topbar,
+    .site-footer,
+    nav.section-nav,
+    .content,
+    .workspace > .section-card:not(#udostoverenie-section),
+    #udostoverenie-section > .section-role-label,
+    #udostoverenie-section > h2,
+    #udostoverenie-section .card > p,
+    .course-certificate__name-field {
+        display: none;
+    }
+
+    body {
+        background: #fff;
+    }
+
+    /* Two more wrapper boxes paint their own dark background/border around .course-certificate and
+       need the same treatment: LearningSection's own <section class="section-card ..."> (every
+       LearningSection site-wide has this padded/bordered card look — #udostoverenie-section is this
+       specific instance, scoped so no other page's LearningSection is touched), and the generic .card
+       div inside it. display: contents on both drops their own box entirely while leaving their one
+       remaining visible descendant (.course-certificate) exactly where it was in the flow. */
+    #udostoverenie-section,
+    #udostoverenie-section .card {
+        display: contents;
+    }
+
+    .course-certificate {
+        max-width: none;
+        margin: 0;
+        padding: var(--space-6);
+        border: none;
+        background: #fff;
+        color: #1a1a1a;
+    }
+
+    /* h1-h4's site-wide `color: var(--color-text-primary)` is an explicit declaration on the title's
+       own <h3>, which always wins over color merely inherited from .course-certificate above — left
+       unoverridden it stays the dark theme's near-white value even in print, rendering the title
+       almost invisible on the white print background. Every text element inside the certificate
+       needs its own explicit print color for the same reason; * is broad but harmless here since
+       .course-certificate's screen palette is otherwise entirely var(--color-*) tokens with no
+       print-safe equivalent. */
+    .course-certificate * {
+        color: #1a1a1a;
+    }
+
+    .course-certificate__issuer,
+    .course-certificate__disclaimer {
+        color: #444;
+    }
+
+    .course-certificate__print-action {
+        display: none;
+    }
+}

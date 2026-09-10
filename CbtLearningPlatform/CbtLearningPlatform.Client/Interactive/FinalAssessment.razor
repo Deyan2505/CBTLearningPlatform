@@ -7,7 +7,10 @@
    with the rest of the platform (CategorizationCheck, CbtChainSimulator); a page reload naturally returns to the
    unanswered state, which is the intended behavior, not a persistence gap. Never touches
    WeekCompletionControl/CourseProgressService — score does not gate completion. Correctness is never
-   color-only: every verdict also carries a ✓/✗ glyph plus real text. *@
+   color-only: every verdict also carries a ✓/✗ glyph plus real text. OnSubmitted is an optional hook
+   (only the course final exam page wires it, for session-only Course Completion Certificate
+   eligibility) — it does not read or write any state itself and changes nothing for the 11+ weekly
+   pages, which never set it. *@
 @namespace CbtLearningPlatform.Client.Interactive
 @using CbtLearningPlatform.Client.Curriculum
 
@@ -103,13 +106,25 @@
     [Parameter, EditorRequired]
     public FinalAssessmentModel Model { get; set; } = default!;
 
+    /// <summary>Fired once, with <see cref="FinalAssessmentState.ScorePercent"/>, immediately after a
+    /// successful submit — never on a no-op submit (not all answered). Optional; unset on every weekly
+    /// page, so this changes nothing for them.</summary>
+    [Parameter]
+    public EventCallback<int> OnSubmitted { get; set; }
+
     private FinalAssessmentState _state = default!;
 
     protected override void OnInitialized() => _state = new FinalAssessmentState(Model);
 
     private void SelectAnswer(int questionIndex, int optionIndex) => _state.SelectAnswer(questionIndex, optionIndex);
 
-    private void Submit() => _state.Submit();
+    private async Task Submit()
+    {
+        if (_state.Submit())
+        {
+            await OnSubmitted.InvokeAsync(_state.ScorePercent);
+        }
+    }
 
     private void Retry() => _state.Retry();
 

@@ -11,8 +11,10 @@ namespace CbtLearningPlatform.Tests;
 /// the correct-answer index distributed 5/5/5/5 across all four positions (never concentrated).
 /// Protects the exam's structure, its navigation entry points, its reuse of the one shared assessment
 /// engine (never a parallel quiz implementation), and the safety/product boundaries the owner set: no
-/// self-input clinical procedure, no pass/fail threshold, no persistence or certificate, and no
-/// correctness revealed before submit.</summary>
+/// self-input clinical procedure, no pass/fail threshold, no correctness revealed before submit. Also
+/// covers the Course Completion Certificate (owner-approved, session-only): unlocks only at 15/15
+/// weeks + exam score >= 75 for the CURRENT submission, never persists the exam score or the typed
+/// learner name anywhere, and carries the mandatory non-qualification disclaimer.</summary>
 public sealed class FinalExamTests
 {
     // ---- Route and navigation ----
@@ -206,20 +208,26 @@ public sealed class FinalExamTests
         string source = ReadPage("FinalenIzpit.razor");
 
         Assert.Equal(1, source.Split("<FinalAssessment ").Length - 1);
-        Assert.Contains("<FinalAssessment SectionId=\"izpit\" Model=\"FinalExamCatalog.Model\" />", source);
+        Assert.Contains(
+            "<FinalAssessment SectionId=\"izpit\" Model=\"FinalExamCatalog.Model\" OnSubmitted=\"OnExamSubmittedAsync\" />",
+            source);
     }
 
     [Fact]
     public void ExamPage_HasNoLocalAssessmentImplementation()
     {
         // Scanned below the page's own @* … *@ header comment, which legitimately names the shared
-        // engine it reuses — the point is that the page implements none of it.
+        // engine it reuses — the point is that the page implements none of it. Markers are scoped to
+        // the SCORING engine specifically (state/model/question/answer-key types) — the page now has
+        // its own small @code block with its own <button>/@onclick for the Course Completion
+        // Certificate (name entry, print), which is a separate, non-assessment feature and does not
+        // touch any of these types.
         string source = PageBody("FinalenIzpit.razor");
 
         foreach (string marker in new[]
                  {
                      "FinalAssessmentState", "new FinalAssessmentModel", "AssessmentQuestion.",
-                     "<button", "@onclick", "@onchange", "CorrectOptionIndex", "@code"
+                     "CorrectOptionIndex", "SelectAnswer(", "@onchange"
                  })
         {
             Assert.DoesNotContain(marker, source);
@@ -333,12 +341,34 @@ public sealed class FinalExamTests
     [Fact]
     public void ExamPage_HasNoSelfInputClinicalProcedureOrForm()
     {
-        string source = ReadPage("FinalenIzpit.razor");
+        // Scoped past the header comment (PageBody), which legitimately explains the certificate's
+        // no-storage design in prose (mentions "localStorage" as something explicitly NOT used).
+        // "<input" is no longer blanket-forbidden: the owner-approved certificate flow asks for the
+        // learner's name via one plain text input, component-memory-only — never a clinical scale,
+        // never a <form>, never persisted, never sent anywhere. The test below confirms that's the
+        // ONLY input on the page, and this one still forbids everything that would make it something
+        // more than that.
+        string source = PageBody("FinalenIzpit.razor");
 
-        foreach (string marker in new[] { "<input", "<form", "<textarea", "localStorage", "HttpClient" })
+        foreach (string marker in new[]
+                 {
+                     "<form", "<textarea", "localStorage.setItem", "localStorage.getItem", "HttpClient"
+                 })
         {
             Assert.DoesNotContain(marker, source);
         }
+    }
+
+    [Fact]
+    public void ExamPage_HasExactlyOneInput_TheApprovedLearnerNameField_NeverAClinicalScale()
+    {
+        string source = PageBody("FinalenIzpit.razor");
+
+        Assert.Equal(1, source.Split("<input").Length - 1);
+        Assert.Contains("<input type=\"text\" @bind=\"_learnerName\"", source);
+        Assert.DoesNotContain("type=\"checkbox\"", source);
+        Assert.DoesNotContain("type=\"radio\"", source);
+        Assert.DoesNotContain("type=\"range\"", source);
     }
 
     [Fact]
@@ -362,22 +392,99 @@ public sealed class FinalExamTests
     }
 
     [Fact]
-    public void ExamPage_HasNoPassFailThresholdCertificateOrTimer()
+    public void ExamPage_HasNoPassFailThresholdOrTimer()
     {
+        // "Certificate" deliberately dropped from this test's old name/scope — the Course Completion
+        // Certificate is an owner-approved feature (see ExamPage_Certificate_* below), gated on 15/15
+        // weeks + exam >= 75, session-only. The exam itself still has no pass/fail threshold and no
+        // timer, and still never claims to be a professional credential.
         string source = ReadPage("FinalenIzpit.razor");
 
         foreach (string marker in new[]
                  {
-                     "издържал", "преминал", "успешно завършил", "минимален резултат", "праг за",
+                     "издържал", "преминал", "минимален резултат", "праг за",
                      "точки за преминаване", "таймер", "оставащо време", "точки опит", "ниво "
                  })
         {
             Assert.DoesNotContain(marker, source, StringComparison.OrdinalIgnoreCase);
         }
 
-        // The educational boundary is stated explicitly instead.
         Assert.Contains("не професионална квалификация", source);
-        Assert.Contains("не е сертификат", source);
+    }
+
+    [Fact]
+    public void ExamPage_Certificate_UnlocksOnlyAtFifteenOfFifteenAndMinimumExamScore()
+    {
+        string source = ReadPage("FinalenIzpit.razor");
+
+        Assert.Contains("CertificateEligibility.IsEligible(", source);
+        Assert.Contains("CertificateEligibility.MinimumExamScore", source);
+    }
+
+    [Fact]
+    public void ExamPage_Certificate_HasMandatoryDisclaimer()
+    {
+        string source = ReadPage("FinalenIzpit.razor");
+
+        Assert.Contains(
+            "Този документ удостоверява завършване на образователния курс. Не представлява",
+            source);
+        Assert.Contains(
+            "професионална квалификация, лиценз, акредитация или право за упражняване на",
+            source);
+    }
+
+    [Fact]
+    public void ExamPage_Certificate_NeverShowsScoreDateHistoryOrRegistrationMarkers()
+    {
+        // Scoped to the certificate markup itself (not the whole page — the ineligible-state progress
+        // message legitimately shows the current exam score elsewhere on the same page).
+        string source = ReadPage("FinalenIzpit.razor");
+        int start = source.IndexOf("<div class=\"course-certificate\">", StringComparison.Ordinal);
+        Assert.True(start > 0, "course-certificate block not found");
+        int printActionIndex = source.IndexOf("__print-action", start, StringComparison.Ordinal);
+        Assert.True(printActionIndex > start, "print action button not found inside certificate block");
+        int end = source.IndexOf("</div>", printActionIndex, StringComparison.Ordinal);
+        Assert.True(end > printActionIndex, "closing div not found");
+        string certificateBlock = source[start..end];
+
+        Assert.DoesNotContain("_examScore", certificateBlock);
+        Assert.DoesNotContain("Дата на завършване", certificateBlock);
+        Assert.DoesNotContain("Начална дата", certificateBlock);
+        Assert.DoesNotContain("Референтен номер", certificateBlock);
+        Assert.DoesNotContain("Номер на удостоверение", certificateBlock);
+        Assert.DoesNotContain("Верификационен код", certificateBlock);
+        Assert.DoesNotContain("акредитиран", certificateBlock, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("университет", certificateBlock, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("CPD", certificateBlock);
+        Assert.DoesNotContain("CE кредит", certificateBlock);
+        Assert.DoesNotContain("официален печат", certificateBlock, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void ExamPage_Certificate_NameAndScoreLiveInComponentMemoryOnly_NoStorageCall()
+    {
+        // PageBody strips the header comment, which legitimately explains in prose that localStorage
+        // is NOT used for the exam score/name — checking the actual code body below it.
+        string source = PageBody("FinalenIzpit.razor");
+
+        Assert.DoesNotContain("localStorage", source);
+        Assert.DoesNotContain("ExamResultStore", source);
+        Assert.DoesNotContain("ExamResultService", source);
+    }
+
+    [Fact]
+    public void ExamPage_WiresOnSubmitted_OnlyThisPageDoes()
+    {
+        Assert.Contains("OnSubmitted=\"OnExamSubmittedAsync\"", ReadPage("FinalenIzpit.razor"));
+
+        for (int week = 1; week <= 15; week++)
+        {
+            string weekSource = File.ReadAllText(Path.Combine(
+                TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Pages", $"Sedmica{week}.razor"));
+
+            Assert.DoesNotContain("OnSubmitted=", weekSource);
+        }
     }
 
     [Fact]
@@ -392,12 +499,17 @@ public sealed class FinalExamTests
     }
 
     [Fact]
-    public void ExamPage_DoesNotAlterWeeklyAssessmentsOrCourseProgress()
+    public void ExamPage_NeverMarksWeeksComplete_OnlyReadsProgressForCertificateEligibility()
     {
+        // CourseProgressService injection is now expected (owner-approved): the certificate reads
+        // completed-week count via GetSummaryAsync. What must remain true is that this page never
+        // writes to course progress and never renders WeekCompletionControl — the exam still cannot
+        // mark a week complete, and completing weeks still cannot be done from this page.
         string source = ReadPage("FinalenIzpit.razor");
 
         Assert.DoesNotContain("WeekCompletionControl", source);
-        Assert.DoesNotContain("CourseProgressService", source);
+        Assert.DoesNotContain("SetWeekCompleteAsync", source);
+        Assert.Contains("GetSummaryAsync", source);
     }
 
     private static FinalAssessmentState Answer(int correct)
