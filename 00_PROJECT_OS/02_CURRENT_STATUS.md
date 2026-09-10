@@ -132,6 +132,22 @@
   не одобрява/заключва Седмица 4 или Седмица 5** — виж техните собствени статус записи по-горе (Седмица 4
   остава `IMPLEMENTED, NOT LOCKED` заради Section 08 pending item; Седмица 5 остава `IMPLEMENTED, NOT YET
   OWNER APPROVED / LOCKED`).
+- **COURSE FINAL EXAM** (`/kurs/finalen-izpit`) — **`OWNER APPROVED / LOCKED`** (2026-09-10, след
+  difficulty audit + owner review pack + micro-pass revision + production QA). Замества оригиналния
+  15-anchor + 5-integrative набор (комитнат `a779073`), който позволяваше ~85% резултат без реално
+  course-specific знание заради три механични дефекта (19/20 верни отговори на индекс 1, само 3
+  опции, верният отговор обикновено най-дългият). Нова структура: **20 въпроса — 4 Fundamental / 8
+  Applied / 8 Integrative**, точно 4 опции на въпрос, разпределение на верния отговор **5/5/5/5** по
+  индекси 0–3 (проверено и в unit тест, и в браузъра — mixed отговор с индекс 2 навсякъде дава точно
+  25/100), всичките 15 седмици представени (максимум 3, минимум 1 на седмица), споделен
+  `FinalAssessment`/`FinalAssessmentState` без промяна на engine-а. Седмичните финални тестове
+  недокоснати. Нов `ExamQuestionLevel` enum + `Level` field на `FinalExamItem` (замества
+  `IsAnchor`/`IsIntegrative`). Regression-тестове добавени срещу оригиналните дефекти (точно 4 опции,
+  5/5/5/5 разпределение). **901/901** теста, Debug+Release build 0/0, `git diff --check` чист. Browser
+  QA (Playwright) на 1440/1024/390px: 20/20 въпроса рендерират, submit блокиран до 20/20 отговорени,
+  explanations+review links коректни, retry нулира, 0 overflow, 0 console грешки. Commit `ac8fc87`
+  (плюс `a779073` — първоначалното добавяне на финалния изпит). Production deploy successful
+  (потвърдено `HTTP 200` на `/kurs/finalen-izpit`).
 - **Седмица 11** (Междинни вярвания, SRC-041 Гл. 13, печатни стр. 198–227 — NET-NEW-scope retrofit of
   the owner-approved audit) — **`OWNER APPROVED / LOCKED`** (2026-09-07, след production owner review).
   Пълен одит + одобрени owner решения + имплементация в тази сесия (2026-09-07) — виж
