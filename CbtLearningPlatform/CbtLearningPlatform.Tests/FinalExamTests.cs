@@ -422,9 +422,13 @@ public sealed class FinalExamTests
     }
 
     [Fact]
-    public void ExamPage_Certificate_HasMandatoryDisclaimer()
+    public void CertificateDocument_HasMandatoryDisclaimer()
     {
-        string source = ReadPage("FinalenIzpit.razor");
+        // The certificate document body (issuer/title/name/course/statement/date/disclaimer) now lives
+        // in exactly one place — Components/Shared/CourseCertificateDocument.razor — reused for both
+        // the always-visible preview and the real issued certificate, so this is the single source of
+        // truth to check rather than FinalenIzpit.razor (which no longer contains this markup at all).
+        string source = ReadShared("CourseCertificateDocument.razor");
 
         Assert.Contains(
             "Този документ удостоверява завършване на образователния курс. Не представлява",
@@ -435,30 +439,48 @@ public sealed class FinalExamTests
     }
 
     [Fact]
-    public void ExamPage_Certificate_NeverShowsScoreDateHistoryOrRegistrationMarkers()
+    public void CertificateDocument_NeverShowsScoreDateHistoryOrRegistrationMarkers()
     {
-        // Scoped to the certificate markup itself (not the whole page — the ineligible-state progress
-        // message legitimately shows the current exam score elsewhere on the same page).
-        string source = ReadPage("FinalenIzpit.razor");
-        int start = source.IndexOf("<div class=\"course-certificate\">", StringComparison.Ordinal);
-        Assert.True(start > 0, "course-certificate block not found");
-        int printActionIndex = source.IndexOf("__print-action", start, StringComparison.Ordinal);
-        Assert.True(printActionIndex > start, "print action button not found inside certificate block");
-        int end = source.IndexOf("</div>", printActionIndex, StringComparison.Ordinal);
-        Assert.True(end > printActionIndex, "closing div not found");
-        string certificateBlock = source[start..end];
+        // The whole component file is certificate content and nothing else — no substring extraction
+        // needed (unlike the old single-file version, where the exam score legitimately appeared
+        // elsewhere on the same page and had to be excluded from the check).
+        string source = ReadShared("CourseCertificateDocument.razor");
 
-        Assert.DoesNotContain("_examScore", certificateBlock);
-        Assert.DoesNotContain("Дата на завършване", certificateBlock);
-        Assert.DoesNotContain("Начална дата", certificateBlock);
-        Assert.DoesNotContain("Референтен номер", certificateBlock);
-        Assert.DoesNotContain("Номер на удостоверение", certificateBlock);
-        Assert.DoesNotContain("Верификационен код", certificateBlock);
-        Assert.DoesNotContain("акредитиран", certificateBlock, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("университет", certificateBlock, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("CPD", certificateBlock);
-        Assert.DoesNotContain("CE кредит", certificateBlock);
-        Assert.DoesNotContain("официален печат", certificateBlock, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("_examScore", source);
+        Assert.DoesNotContain("Дата на завършване", source);
+        Assert.DoesNotContain("Начална дата", source);
+        Assert.DoesNotContain("Референтен номер", source);
+        Assert.DoesNotContain("Номер на удостоверение", source);
+        Assert.DoesNotContain("Верификационен код", source);
+        Assert.DoesNotContain("подпис", source, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("акредитиран", source, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("университет", source, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("CPD", source);
+        Assert.DoesNotContain("CE кредит", source);
+        Assert.DoesNotContain("официален печат", source, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void CertificateDocument_BlankLearnerNameAndIssueDate_RenderPlaceholderLines_NeverFictionalData()
+    {
+        string source = ReadShared("CourseCertificateDocument.razor");
+
+        Assert.Contains("string.IsNullOrWhiteSpace(LearnerName) ? \"________________________\" : LearnerName", source);
+        Assert.Contains("IssueDate is null ? \"__________\" : IssueDate.Value.ToString(\"dd.MM.yyyy\")", source);
+        Assert.DoesNotContain("Иван", source);
+        Assert.DoesNotContain("Мария", source);
+    }
+
+    [Fact]
+    public void CertificateDocument_HasNoButtonOrControlOfItsOwn()
+    {
+        // Preview mode requires "no controls" — guaranteed structurally rather than by a parameter,
+        // since the component never renders a button/input at all; the caller adds
+        // "Създай удостоверение"/print only around the real issued instance.
+        string source = ReadShared("CourseCertificateDocument.razor");
+
+        Assert.DoesNotContain("<button", source);
+        Assert.DoesNotContain("<input", source);
     }
 
     [Fact]
@@ -471,6 +493,65 @@ public sealed class FinalExamTests
         Assert.DoesNotContain("localStorage", source);
         Assert.DoesNotContain("ExamResultStore", source);
         Assert.DoesNotContain("ExamResultService", source);
+    }
+
+    [Fact]
+    public void ExamPage_Certificate_PreviewAlwaysVisible_ReusesTheSameDocumentComponent_NoNewGridSystem()
+    {
+        string source = ReadPage("FinalenIzpit.razor");
+
+        // Reuses the existing two-column/stack-on-mobile grid pattern — no new grid class invented.
+        // Reuses the base .learning-grid mechanics (gap/align-items/min-width fix) via a narrow,
+        // section-scoped modifier — not the shared .learning-grid--balanced (whose 760px threshold
+        // isn't reached at 1024px here) and not a wholly new grid system.
+        Assert.Contains("learning-grid learning-grid--certificate", source);
+
+        // Exactly two usages of the shared document component: one bare (the always-visible preview,
+        // blank fields, no controls) and one bound to the real learner name/date (the issued
+        // certificate, inside the eligible+form-shown branch only).
+        Assert.Equal(2, source.Split("<CourseCertificateDocument").Length - 1);
+        Assert.Equal(1, source.Split("<CourseCertificateDocument />").Length - 1);
+        Assert.Equal(1, source.Split("LearnerName=\"@_learnerName\"").Length - 1);
+        Assert.Equal(1, source.Split("IssueDate=\"DateTime.Now\"").Length - 1);
+
+        // The preview wrapper appears exactly once, with its required label/helper copy, and is never
+        // fed the real learner name or date.
+        Assert.Equal(1, source.Split("class=\"course-certificate-preview\"").Length - 1);
+        Assert.Contains("Предварителен изглед", source);
+    }
+
+    [Fact]
+    public void CertificateGrid_UsesItsOwnLowerBreakpoint_SharedBalancedBreakpointUntouched()
+    {
+        string css = File.ReadAllText(Path.Combine(
+            TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "wwwroot", "app.css"));
+
+        // Shared .learning-grid--balanced keeps its original 760px threshold and its exact original
+        // declaration in both the container-query block and the no-container-query fallback —
+        // untouched by the section-3-only fix. (A third, unrelated textual mention of the class name
+        // exists elsewhere in this file as a pre-existing comment — not checked here.)
+        Assert.Contains("@container (min-width: 760px)", css);
+        Assert.Contains(".learning-grid--balanced { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }", css);
+        Assert.Equal(
+            2,
+            css.Split(".learning-grid--balanced { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }").Length - 1);
+
+        // The certificate section gets its own, lower, separately-declared breakpoint.
+        Assert.Contains("@container (min-width: 600px)", css);
+        Assert.Contains(".learning-grid--certificate", css);
+    }
+
+    [Fact]
+    public void PrintCss_HidesTheEntirePreviewColumn_OnlyTheIssuedCertificatePrints()
+    {
+        string css = File.ReadAllText(Path.Combine(
+            TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "wwwroot", "app.css"));
+
+        int printBlockStart = css.IndexOf("@media print", StringComparison.Ordinal);
+        Assert.True(printBlockStart > 0, "@media print block not found");
+        string printBlock = css[printBlockStart..];
+
+        Assert.Contains(".course-certificate-preview", printBlock);
     }
 
     [Fact]
@@ -543,4 +624,7 @@ public sealed class FinalExamTests
 
     private static string ReadInteractive(string fileName) =>
         File.ReadAllText(Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Interactive", fileName));
+
+    private static string ReadShared(string fileName) =>
+        File.ReadAllText(Path.Combine(TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Components", "Shared", fileName));
 }

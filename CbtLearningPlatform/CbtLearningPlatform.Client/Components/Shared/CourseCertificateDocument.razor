@@ -1,0 +1,28 @@
+@* The single reusable Course Completion Certificate document body — used both for the always-visible
+   preview on /kurs/finalen-izpit (blank personal fields, no controls) and for the real issued
+   certificate once a learner has typed their name. Keeping exactly one copy of this markup is what
+   stops the preview and the real certificate from ever drifting apart visually. Deliberately contains
+   no button/control of its own — "Създай удостоверение"/print live in the caller, wrapped only around
+   the real issued instance, never around the preview. Null LearnerName/IssueDate render a plain blank
+   placeholder line, never a fictional name or today's date — the preview's own contract. *@
+<div class="course-certificate">
+    <p class="course-certificate__issuer">CBT Learning Platform</p>
+    <h3 class="course-certificate__title">Удостоверение за успешно завършен курс</h3>
+    <p class="course-certificate__name">@(string.IsNullOrWhiteSpace(LearnerName) ? "________________________" : LearnerName)</p>
+    <p class="course-certificate__course">15-седмичен курс по когнитивно-поведенческа терапия</p>
+    <p class="course-certificate__statement">Курсът е успешно завършен.</p>
+    <p class="course-certificate__date">Дата на издаване: @(IssueDate is null ? "__________" : IssueDate.Value.ToString("dd.MM.yyyy"))</p>
+    <p class="course-certificate__disclaimer">
+        Този документ удостоверява завършване на образователния курс. Не представлява
+        професионална квалификация, лиценз, акредитация или право за упражняване на
+        психотерапевтична практика.
+    </p>
+</div>
+
+@code {
+    [Parameter]
+    public string? LearnerName { get; set; }
+
+    [Parameter]
+    public DateTime? IssueDate { get; set; }
+}

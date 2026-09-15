@@ -18,7 +18,18 @@
    No certificate history, no reference/certificate ID, no stored completion/start date — the document
    shows only the learner name, the fixed course/issuer text, and today's date, computed at render
    time. Print is native browser print (window.print via JS interop) with a scoped @@media print block
-   in app.css — no PDF library, no backend. Zero new component beyond this page's own markup. *@
+   in app.css — no PDF library, no backend.
+
+   ALWAYS-VISIBLE PREVIEW (owner-approved): Section 03 is a two-column .learning-grid--balanced (reused,
+   not a new grid system) — left column keeps the eligibility text/progress/controls exactly as before;
+   right column is a permanently visible miniature certificate preview, regardless of eligibility. Both
+   the preview and the real issued certificate render through the one shared
+   Components/Shared/CourseCertificateDocument.razor — the narrowest possible extraction to keep them
+   from drifting apart, with no button/control baked into the component itself. The preview instance
+   passes no LearnerName/IssueDate (both null → blank placeholder lines, never a fictional name or
+   today's date); the issued instance still passes the real @@_learnerName/DateTime.Now exactly as
+   before. The preview is a separate print-hidden panel (.course-certificate-preview, hidden in
+   @@media print) — only the real issued certificate ever reaches the printed page. *@
 @page "/kurs/finalen-izpit"
 @inject CourseProgressService Progress
 @inject IJSRuntime JS
@@ -88,57 +99,57 @@
     <LearningSection Role="academic" RoleLabel="Удостоверение" Id="udostoverenie-section">
         <h2 id="udostoverenie" tabindex="-1">03 · Удостоверение за завършен курс</h2>
 
-        @if (IsEligible)
-        {
-            <div class="card">
-                <p><strong>Курсът е успешно завършен</strong></p>
-
-                @if (!_showCertificateForm)
+        <div class="learning-grid learning-grid--certificate">
+            <div>
+                @if (IsEligible)
                 {
-                    <button type="button" class="btn btn-primary" @onclick="() => _showCertificateForm = true">Създай удостоверение</button>
+                    <div class="card">
+                        <p><strong>Курсът е успешно завършен</strong></p>
+
+                        @if (!_showCertificateForm)
+                        {
+                            <button type="button" class="btn btn-primary" @onclick="() => _showCertificateForm = true">Създай удостоверение</button>
+                        }
+                        else
+                        {
+                            <label class="course-certificate__name-field">
+                                Име
+                                <input type="text" @bind="_learnerName" @bind:event="oninput" placeholder="Въведете вашето име" />
+                            </label>
+
+                            <CourseCertificateDocument LearnerName="@_learnerName" IssueDate="DateTime.Now" />
+                            <button type="button" class="course-certificate__print-action btn btn-neutral" @onclick="PrintAsync">Печат / Запази като PDF</button>
+                        }
+                    </div>
                 }
                 else
                 {
-                    <label class="course-certificate__name-field">
-                        Име
-                        <input type="text" @bind="_learnerName" @bind:event="oninput" placeholder="Въведете вашето име" />
-                    </label>
-
-                    <div class="course-certificate">
-                        <p class="course-certificate__issuer">CBT Learning Platform</p>
-                        <h3 class="course-certificate__title">Удостоверение за успешно завършен курс</h3>
-                        <p class="course-certificate__name">@(string.IsNullOrWhiteSpace(_learnerName) ? "________________________" : _learnerName)</p>
-                        <p class="course-certificate__course">15-седмичен курс по когнитивно-поведенческа терапия</p>
-                        <p class="course-certificate__statement">Курсът е успешно завършен.</p>
-                        <p class="course-certificate__date">Дата на издаване: @DateTime.Now.ToString("dd.MM.yyyy")</p>
-                        <p class="course-certificate__disclaimer">
-                            Този документ удостоверява завършване на образователния курс. Не представлява
-                            професионална квалификация, лиценз, акредитация или право за упражняване на
-                            психотерапевтична практика.
+                    <div class="card">
+                        <p>
+                            Удостоверението се отключва след завършени 15/15 седмици и резултат поне
+                            @CertificateEligibility.MinimumExamScore/100 на крайния изпит.
                         </p>
-                        <button type="button" class="course-certificate__print-action btn btn-neutral" @onclick="PrintAsync">Печат / Запази като PDF</button>
+                        <p>Завършени седмици: @(_weeksSummary?.CompletedCount ?? 0)/@(_weeksSummary?.TotalWeeks ?? CourseCatalog.Weeks.Count)</p>
+                        @if (_examScore is not null)
+                        {
+                            <p>Текущ резултат от крайния изпит: @_examScore/100</p>
+                        }
+                        else
+                        {
+                            <p>Крайният изпит все още не е предаден.</p>
+                        }
                     </div>
                 }
             </div>
-        }
-        else
-        {
-            <div class="card">
-                <p>
-                    Удостоверението се отключва след завършени 15/15 седмици и резултат поне
-                    @CertificateEligibility.MinimumExamScore/100 на крайния изпит.
-                </p>
-                <p>Завършени седмици: @(_weeksSummary?.CompletedCount ?? 0)/@(_weeksSummary?.TotalWeeks ?? CourseCatalog.Weeks.Count)</p>
-                @if (_examScore is not null)
-                {
-                    <p>Текущ резултат от крайния изпит: @_examScore/100</p>
-                }
-                else
-                {
-                    <p>Крайният изпит все още не е предаден.</p>
-                }
+
+            <div class="course-certificate-preview">
+                <p class="course-certificate-preview__label">Предварителен изглед</p>
+                <p class="course-certificate-preview__helper">Така ще изглежда удостоверението след успешно завършване на курса.</p>
+                <div class="course-certificate-preview__frame">
+                    <CourseCertificateDocument />
+                </div>
             </div>
-        }
+        </div>
     </LearningSection>
 
     <LearningSection Role="academic" RoleLabel="Образователна граница">

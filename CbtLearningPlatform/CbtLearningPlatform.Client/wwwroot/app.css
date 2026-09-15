@@ -627,6 +627,15 @@ h3[tabindex="-1"]:focus-visible {
     .learning-grid--wide-narrow { grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); }
 }
 
+/* Section-3-only modifier (Course Completion Certificate: text/progress | preview) — the shared
+   --balanced 760px threshold isn't reached at 1024px viewport (effective .page-container content
+   width there is ~644px, net of the 276px sidebar), so this section would stack when the owner wants
+   it side-by-side down to that width. A lower, section-scoped breakpoint here leaves the shared
+   --balanced threshold (used elsewhere on this page and site-wide) completely untouched. */
+@container (min-width: 600px) {
+    .learning-grid--certificate { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+
 /* Fallback for browsers without container query support — falls back to a plain
    viewport breakpoint (less accurate around the sidebar, but never breaks layout). */
 @supports not (container-type: inline-size) {
@@ -635,6 +644,10 @@ h3[tabindex="-1"]:focus-visible {
         .learning-grid--content-visual { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
         .learning-grid--controls-output { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
         .learning-grid--wide-narrow { grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); }
+    }
+
+    @media (min-width: 740px) {
+        .learning-grid--certificate { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
     }
 }
 
@@ -4015,9 +4028,13 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
 
 /* ==========================================================================
    Course Completion Certificate (/kurs/finalen-izpit) — session-only, no
-   persistence. Screen styling reuses existing tokens (no new palette); the
-   print block is scoped to .course-certificate only, so it never affects
-   any other printed page on the site.
+   persistence. .course-certificate is a deliberately theme-independent
+   "paper" surface — always white with dark text, screen AND print, on the
+   reasoning that a certificate should look identical wherever it appears
+   rather than adopting the app's dark palette while being edited and only
+   turning white at print time. Everything OUTSIDE .course-certificate
+   (labels, the preview frame's shadow, helper text) still uses the normal
+   dark-theme tokens, so it fits naturally into the surrounding UI.
    ========================================================================== */
 
 .course-certificate__name-field {
@@ -4032,10 +4049,20 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
     max-width: 34rem;
     margin: 0 auto;
     padding: var(--space-6);
-    border: 1px solid var(--color-border);
+    border: 1px solid #d7d7dc;
     border-radius: var(--radius-md);
-    background: var(--color-surface-elevated);
+    background: #fff;
+    color: #1a1a1a;
     text-align: center;
+}
+
+/* h1-h4's site-wide `color: var(--color-text-primary)` is an explicit declaration on the title's own
+   <h3>, which always wins over color merely inherited from .course-certificate above — left
+   unoverridden it would stay the dark theme's near-white value even against this paper-white surface.
+   Every text element inside the certificate needs its own explicit color for the same reason; * is
+   broad but harmless here since nothing inside .course-certificate uses a dark-theme token. */
+.course-certificate * {
+    color: #1a1a1a;
 }
 
 .course-certificate__issuer {
@@ -4043,7 +4070,7 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
     font-size: 0.85rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--color-text-secondary);
+    color: #555;
 }
 
 .course-certificate__title {
@@ -4059,12 +4086,58 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
 .course-certificate__disclaimer {
     margin-top: var(--space-5);
     font-size: 0.85rem;
-    color: var(--color-text-secondary);
+    color: #555;
 }
 
 .course-certificate__print-action {
     margin-top: var(--space-5);
 }
+
+/* ---- Always-visible preview panel (right column of the Section 03 two-column layout) ---- */
+
+.course-certificate-preview__label {
+    margin: 0 0 var(--space-1) 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+}
+
+.course-certificate-preview__helper {
+    margin: 0 0 var(--space-4) 0;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+/* Miniaturizes the exact same .course-certificate markup via scoped font-size reduction (not
+   transform:scale, which leaves dead layout space and can blur text) — a smaller, still-crisp render
+   of the identical document, framed with a shadow so the white paper surface reads clearly against
+   the dark app background. */
+.course-certificate-preview__frame {
+    border-radius: var(--radius-md);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+    .course-certificate-preview__frame .course-certificate {
+        margin: 0;
+        padding: var(--space-4);
+        font-size: 0.8rem;
+        border-radius: 0;
+    }
+
+    .course-certificate-preview__frame .course-certificate__title {
+        font-size: 1rem;
+    }
+
+    .course-certificate-preview__frame .course-certificate__name {
+        font-size: 1.1rem;
+    }
+
+    .course-certificate-preview__frame .course-certificate__disclaimer {
+        font-size: 0.65rem;
+    }
 
 @media print {
     /* Print-isolates the certificate by removing every OTHER element from layout via display:none —
@@ -4082,9 +4155,10 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
        .workspace section other than #udostoverenie-section), never .app-shell/.app-main/.page-container/
        .workspace themselves. Within #udostoverenie-section itself, everything but .course-certificate
        needs the same treatment individually — its role-label badge, its own <h2>, the "Курсът е
-       успешно завършен" intro line and the name-entry field all sit alongside .course-certificate as
-       siblings/cousins, not ancestors, so each is named here rather than relying on a single blanket
-       rule. */
+       успешно завършен" intro line, the name-entry field, and now the entire always-visible preview
+       column (.course-certificate-preview — the miniature is for on-screen guidance only, never part
+       of the issued document) all sit alongside the real .course-certificate as siblings/cousins, not
+       ancestors, so each is named here rather than relying on a single blanket rule. */
     .skip-link,
     .app-sidebar,
     .app-topbar,
@@ -4095,7 +4169,8 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
     #udostoverenie-section > .section-role-label,
     #udostoverenie-section > h2,
     #udostoverenie-section .card > p,
-    .course-certificate__name-field {
+    .course-certificate__name-field,
+    .course-certificate-preview {
         display: none;
     }
 
@@ -4114,29 +4189,15 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
         display: contents;
     }
 
+    /* Color/background need no print-specific override any more — .course-certificate is already an
+       always-white, always-dark-text "paper" surface on screen (see the base rules above), so print
+       inherits it unchanged. Only the screen-only framing (max-width/margin/border, sized for sitting
+       inside a page column) needs resetting to full-bleed A4. */
     .course-certificate {
         max-width: none;
         margin: 0;
         padding: var(--space-6);
         border: none;
-        background: #fff;
-        color: #1a1a1a;
-    }
-
-    /* h1-h4's site-wide `color: var(--color-text-primary)` is an explicit declaration on the title's
-       own <h3>, which always wins over color merely inherited from .course-certificate above — left
-       unoverridden it stays the dark theme's near-white value even in print, rendering the title
-       almost invisible on the white print background. Every text element inside the certificate
-       needs its own explicit print color for the same reason; * is broad but harmless here since
-       .course-certificate's screen palette is otherwise entirely var(--color-*) tokens with no
-       print-safe equivalent. */
-    .course-certificate * {
-        color: #1a1a1a;
-    }
-
-    .course-certificate__issuer,
-    .course-certificate__disclaimer {
-        color: #444;
     }
 
     .course-certificate__print-action {
