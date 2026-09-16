@@ -8,6 +8,9 @@
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+/* Serif display face used ONLY for the course-certificate title/name — a deliberate one-off contrast
+   with the app's own sans-serif UI, giving the printed/issued certificate a classic diploma feel. */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap');
 
 :root {
     /* Color roles — DARK (default). Session 22: cooler navy-charcoal neutral base
@@ -4029,12 +4032,12 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
 /* ==========================================================================
    Course Completion Certificate (/kurs/finalen-izpit) — session-only, no
    persistence. .course-certificate is a deliberately theme-independent
-   "paper" surface — always white with dark text, screen AND print, on the
-   reasoning that a certificate should look identical wherever it appears
-   rather than adopting the app's dark palette while being edited and only
-   turning white at print time. Everything OUTSIDE .course-certificate
-   (labels, the preview frame's shadow, helper text) still uses the normal
-   dark-theme tokens, so it fits naturally into the surrounding UI.
+   premium "plaque" surface — a fixed deep-navy/gold palette, unrelated to
+   the app's own light/dark toggle, so the issued certificate always looks
+   the same wherever it is viewed or printed. Everything OUTSIDE
+   .course-certificate (labels, the preview frame's shadow, helper text)
+   still uses the normal dark-theme tokens, so it fits naturally into the
+   surrounding UI.
    ========================================================================== */
 
 .course-certificate__name-field {
@@ -4045,48 +4048,113 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
     margin-bottom: var(--space-4);
 }
 
+/* Four corner brackets (one inline SVG per corner, mirrored coordinates in a shared 32x32 viewBox) as
+   extra background-image layers on top of the navy gradient — CSS paints the first-listed layer
+   frontmost, so the brackets sit above the gradient. print-color-adjust forces the dark background +
+   gold ink to survive printing even when the browser's print dialog has "background graphics"
+   unchecked — without it the premium look would silently revert to a plain white box on paper. */
 .course-certificate {
+    --cert-gold: #C9A961;
+    --cert-gold-bright: #E8CB86;
+    --cert-ink: #EDE6D6;
+    --cert-ink-muted: rgba(237, 230, 214, 0.62);
+
     max-width: 34rem;
     margin: 0 auto;
-    padding: var(--space-6);
-    border: 1px solid #d7d7dc;
+    padding: var(--space-7) var(--space-6);
+    border: 6px double var(--cert-gold);
     border-radius: var(--radius-md);
-    background: #fff;
-    color: #1a1a1a;
+    background-repeat: no-repeat;
+    background-position:
+        top 14px left 14px,
+        top 14px right 14px,
+        bottom 14px left 14px,
+        bottom 14px right 14px,
+        0 0;
+    background-size: 26px 26px, 26px 26px, 26px 26px, 26px 26px, cover;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 12 L2 2 L12 2' fill='none' stroke='%23C9A961' stroke-width='1.5'/%3E%3Ccircle cx='2' cy='2' r='2' fill='%23C9A961'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M30 12 L30 2 L20 2' fill='none' stroke='%23C9A961' stroke-width='1.5'/%3E%3Ccircle cx='30' cy='2' r='2' fill='%23C9A961'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 20 L2 30 L12 30' fill='none' stroke='%23C9A961' stroke-width='1.5'/%3E%3Ccircle cx='2' cy='30' r='2' fill='%23C9A961'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M30 20 L30 30 L20 30' fill='none' stroke='%23C9A961' stroke-width='1.5'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%23C9A961'/%3E%3C/svg%3E"),
+        linear-gradient(160deg, #17223B 0%, #0A0E1A 100%);
+    color: var(--cert-ink);
     text-align: center;
-}
-
-/* h1-h4's site-wide `color: var(--color-text-primary)` is an explicit declaration on the title's own
-   <h3>, which always wins over color merely inherited from .course-certificate above — left
-   unoverridden it would stay the dark theme's near-white value even against this paper-white surface.
-   Every text element inside the certificate needs its own explicit color for the same reason; * is
-   broad but harmless here since nothing inside .course-certificate uses a dark-theme token. */
-.course-certificate * {
-    color: #1a1a1a;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 .course-certificate__issuer {
     margin: 0 0 var(--space-4) 0;
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #555;
+    color: var(--cert-gold);
 }
 
 .course-certificate__title {
     margin: 0 0 var(--space-5) 0;
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    font-size: 1.85rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--cert-gold-bright);
 }
 
+    /* Thin gold rule above and below the title — the only "flourish" this needs; a second dingbat/
+       ornament here would fight the corner brackets for attention. */
+    .course-certificate__title::before,
+    .course-certificate__title::after {
+        content: "";
+        display: block;
+        width: 72px;
+        height: 1px;
+        margin: 0 auto var(--space-3);
+        background: linear-gradient(to right, transparent, var(--cert-gold), transparent);
+    }
+
+    .course-certificate__title::after {
+        margin: var(--space-3) auto 0;
+    }
+
 .course-certificate__name {
-    margin: 0 0 var(--space-3) 0;
-    font-size: 1.5rem;
+    display: inline-block;
+    margin: 0 0 var(--space-4) 0;
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid rgba(201, 169, 97, 0.45);
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    font-size: 1.7rem;
     font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--cert-gold-bright);
+}
+
+.course-certificate__course {
+    margin: 0 0 var(--space-2) 0;
+    font-size: 1rem;
+    color: var(--cert-ink);
+}
+
+.course-certificate__statement {
+    margin: 0 0 var(--space-4) 0;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--cert-ink);
+}
+
+.course-certificate__date {
+    margin: 0 0 var(--space-5) 0;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    color: var(--cert-gold);
 }
 
 .course-certificate__disclaimer {
     margin-top: var(--space-5);
-    font-size: 0.85rem;
-    color: #555;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--cert-ink-muted);
 }
 
 .course-certificate__print-action {
@@ -4112,11 +4180,12 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
 
 /* Miniaturizes the exact same .course-certificate markup via scoped font-size reduction (not
    transform:scale, which leaves dead layout space and can blur text) — a smaller, still-crisp render
-   of the identical document, framed with a shadow so the white paper surface reads clearly against
-   the dark app background. */
+   of the identical premium document, framed with a shadow so the dark "plaque" surface reads clearly
+   against the dark app background. Border width and corner-bracket size don't shrink with font-size,
+   so both are re-declared smaller here to keep the frame proportionate in miniature. */
 .course-certificate-preview__frame {
     border-radius: var(--radius-md);
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(201, 169, 97, 0.12);
     overflow: hidden;
 }
 
@@ -4124,15 +4193,23 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
         margin: 0;
         padding: var(--space-4);
         font-size: 0.8rem;
+        border-width: 3px;
         border-radius: 0;
+        background-position:
+            top 6px left 6px,
+            top 6px right 6px,
+            bottom 6px left 6px,
+            bottom 6px right 6px,
+            0 0;
+        background-size: 16px 16px, 16px 16px, 16px 16px, 16px 16px, cover;
     }
 
     .course-certificate-preview__frame .course-certificate__title {
-        font-size: 1rem;
+        font-size: 1.05rem;
     }
 
     .course-certificate-preview__frame .course-certificate__name {
-        font-size: 1.1rem;
+        font-size: 1.15rem;
     }
 
     .course-certificate-preview__frame .course-certificate__disclaimer {
@@ -4189,15 +4266,21 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
         display: contents;
     }
 
-    /* Color/background need no print-specific override any more — .course-certificate is already an
-       always-white, always-dark-text "paper" surface on screen (see the base rules above), so print
-       inherits it unchanged. Only the screen-only framing (max-width/margin/border, sized for sitting
-       inside a page column) needs resetting to full-bleed A4. */
+    /* The premium dark/gold plaque needs no color override here — print-color-adjust on the base rule
+       above forces the navy background, gold border/ornaments, and ink colors to survive printing
+       unchanged. Only the screen-only framing (max-width/margin, sized for sitting inside a page
+       column) needs resetting to full-bleed A4; padding/border/background carry through from the base
+       rule so the printed certificate matches the on-screen one exactly. */
     .course-certificate {
         max-width: none;
         margin: 0;
-        padding: var(--space-6);
-        border: none;
+    }
+
+    /* In print, the preview column is hidden, so the two-column grid layout must collapse to
+       single-column so the certificate uses full available width. The base rule declares
+       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); this resets it. */
+    .learning-grid--certificate {
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .course-certificate__print-action {
