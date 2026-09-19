@@ -1,0 +1,12 @@
+{
+  "name": "cbt-learning-platform-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Real-browser E2E coverage for the CBT Learning Platform learner journey (Playwright/Chromium).",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  }
+}
