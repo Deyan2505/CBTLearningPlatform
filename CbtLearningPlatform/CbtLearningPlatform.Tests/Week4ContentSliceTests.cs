@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.RegularExpressions;
 using CbtLearningPlatform.Client.Curriculum;
 
 namespace CbtLearningPlatform.Tests;
@@ -66,17 +67,77 @@ public sealed class Week4ContentSliceTests
         Assert.Contains("<SourceReferences", source);
         Assert.Contains("<OptionalReadingSource", source);
         Assert.Contains("<WeekCompletionControl", source);
+        // Weekly Mind Map (owner-approved addition, Week 6/15 engine) — the one previously-forbidden
+        // component this page now legitimately reuses.
+        Assert.Contains("<ConceptGraph", source);
 
         string[] forbiddenNewComponents =
         [
             "<CbtChainSimulator", "<CategorizationCheck", "<InterpretationExample",
             "<ResearchTurnStepper", "<SocraticDialogueExplorer", "<SchemaFilterDemonstration",
-            "<ConceptGraph", "<HistoricalTimeline", "<MindMapBranch"
+            "<HistoricalTimeline", "<MindMapBranch"
         ];
         foreach (string component in forbiddenNewComponents)
         {
             Assert.DoesNotContain(component, source);
         }
+    }
+
+    [Fact]
+    public void Week4Page_MindMapPresentInPreviewAndReview_CollapsedByDefaultInReview_NoConceptMapIntroduced()
+    {
+        string source = ReadPage("Sedmica4.razor");
+
+        int previewIndex = source.IndexOf("<h2 id=\"nakratko\"", StringComparison.Ordinal);
+        int reviewIndex = source.IndexOf("<h2 id=\"review\"", StringComparison.Ordinal);
+        Assert.True(previewIndex >= 0 && reviewIndex > previewIndex);
+
+        string reviewSection = source[reviewIndex..source.IndexOf("<h2 id=\"proverka\"", StringComparison.Ordinal)];
+
+        Assert.Contains("<details class=\"progressive-explanation concept-graph__retrieval-check\">", reviewSection);
+        Assert.DoesNotContain("<details class=\"progressive-explanation concept-graph__retrieval-check\" open>", reviewSection);
+        Assert.Contains("<ConceptGraph", reviewSection);
+
+        Assert.Equal(2, Regex.Matches(source, "<ConceptGraph").Count);
+        Assert.Equal(2, Regex.Matches(source, @"Model=""@_week4MindMapRender""").Count);
+
+        // Mind Map, not Concept Map — this week introduces no relationship-network representation.
+        Assert.DoesNotContain("ConceptMapModel", source);
+    }
+
+    [Fact]
+    public void Week4Page_MindMapUsesTheSevenApprovedTopLevelBranches_NoAnchorJumpBehavior()
+    {
+        string source = ReadPage("Sedmica4.razor");
+
+        int mapStart = source.IndexOf("private static MindMapModel BuildWeek4MindMap", StringComparison.Ordinal);
+        int mapEnd = source.IndexOf("]);", mapStart, StringComparison.Ordinal);
+        Assert.True(mapStart >= 0 && mapEnd > mapStart);
+        string mapBlock = source[mapStart..mapEnd];
+
+        string[] expectedTopLevelBranches =
+        [
+            "Цели на оценката", "Подготовка преди срещата", "Структура на сесията",
+            "Области на оценката", "Метод: типичен ден на пациента",
+            "Начални цели и план за лечение", "От оценка към концептуализация"
+        ];
+        foreach (string branch in expectedTopLevelBranches)
+        {
+            Assert.Contains($"\"{branch}\"", mapBlock);
+        }
+
+        // Children nested under their branch, not top-level siblings.
+        Assert.Contains("\"Шестте стъпки\", \"struktura\"", mapBlock);
+        Assert.Contains("\"Оценка ≠ терапевтична сесия\", \"struktura\"", mapBlock);
+        Assert.Contains("\"Оценка на риск за безопасност\", \"oblasti\"", mapBlock);
+        Assert.Contains("\"Диагностични рамки (напр. DSM)\", \"tseli-plan\"", mapBlock);
+        Assert.Contains("\"Пет насочващи въпроса\", \"most\"", mapBlock);
+        Assert.Contains("\"Случаят на Сали (пример)\", \"most\"", mapBlock);
+
+        // Owner-instructed deviation from the Week 6/15 visual pattern: no anchor-jump behavior at
+        // all on this map, so it must never link into (or otherwise touch) any of this page's
+        // sections, including §08.
+        Assert.DoesNotContain("/kurs/sedmica-4#", mapBlock);
     }
 
     [Fact]
@@ -189,7 +250,7 @@ public sealed class Week4ContentSliceTests
         [
             "nakratko", "zashto-otsenka", "podgotovka", "struktura-na-sesiyata",
             "oblasti-na-otsenkata", "ezhednevie-na-patsienta", "tseli-i-plan",
-            "ot-otsenka-kam-kontseptualizatsia", "proverka", "izvori"
+            "ot-otsenka-kam-kontseptualizatsia", "review", "proverka", "izvori"
         ];
 
         foreach (string id in anchorIds)

@@ -66,6 +66,7 @@
         <a href="/kurs/sedmica-4#ezhednevie-na-patsienta">Ежедневието на пациента</a>
         <a href="/kurs/sedmica-4#tseli-i-plan">Цели и план за лечение</a>
         <a href="/kurs/sedmica-4#ot-otsenka-kam-kontseptualizatsia">От оценка към концептуализация</a>
+        <a href="/kurs/sedmica-4#review">Седмичен преглед</a>
         <a href="/kurs/sedmica-4#proverka">Проверка</a>
         <a href="/kurs/sedmica-4#izvori">Източници</a>
     </nav>
@@ -80,6 +81,8 @@
             академично — общ преглед как професионалист организира информация за случай, — не като наръчник за
             практика, инструмент за самооценка или сценарий от въпроси, който да зададете на себе си или друг.
         </p>
+        <h3>Мисловна карта на седмицата — преглед</h3>
+        <ConceptGraph ComponentId="week4-mindmap-preview" Model="@_week4MindMapRender" />
     </LearningSection>
 
     <LearningSection Role="theory" RoleLabel="Цели">
@@ -245,14 +248,25 @@
         </p>
     </LearningSection>
 
+    <LearningSection Role="theory" RoleLabel="Обобщение">
+        <h2 id="review" tabindex="-1">09 · Седмичен преглед</h2>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>Преди да разгънеш картата, опитай да си спомниш кои са основните знаниеви клъстери на седмицата.</p>
+                <ConceptGraph ComponentId="week4-mindmap-review" Model="@_week4MindMapRender" />
+            </div>
+        </details>
+    </LearningSection>
+
     <LearningSection Role="theory" RoleLabel="Рефлексия">
-        <h2 id="proverka" tabindex="-1">09 · Проверка на разбирането</h2>
+        <h2 id="proverka" tabindex="-1">10 · Проверка на разбирането</h2>
         <p>5 въпроса. Отговорете на всички, за да предадете теста и видите резултата — не се пази между посещения.</p>
         <FinalAssessment SectionId="proverka" Model="_week4FinalAssessment" />
     </LearningSection>
 
     <LearningSection Role="academic" RoleLabel="Изводи">
-        <h2 id="izvori" tabindex="-1">10 · Обобщение, академичен контекст и източници</h2>
+        <h2 id="izvori" tabindex="-1">11 · Обобщение, академичен контекст и източници</h2>
 
         <div class="learning-grid learning-grid--balanced">
             <div>
@@ -307,6 +321,72 @@
 
 @code {
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 4);
+
+    // Weekly Mind Map — reuses the locked Week 6/15 ConceptGraph/MindMapAdapter engine and semantic
+    // model verbatim (no new visualization system). Preview (§01) and Review (§09) render the SAME
+    // _week4MindMapRender instance — two states of one knowledge structure, not two maps. Clusters
+    // mirror this page's own §02–§08 (its actual knowledge clusters, not their section numbers), at
+    // the same compact, mostly-flat scale as Week 15's own Academic Overview map (a handful of root-
+    // level clusters, sub-branching only where a section has a genuinely distinct sub-split — the six
+    // session steps, the safety-risk boundary, the DSM mention, the five conceptualization questions
+    // and Sally's case example) — every label/definition is this page's own already-approved wording,
+    // no new CBT claim. Anchor is deliberately null on every node (unlike Week 6/15): this map has no
+    // anchor-jump behavior, so §08 (the assessment→conceptualization bridge) is referenced by label
+    // only, never linked into or otherwise touched.
+    private static readonly GraphRenderModel _week4MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek4MindMap());
+
+    private static MindMapModel BuildWeek4MindMap() => new(
+        "Седмица 4 — клинична оценка и когнитивна концептуализация",
+        "Мисловна карта на седмицата: цели на оценката, подготовка преди срещата, структура на сесията, области на оценката, методът с типичния ден на пациента, начални цели и план за лечение, и мостът от оценка към начална когнитивна концептуализация.",
+        [
+            new("root", "Сесия по оценка", null, null, null, ConceptState.Introduced),
+
+            new("celi", "Цели на оценката", "root",
+                "Формулиране на случая и начална концептуализация, определяне на диагнозата, преценка на подходящ терапевт и \"доза\" лечение, начало на терапевтичната връзка, идентифициране на проблеми и начални цели — продължава през цялото лечение.",
+                null, ConceptState.Introduced),
+
+            new("podgotovka", "Подготовка преди срещата", "root",
+                "Предварителна информация (записи, въпросници), скорошен медицински преглед, възможно присъствие на близък човек по взаимно решение с пациента.",
+                null, ConceptState.Introduced),
+
+            new("struktura", "Структура на сесията", "root",
+                "Обща последователност от стъпки, следвана от типична сесия по оценка.",
+                null, ConceptState.Introduced),
+            new("struktura-stapki", "Шестте стъпки", "struktura",
+                "Посрещане → решение за присъствие на близък → дневен ред → провеждане на оценката → начални широки цели → обратна връзка.",
+                null, ConceptState.Introduced),
+            new("struktura-ne-terapia", "Оценка ≠ терапевтична сесия", "struktura",
+                "Изрично пояснено в началото на сесията — същинската работа по проблемите започва следващия път.",
+                null, ConceptState.Introduced),
+
+            new("oblasti", "Области на оценката", "root",
+                "Категории от опита на пациента, обходени систематично: демографски данни, история на проблема, стратегии за справяне, психиатрична и медицинска история, употреба на вещества, развойна и социална история, силни страни и ценности.",
+                null, ConceptState.Introduced),
+            new("oblasti-risk", "Оценка на риск за безопасност", "oblasti",
+                "Отговорност единствено на обучен специалист по психично здраве — без скринингови въпроси, скали или процедура тук.",
+                null, ConceptState.Introduced),
+
+            new("ezhednevie", "Метод: типичен ден на пациента", "root",
+                "Разказ от събуждане до лягане разкрива промени в настроението, взаимодействието, концентрацията и изолацията — пита се и за положителни преживявания и работещи стратегии.",
+                null, ConceptState.Introduced),
+
+            new("tseli-plan", "Начални цели и план за лечение", "root",
+                "Широки начални цели, обяснение на подхода на лечението, посрещане на скептицизъм с разбиране, очаквана продължителност на лечението — обикновено 8–14 сесии.",
+                null, ConceptState.Introduced),
+            new("tseli-plan-dsm", "Диагностични рамки (напр. DSM)", "tseli-plan",
+                "Ползвани от квалифицирани специалисти за потвърждаване на впечатленията — не за самодиагностика тук.",
+                null, ConceptState.Introduced),
+
+            new("most", "От оценка към концептуализация", "root",
+                "Данните от оценката се синтезират в начална когнитивна концептуализация — моделът, представен в Седмица 3; уточнява се през цялото лечение, не е еднократна присъда.",
+                null, ConceptStateResolver.Derive(3, [4], CourseCatalog.Weeks)),
+            new("most-vaprosi", "Пет насочващи въпроса", "most",
+                "Ранни събития зад основните вярвания, самите основни вярвания, предизвикващото събитие, тълкуването му, и как мисленето/поведението поддържа трудностите.",
+                null, ConceptState.Introduced),
+            new("most-sali", "Случаят на Сали (пример)", "most",
+                "Паразфразиран синтез — как оценката на Сали се превръща в нейната начална концептуализация.",
+                null, ConceptState.Introduced)
+        ]);
 
     // Weekly Final Assessment Standard — same 5 questions, wording, and answer keys as before the
     // retrofit; only the interaction changed (scored submit/retry instead of a static reveal).
