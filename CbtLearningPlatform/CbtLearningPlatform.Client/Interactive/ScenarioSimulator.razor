@@ -6,7 +6,14 @@
    Deep Learning Week. Keyboard-first throughout: level/mode switches and choices are native
    <button>s, ordering uses Move-up/Move-down controls (no drag requirement), feedback panels
    use aria-live="polite". No network calls, no browser storage, no scoring, no persistence —
-   all state is ephemeral in-memory UI state, reset on page reload. *@
+   all state is ephemeral in-memory UI state, reset on page reload.
+
+   ACTIVE LEARNING TOOLKIT REUSE CONTRACT (engine D): the interaction logic below is UNCHANGED (Week 6 renders exactly as
+   before). What changed is configurability — every level and sub-mode is optional and is offered only when its data is
+   supplied (ScenarioSimulatorContract), so another week can use just Level B ordering, just matching, and so on. Supplied
+   data is validated; malformed data renders an "unavailable" message instead of throwing. SafetyMode (default
+   NormalLearning = no visible change) adds a mandatory framing notice in every restricted mode, and
+   NoSelfGuidedSimulation withholds Level C (branching consequence simulation). *@
 
 <div class="scenario-simulator">
     <div class="scenario-simulator__header">
@@ -14,23 +21,49 @@
         <p>@Description</p>
     </div>
 
+    @if (_notice.Length > 0)
+    {
+        <p class="active-learning__notice" role="note">@_notice</p>
+    }
+
+    @if (_availableLevels.Count == 0)
+    {
+        <div class="scenario-simulator__config-error" role="alert">Упражнението в момента не е налично.</div>
+    }
+    else
+    {
+    @if (_availableLevels.Count > 1)
+    {
     <div class="scenario-simulator__level-tabs" role="tablist" aria-label="Ниво на симулатора">
+        @if (_availableLevels.Contains(0))
+        {
         <button type="button" role="tab" aria-selected="@(_level == 0 ? "true" : "false")"
                 class="scenario-simulator__level-tab" @onclick="() => SetLevel(0)">Ниво A · Разпознаване</button>
+        }
+        @if (_availableLevels.Contains(1))
+        {
         <button type="button" role="tab" aria-selected="@(_level == 1 ? "true" : "false")"
                 class="scenario-simulator__level-tab" @onclick="() => SetLevel(1)">Ниво B · Приложение</button>
+        }
+        @if (_availableLevels.Contains(2))
+        {
         <button type="button" role="tab" aria-selected="@(_level == 2 ? "true" : "false")"
                 class="scenario-simulator__level-tab" @onclick="() => SetLevel(2)">Ниво C · Разсъждение</button>
+        }
     </div>
+    }
 
     @if (_level == 0)
     {
+        @if (HasIdentify && HasMatching)
+        {
         <div class="scenario-simulator__mode-tabs" role="tablist" aria-label="Вид упражнение, Ниво A">
             <button type="button" role="tab" aria-selected="@(_modeA == 0 ? "true" : "false")"
                     class="scenario-simulator__mode-tab" @onclick="() => SetModeA(0)">Разпознай стъпката</button>
             <button type="button" role="tab" aria-selected="@(_modeA == 1 ? "true" : "false")"
                     class="scenario-simulator__mode-tab" @onclick="() => SetModeA(1)">Съпоставяне</button>
         </div>
+        }
 
         @if (_modeA == 0)
         {
@@ -94,12 +127,15 @@
     }
     else if (_level == 1)
     {
+        @if (HasOrdering && HasNextStep)
+        {
         <div class="scenario-simulator__mode-tabs" role="tablist" aria-label="Вид упражнение, Ниво B">
             <button type="button" role="tab" aria-selected="@(_modeB == 0 ? "true" : "false")"
                     class="scenario-simulator__mode-tab" @onclick="() => SetModeB(0)">Подреждане</button>
             <button type="button" role="tab" aria-selected="@(_modeB == 1 ? "true" : "false")"
                     class="scenario-simulator__mode-tab" @onclick="() => SetModeB(1)">Следваща стъпка</button>
         </div>
+        }
 
         @if (_modeB == 0)
         {
@@ -126,7 +162,7 @@
         else
         {
             <div class="scenario-simulator__prompt">
-                <p>@NextStepScenario.Situation</p>
+                <p>@NextStepScenario!.Situation</p>
             </div>
             <ul class="scenario-simulator__choices">
                 @for (int i = 0; i < NextStepScenario.Choices.Count; i++)
@@ -190,6 +226,7 @@
             }
         }
     }
+    }
 </div>
 
 @code {
@@ -199,26 +236,36 @@
     [Parameter, EditorRequired]
     public string Description { get; set; } = "";
 
-    [Parameter, EditorRequired]
+    // ---- Level A / B / C data: every group is OPTIONAL — a level or sub-mode is offered only when its data is supplied. ----
+
+    [Parameter]
     public IReadOnlyList<string> StepLabels { get; set; } = [];
 
-    [Parameter, EditorRequired]
+    [Parameter]
     public IReadOnlyList<RecognitionItem> IdentifyItems { get; set; } = [];
 
-    [Parameter, EditorRequired]
+    [Parameter]
     public IReadOnlyList<MatchingPair> MatchingPairs { get; set; } = [];
 
-    [Parameter, EditorRequired]
+    [Parameter]
     public IReadOnlyList<OrderingStep> OrderingSteps { get; set; } = [];
 
-    [Parameter, EditorRequired]
-    public NextStepScenario NextStepScenario { get; set; } = default!;
+    [Parameter]
+    public NextStepScenario? NextStepScenario { get; set; }
 
-    [Parameter, EditorRequired]
+    [Parameter]
     public string BranchStartNodeId { get; set; } = "";
 
-    [Parameter, EditorRequired]
+    [Parameter]
     public IReadOnlyList<BranchNode> BranchNodes { get; set; } = [];
+
+    /// <summary>Derive from the week with ActiveLearningSafety.ModeFor(week.SafetyLevel). Default NormalLearning changes nothing.</summary>
+    [Parameter]
+    public ActiveLearningSafetyMode SafetyMode { get; set; } = ActiveLearningSafetyMode.NormalLearning;
+
+    /// <summary>Optional approved wording replacing the mode's default notice (never removable in non-Normal modes).</summary>
+    [Parameter]
+    public string? SafetyNotice { get; set; }
 
     private int _level;
     private int _modeA;
@@ -238,10 +285,46 @@
     private string _currentNodeId = "";
     private int? _selectedOption;
 
+    private string _notice = "";
+    private List<int> _availableLevels = [];
+
+    private bool HasIdentify => ScenarioSimulatorContract.HasIdentify(StepLabels, IdentifyItems);
+    private bool HasMatching => ScenarioSimulatorContract.HasMatching(MatchingPairs);
+    private bool HasOrdering => ScenarioSimulatorContract.HasOrdering(OrderingSteps);
+    private bool HasNextStep => ScenarioSimulatorContract.HasNextStep(NextStepScenario);
+
+    private bool HasBranching =>
+        ActiveLearningSafety.Profile(SafetyMode).AllowsBranchingScenarios
+        && ScenarioSimulatorContract.HasBranching(BranchStartNodeId, BranchNodes);
+
     private IEnumerable<string> MatchingLabelOptions => MatchingPairs.Select(p => p.StepLabel).Distinct();
 
     protected override void OnParametersSet()
     {
+        _notice = ActiveLearningSafety.ResolveNotice(SafetyMode, SafetyNotice);
+
+        bool valid = ScenarioSimulatorContract.Validate(
+            StepLabels, IdentifyItems, MatchingPairs, OrderingSteps, NextStepScenario, BranchStartNodeId, BranchNodes).Count == 0;
+
+        _availableLevels = [];
+        if (valid)
+        {
+            if (HasIdentify || HasMatching) _availableLevels.Add(0);
+            if (HasOrdering || HasNextStep) _availableLevels.Add(1);
+            if (HasBranching) _availableLevels.Add(2);
+        }
+
+        if (_availableLevels.Count == 0)
+        {
+            return;
+        }
+
+        if (!_availableLevels.Contains(_level)) _level = _availableLevels[0];
+        if (!HasIdentify) _modeA = 1;
+        if (!HasMatching) _modeA = 0;
+        if (!HasOrdering) _modeB = 1;
+        if (!HasNextStep) _modeB = 0;
+
         if (_order.Count != OrderingSteps.Count)
         {
             _order = [.. Enumerable.Range(0, OrderingSteps.Count).OrderBy(i => (i * 7 + 3) % OrderingSteps.Count)];

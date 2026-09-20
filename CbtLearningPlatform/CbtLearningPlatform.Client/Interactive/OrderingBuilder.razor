@@ -1,0 +1,178 @@
+@* Interactive WebAssembly island — Active Learning Toolkit engine B: reusable ORDERING BUILDER.
+   The learner builds an order with native Move-up / Move-down buttons (the accessible, non-drag path that is MANDATORY;
+   dragging is an optional enhancement and is intentionally not implemented). Nothing is judged until the learner presses
+   "Провери подредбата": before that there are no ✓/✗, no counts and no correct order anywhere in the DOM. After a check
+   the learner can retry KEEPING their arrangement, reset to the original scramble, or (when stuck) reveal the sequence.
+   All state lives in OrderingBuilderState. The same ordering idea exists inside ScenarioSimulator Level B (kept exactly as
+   is for Week 6); this engine is the standalone, data-driven version any week can place anywhere on its page. Content
+   arrives only through the Activity parameter; no free text, no storage, no server call. Keyboard focus follows the moved
+   item so repeated arrow presses keep working, and every move is announced through an aria-live region. *@
+@namespace CbtLearningPlatform.Client.Interactive
+
+@if (_issues.Count > 0)
+{
+    <div class="active-learning__config-error" role="alert" data-config-error="ordering">Упражнението в момента не е налично.</div>
+}
+else
+{
+    <ActiveLearningFrame Id="@Id" Title="@Activity.Title" Instruction="@Activity.Instruction" Kind="ordering"
+                         SafetyMode="@SafetyMode" SafetyNotice="@SafetyNotice">
+        <p class="active-learning__progress" aria-live="polite">@_announcement</p>
+
+        <ol class="active-learning__order-list" aria-label="Текуща подредба">
+            @for (int p = 0; p < _state.Total; p++)
+            {
+                int position = p;
+                OrderingItem item = _state.CurrentOrder[position];
+                bool? placed = _state.IsPlacedCorrectly(position);
+
+                <li class="active-learning__order-item@(placed is null ? "" : placed == true ? " active-learning__order-item--correct" : " active-learning__order-item--incorrect")">
+                    <span class="active-learning__order-position" aria-hidden="true">@(position + 1)</span>
+                    <span class="active-learning__order-text">@item.Text</span>
+                    @if (placed is bool ok)
+                    {
+                        <span class="active-learning__status active-learning__status--@(ok ? "correct" : "incorrect")">
+                            <span aria-hidden="true">@(ok ? "✓" : "✗")</span> @(ok ? "На мястото си" : "Не е на мястото си")
+                        </span>
+                    }
+                    <span class="active-learning__order-controls">
+                        <button type="button" class="btn btn-neutral" @ref="_upButtons[position]"
+                                aria-label="@($"Премести „{item.Text}“ нагоре")"
+                                disabled="@(!_state.CanMoveUp(position))"
+                                @onclick="() => Move(position, up: true)">↑</button>
+                        <button type="button" class="btn btn-neutral" @ref="_downButtons[position]"
+                                aria-label="@($"Премести „{item.Text}“ надолу")"
+                                disabled="@(!_state.CanMoveDown(position))"
+                                @onclick="() => Move(position, up: false)">↓</button>
+                    </span>
+                    @if (placed is not null && !string.IsNullOrWhiteSpace(item.Explanation))
+                    {
+                        <p class="active-learning__order-explanation">@item.Explanation</p>
+                    }
+                </li>
+            }
+        </ol>
+
+        <div class="active-learning__actions">
+            @if (!_state.IsChecked)
+            {
+                <button type="button" class="btn btn-violet" @onclick="Check">Провери подредбата</button>
+                <button type="button" class="btn btn-neutral" @onclick="Reset">Започни отначало</button>
+            }
+            else
+            {
+                @if (!_state.IsFullyCorrect)
+                {
+                    <button type="button" class="btn btn-violet" @onclick="Retry">Опитай отново</button>
+                    @if (!_state.SolutionRevealed)
+                    {
+                        <button type="button" class="btn btn-neutral" @onclick="RevealSolution">Покажи верния ред</button>
+                    }
+                }
+                <button type="button" class="btn btn-neutral" @onclick="Reset">Започни отначало</button>
+            }
+        </div>
+
+        @if (_state.IsChecked)
+        {
+            <div class="active-learning__reveal" aria-live="polite">
+                <p class="active-learning__reveal-verdict">
+                    <span aria-hidden="true">@(_state.IsFullyCorrect ? "✓" : "✗")</span>
+                    @(_state.IsFullyCorrect
+                        ? "Подредбата е вярна."
+                        : $"{_state.CorrectPlacementCount} от {_state.Total} са на правилното място.")
+                </p>
+                @if (!string.IsNullOrWhiteSpace(Activity.Feedback))
+                {
+                    <p>@Activity.Feedback</p>
+                }
+                @if (_state.Solution is { } solution)
+                {
+                    <ol class="active-learning__solution" aria-label="Верен ред">
+                        @foreach (OrderingItem step in solution)
+                        {
+                            <li>@step.Text</li>
+                        }
+                    </ol>
+                }
+                @if (!string.IsNullOrWhiteSpace(Activity.SourceRef))
+                {
+                    <p class="active-learning__source">@Activity.SourceRef</p>
+                }
+            </div>
+        }
+    </ActiveLearningFrame>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public OrderingActivity Activity { get; set; } = default!;
+
+    [Parameter]
+    public ActiveLearningSafetyMode SafetyMode { get; set; } = ActiveLearningSafetyMode.NormalLearning;
+
+    [Parameter]
+    public string? SafetyNotice { get; set; }
+
+    [Parameter]
+    public string? ComponentId { get; set; }
+
+    private OrderingBuilderState _state = default!;
+    private IReadOnlyList<string> _issues = [];
+    private string? _generatedId;
+    private string _announcement = "";
+    private ElementReference[] _upButtons = [];
+    private ElementReference[] _downButtons = [];
+    private (int Position, bool Up)? _pendingFocus;
+
+    private string Id => ComponentId ?? (_generatedId ??= ActiveLearningIds.Next("ordering"));
+
+    protected override void OnParametersSet()
+    {
+        _issues = Activity.Validate();
+        if (_issues.Count == 0 && (_state is null || !ReferenceEquals(_state.Activity, Activity)))
+        {
+            _state = new OrderingBuilderState(Activity);
+            _upButtons = new ElementReference[_state.Total];
+            _downButtons = new ElementReference[_state.Total];
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_pendingFocus is not { } target) return;
+        _pendingFocus = null;
+
+        // Follow the moved item: prefer the same direction; at an edge that button is disabled, so use the other one.
+        bool preferUp = target.Up ? _state.CanMoveUp(target.Position) : !_state.CanMoveDown(target.Position);
+        ElementReference button = preferUp ? _upButtons[target.Position] : _downButtons[target.Position];
+        await button.FocusAsync();
+    }
+
+    private void Move(int position, bool up)
+    {
+        string text = _state.CurrentOrder[position].Text;
+        bool moved = up ? _state.MoveUp(position) : _state.MoveDown(position);
+        if (!moved) return;
+
+        int newPosition = up ? position - 1 : position + 1;
+        _announcement = $"„{text}“ е на позиция {newPosition + 1} от {_state.Total}.";
+        _pendingFocus = (newPosition, up);
+    }
+
+    private void Check()
+    {
+        _state.Check();
+        _announcement = "";
+    }
+
+    private void Retry() => _state.Retry();
+
+    private void Reset()
+    {
+        _state.Reset();
+        _announcement = "";
+    }
+
+    private void RevealSolution() => _state.RevealSolution();
+}

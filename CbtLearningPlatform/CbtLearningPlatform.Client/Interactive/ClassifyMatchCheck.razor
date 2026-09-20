@@ -1,0 +1,152 @@
+@* Interactive WebAssembly island — Active Learning Toolkit engine A: data-driven CLASSIFY / MATCH check.
+   Generalises the CategorizationCheck idea (which is reveal-only: think, then click "show") into a real learner
+   response: the learner COMMITS a choice for every item first; only then does "Провери" enable, and only after that do
+   verdicts and explanations exist in the DOM (all state lives in ClassifyMatchState — no verdict is even computable
+   before a check). Classify mode sorts items into shared categories; Match mode is one-to-one pairing.
+   ALL content arrives through the Activity parameter — nothing domain-specific is hard-coded here. Closed-choice radio groups
+   only: no free text, no storage, no server call, no scoring persisted. Keyboard: native radios (arrow keys within an
+   item, Tab between items) and native buttons. Verdicts are never colour-only: every one carries a ✓/✗ glyph plus real
+   text. Safety mode adds a mandatory framing notice in every non-Normal mode (ActiveLearningSafety). *@
+@namespace CbtLearningPlatform.Client.Interactive
+
+@if (_issues.Count > 0)
+{
+    <div class="active-learning__config-error" role="alert" data-config-error="classify-match">Упражнението в момента не е налично.</div>
+}
+else
+{
+    <ActiveLearningFrame Id="@Id" Title="@Activity.Title" Instruction="@Activity.Instruction" Kind="classify-match"
+                         SafetyMode="@SafetyMode" SafetyNotice="@SafetyNotice">
+        <p class="active-learning__progress" aria-live="polite">@ProgressText</p>
+
+        <ol class="active-learning__items">
+            @for (int n = 0; n < Activity.Items.Count; n++)
+            {
+                int number = n + 1;
+                string itemId = Activity.Items[n].Id;
+                ClassifyMatchItem item = Activity.Items[n];
+                bool? correct = _state.IsCorrect(itemId);
+                string? selected = _state.Selection(itemId);
+
+                <li class="active-learning__item card@(correct is null ? "" : correct == true ? " active-learning__item--correct" : " active-learning__item--incorrect")">
+                    <fieldset>
+                        <legend>
+                            <span class="active-learning__item-number">@number.</span> @item.Prompt
+                            @if (correct is bool verdict)
+                            {
+                                <span class="active-learning__status active-learning__status--@(verdict ? "correct" : "incorrect")">
+                                    <span aria-hidden="true">@(verdict ? "✓" : "✗")</span> @(verdict ? "Верен" : "Грешен")
+                                </span>
+                            }
+                        </legend>
+
+                        <div class="active-learning__options">
+                            @foreach (ClassifyMatchOption option in Activity.Options)
+                            {
+                                string optionId = option.Id;
+                                bool isSelected = selected == optionId;
+                                bool isRight = _state.IsChecked && optionId == item.CorrectOptionId;
+                                bool isWrongPick = _state.IsChecked && isSelected && !isRight;
+
+                                <label class="@OptionClass(isSelected, isRight, isWrongPick)">
+                                    <input type="radio"
+                                           name="@($"{Id}-{itemId}")"
+                                           checked="@isSelected"
+                                           disabled="@_state.IsChecked"
+                                           @onchange="() => Choose(itemId, optionId)" />
+                                    <span>@option.Label</span>
+                                    @if (isRight)
+                                    {
+                                        <span aria-hidden="true">✓</span>
+                                        <span class="visually-hidden">верен отговор</span>
+                                    }
+                                    else if (isWrongPick)
+                                    {
+                                        <span aria-hidden="true">✗</span>
+                                        <span class="visually-hidden">избран, но неверен</span>
+                                    }
+                                </label>
+                            }
+                        </div>
+                    </fieldset>
+
+                    @if (correct is not null)
+                    {
+                        <div class="active-learning__explanation">
+                            <p>@item.Explanation</p>
+                            @if (!string.IsNullOrWhiteSpace(item.SourceRef))
+                            {
+                                <p class="active-learning__source">@item.SourceRef</p>
+                            }
+                        </div>
+                    }
+                </li>
+            }
+        </ol>
+
+        @if (_state.HasDuplicateSelections)
+        {
+            <p class="active-learning__hint" role="status">Всеки вариант може да се използва само веднъж.</p>
+        }
+
+        <div class="active-learning__actions">
+            @if (!_state.IsChecked)
+            {
+                <button type="button" class="btn btn-violet" disabled="@(!_state.CanCheck)" @onclick="Check">Провери</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-neutral" @onclick="Retry">Опитай отново</button>
+            }
+        </div>
+    </ActiveLearningFrame>
+}
+
+@code {
+    /// <summary>Everything the learner sees — supplied by the week page from approved, source-grounded content.</summary>
+    [Parameter, EditorRequired]
+    public ClassifyMatchActivity Activity { get; set; } = default!;
+
+    /// <summary>Derive from the week with ActiveLearningSafety.ModeFor(week.SafetyLevel); never hand-picked.</summary>
+    [Parameter]
+    public ActiveLearningSafetyMode SafetyMode { get; set; } = ActiveLearningSafetyMode.NormalLearning;
+
+    /// <summary>Optional approved wording that replaces the mode's default notice (never removable in non-Normal modes).</summary>
+    [Parameter]
+    public string? SafetyNotice { get; set; }
+
+    /// <summary>Optional stable id (radio-group names, aria-labelledby). Generated when omitted.</summary>
+    [Parameter]
+    public string? ComponentId { get; set; }
+
+    private ClassifyMatchState _state = default!;
+    private IReadOnlyList<string> _issues = [];
+    private string? _generatedId;
+
+    private string Id => ComponentId ?? (_generatedId ??= ActiveLearningIds.Next("classify"));
+
+    private string ProgressText => _state.IsChecked
+        ? $"{_state.CorrectCount} от {_state.Total} верни"
+        : $"{_state.AnsweredCount} от {_state.Total} отговорени";
+
+    protected override void OnParametersSet()
+    {
+        _issues = Activity.Validate();
+        if (_issues.Count == 0 && (_state is null || !ReferenceEquals(_state.Activity, Activity)))
+        {
+            _state = new ClassifyMatchState(Activity);
+        }
+    }
+
+    private void Choose(string itemId, string optionId) => _state.Select(itemId, optionId);
+
+    private void Check() => _state.Check();
+
+    private void Retry() => _state.Reset();
+
+    private static string OptionClass(bool isSelected, bool isRight, bool isWrongPick) =>
+        "active-learning__option"
+        + (isRight ? " active-learning__option--correct" : "")
+        + (isWrongPick ? " active-learning__option--incorrect" : "")
+        + (isSelected && !isRight && !isWrongPick ? " active-learning__option--selected" : "");
+}

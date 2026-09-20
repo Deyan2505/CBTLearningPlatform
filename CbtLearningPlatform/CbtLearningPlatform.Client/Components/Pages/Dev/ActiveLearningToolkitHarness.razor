@@ -1,0 +1,124 @@
+@* QA HARNESS for the Active Learning Toolkit — compiled into DEBUG builds only (dev server + Playwright E2E); the csproj
+   removes Components/Pages/Dev/** from every other configuration, so this route never ships to production. It is NOT a
+   week page, is linked from nowhere, and exists so the toolkit can be exercised (keyboard, 390px, safety modes) without
+   wiring it into any week. ALL content below is deliberately neutral, non-CBT placeholder data — the engines themselves
+   contain no CBT content, and weeks will later supply their own approved, source-grounded data. *@
+@page "/dev/active-learning-toolkit"
+
+<PageTitle>Active Learning Toolkit — QA harness</PageTitle>
+
+<div class="content">
+    <p class="week-page__eyebrow">Само за разработка (Debug)</p>
+    <h1>Active Learning Toolkit — QA harness</h1>
+    <p>Неутрални примери без CBT съдържание, за проверка на трите engine-а, safety режимите и ScenarioSimulator reuse contract.</p>
+</div>
+
+<div class="workspace">
+    <section class="section-card" id="harness-classify">
+        <h2>A · Classify / Match</h2>
+        <ClassifyMatchCheck ComponentId="harness-classify-normal" Activity="_classify" />
+        <ClassifyMatchCheck ComponentId="harness-match-academic" Activity="_match" SafetyMode="ActiveLearningSafetyMode.AcademicThirdPerson" />
+    </section>
+
+    <section class="section-card" id="harness-ordering">
+        <h2>B · Ordering builder</h2>
+        <OrderingBuilder ComponentId="harness-ordering-normal" Activity="_ordering" />
+        <OrderingBuilder ComponentId="harness-ordering-nosim" Activity="_orderingNoSim" SafetyMode="ActiveLearningSafetyMode.NoSelfGuidedSimulation" />
+    </section>
+
+    <section class="section-card" id="harness-predict">
+        <h2>C · Committed predict → reveal</h2>
+        <PredictReveal ComponentId="harness-predict-normal" Activity="_predict" />
+        <PredictReveal ComponentId="harness-predict-professional" Activity="_predictComparisonOnly" SafetyMode="ActiveLearningSafetyMode.ProfessionalContext"
+                       SafetyNotice="@_approvedNotice" />
+    </section>
+
+    <section class="section-card" id="harness-simulator">
+        <h2>D · ScenarioSimulator reuse contract</h2>
+        <ScenarioSimulator Title="Само подреждане и съпоставяне" Description="Конфигурирани са само нужните нива."
+                           MatchingPairs="_pairs" OrderingSteps="_steps" />
+        <ScenarioSimulator Title="NoSelfGuidedSimulation — без клонове" Description="Подадени са и разклонени данни, но ниво C е скрито."
+                           MatchingPairs="_pairs" OrderingSteps="_steps" BranchStartNodeId="start" BranchNodes="_branch"
+                           SafetyMode="ActiveLearningSafetyMode.NoSelfGuidedSimulation" />
+    </section>
+</div>
+
+@code {
+    private const string _approvedNotice = "Одобрена формулировка, зададена от страницата на седмицата.";
+
+    private static readonly ClassifyMatchActivity _classify = new(
+        "Плод или зеленчук?",
+        "Изберете категория за всеки пример, после натиснете „Провери“.",
+        ClassifyMatchMode.Classify,
+        [new("fruit", "Плод"), new("veg", "Зеленчук")],
+        [
+            new("apple", "Ябълка", "fruit", "Ябълката е плод на дърво."),
+            new("carrot", "Морков", "veg", "Морковът е корен, използван като зеленчук."),
+            new("pear", "Круша", "fruit", "Крушата е плод на дърво.", "Пример: неутрален тестов източник")
+        ]);
+
+    private static readonly ClassifyMatchActivity _match = new(
+        "Съпоставете небесните тела",
+        "Всеки вариант може да се използва най-много веднъж.",
+        ClassifyMatchMode.Match,
+        [new("star", "Звезда"), new("planet", "Планета"), new("moon", "Луна")],
+        [
+            new("sun", "Слънцето", "star", "Слънцето е звезда."),
+            new("earth", "Земята", "planet", "Земята е планета."),
+            new("luna", "Спътникът на Земята", "moon", "Спътникът на Земята е Луната.")
+        ]);
+
+    private static readonly OrderingActivity _ordering = new(
+        "Подредете частите на деня",
+        "Използвайте бутоните ↑ и ↓, после натиснете „Провери подредбата“.",
+        [
+            new("wake", "Събуждане", "Денят започва."),
+            new("breakfast", "Закуска", "Първото хранене."),
+            new("lunch", "Обяд", "Средата на деня."),
+            new("dinner", "Вечеря", "Краят на деня.")
+        ],
+        Feedback: "Обичайната последователност е от сутрин към вечер.",
+        SourceRef: "Пример: неутрален тестов източник",
+        ShuffleSeed: 3);
+
+    private static readonly OrderingActivity _orderingNoSim = _ordering with { Title = "Подредете частите на деня (без самостоятелна симулация)" };
+
+    private static readonly PredictRevealActivity _predict = new(
+        "Пусната топка",
+        "Топка е пусната от ръка над пода.",
+        "Какво ще се случи?",
+        [
+            new("down", "Ще падне надолу", "Точно така — предсказанието ви съвпада."),
+            new("up", "Ще полети нагоре", "Не — нищо не я тласка нагоре."),
+            new("hover", "Ще остане във въздуха", "Не — нищо не я задържа.")
+        ],
+        ActualOptionId: "down",
+        Explanation: "Гравитацията дърпа топката надолу, затова тя пада.",
+        SourceRef: "Пример: неутрален тестов източник");
+
+    private static readonly PredictRevealActivity _predictComparisonOnly = new(
+        "Сравнение без единствен верен отговор",
+        "Двама души описват един и същ изглед по различен начин.",
+        "Кое описание ще прочетат по-често?",
+        [new("a", "Първото"), new("b", "Второто")],
+        ActualOptionId: null,
+        Explanation: "И двете описания са разпространени; тук се сравнява само изборът.",
+        AllowRetry: true);
+
+    private static readonly IReadOnlyList<MatchingPair> _pairs =
+    [
+        new("Първи пример", "Група А"),
+        new("Втори пример", "Група Б")
+    ];
+
+    private static readonly IReadOnlyList<OrderingStep> _steps =
+    [
+        new("Първо", 0), new("Второ", 1), new("Трето", 2)
+    ];
+
+    private static readonly IReadOnlyList<BranchNode> _branch =
+    [
+        new("start", "Начало на неутрален сценарий.", [new("Продължи", "Следствие.", true, "Обосновка.", "неутрален пример", "end")], null),
+        new("end", "", [], "Край на неутралния сценарий.")
+    ];
+}

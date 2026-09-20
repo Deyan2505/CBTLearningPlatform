@@ -1,0 +1,127 @@
+@* Interactive WebAssembly island — Active Learning Toolkit engine C: COMMITTED PREDICT → REVEAL.
+   NOT a <details> reveal. The learner must pick a prediction and press "Потвърди предсказанието" FIRST; the explanation,
+   the actual outcome and the comparison are rendered only after that commitment — before it they do not exist in the
+   DOM at all (PredictRevealState exposes nothing until Commit), so they cannot leak to assistive tech or view-source
+   inspection of the rendered page. After the reveal the learner sees their own prediction next to the actual outcome
+   (a text verdict "Съвпада / Не съвпада" plus glyph, never colour-only) and the explanation; retry resets to an
+   unanswered state where the activity allows it. When the activity has no single right answer (ActualOptionId null) only
+   the comparison is shown — never a right/wrong verdict. Content arrives only through the Activity parameter;
+   closed-choice radios only — no free text, no storage, no server call. *@
+@namespace CbtLearningPlatform.Client.Interactive
+
+@if (_issues.Count > 0)
+{
+    <div class="active-learning__config-error" role="alert" data-config-error="predict-reveal">Упражнението в момента не е налично.</div>
+}
+else
+{
+    <ActiveLearningFrame Id="@Id" Title="@Activity.Title" Instruction="Първо изберете предсказание — обяснението се показва след това."
+                         Kind="predict-reveal" SafetyMode="@SafetyMode" SafetyNotice="@SafetyNotice">
+        <div class="active-learning__scenario card">
+            <p>@Activity.Scenario</p>
+        </div>
+
+        <fieldset class="active-learning__predict">
+            <legend>@Activity.Question</legend>
+            <div class="active-learning__options">
+                @foreach (PredictRevealOption option in Activity.Options)
+                {
+                    string optionId = option.Id;
+                    bool isSelected = _state.Selection == optionId;
+                    <label class="active-learning__option@(isSelected ? " active-learning__option--selected" : "")">
+                        <input type="radio"
+                               name="@($"{Id}-prediction")"
+                               checked="@isSelected"
+                               disabled="@_state.IsCommitted"
+                               @onchange="() => Choose(optionId)" />
+                        <span>@option.Label</span>
+                    </label>
+                }
+            </div>
+        </fieldset>
+
+        <div class="active-learning__actions">
+            @if (!_state.IsCommitted)
+            {
+                <button type="button" class="btn btn-violet" disabled="@(!_state.CanCommit)" @onclick="Commit">Потвърди предсказанието</button>
+            }
+            else if (Activity.AllowRetry)
+            {
+                <button type="button" class="btn btn-neutral" @onclick="Retry">Опитай отново</button>
+            }
+        </div>
+
+        @if (_state.IsCommitted)
+        {
+            <div class="active-learning__reveal" aria-live="polite">
+                <dl class="active-learning__comparison">
+                    <div>
+                        <dt>Вашето предсказание</dt>
+                        <dd>@_state.Chosen!.Label</dd>
+                    </div>
+                    @if (_state.Actual is { } actual)
+                    {
+                        <div>
+                            <dt>Действителният резултат</dt>
+                            <dd>@actual.Label</dd>
+                        </div>
+                    }
+                </dl>
+
+                @if (_state.MatchesActual is bool matches)
+                {
+                    <p class="active-learning__status active-learning__status--@(matches ? "correct" : "incorrect")">
+                        <span aria-hidden="true">@(matches ? "✓" : "✗")</span> @(matches ? "Съвпада" : "Не съвпада")
+                    </p>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(_state.Chosen!.Feedback))
+                {
+                    <p>@_state.Chosen.Feedback</p>
+                }
+
+                <p>@_state.Explanation</p>
+
+                @if (!string.IsNullOrWhiteSpace(Activity.SourceRef))
+                {
+                    <p class="active-learning__source">@Activity.SourceRef</p>
+                }
+            </div>
+        }
+    </ActiveLearningFrame>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public PredictRevealActivity Activity { get; set; } = default!;
+
+    [Parameter]
+    public ActiveLearningSafetyMode SafetyMode { get; set; } = ActiveLearningSafetyMode.NormalLearning;
+
+    [Parameter]
+    public string? SafetyNotice { get; set; }
+
+    [Parameter]
+    public string? ComponentId { get; set; }
+
+    private PredictRevealState _state = default!;
+    private IReadOnlyList<string> _issues = [];
+    private string? _generatedId;
+
+    private string Id => ComponentId ?? (_generatedId ??= ActiveLearningIds.Next("predict"));
+
+    protected override void OnParametersSet()
+    {
+        _issues = Activity.Validate();
+        if (_issues.Count == 0 && (_state is null || !ReferenceEquals(_state.Activity, Activity)))
+        {
+            _state = new PredictRevealState(Activity);
+        }
+    }
+
+    private void Choose(string optionId) => _state.Select(optionId);
+
+    private void Commit() => _state.Commit();
+
+    private void Retry() => _state.Retry();
+}

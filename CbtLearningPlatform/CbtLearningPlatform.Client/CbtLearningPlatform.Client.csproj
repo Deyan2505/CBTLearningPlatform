@@ -7,6 +7,15 @@
     <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
   </PropertyGroup>
 
+  <!-- QA-only Active Learning Toolkit harness page: compiled into Debug (dev server, Playwright E2E), removed from every
+       other configuration so the route never reaches the published site. -->
+  <ItemGroup Condition="'$(Configuration)' != 'Debug'">
+    <Compile Remove="Components\Pages\Dev\**" />
+    <RazorComponent Remove="Components\Pages\Dev\**" />
+    <Content Remove="Components\Pages\Dev\**" />
+    <None Remove="Components\Pages\Dev\**" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.10" PrivateAssets="all" />

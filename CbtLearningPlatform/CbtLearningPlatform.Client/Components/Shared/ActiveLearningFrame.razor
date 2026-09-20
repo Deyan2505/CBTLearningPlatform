@@ -1,0 +1,46 @@
+@* Shared presentational frame for every Active Learning Toolkit engine (ClassifyMatchCheck, OrderingBuilder,
+   PredictReveal): heading, instruction, the safety framing notice, and a slot for the engine's own content.
+   It owns NO subject-matter content and no behaviour — the notice text comes from ActiveLearningSafety (or a week's approved
+   override) and is mandatory in every non-Normal safety mode: a blank override can never remove it. *@
+@namespace CbtLearningPlatform.Client.Components.Shared
+
+<section class="active-learning active-learning--@Kind" data-safety-mode="@SafetyMode" aria-labelledby="@TitleId">
+    <h3 id="@TitleId" class="active-learning__title">@Title</h3>
+    <p class="active-learning__instruction">@Instruction</p>
+    @if (_notice.Length > 0)
+    {
+        <p class="active-learning__notice" role="note">@_notice</p>
+    }
+    @ChildContent
+</section>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Id { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public string Instruction { get; set; } = "";
+
+    /// <summary>CSS modifier: "classify-match", "ordering" or "predict-reveal".</summary>
+    [Parameter, EditorRequired]
+    public string Kind { get; set; } = "";
+
+    [Parameter]
+    public ActiveLearningSafetyMode SafetyMode { get; set; } = ActiveLearningSafetyMode.NormalLearning;
+
+    [Parameter]
+    public string? SafetyNotice { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string TitleId => $"{Id}-title";
+
+    private string _notice = "";
+
+    protected override void OnParametersSet() =>
+        _notice = ActiveLearningSafety.ResolveNotice(SafetyMode, SafetyNotice);
+}
