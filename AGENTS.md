@@ -50,16 +50,20 @@ has priority; recorded owner decisions and locked standards must not be changed 
 
 ## Approved Deep Learning workflow
 
-Use `COGNITIVE_LEARNING_ROLLOUT_PLAN_v1.md` section 19 and `06_QA_STRATEGY.md` DoD v3. In short:
+Use `COGNITIVE_LEARNING_ROLLOUT_PLAN_v1.md` section 19 and `06_QA_STRATEGY.md` DoD v3 + v4 (Active Learning
+Gate). Where section 19 step 10 says simulator/application only "where the Interactive Format justifies it",
+the Active Learning Standard below overrides it — interaction is mandatory; only its form varies. In short:
 
 1. Full source read/extraction -> KU inventory -> Coverage Matrix -> Terminology Map.
-2. Analyze representation fit and retrieval coverage; design only the hierarchy, relationships,
+2. Analyze representation fit and retrieval coverage; design the hierarchy, relationships,
    process, comparison, decision logic, case work, and interaction justified by the source.
+   Representation Fit chooses the FORM of the visual and the interaction — it never waives the
+   Active Learning Standard below.
 3. Prepare the source-grounded blueprint and stop for owner blueprint review.
 4. Implement only the approved scope, reusing the established architecture.
-5. Run technical, source, accessibility, responsive, and browser visual QA.
-6. Stop for owner visual/learning review. Only after approval may the work be marked `COMPLETE` and
-   confirmed metadata be integrated into the global Knowledge Map.
+5. Run technical, source, accessibility, responsive, and browser visual QA, and the Active Learning Gate.
+6. Stop for owner visual/learning review. Only after approval — and `ACTIVE LEARNING GATE — PASS` —
+   may the work be marked `COMPLETE` and confirmed metadata be integrated into the global Knowledge Map.
 
 The deprecated “source note -> short lesson -> quiz -> complete” workflow is not acceptable.
 
@@ -79,8 +83,10 @@ The deprecated “source note -> short lesson -> quiz -> complete” workflow is
   regression target. Do not polish, restructure, or change its shared engine without an explicit owner
   request. A page-local defect does not authorize a new renderer, architecture, graph library, or
   project-wide redesign.
-- Week 6 is a reference, not a mechanical template. Apply Representation Fit; do not add decorative
-  diagrams or force every week into the same quantity or layout of visuals.
+- Week 6 (density) and Week 8 (experience) are references, not mechanical templates. Apply Representation
+  Fit to choose the FORM of visual and interaction; do not add decorative diagrams or force every week into
+  the same quantity or layout — but Representation Fit never decides WHETHER a week is active
+  (see Active Learning Standard).
 
 ## Mind Map is not Concept Map
 
@@ -91,6 +97,32 @@ The deprecated “source note -> short lesson -> quiz -> complete” workflow is
   source-grounded relation labels. It is not a tree or a card grid.
 - A **Case Conceptualization Map** is a separate domain model populated only with established case
   observations. Do not collapse these three representations into one generic content model.
+
+## Active Learning Standard (mandatory, project-wide — owner decision, ADR-011)
+
+The platform is not a sequence of reading pages. **Every learning week MUST contain:**
+
+1. at least one source-grounded **visual learning model** of the week's central structure;
+2. at least one meaningful **active-learning interaction before the Final Assessment**;
+3. at least one **learner-response activity** — choose, classify, order, compare, predict, manipulate a
+   model, map relationships, or make a decision — followed by feedback, consequence, comparison or reveal
+   only **after** the learner commits.
+
+These do **not** count: navigation, links, accordions, a plain `<details>` reveal, Mind Map expand/collapse,
+the completion control, the Final Assessment by itself, passive reading, or a static table/list.
+Safety tiers (`AcademicContextOnly`, `ProfessionalReviewRequired`, `NotEligibleForSelfGuidedSimulator`) change
+the FORM of interaction — third-person, fixed examples, no free-text self-assessment, no risk prediction, no
+self-treatment simulation — and **never** remove it. "This topic does not need the Week 8 simulator" is not a
+justification for passive-only content.
+
+Enforcement: every routed week declares its elements in `Curriculum/ActiveLearningCatalog.cs` (presence/type
+only, no CBT content); `ActiveLearningGateTests` evaluates and source-verifies every declaration for all routed
+weeks. A week is either `Compliant` or `StructuralEnrichmentRequired` — there is no exemption state.
+`OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` means content approval stays valid and prose stays
+locked; only the learning architecture is reopened. **`ACTIVE LEARNING GATE — PASS` is a required precondition for
+any future OWNER LOCK** (DoD v4 in `06_QA_STRATEGY.md`). New interactive components must be classified in
+`ActiveLearningStandard.Components`. Older assertions that forbid interactive components are inventoried in
+`LegacyPassivityInventory` and replaced — not silently deleted — during each week's remediation.
 
 ## Owner-review workflow
 
@@ -112,6 +144,8 @@ For code, content, test, or UI changes, unless the task explicitly narrows valid
   new warnings rather than suppressing them. Match the Release build/test contract in CI.
 - Run `git diff --check`; smoke-test affected routes and interactions; perform accessibility,
   responsive, regression, source, and visual checks proportional to the change.
+- A week is structurally complete only with the Visual, Active Interaction, Active Learner Response and Final
+  Assessment gates all passing (`ActiveLearningGateTests`) alongside the source/safety/coverage gates.
 - Report the commands and actual current results—never copy an old test count as a baseline.
 - Update Project OS documents only when the authorized task changes architecture, decisions, status,
   roadmap, coverage, or session history. Documentation-only routing changes do not require an app build.

@@ -14,12 +14,29 @@
 
 ## Текуща фаза
 
-Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31). Седмица 10 — `COMPLETE`, `COMMITTED` (Сесия 33) — "Guided Practice" архетипът `VALIDATED`. Седмица 6 — `COMPLETE`, `COMMITTED` (Сесия 35, Phase C, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion. Седмица 12 — `COMPLETE`, `COMMITTED` (съдържание от Сесия 37, комитнато заедно с WASM migration commit `4135988`) — втората седмица от build order-а, `AcademicOverview` архетип (routed, но не `Available`, по дизайн). Седмица 2, 4, 5, 7, 8, 9, 11, 13, 14, 15 — `OWNER APPROVED / LOCKED` (production reviewed and approved). ALL 15 COURSE WEEKS — `OWNER APPROVED / LOCKED` (2026-09-19).**
+Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31). Седмица 10 — `COMPLETE`, `COMMITTED` (Сесия 33) — "Guided Practice" архетипът `VALIDATED`. Седмица 6 — `COMPLETE`, `COMMITTED` (Сесия 35, Phase C, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion. Седмица 12 — `COMPLETE`, `COMMITTED` (съдържание от Сесия 37, комитнато заедно с WASM migration commit `4135988`) — втората седмица от build order-а, `AcademicOverview` архетип (routed, но не `Available`, по дизайн). Седмица 2, 4, 5, 7, 8, 9, 11, 13, 14, 15 — `OWNER APPROVED / LOCKED` (production reviewed and approved). ALL 15 COURSE WEEKS — `OWNER APPROVED / LOCKED` (2026-09-19) — това е съдържателно/source одобрение и остава валидно. Структурен статус по ACTIVE LEARNING STANDARD (ADR-011, 2026-09-20): Седмици 3, 6, 8 съответстват; Седмици 1, 2, 4, 5, 7, 9, 10, 11, 12, 13, 14, 15 — `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED`.**
 
 ## Текуща стъпка
 
-`FINAL WHOLE-COURSE QA MILESTONE` (2026-09-19). All 15/15 course weeks are now `OWNER APPROVED / LOCKED`.
-Next phase: comprehensive whole-course quality assurance before marking the project `PROJECT COMPLETE`:
+`ACTIVE LEARNING STANDARD — FORMALIZED` (2026-09-20, ADR-011). След `ACTIVE LEARNING ARCHITECTURE AUDIT` собственикът
+реши: активното учене е **задължително** за всяка седмица (визуален модел + активно взаимодействие преди Final Assessment +
+learner-response с feedback след ангажимент; safety променя формата, не премахва взаимодействието). Кодирано в `AGENTS.md`,
+`06_QA_STRATEGY.md` (DoD v4 — `ACTIVE LEARNING GATE — PASS` е предпоставка за бъдещ OWNER LOCK), `Curriculum/ActiveLearningCatalog.cs`
+и `ActiveLearningGateTests`. **Не е започнало никакво enrichment на седмици** — само правилото, декларацията и gate-ът.
+Структурен статус (предишните owner одобрения НЕ се изтриват; прозата остава `LOCKED`):
+
+| Седмица | Структурен статус | Gate-ове, които още не минават |
+|---|---|---|
+| 3, 6, 8 | **съответства** — текущи reference (3: модел-манипулация; 6: density; 8: experience) | — |
+| 4 | `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` | Visual, Interaction, Response |
+| 1, 2, 5, 7, 9, 10, 11, 12, 13, 14, 15 | `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` | Interaction, Response |
+
+Ред на работа: контролирана remediation седмица по седмица (без клониране на Седмица 8/6), започвайки с reusable active-learning
+toolkit; стари тестове, забраняващи интерактивни компоненти, са инвентаризирани в `LegacyPassivityInventory` и се заместват
+при remediation на съответната седмица.
+
+Предходна стъпка — `FINAL WHOLE-COURSE QA MILESTONE` (2026-09-19). All 15/15 course weeks are `OWNER APPROVED / LOCKED`.
+Next phase: comprehensive whole-course quality assurance before marking the project `PROJECT COMPLETE` (сега допълнена с Active Learning Gate):
 
 - **Седмица 3 v2** (Deep Learning rebuild, Сесии 51–56, committed `3e4ca50`) — `OWNER APPROVED / LOCKED`.
 - **Седмица 6** — Deep Learning reference implementation — `LOCKED` (Сесия 46, unchanged). The

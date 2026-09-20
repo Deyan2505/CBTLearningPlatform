@@ -72,11 +72,45 @@
 7. Промените са описани в handoff доклад и в `10_SESSION_LOG.md`.
 8. Няма съзнателно скрит недовършен проблем.
 
+## Definition of Done v4 — ACTIVE LEARNING GATE (задължителен, собственическо решение, ADR-011)
+
+**Важи за ВСЯКА учебна седмица** (не само Deep Learning) и е **предпоставка за всеки бъдещ OWNER LOCK**. Допълва —
+не заменя — v3 и общия Definition of Done по-горе. **Извежда от сила** формулировката „поне едно смислено
+практическо взаимодействие, *където темата позволява*" (v2, точка 7, пренесена през v3): взаимодействието вече е
+**задължително** — safety класът и Representation Fit определят ФОРМАТА му, никога дали го има.
+
+Една седмица е структурно завършена само ако **и четирите gate-а** са `PASS` (плюс съществуващите source/safety/coverage gate-ове):
+
+| Gate | Изискване | НЕ се брои |
+|---|---|---|
+| **Visual Learning Gate** | поне един source-grounded визуален модел на централната структура на седмицата (процес, йерархия, цикъл, сравнение, времева линия, мрежа, decision модел…) | самостоятелен Mind Map (освен ако реално представя централната структура), проста таблица/списък |
+| **Active Interaction Gate** | поне едно смислено активно взаимодействие **преди** Final Assessment | навигация, линкове, accordion, обикновен `<details>` reveal, Mind Map expand/collapse, completion бутон, Final Assessment, четене, select-to-read explorer |
+| **Active Learner Response Gate** | поне една активност, в която обучаемият **избира / класифицира / подрежда / сравнява / предсказва / манипулира модел / свързва връзки / взема решение** и получава feedback, последица, сравнение или reveal **едва СЛЕД ангажимента си** | plain reveal, WhatIfBox, reveal-only проверка, „помисли и разгъни" |
+| **Final Assessment Gate** | точно един `FinalAssessment` (платформен стандарт) | — |
+
+Safety-адаптация (`AcademicContextOnly`, `ProfessionalReviewRequired`, `NotEligibleForSelfGuidedSimulator`): трето лице, фиксирани
+примери, без free-text самооценка, без risk prediction, без диагностичен self-test, без exposure planning, без self-treatment
+симулация — **но никога пасивно-само съдържание**. Няма „exempt" състояние.
+
+**Механизъм (автоматизиран):** всяка routed седмица декларира елементите си в `Curriculum/ActiveLearningCatalog.cs`
+(само наличие/тип, без CBT съдържание); `ActiveLearningGateTests` оценява и верифицира всяка декларация срещу реалния
+markup на страницата, изисква взаимодействието да предхожда Final Assessment, и налага контролираната миграция:
+`StructuralStatus.Compliant` изисква A–D; `StructuralStatus.StructuralEnrichmentRequired` е временно и мълчаливо
+неизползваемо — тестът пада и при фалшива „Compliant", и при остаряло „Enrichment Required". Стари тестове, които забраняват
+интерактивни компоненти, са инвентаризирани в `LegacyPassivityInventory` и се **заместват** (не се изтриват) при
+remediation на съответната седмица. Нов интерактивен компонент трябва да бъде класифициран в `ActiveLearningStandard.Components`.
+
+**Задължителна запис-формула при приключване на седмица:** `ACTIVE LEARNING GATE — PASS` (Visual / Interaction / Response / Final Assessment).
+
+**Статус модел:** `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` = source/съдържателното одобрение остава валидно,
+прозата остава LOCKED, преотваря се само учебната архитектура за active-learning enrichment. Не изтрива предишни owner одобрения.
+
 ## Deep Learning Week — Definition of Done v3 (Сесия 42, 2026-08-22)
 
 Заменя v2's точка 8 ("минимум 3 истински графични учебни визуализации") с две gates, одобрени в
 `00_PROJECT_OS/_blueprints/COGNITIVE_LEARNING_ARCHITECTURE_v1.md` v1.1 §16/§17/§18. Точки 1–7 и
-9–22 от v2 остават непроменени (виж следващия раздел). Точка 8 вече е:
+9–22 от v2 остават непроменени (виж следващия раздел) — **с изключение на точка 7** („…където темата позволява"),
+която е **извадена от сила от DoD v4 по-горе**: взаимодействието е задължително. Точка 8 вече е:
 
 **8а. Cognitive Representation Coverage** — заменя механичното броене с преценка:
 1. Всеки major knowledge cluster е изрично оценен за най-подходящата представяне — документирано
