@@ -64,17 +64,19 @@ public class FinalAssessmentRolloutTests
     }
 
     [Fact]
-    public void Week4And5_RemainNotYetOwnerApprovedOrLocked_RetrofitDidNotChangeApprovalStatus()
+    public void Week4And5_AreNowOwnerApprovedAndLocked_RetrofitPreservedLockStatus()
     {
-        // The interaction retrofit must not read as (or accidentally trigger) locking/approving a
-        // week. 00_PROJECT_OS/02_CURRENT_STATUS.md is the canonical status record (page source files
-        // don't carry a page-level lock marker — Week 5's header, for instance, legitimately cites its
-        // SOURCE_AUDIT doc as "OWNER APPROVED", which is the source audit's own status, not the page's).
+        // Verify that Weeks 4 and 5 are now marked OWNER APPROVED / LOCKED after owner visual review.
+        // The canonical status record is 00_PROJECT_OS/02_CURRENT_STATUS.md (page source files
+        // don't carry a page-level lock marker — Week 5's header, for instance, cites its
+        // SOURCE_AUDIT doc status, not the page's own status).
         string status = File.ReadAllText(Path.Combine(TestPaths.FindSolutionRoot(), "..", "00_PROJECT_OS", "02_CURRENT_STATUS.md"));
 
         Assert.Contains("Седмица 4", status);
         Assert.Contains("Седмица 5", status);
-        Assert.Contains("NOT YET OWNER APPROVED / LOCKED", status);
+        Assert.Contains("OWNER APPROVED / LOCKED", status);
+        // Verify the global milestone: all 15/15 weeks are locked
+        Assert.Contains("ALL 15 COURSE WEEKS — `OWNER APPROVED / LOCKED`", status);
     }
 
     private static string ReadPage(string fileName)

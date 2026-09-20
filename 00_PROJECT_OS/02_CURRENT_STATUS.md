@@ -14,12 +14,12 @@
 
 ## Текуща фаза
 
-Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31). Седмица 10 — `COMPLETE`, `COMMITTED` (Сесия 33) — "Guided Practice" архетипът `VALIDATED`. Седмица 6 — `COMPLETE`, `COMMITTED` (Сесия 35, Phase C, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion. Седмица 12 — `COMPLETE`, `COMMITTED` (съдържание от Сесия 37, комитнато заедно с WASM migration commit `4135988`) — втората седмица от build order-а, `AcademicOverview` архетип (routed, но не `Available`, по дизайн).**
+Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31). Седмица 10 — `COMPLETE`, `COMMITTED` (Сесия 33) — "Guided Practice" архетипът `VALIDATED`. Седмица 6 — `COMPLETE`, `COMMITTED` (Сесия 35, Phase C, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion. Седмица 12 — `COMPLETE`, `COMMITTED` (съдържание от Сесия 37, комитнато заедно с WASM migration commit `4135988`) — втората седмица от build order-а, `AcademicOverview` архетип (routed, но не `Available`, по дизайн). Седмица 2, 4, 5, 7, 8, 9, 11, 13, 14, 15 — `OWNER APPROVED / LOCKED` (production reviewed and approved). ALL 15 COURSE WEEKS — `OWNER APPROVED / LOCKED` (2026-09-19).**
 
 ## Текуща стъпка
 
-`PRE-WEEK-7 REPOSITORY CHECKPOINT` (2026-08-27). Owner-confirmed status snapshot, taken before starting
-Седмица 7:
+`FINAL WHOLE-COURSE QA MILESTONE` (2026-09-19). All 15/15 course weeks are now `OWNER APPROVED / LOCKED`.
+Next phase: comprehensive whole-course quality assurance before marking the project `PROJECT COMPLETE`:
 
 - **Седмица 3 v2** (Deep Learning rebuild, Сесии 51–56, committed `3e4ca50`) — `OWNER APPROVED / LOCKED`.
 - **Седмица 6** — Deep Learning reference implementation — `LOCKED` (Сесия 46, unchanged). The
@@ -86,21 +86,18 @@
   без "победител", без дублиране на Седмица 1/3. **658/658** теста, Debug+Release build 0/0,
   production deploy successful (commit `90acb56`).
 - **Седмица 4** (Клинична оценка и когнитивна концептуализация, SRC-041 Гл. 4 — build-from-scratch,
-  `AcademicContextOnly`) — **`IMPLEMENTED, TECHNICALLY READY — NOT YET OWNER APPROVED / LOCKED`.**
-  38 KUs — 27 Included / 4 Deferred / 7 Excluded / 0 Needs Review / 0 Unaccounted — виж
+  `AcademicContextOnly`) — **`OWNER APPROVED / LOCKED`** (2026-09-19, after production visual review with
+  Mind Map). 38 KUs — 27 Included / 4 Deferred / 7 Excluded / 0 Needs Review / 0 Unaccounted — виж
   `00_PROJECT_OS/_blueprints/WEEK_04_SOURCE_AUDIT_v1.md`. Мостът "Сесия по оценка → начална
   когнитивна концептуализация" (връзка към Седмица 3) е централната секция; три owner-resolved
   safety-sensitive KUs (суициден риск, DSM, automatic-thought bridge), нула възпроизведен
-  терапевт-пациент диалог. **677/677** теста, Debug+Release build 0/0. Routed
-  (`/kurs/sedmica-4`), resolves to `AcademicOverview` (same treatment as Седмица 12).
-  **PENDING OWNER-REVIEW ITEM (before LOCK):** Section 08 visual/safety framing refinement —
-  keep all five conceptualization questions, but reframe as professional-clinician reasoning, not
-  learner self-assessment; move the five questions into an existing academic/info card pattern;
-  split the Sally synthesis into two readable paragraphs without changing facts; preserve the
-  final statement that conceptualization is revised throughout therapy. No KU accounting change.
-  After the fix: desktop/mobile QA → production review → explicit `OWNER APPROVAL` → `LOCK`.
+  терапевт-пациент диалог. Добавена Weekly Mind Map (Preview в §01, Review в §09, одобрен
+  Week 6/15 engine, 7 top-level branches, няма anchor-jump, одобрен owner pattern). **927/927** теста
+  (925 baseline + 2 Mind Map), Debug+Release build 0/0. Routed (`/kurs/sedmica-4`), resolves to
+  `AcademicOverview` (same treatment as Седмица 12). Production-deployed (commit `b3268f8`), visually
+  reviewed by owner at 1440/1024/390px, no regressions or blocker issues. No Section 08 pending item.
 - **Седмица 5** (Принципи на КПТ и терапевтичен съюз, SRC-041 Гл. 1 стр. 6–11 + Гл. 2 стр. 17–21,
-  `PublicWithAdaptation`) — **`IMPLEMENTED, TECHNICALLY READY — NOT YET OWNER APPROVED / LOCKED`.**
+  `PublicWithAdaptation`) — **`OWNER APPROVED / LOCKED`** (2026-09-19, after production visual/learning review).
   52 KUs (two-chapter, owner-approved final audit) — 30 Included / 10 Deferred / 12 Excluded /
   0 Needs Review / 0 Unaccounted — виж `00_PROJECT_OS/_blueprints/WEEK_05_SOURCE_AUDIT_v1.md`.
   Десетте принципа на ниво принцип (Гл. 1) + задълбочена секция за терапевтичния съюз (Гл. 2,
@@ -112,12 +109,12 @@
   име на автор. Нула нов компонент, нула Mind Map/Concept Map, нула възпроизведен диалог. Реален
   browser smoke test (Playwright, headless Chromium) потвърди: 13/13 секции, 10/10 принципа,
   category-compare + guided-practice-sequence рендерирани коректно, 0 console/page грешки, `/kurs`
-  hub-ът коректно линква към новата седмица („Девет седмици" вместо „Осем"). **691/691** теста,
+  hub-ът коректно линква към новата седмица („Девет седмици" вместо „Осем"). **927/927** теста,
   Debug+Release build 0/0, `git diff --check` чист (само LF/CRLF предупреждения). Routed
   (`/kurs/sedmica-5`), resolves to `Available` (PublicWithAdaptation, като Седмица 6/7/9). **GAP-014**
   (Гл. 2's "подчертаване на положителното"/"домашна работа" нишки нямат curriculum owner) остава
-  съзнателно извън тази страница — виж `15_GAPS_AND_CONFLICTS.md`. Некомитнато — предстои owner
-  visual/learning review преди `OWNER APPROVAL`/`LOCK`.
+  съзнателно извън тази страница — виж `15_GAPS_AND_CONFLICTS.md`. Production-deployed, visually and
+  pedagogically reviewed by owner, committed (no blockers).
 - **Weekly Final Assessment Standard** (платформено споделен точкуван финален тест — `Curriculum/AssessmentModels.cs`,
   `FinalAssessmentState.cs`, `Interactive/FinalAssessment.razor`; виж addendum в
   `21_CONTENT_AND_DATA_MODEL.md`) — **`OWNER APPROVED / PLATFORM STANDARD`** (2026-09-07, след production
@@ -128,10 +125,9 @@
   непроменени, извън точкуването (REQ-FUNC-003 в сила за тях). Не отваря отново question wording/answer
   keys/explanations на LOCKED седмици (byte-for-byte запазени) и не променя lock статуса на никоя
   седмица. Commit `bf73154` (плюс предходния Седмица 5 Mind Map commit `a428961`/`573c50a`, отделен logical
-  change). 741/741 теста, Debug+Release build 0/0, GitHub Actions build+test+deploy зелено. **Този запис
-  не одобрява/заключва Седмица 4 или Седмица 5** — виж техните собствени статус записи по-горе (Седмица 4
-  остава `IMPLEMENTED, NOT LOCKED` заради Section 08 pending item; Седмица 5 остава `IMPLEMENTED, NOT YET
-  OWNER APPROVED / LOCKED`).
+  change). 927/927 теста (обновено с Week 4 Mind Map), Debug+Release build 0/0, GitHub Actions build+test+deploy зелено.
+  Седмица 4 и Седмица 5 са в момента `OWNER APPROVED / LOCKED` (2026-09-19) — виж техните собствени статус
+  записи по-горе.
 - **COURSE FINAL EXAM** (`/kurs/finalen-izpit`) — **`OWNER APPROVED / LOCKED`** (2026-09-10, след
   difficulty audit + owner review pack + micro-pass revision + production QA). Замества оригиналния
   15-anchor + 5-integrative набор (комитнат `a779073`), който позволяваше ~85% резултат без реално
