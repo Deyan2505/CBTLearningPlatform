@@ -14,7 +14,7 @@
 
 ## Текуща фаза
 
-Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31). Седмица 10 — `COMPLETE`, `COMMITTED` (Сесия 33) — "Guided Practice" архетипът `VALIDATED`. Седмица 6 — `COMPLETE`, `COMMITTED` (Сесия 35, Phase C, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion. Седмица 12 — `COMPLETE`, `COMMITTED` (съдържание от Сесия 37, комитнато заедно с WASM migration commit `4135988`) — втората седмица от build order-а, `AcademicOverview` архетип (routed, но не `Available`, по дизайн). Седмица 2, 4, 5, 7, 8, 9, 11, 13, 14, 15 — `OWNER APPROVED / LOCKED` (production reviewed and approved). ALL 15 COURSE WEEKS — `OWNER APPROVED / LOCKED` (2026-09-19) — това е съдържателно/source одобрение и остава валидно. Структурен статус по ACTIVE LEARNING STANDARD (ADR-011, 2026-09-20): Седмици 3, 6, 8 съответстват (owner-confirmed); Седмици 1, 2, 10 — `ACTIVE LEARNING GATE — PASS` след Phase 2 / Batch 1, `AWAITING OWNER VISUAL REVIEW` (не са заключени); Седмици 4, 5, 7, 9, 11, 12, 13, 14, 15 — `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED`.**
+Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31). Седмица 10 — `COMPLETE`, `COMMITTED` (Сесия 33) — "Guided Practice" архетипът `VALIDATED`. Седмица 6 — `COMPLETE`, `COMMITTED` (Сесия 35, Phase C, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion. Седмица 12 — `COMPLETE`, `COMMITTED` (съдържание от Сесия 37, комитнато заедно с WASM migration commit `4135988`) — втората седмица от build order-а, `AcademicOverview` архетип (routed, но не `Available`, по дизайн). Седмица 2, 4, 5, 7, 8, 9, 11, 13, 14, 15 — `OWNER APPROVED / LOCKED` (production reviewed and approved). ALL 15 COURSE WEEKS — `OWNER APPROVED / LOCKED` (2026-09-19) — това е съдържателно/source одобрение и остава валидно. Структурен статус по ACTIVE LEARNING STANDARD (ADR-011, 2026-09-20): Седмици 3, 6, 8 съответстват (owner-confirmed); Седмици 1, 2, 10 — **`OWNER APPROVED — ACTIVE LEARNING COMPLETE`** (2026-09-21, след production visual review); Седмици 4, 5, 7, 9, 11, 12, 13, 14, 15 — `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED`.**
 
 ## Текуща стъпка
 
@@ -56,8 +56,7 @@ learner-response с feedback след ангажимент; safety промен�
 
 | Седмица | Структурен статус | Gate-ове, които още не минават |
 |---|---|---|
-| 3, 6, 8 | **съответства** — текущи reference (3: модел-манипулация; 6: density; 8: experience) | — |
-| 1, 2, 10 | `ACTIVE LEARNING GATE — PASS` (Phase 2 / Batch 1) — `AWAITING OWNER VISUAL REVIEW`, не са заключени | — |
+| 1, 2, 3, 6, 8, 10 | **`OWNER APPROVED — ACTIVE LEARNING COMPLETE`** (1, 2, 10 одобрени 2026-09-21; 3, 6, 8 предишни reference) | — |
 | 4 | `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` | Visual, Interaction, Response |
 | 5, 7, 9, 11, 12, 13, 14, 15 | `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` | Interaction, Response |
 
