@@ -15,12 +15,7 @@
    Zero new components, zero new CSS: reuses LearningSection/LearningObjectives/
    ProgressiveExplanation/DisclaimerCallout/SourceReferences, .category-compare (Week 12) for the
    ABC boxes, .comparison-matrix--dual (Week 1) for the belief-criteria and final comparison
-   tables.
-   ACTIVE LEARNING ENRICHMENT (Phase 2, Batch 1 — structural only, prose untouched): section 07 gains (a) the two
-   process chains side by side (existing .concept-map__flow markup; each node is a term already on this page, the
-   highlighted node and the caption under each chain are the comparison table's own "starts from" row), and (b) a
-   committed ClassifyMatchCheck from the shared Active Learning Toolkit — attribute the table's statements to a school,
-   then check; the feedback shows the table row. No new theory, no new components of its own. *@
+   tables. *@
 @page "/kurs/sedmica-2"
 
 <PageTitle>Седмица 2: Когнитивна терапия на Бек и REBT на Елис — 15-седмичен курс — КПТ Академия</PageTitle>
@@ -166,34 +161,6 @@
             когнитивно-поведенческото семейство, споделящи основните характеристики на подхода на Бек, но с
             различен акцент и концептуализация.
         </p>
-
-        <h3>Двете вериги едно до друго</h3>
-        <p class="concept-map__feedback">Осветеният етап показва откъде тръгва всяка школа според сравнението по-долу.</p>
-        <div class="learning-grid learning-grid--balanced">
-            <div class="card process-chain">
-                <h4 class="process-chain__title">Бек — когнитивна терапия</h4>
-                <ol class="concept-map__flow" aria-label="Веригата на Бек: ситуация, автоматична мисъл, настроение и поведение">
-                    <li class="concept-map__node">Ситуация</li>
-                    <li class="concept-map__connector" aria-hidden="true">↓</li>
-                    <li class="concept-map__node concept-map__node--highlight">Автоматична мисъл</li>
-                    <li class="concept-map__connector" aria-hidden="true">↓</li>
-                    <li class="concept-map__node">Настроение и поведение</li>
-                </ol>
-                <p class="process-chain__start">Тръгва от конкретната автоматична мисъл в дадена ситуация.</p>
-            </div>
-            <div class="card process-chain">
-                <h4 class="process-chain__title">Елис — REBT</h4>
-                <ol class="concept-map__flow" aria-label="Веригата на Елис: активиращо събитие, вярвания, последствия">
-                    <li class="concept-map__node">A — Активиращо събитие</li>
-                    <li class="concept-map__connector" aria-hidden="true">↓</li>
-                    <li class="concept-map__node concept-map__node--highlight">B — Вярвания</li>
-                    <li class="concept-map__connector" aria-hidden="true">↓</li>
-                    <li class="concept-map__node">C — Последствия</li>
-                </ol>
-                <p class="process-chain__start">Тръгва от общите вярвания (рационални/ирационални) зад реакцията към събитието.</p>
-            </div>
-        </div>
-
         <div class="comparison-matrix-wrapper">
             <table class="comparison-matrix comparison-matrix--dual">
                 <caption>Академично сравнение — не оценка кой подход е верен</caption>
@@ -223,9 +190,6 @@
                 </tbody>
             </table>
         </div>
-
-        <ClassifyMatchCheck ComponentId="week2-school-attribution" Activity="_week2SchoolAttribution" SafetyMode="_safetyMode" />
-
         <p>
             Академичен източник, сравняващ директно двата подхода, препоръчва съчетаване на рамките, не избор на
             "правилната". Тази страница следва същия принцип.
@@ -303,36 +267,6 @@
             ["Не са свързани по никакъв начин", "Бек изрично посочва Елис сред интелектуалните си влияния", "Елис е ученик на Бек"], 1,
             "Бек посочва Елис сред своите влияния, а REBT е изброена сред свързаните когнитивно-поведенчески терапии.")
     ]);
-
-    // ACTIVE LEARNING (Phase 2, Batch 1) — derived from the week's own safety level, never hand-picked.
-    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
-
-    // Committed attribution over the approved comparison table (section 07): the learner assigns each statement to a school,
-    // then checks. Every statement is a cell of that table, verbatim, and the feedback shows the table row it comes from — so
-    // nothing new is claimed. The table's fourth row is deliberately NOT used: "change of thinking improves mood and behavior"
-    // is the idea the page itself says both schools share (section 01), so it has no single correct school.
-    private static readonly ClassifyMatchActivity _week2SchoolAttribution = new(
-        "Към коя школа е отнесено твърдението?",
-        "За всяко твърдение изберете школата, към която е отнесено в сравнението по-горе, после натиснете „Провери“.",
-        ClassifyMatchMode.Classify,
-        [
-            new("beck", "Бек — когнитивна терапия"),
-            new("ellis", "Елис — REBT")
-        ],
-        [
-            new("r1-ellis", "Разработена през 50-те години на XX в., преди Бек.", "ellis",
-                "В сравнението: Бек — „Разработена през 60-те години на XX в.“; Елис — „Разработена през 50-те години на XX в., преди Бек.“", "Сравнението по-горе, ред 1"),
-            new("r2-beck", "Тръгва от конкретната автоматична мисъл в дадена ситуация.", "beck",
-                "В сравнението: Бек — „Тръгва от конкретната автоматична мисъл в дадена ситуация.“; Елис — „Тръгва от общите вярвания (рационални/ирационални) зад реакцията към събитието.“", "Сравнението по-горе, ред 2"),
-            new("r3-ellis", "Разграничаване на вярвания по логическа/емпирична/прагматична поддръжка.", "ellis",
-                "В сравнението: Бек — „Оценка на конкретни мисли чрез насочено откритие.“; Елис — „Разграничаване на вярвания по логическа/емпирична/прагматична поддръжка.“", "Сравнението по-горе, ред 3"),
-            new("r1-beck", "Разработена през 60-те години на XX в.", "beck",
-                "В сравнението: Бек — „Разработена през 60-те години на XX в.“; Елис — „Разработена през 50-те години на XX в., преди Бек.“", "Сравнението по-горе, ред 1"),
-            new("r2-ellis", "Тръгва от общите вярвания (рационални/ирационални) зад реакцията към събитието.", "ellis",
-                "В сравнението: Бек — „Тръгва от конкретната автоматична мисъл в дадена ситуация.“; Елис — „Тръгва от общите вярвания (рационални/ирационални) зад реакцията към събитието.“", "Сравнението по-горе, ред 2"),
-            new("r3-beck", "Оценка на конкретни мисли чрез насочено откритие.", "beck",
-                "В сравнението: Бек — „Оценка на конкретни мисли чрез насочено откритие.“; Елис — „Разграничаване на вярвания по логическа/емпирична/прагматична поддръжка.“", "Сравнението по-горе, ред 3")
-        ]);
 
     private readonly IReadOnlyList<string> _objectives =
     [

@@ -13,7 +13,7 @@ namespace CbtLearningPlatform.Tests;
 /// controlled migration mechanism: a week may be StructuralEnrichmentRequired while it lacks A–D, but may NEVER be
 /// Compliant without them — and may not stay StructuralEnrichmentRequired once it passes.
 ///
-/// The current course is KNOWN to fail the standard in twelve weeks; the catalog says so explicitly (Weeks 3, 6 and 8 are
+/// The current course is KNOWN to fail the standard in nine weeks; the catalog says so explicitly (Weeks 3, 6 and 8 are
 /// the compliant references). Nothing here fakes compliance.</summary>
 public sealed class ActiveLearningGateTests
 {

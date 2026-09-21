@@ -7,10 +7,11 @@ namespace CbtLearningPlatform.Client.Curriculum;
 /// (ActiveLearningGateTests) verifies every marker against the page markup and fails if a week's
 /// <see cref="StructuralStatus"/> disagrees with its own declarations, in either direction.
 ///
-/// Weeks 3, 6 and 8 are the current owner-confirmed compliant references. The other twelve are
-/// <see cref="StructuralStatus.StructuralEnrichmentRequired"/> (OWNER APPROVED CONTENT / STRUCTURAL
+/// Weeks 3, 6 and 8 are the owner-confirmed compliant references. Weeks 1, 2 and 10 (Phase 2, Batch 1) pass the gate
+/// but are NOT owner-approved or locked: they await the owner's visual review of the interactions in production. The
+/// other nine are <see cref="StructuralStatus.StructuralEnrichmentRequired"/> (OWNER APPROVED CONTENT / STRUCTURAL
 /// ENRICHMENT REQUIRED): content approval and locked prose remain valid; only the learning architecture is
-/// reopened, one controlled week at a time. When a week's remediation lands, add the new declarations and
+/// reopened, one controlled batch at a time. When a week's remediation lands, add the new declarations and
 /// promote its status to Compliant in the same change — a stale StructuralEnrichmentRequired also fails the gate.
 ///
 /// Existing select-to-read explorers (ResearchTurnStepper, CognitiveHierarchyExplorer, SocraticDialogueExplorer),
@@ -58,12 +59,38 @@ public static class ActiveLearningCatalog
             interactions: [new(InteractionFamily.Simulator, "CbtChainSimulator")],
             responses: [new(LearnerResponseKind.ManipulateModel, "CbtChainSimulator")]),
 
-        // --- OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED ---
-        Migration(1,
-            visuals: [new(VisualModelKind.Timeline, "<HistoricalTimeline"), new(VisualModelKind.Comparison, ComparisonMatrix)]),
+        // --- Phase 2, Batch 1: gate PASS, AWAITING OWNER VISUAL REVIEW (not locked) ---
+        // Week 1: the timeline stays the visual model; the learner rebuilds it (OrderingBuilder, section 08, before the quiz).
+        Compliant(1,
+            visuals: [new(VisualModelKind.Timeline, "<HistoricalTimeline"), new(VisualModelKind.Comparison, ComparisonMatrix)],
+            interactions: [new(InteractionFamily.OrderingBuilder, "OrderingBuilder")],
+            responses: [new(LearnerResponseKind.Order, "OrderingBuilder")]),
 
-        Migration(2,
-            visuals: [new(VisualModelKind.Comparison, ComparisonMatrix), new(VisualModelKind.Comparison, CategoryCompare)]),
+        // Week 2: the two schools as side-by-side process chains + a committed Beck/Ellis attribution over the comparison table.
+        Compliant(2,
+            visuals:
+            [
+                new(VisualModelKind.Process, Flow),
+                new(VisualModelKind.Comparison, ComparisonMatrix),
+                new(VisualModelKind.Comparison, CategoryCompare)
+            ],
+            interactions: [new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")],
+            responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
+
+        // Week 10: the 10.4 reveal cards are now a committed classification (before the assessment). Section 10.11 also hosts a
+        // committed OrderingBuilder retrieval practice; it sits AFTER the assessment, so it is intentionally not declared here —
+        // only elements that precede the Final Assessment count toward the gate.
+        Compliant(10,
+            visuals:
+            [
+                new(VisualModelKind.Process, Flow),
+                new(VisualModelKind.Sequence, Sequence),
+                new(VisualModelKind.Comparison, CategoryCompare)
+            ],
+            interactions: [new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")],
+            responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
+
+        // --- OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED ---
 
         // Week 4: lists only + a Mind Map that does not carry the week's central structure.
         Migration(4,
@@ -82,14 +109,6 @@ public static class ActiveLearningCatalog
 
         Migration(9,
             visuals: [new(VisualModelKind.Process, Graph("week9-thought-record-structure")), new(VisualModelKind.Sequence, Sequence)]),
-
-        Migration(10,
-            visuals:
-            [
-                new(VisualModelKind.Process, Flow),
-                new(VisualModelKind.Sequence, Sequence),
-                new(VisualModelKind.Comparison, CategoryCompare)
-            ]),
 
         Migration(11,
             visuals: [new(VisualModelKind.Process, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),

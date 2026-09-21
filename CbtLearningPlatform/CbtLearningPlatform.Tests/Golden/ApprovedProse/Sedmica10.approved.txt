@@ -27,11 +27,7 @@
       source-consistent. Only the terminology in "Балансиран отговор" → "Адаптивен отговор" and one
       node label change, nothing structural.
    6. Week 9 boundary: distortions and the Thought Record stay Week 9's — this page cross-links
-      instead of re-teaching them.
-   7. ACTIVE LEARNING ENRICHMENT (Phase 2, Batch 1 — structural only, prose untouched): the plain <details> reveals
-      of 10.4 (question vs. disguised advice) are now one committed ClassifyMatchCheck, and the 10.11 retrieval reveal
-      is a committed OrderingBuilder. Both reuse only wording already approved on this page; the toolkit is the shared
-      Active Learning Toolkit (no week-specific component). Interaction precedes the Final Assessment (10.4). *@
+      instead of re-teaching them. *@
 @page "/kurs/sedmica-10"
 
 <PageTitle>Седмица 10: Сократически въпроси и съвместно изследване — 15-седмичен курс — КПТ Академия</PageTitle>
@@ -216,7 +212,45 @@
     <div class="learning-grid learning-grid--balanced">
         <LearningSection Role="example" RoleLabel="Сравнение">
             <h2 id="prikrit-savet" tabindex="-1">10.4 · Въпрос или прикрит съвет</h2>
-            <ClassifyMatchCheck ComponentId="week10-question-types" Activity="_week10QuestionTypes" SafetyMode="_safetyMode" />
+            <p>Изберете как бихте класифицирали всеки пример, после разгънете обяснението.</p>
+            <div class="concept-map__side-notes">
+                <div class="card">
+                    <p>„Не мислите ли, че просто преувеличавате?“</p>
+                    <details class="progressive-explanation">
+                        <summary>Покажи класификацията</summary>
+                        <div class="progressive-explanation__body">
+                            <p><strong>Насочващ въпрос</strong> — предполага предварително заключение.</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="card">
+                    <p>„Кои части от ситуацията ви карат да направите този извод?“</p>
+                    <details class="progressive-explanation">
+                        <summary>Покажи класификацията</summary>
+                        <div class="progressive-explanation__body">
+                            <p><strong>Изследващ въпрос</strong> — търси конкретната основа на заключението.</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="card">
+                    <p>„Защо не опитате да мислите по-позитивно?“</p>
+                    <details class="progressive-explanation">
+                        <summary>Покажи класификацията</summary>
+                        <div class="progressive-explanation__body">
+                            <p><strong>Съвет, представен като въпрос.</strong></p>
+                        </div>
+                    </details>
+                </div>
+                <div class="card">
+                    <p>„Какво друго би могло да обясни краткия отговор?“</p>
+                    <details class="progressive-explanation">
+                        <summary>Покажи класификацията</summary>
+                        <div class="progressive-explanation__body">
+                            <p><strong>Въпрос за алтернативно обяснение.</strong></p>
+                        </div>
+                    </details>
+                </div>
+            </div>
         </LearningSection>
 
         <LearningSection Role="theory" RoleLabel="Сравнение">
@@ -382,8 +416,21 @@
         <details class="progressive-explanation concept-graph__retrieval-check">
             <summary>Retrieval practice: подреди без да гледаш назад</summary>
             <div class="progressive-explanation__body">
-                <OrderingBuilder ComponentId="week10-category-order" Activity="_week10CategoryOrder" SafetyMode="_safetyMode" />
-                <p><a href="/kurs/sedmica-10#kategorii">Виж пълния списък в 10.2 →</a></p>
+                <p>
+                    Подредете тези четири от шестте категории въпроси в реда, в който източникът ги
+                    представя: <em>Дистанциране</em> · <em>Доказателства</em> · <em>Декатастрофизиране</em> ·
+                    <em>Алтернативно обяснение</em>.
+                </p>
+                <details>
+                    <summary>Покажи верния ред</summary>
+                    <ol>
+                        <li>Доказателства</li>
+                        <li>Алтернативно обяснение</li>
+                        <li>Декатастрофизиране</li>
+                        <li>Дистанциране</li>
+                    </ol>
+                    <p><a href="/kurs/sedmica-10#kategorii">Виж пълния списък в 10.2 →</a></p>
+                </details>
             </div>
         </details>
 
@@ -468,47 +515,6 @@
             ["Останалите не са важни", "Пълният списък може да претовари пациента, а оценяването на мисленето е умение, изградено постепенно", "Няма конкретна причина"], 1,
             "Source: 10.9")
     ]);
-
-    // ACTIVE LEARNING (Phase 2, Batch 1) — derived from the week's own safety level, never hand-picked.
-    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
-
-    // The four reveal cards of 10.4 become a committed classification. Every learner-facing string is the wording that
-    // was already approved on this page (the four examples, the four category labels and the reasons the reveals gave);
-    // feedback exists only after the learner commits and checks.
-    private static readonly ClassifyMatchActivity _week10QuestionTypes = new(
-        "Класифицирайте примерите",
-        "Изберете как бихте класифицирали всеки пример, после натиснете „Провери“.",
-        ClassifyMatchMode.Classify,
-        [
-            new("directive", "Насочващ въпрос"),
-            new("exploratory", "Изследващ въпрос"),
-            new("advice", "Съвет, представен като въпрос"),
-            new("alternative", "Въпрос за алтернативно обяснение")
-        ],
-        [
-            new("q1", "„Не мислите ли, че просто преувеличавате?“", "directive",
-                "Насочващ въпрос — предполага предварително заключение.", "Виж 10.1 — сократическо изследване и насочващо убеждаване"),
-            new("q2", "„Кои части от ситуацията ви карат да направите този извод?“", "exploratory",
-                "Изследващ въпрос — търси конкретната основа на заключението.", "Виж 10.1 — сократическо изследване и насочващо убеждаване"),
-            new("q3", "„Защо не опитате да мислите по-позитивно?“", "advice",
-                "Съвет, представен като въпрос.", "Виж 10.1 — сократическо изследване и насочващо убеждаване"),
-            new("q4", "„Какво друго би могло да обясни краткия отговор?“", "alternative",
-                "Въпрос за алтернативно обяснение.", "Виж 10.2 — категория „Алтернативно обяснение“")
-        ]);
-
-    // The retrieval-practice reveal in 10.11 ("Покажи верния ред") becomes a committed ordering. Same four categories,
-    // same source order as the six-category list in 10.2 (Figure 11.1); it sits in the review section, after the assessment.
-    private static readonly OrderingActivity _week10CategoryOrder = new(
-        "Подредете категориите въпроси",
-        "Подредете тези четири от шестте категории въпроси в реда, в който източникът ги представя.",
-        [
-            new("evidence", "Доказателства"),
-            new("alternative", "Алтернативно обяснение"),
-            new("decatastrophizing", "Декатастрофизиране"),
-            new("distancing", "Дистанциране")
-        ],
-        SourceRef: "Фигура 11.1 — виж пълния списък в 10.2",
-        ShuffleSeed: 2);
 
     private static readonly GraphRenderModel _week10MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek10MindMap());
 

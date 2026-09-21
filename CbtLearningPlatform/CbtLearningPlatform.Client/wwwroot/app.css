@@ -1586,6 +1586,27 @@ h3[tabindex="-1"]:focus-visible {
     }
 }
 
+/* Week 2 (Active Learning, Batch 1): two process chains side by side inside .learning-grid--balanced. Scoped to
+   .process-chain — the shared .concept-map__flow (Weeks 1/3/8/10, Module 2) keeps its ragged shrink-to-fit look.
+   Inside a comparison card the nodes read as one diagram only when they share a width and centre their text. */
+.process-chain__title {
+    margin: 0 0 var(--space-3);
+}
+
+.process-chain .concept-map__flow {
+    align-items: stretch;
+    max-width: 100%;
+}
+
+.process-chain .concept-map__node {
+    justify-content: center;
+    text-align: center;
+}
+
+.process-chain__start {
+    margin: 0;
+}
+
 /* Owner review (Week 10): a linear process with a known, fixed step count (6) doesn't need to
    stay a narrow ~26rem vertical column on wide desktop — that's the right default for the many
    other .concept-map__flow uses on this site (2-5 steps, sit fine in a sidebar/half-width

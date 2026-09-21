@@ -98,15 +98,20 @@ public sealed class Week10ContentSliceTests
     }
 
     [Fact]
-    public void Week10Page_HasExactlyOneInteractiveIsland()
+    public void Week10Page_KeepsTheSocraticExplorer_AndHostsCommittedToolkitActivities()
     {
+        // Replaces the retired "exactly one island / forbidden reuse" rule (Active Learning Standard, ADR-011). The explorer is
+        // select-to-read and does not qualify; the qualifying interaction before the assessment is the shared ClassifyMatchCheck
+        // (10.4), and 10.11 upgrades its retrieval reveal to the shared OrderingBuilder. Verified by ActiveLearningGateTests
+        // and ActiveLearningBatch1Tests.
         string source = ReadPage("Sedmica10.razor");
 
         Assert.Contains("<SocraticDialogueExplorer", source);
-        Assert.DoesNotContain("<CbtChainSimulator", source);
-        Assert.DoesNotContain("<CognitiveHierarchyExplorer", source);
-        Assert.DoesNotContain("<SchemaFilterDemonstration", source);
-        Assert.DoesNotContain("<ResearchTurnStepper", source);
+        Assert.Contains("<ClassifyMatchCheck", source);
+        Assert.Contains("<OrderingBuilder", source);
+        Assert.True(
+            source.IndexOf("<ClassifyMatchCheck", StringComparison.Ordinal) < source.IndexOf("<FinalAssessment", StringComparison.Ordinal),
+            "The classification must precede the Final Assessment.");
     }
 
     [Fact]

@@ -21,11 +21,7 @@
    (source-supported, previously missing lead-up to the already-present 1979 citation). No
    standalone influences/related-therapies list added (conservative call — not necessary to
    explain this week's specific historical sequence, and risks duplicating Week 2's future
-   Beck/REBT comparison territory).
-   ACTIVE LEARNING ENRICHMENT (Phase 2, Batch 1 — structural only, prose untouched): the timeline stays the week's
-   visual model; the learner now also rebuilds it — a committed OrderingBuilder from the shared Active Learning Toolkit,
-   placed at the start of section 08 so it precedes the Final Assessment. Its items are derived from the approved
-   timeline milestones themselves (no new wording). *@
+   Beck/REBT comparison territory). *@
 @page "/kurs/sedmica-1"
 
 <PageTitle>Седмица 1: Как се ражда когнитивната терапия — 15-седмичен курс — КПТ Академия</PageTitle>
@@ -169,7 +165,6 @@
     <div class="learning-grid learning-grid--balanced">
         <LearningSection Role="theory" RoleLabel="Рефлексия">
             <h2 id="proverka" tabindex="-1">08 · Проверка на разбирането</h2>
-            <OrderingBuilder ComponentId="week1-history-order" Activity="_week1HistoryOrder" SafetyMode="_safetyMode" />
             <p>4 въпроса. Отговорете на всички, за да предадете теста и видите резултата — не се пази между посещения.</p>
             <FinalAssessment SectionId="proverka" Model="_week1FinalAssessment" />
         </LearningSection>
@@ -250,7 +245,7 @@
         "Различавате историческо описание от твърдение, че една школа напълно отменя друга."
     ];
 
-    private static readonly IReadOnlyList<HistoricalTimeline.HistoricalMilestone> _milestones =
+    private readonly IReadOnlyList<HistoricalTimeline.HistoricalMilestone> _milestones =
     [
         new("Психоаналитично начало", "Бек е обучен в психоаналитичната традиция и в началото на 60-те тества хипотезата, че депресията е резултат от насочена навътре враждебност — включително чрез изследване на сънищата на депресирани пациенти, очаквайки в тях повече теми на враждебност."),
         new("Неочакван резултат", "Резултатите не потвърждават хипотезата: сънищата на депресираните пациенти показват по-малко, а не повече, теми на враждебност — вместо това много повече теми за дефектност, лишение и загуба, съвпадащи с начина, по който пациентите мислят и будни."),
@@ -259,21 +254,6 @@
         new("1979 г.", "Публикуван е Cognitive Therapy for Depression (Beck, Rush, Shaw & Emery) — първият систематичен наръчник за лечение с когнитивна терапия."),
         new("Разширяване към тревожността", "В края на 70-те когнитивният модел е адаптиран и за тревожни разстройства — с фокус върху оценката на риска и намаляването на избягването на плашещи ситуации.")
     ];
-
-    // ACTIVE LEARNING (Phase 2, Batch 1) — derived from the week's own safety level, never hand-picked.
-    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
-
-    // Committed ordering of the historical sequence. The items ARE the first five approved timeline milestones (title and
-    // description taken from _milestones itself, so the exercise can never drift from the timeline); feedback appears only
-    // after the learner checks. The sixth milestone ("Разширяване към тревожността") is left out on purpose: the source dates
-    // it only as "the late 1970s", which overlaps 1977 and 1979, so it has no single defensible position in the order.
-    private static readonly OrderingActivity _week1HistoryOrder = new(
-        "Подредете историческата линия",
-        "Подредете тези пет вехи в историческата последователност от Седмица 1 — от началото към 1979 г.",
-        [.. _milestones.Take(5).Select((milestone, index) => new OrderingItem($"m{index + 1}", milestone.Title, milestone.Description))],
-        Feedback: "Основното учебно послание: когато резултатите не подкрепят една хипотеза, научният подход изисква тя да бъде преразгледана.",
-        SourceRef: "Историческата линия — раздел 02, вехи 1–5",
-        ShuffleSeed: 1);
 
     private readonly IReadOnlyList<string> _citations =
     [

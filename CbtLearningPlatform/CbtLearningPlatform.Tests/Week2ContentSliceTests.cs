@@ -6,7 +6,9 @@ namespace CbtLearningPlatform.Tests;
 /// <summary>WEEK_02_SOURCE_AUDIT_v1 (owner-approved) — "Когнитивна терапия на Бек и REBT на Елис,"
 /// a cross-source build (SRC-041 for Beck's bridge sentences + SRC-042/Albert Ellis Institute for
 /// the Ellis/REBT half, closing the ABC-model source gap flagged in the prior audit turn).
-/// "Comparison" archetype (CourseCatalog.cs InteractiveFormat.Comparison), zero interactivity.</summary>
+/// "Comparison" archetype (CourseCatalog.cs InteractiveFormat.Comparison). Originally built with zero interactivity; the Active
+/// Learning Standard (ADR-011) reopened the learning architecture only — Phase 2 Batch 1 adds the two process chains and a
+/// committed Beck/Ellis attribution (see ActiveLearningBatch1Tests) without touching the approved prose.</summary>
 public sealed class Week2ContentSliceTests
 {
     [Fact]
@@ -49,7 +51,7 @@ public sealed class Week2ContentSliceTests
     }
 
     [Fact]
-    public void Week2Page_UsesOnlyExistingReusablePatterns_NoNewComponent()
+    public void Week2Page_UsesTheEstablishedPatterns_AndTheSharedToolkitForItsCommittedResponse()
     {
         string source = ReadPage("Sedmica2.razor");
 
@@ -62,16 +64,12 @@ public sealed class Week2ContentSliceTests
         Assert.Contains("class=\"category-compare\"", source);
         Assert.Contains("class=\"comparison-matrix comparison-matrix--dual\"", source);
 
-        string[] forbiddenNewComponents =
-        [
-            "<CbtChainSimulator", "<CategorizationCheck", "<InterpretationExample",
-            "<ResearchTurnStepper", "<SocraticDialogueExplorer", "<SchemaFilterDemonstration",
-            "<ConceptGraph", "<HistoricalTimeline"
-        ];
-        foreach (string component in forbiddenNewComponents)
-        {
-            Assert.DoesNotContain(component, source);
-        }
+        // Replaces the retired "zero interactivity / forbidden components" rule: the committed response is the shared,
+        // data-driven ClassifyMatchCheck (no week-specific component), and it must precede the Final Assessment.
+        Assert.Contains("<ClassifyMatchCheck", source);
+        Assert.True(
+            source.IndexOf("<ClassifyMatchCheck", StringComparison.Ordinal) < source.IndexOf("<FinalAssessment", StringComparison.Ordinal),
+            "The classification must precede the Final Assessment.");
     }
 
     [Fact]

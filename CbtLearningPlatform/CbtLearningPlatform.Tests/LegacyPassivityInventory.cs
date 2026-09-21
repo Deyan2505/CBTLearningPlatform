@@ -40,13 +40,8 @@ internal static class LegacyPassivityInventory
 
     public static IReadOnlyList<LegacyPassivityAssertion> Entries { get; } =
     [
-        Replace(1, "Week1ContentSliceTests.cs", "Week1Page_HasTheResearchTurnStepperAsItsOnlyInteractiveIsland",
-            "Encodes 'exactly one interactive island'. Replace with the Week 1 catalog gate.", Interactives),
-
-        Replace(2, "Week2ContentSliceTests.cs", "Week2Page_UsesOnlyExistingReusablePatterns_NoNewComponent",
-            "Encodes 'zero interactivity' and forbids ConceptGraph/HistoricalTimeline. Replace with the Week 2 catalog gate.",
-            "<CbtChainSimulator", "<CategorizationCheck", "<InterpretationExample", "<ResearchTurnStepper",
-            "<SocraticDialogueExplorer", "<SchemaFilterDemonstration", "<ConceptGraph", "<HistoricalTimeline"),
+        // Weeks 1, 2 and 10 (Phase 2, Batch 1) were remediated: their Replace entries were removed together with the assertions
+        // themselves, which now assert the catalog gate instead (Week1/Week2/Week10ContentSliceTests + ActiveLearningBatch1Tests).
 
         Replace(4, "Week4ContentSliceTests.cs", "Week4Page_UsesOnlyExistingReusablePatterns_NoNewComponent",
             "Encodes AcademicContextOnly = zero interaction. Replace with the Week 4 catalog gate; keep the MindMapBranch (internal component) guard.",
@@ -64,10 +59,6 @@ internal static class LegacyPassivityInventory
         Replace(9, "Week9ContentSliceTests.cs", "Week9Page_UsesEstablishedReusablePatterns_ZeroNewComponents",
             "Forbids ScenarioSimulator and WhatIfBox. Replace with the Week 9 catalog gate; the fixed (non-fillable) Thought Record decision is separate and stays.",
             "<ScenarioSimulator", "<SourceArtifact", "<CbtChainSimulator", "<WhatIfBox"),
-
-        Replace(10, "Week10ContentSliceTests.cs", "Week10Page_HasExactlyOneInteractiveIsland",
-            "Encodes 'exactly one island' and forbids reuse of the other islands. Replace with the Week 10 catalog gate.",
-            "<CbtChainSimulator", "<CognitiveHierarchyExplorer", "<SchemaFilterDemonstration", "<ResearchTurnStepper"),
 
         new(10, "Week10ContentSliceTests.cs", "Week8Page_CrossLinksToWeek10_WithoutDuplicatingTheSimulator",
             new HashSet<string> { "<SocraticDialogueExplorer" }, LegacyPassivityKind.KeepCrossWeekScopeGuard,

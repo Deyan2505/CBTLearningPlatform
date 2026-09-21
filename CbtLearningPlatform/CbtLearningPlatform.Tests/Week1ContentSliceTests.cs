@@ -87,14 +87,19 @@ public sealed class Week1ContentSliceTests
     }
 
     [Fact]
-    public void Week1Page_HasTheResearchTurnStepperAsItsOnlyInteractiveIsland()
+    public void Week1Page_KeepsTheResearchTurnStepper_AndHostsACommittedOrderingBeforeTheAssessment()
     {
+        // Replaces the retired "exactly one interactive island" rule (Active Learning Standard, ADR-011): the stepper is a
+        // select-to-read explorer and does not qualify, so the week's qualifying interaction is the shared OrderingBuilder
+        // placed before the Final Assessment. The full declaration is verified by ActiveLearningGateTests and
+        // ActiveLearningBatch1Tests.
         string source = ReadPage("Sedmica1.razor");
 
         Assert.Contains("<ResearchTurnStepper", source);
-        Assert.DoesNotContain("<CbtChainSimulator", source);
-        Assert.DoesNotContain("<CategorizationCheck", source);
-        Assert.DoesNotContain("<InterpretationExample", source);
+        Assert.Contains("<OrderingBuilder", source);
+        Assert.True(
+            source.IndexOf("<OrderingBuilder", StringComparison.Ordinal) < source.IndexOf("<FinalAssessment", StringComparison.Ordinal),
+            "The ordering activity must precede the Final Assessment.");
     }
 
     [Fact]
