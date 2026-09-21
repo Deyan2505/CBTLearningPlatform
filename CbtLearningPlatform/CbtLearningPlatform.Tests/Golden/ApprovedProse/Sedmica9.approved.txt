@@ -31,12 +31,7 @@
    5. AWARE technique and relaxation/distraction cross-references (Ch.15) remain Deferred — out of
       this week's two-part scope, not built here.
    6. Every distortion category, definition, and example below is Figure 11.2's own — nothing added
-      from general CBT knowledge beyond what these two chapters actually contain.
-
-   ACTIVE LEARNING (Phase 2, Batch 2): 9.8 hosts one committed ClassifyMatchCheck (shared toolkit engine, one-to-one) over six
-   of 9.3's approved examples. Fixed third-person examples only — no free text, no self-assessment, no thought-record workflow;
-   decision 4's fixed Thought Record demonstration is unchanged. Approved prose is unchanged (insertion only; guarded by
-   Golden/ApprovedProse). *@
+      from general CBT knowledge beyond what these two chapters actually contain. *@
 @page "/kurs/sedmica-9"
 
 <PageTitle>Седмица 9: Когнитивни изкривявания и дневник на мислите — 15-седмичен курс — КПТ Академия</PageTitle>
@@ -441,8 +436,6 @@
                 </details>
             </div>
         </div>
-
-        <ClassifyMatchCheck ComponentId="week9-distortion-match" Activity="_week9DistortionMatch" SafetyMode="_safetyMode" />
     </LearningSection>
 
     <LearningSection Role="theory" RoleLabel="Обобщение">
@@ -586,43 +579,6 @@
         AssessmentQuestion.TrueFalse("q14", "Тази страница кани читателя да попълни собствени автоматични мисли в интерактивна форма.",
             false, "Демонстрацията е фиксиран, преразказан пример от източника — не самооценъчен инструмент. Source: safety framing · 9.13")
     ]);
-
-    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
-
-    // ACTIVE LEARNING (Phase 2, Batch 2) — a committed one-to-one matching over six of 9.3's twelve approved examples (Figure
-    // 11.2). Each prompt is the example exactly as 9.3 quotes it, each option is that distortion's own name, and each explanation
-    // is 9.3's own definition. The six are the ones whose definitions cannot be confused with a neighbour (the near-neighbours —
-    // labelling, magnification/minimisation, mental filter, tunnel vision, overgeneralisation, disqualifying the positive — stay
-    // in 9.3 for reading). Fixed, third-person examples only: no free text, no self-assessment, no thought-record workflow;
-    // the fixed Thought Record demonstration in 9.6/9.7 is untouched. Items are deliberately listed out of the options' order.
-    private const string _week9DistortionSource = "9.3 — Фигура 11.2";
-
-    private static readonly ClassifyMatchActivity _week9DistortionMatch = new(
-        "Съпоставете примерите с изкривяванията",
-        "За всеки пример изберете изкривяването, което го описва — всяко изкривяване се използва само веднъж. После натиснете „Провери“.",
-        ClassifyMatchMode.Match,
-        [
-            new("black-white", "Мислене в черно и бяло"),
-            new("catastrophizing", "Катастрофизиране"),
-            new("emotional", "Емоционално мислене"),
-            new("mind-reading", "Четене на мисли"),
-            new("personalization", "Персонализация"),
-            new("shoulds", "Изказвания „трябва“ и „моля“")
-        ],
-        [
-            new("ex-personalization", "„Ремонтникът беше груб с мен, защото направих нещо грешно.“", "personalization",
-                "Персонализация — вярвате, че другите се държат негативно заради вас, без да разгледате по-правдоподобни обяснения за поведението им.", _week9DistortionSource),
-            new("ex-black-white", "„Ако не съм напълно успешен, значи съм провал.“", "black-white",
-                "Мислене в черно и бяло (мислене в крайности / дихотомично мислене) — виждате ситуацията само в две категории, вместо в континуум.", _week9DistortionSource),
-            new("ex-shoulds", "„Ужасно е, че направих грешка. Винаги трябва да давам най-доброто от себе си.“", "shoulds",
-                "Изказвания „трябва“ и „моля“ (императиви) — имате фиксирана представа как вие или другите трябва да се държат и надценявате колко лошо е, че очакването не е изпълнено.", _week9DistortionSource),
-            new("ex-catastrophizing", "„Ще бъда толкова разстроен, че няма да мога да функционирам изобщо.“", "catastrophizing",
-                "Катастрофизиране (предсказване на бъдещето) — предсказвате негативно бъдещето, без да вземете предвид други, по-вероятни изходи.", _week9DistortionSource),
-            new("ex-mind-reading", "„Той мисли, че не знам първото нещо за този проект.“", "mind-reading",
-                "Четене на мисли — вярвате, че знаете какво мислят другите, без да вземете предвид други, по-вероятни възможности.", _week9DistortionSource),
-            new("ex-emotional", "„Знам, че правя много неща добре на работа, но все още се чувствам като провал.“", "emotional",
-                "Емоционално мислене — мислите, че нещо трябва да е вярно, защото го „усещате“ толкова силно, игнорирайки доказателства в противен случай.", _week9DistortionSource)
-        ]);
 
     private static readonly GraphRenderModel _week9MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek9MindMap());
 

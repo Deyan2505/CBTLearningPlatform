@@ -87,7 +87,7 @@ public sealed class Week7ContentSliceTests
     }
 
     [Fact]
-    public void Week7Page_UsesEstablishedReusablePatterns_ZeroNewComponents()
+    public void Week7Page_UsesEstablishedReusablePatterns_AndHostsCommittedPredictionsBeforeTheAssessment()
     {
         string source = ReadPage("Sedmica7.razor");
 
@@ -101,10 +101,13 @@ public sealed class Week7ContentSliceTests
         Assert.Contains("<ConceptGraph", source);
         Assert.Contains("<WeekCompletionControl WeekNumber=\"@_week.Number\" />", source);
 
-        // No new component types — Week 7 deliberately reuses only what already exists.
-        Assert.DoesNotContain("<ScenarioSimulator", source);
-        Assert.DoesNotContain("<SourceArtifact", source);
-        Assert.DoesNotContain("<CbtChainSimulator", source);
+        // Replaces the retired "forbidden reuse" rule (Active Learning Standard, ADR-011): 7.6's predict-versus-actual scenarios are
+        // committed PredictReveal activities placed before the Final Assessment (7.11 also hosts a committed OrderingBuilder). The
+        // full declaration is verified by ActiveLearningGateTests and ActiveLearningBatch2Tests.
+        Assert.Contains("<PredictReveal", source);
+        Assert.True(
+            source.IndexOf("<PredictReveal", StringComparison.Ordinal) < source.IndexOf("<FinalAssessment", StringComparison.Ordinal),
+            "The committed predictions must precede the Final Assessment.");
     }
 
     [Fact]

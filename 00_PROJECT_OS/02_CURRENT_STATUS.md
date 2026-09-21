@@ -14,9 +14,22 @@
 
 ## Текуща фаза
 
-Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31). Седмица 10 — `COMPLETE`, `COMMITTED` (Сесия 33) — "Guided Practice" архетипът `VALIDATED`. Седмица 6 — `COMPLETE`, `COMMITTED` (Сесия 35, Phase C, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion. Седмица 12 — `COMPLETE`, `COMMITTED` (съдържание от Сесия 37, комитнато заедно с WASM migration commit `4135988`) — втората седмица от build order-а, `AcademicOverview` архетип (routed, но не `Available`, по дизайн). Седмица 2, 4, 5, 7, 8, 9, 11, 13, 14, 15 — `OWNER APPROVED / LOCKED` (production reviewed and approved). ALL 15 COURSE WEEKS — `OWNER APPROVED / LOCKED` (2026-09-19) — това е съдържателно/source одобрение и остава валидно. Структурен статус по ACTIVE LEARNING STANDARD (ADR-011, 2026-09-20): Седмици 3, 6, 8 съответстват (owner-confirmed); Седмици 1, 2, 10 — **`OWNER APPROVED — ACTIVE LEARNING COMPLETE`** (2026-09-21, след production visual review); Седмици 4, 5, 7, 9, 11, 12, 13, 14, 15 — `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED`.**
+Фаза 0 — завършена. Фаза 1 — STEP-1.1–1.5 `COMPLETE`; STEP-1.6 `DEFERRED`. Фаза 2 — STEP-2.1/2.2 `COMPLETE`. Фаза 3 — STEP-3.1–3.4 `COMPLETE`. **Foundation (Сесии 17–24) — `COMPLETE`, `COMMITTED` (hash `115f5fa`). Седмица 1 — `COMPLETE`, `COMMITTED` (Сесия 27). Седмица 3 + systemic route-safe anchor contract — `COMPLETE`, `COMMITTED` (Сесия 31). Седмица 10 — `COMPLETE`, `COMMITTED` (Сесия 33) — "Guided Practice" архетипът `VALIDATED`. Седмица 6 — `COMPLETE`, `COMMITTED` (Сесия 35, Phase C, hash `ac0d82e`) — първата седмица от Systematic Curriculum Expansion. Седмица 12 — `COMPLETE`, `COMMITTED` (съдържание от Сесия 37, комитнато заедно с WASM migration commit `4135988`) — втората седмица от build order-а, `AcademicOverview` архетип (routed, но не `Available`, по дизайн). Седмица 2, 4, 5, 7, 8, 9, 11, 13, 14, 15 — `OWNER APPROVED / LOCKED` (production reviewed and approved). ALL 15 COURSE WEEKS — `OWNER APPROVED / LOCKED` (2026-09-19) — това е съдържателно/source одобрение и остава валидно. Структурен статус по ACTIVE LEARNING STANDARD (ADR-011, 2026-09-20): Седмици 3, 6, 8 съответстват (owner-confirmed); Седмици 1, 2, 10 — **`OWNER APPROVED — ACTIVE LEARNING COMPLETE`** (2026-09-21, след production visual review); Седмици 5, 7, 9 — `ACTIVE LEARNING GATE — PASS` след Phase 2 / Batch 2, `AWAITING OWNER VISUAL REVIEW` (не са заключени); Седмици 4, 11, 12, 13, 14, 15 — `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED`.**
 
 ## Текуща стъпка
+
+`ACTIVE LEARNING BATCH 2 DEPLOYED / AWAITING OWNER VISUAL REVIEW` (Седмици 5, 7, 9; 2026-09-21). Само споделеният toolkit, без нов компонент
+и без нов CSS; одобрената проза е непроменена (доказва се от `ActiveLearningBatch2Tests` срещу snapshot в `Tests/Golden/ApprovedProse`).
+**Седмица 5:** `ClassifyMatchCheck` в 5.5, точно под двуетапното сравнение — учащият отнася шест твърдения към „В началото“ / „По-нататък“ /
+„И в двата етапа“; обратната връзка е текстът на самото сравнение. **Седмица 7:** `PredictReveal` ×2 в 7.6 (среща с приятели / тичане) — резултатът
+и заключителното изречение, което назовава двете посоки, вече съществуват едва след ангажиране (преди това стояха в DOM); `OrderingBuilder` в
+7.11 върху цикъла от 7.2 (след теста — не се декларира). **Седмица 9:** `ClassifyMatchCheck` (Match, едно към едно) в 9.8 — шест одобрени
+примера от 9.3 към името на изкривяването; дванадесетте карти за четене и фиксираната демонстрация на записа на мислите са непроменени.
+Единствените заменени части от одобрения текст (Седмица 7) са изброени и тествани: инструкцията „разгънете всяка карта“, двете reveal карти
+на 7.6 с изречението-синтез и reveal-ът в 7.11 — преместени дословно в данните на активностите. Mind Map (Preview + Review от един модел) и
+визуалните модели на трите седмици са непроменени и проверени. **Това НЕ е owner approval и НЕ е lock.** Оставащи седмици: 4, 11, 12, 13, 14, 15.
+
+Предходна стъпка — `BATCH 1 OWNER APPROVED` (Седмици 1, 2, 10 — `OWNER APPROVED — ACTIVE LEARNING COMPLETE`, 2026-09-21).
 
 `BATCH 1 REMEDIATION DEPLOYED / AWAITING OWNER REVIEW` (2026-09-21). Собственическият преглед на Batch 1 намери три пропуска;
 и трите са адресирани. **(A) Седмица 1 — дълбочина:** повторна KU проверка срещу SRC-041 Гл. 1 установи **4 одобрени Included KU,
@@ -57,8 +70,10 @@ learner-response с feedback след ангажимент; safety промен�
 | Седмица | Структурен статус | Gate-ове, които още не минават |
 |---|---|---|
 | 1, 2, 3, 6, 8, 10 | **`OWNER APPROVED — ACTIVE LEARNING COMPLETE`** (1, 2, 10 одобрени 2026-09-21; 3, 6, 8 предишни reference) | — |
+| 5, 7, 9 | `ACTIVE LEARNING GATE — PASS` (Phase 2 / Batch 2) — `AWAITING OWNER VISUAL REVIEW`, не са заключени | — |
 | 4 | `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` | Visual, Interaction, Response |
-| 5, 7, 9, 11, 12, 13, 14, 15 | `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` | Interaction, Response |
+| 11, 13, 14, 15 | `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` | Interaction, Response |
+| 12 | `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` | Interaction, Response, Weekly Mind Map |
 
 Ред на работа: контролирана remediation на партиди (без клониране на Седмица 8/6), с reusable active-learning
 toolkit; стари тестове, забраняващи интерактивни компоненти, са инвентаризирани в `LegacyPassivityInventory` и се заместват

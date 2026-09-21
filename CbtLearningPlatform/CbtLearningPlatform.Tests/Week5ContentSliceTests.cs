@@ -100,7 +100,7 @@ public sealed class Week5ContentSliceTests
     }
 
     [Fact]
-    public void Week5Page_UsesEstablishedReusablePatterns_ZeroNewComponents()
+    public void Week5Page_UsesEstablishedReusablePatterns_AndHostsACommittedClassificationBeforeTheAssessment()
     {
         string source = ReadPage("Sedmica5.razor");
 
@@ -119,9 +119,14 @@ public sealed class Week5ContentSliceTests
         // ConceptGraph/MindMapAdapter engine — not a new component. No content-relation Concept Map,
         // no simulator, no other new component.
         Assert.Contains("<ConceptGraph", source);
-        Assert.DoesNotContain("<ScenarioSimulator", source);
-        Assert.DoesNotContain("<SourceArtifact", source);
-        Assert.DoesNotContain("<CbtChainSimulator", source);
+
+        // Replaces the retired "forbidden reuse" rule (Active Learning Standard, ADR-011): the qualifying interaction is the shared
+        // ClassifyMatchCheck over 5.5's two-stage comparison, placed before the Final Assessment. The full declaration is verified
+        // by ActiveLearningGateTests and ActiveLearningBatch2Tests.
+        Assert.Contains("<ClassifyMatchCheck", source);
+        Assert.True(
+            source.IndexOf("<ClassifyMatchCheck", StringComparison.Ordinal) < source.IndexOf("<FinalAssessment", StringComparison.Ordinal),
+            "The classification must precede the Final Assessment.");
     }
 
     [Fact]

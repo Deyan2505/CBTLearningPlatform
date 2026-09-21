@@ -32,12 +32,7 @@
    clinician how to run behavioral activation in session. Nothing below is direct-to-learner
    self-treatment instruction — everything is psychoeducational model/concept framing, third-person
    worked examples, matching CurriculumSafetyLevel.PublicWithAdaptation and the same educational
-   framing already established for Weeks 1/3/6/8/10/12.
-
-   ACTIVE LEARNING (Phase 2, Batch 2): 7.6's two predict-versus-actual scenarios are committed PredictReveal activities (the
-   reveal and the closing both-directions sentence exist only after the learner commits), and 7.11's retrieval reveal is a
-   committed OrderingBuilder over the cycle drawn in 7.2. Shared toolkit engines only; approved prose otherwise unchanged
-   (guarded by Golden/ApprovedProse — two named replacements, see ActiveLearningBatch2Tests). *@
+   framing already established for Weeks 1/3/6/8/10/12. *@
 @page "/kurs/sedmica-7"
 
 <PageTitle>Седмица 7: Поведенческа активация — 15-седмичен курс — КПТ Академия</PageTitle>
@@ -377,11 +372,55 @@
             Когато пациент е скептичен, че планирането на дейности би помогнало, терапевтът може да го
             помоли да предскаже нива на овладяване и удоволствие на един график, а после да запише
             действителните оценки на друг. Сравнението на двете е самò по себе си полезен източник на
-            данни — предскажете резултата и го потвърдете, преди да видите действителните оценки.
+            данни — опитайте да предскажете резултата преди да разгънете всяка карта по-долу.
         </p>
 
-        <PredictReveal ComponentId="week7-predict-friends" Activity="_week7PredictFriends" SafetyMode="_safetyMode" />
-        <PredictReveal ComponentId="week7-predict-run" Activity="_week7PredictRun" SafetyMode="_safetyMode" />
+        <div class="learning-grid learning-grid--balanced">
+            <div class="card">
+                <p><strong>Сценарий 1: среща с приятели.</strong> Пациентът планира три отделни срещи с приятели през седмицата и предсказва ниски оценки за удоволствие — основно между 0 и 3.</p>
+                <details class="progressive-explanation">
+                    <summary>Разкрий действителния резултат</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Действителни оценки: 3 до 5</strong> — по-високи от предсказаните.</p>
+                        <p>
+                            <em>Пациент:</em> Предполагам, че не съм добър предсказател. Мислех, че няма да
+                            се забавлявам, но се оказа, че все пак се забавлявах.
+                        </p>
+                        <p>
+                            <strong>Извод:</strong> преди терапията пациентът постоянно е предсказвал, че ще
+                            му е скучно с приятели, и затова е отказвал покани — предсказанието му за
+                            собственото удоволствие е било систематично твърде ниско.
+                        </p>
+                    </div>
+                </details>
+            </div>
+            <div class="card">
+                <p><strong>Сценарий 2: тичане през уикенда.</strong> Същият пациент предсказва умерени оценки — по 4 за овладяване и за удоволствие — преди да отиде да тича.</p>
+                <details class="progressive-explanation">
+                    <summary>Разкрий действителния резултат</summary>
+                    <div class="progressive-explanation__body">
+                        <p><strong>Действителни оценки: по 1</strong> — много по-ниски от предсказаните.</p>
+                        <p>
+                            Докато тичал, през ума му минавали мисли като „Това е трудно“, „Много съм
+                            изморен“, „Преди правех това лесно“, „Сега съм в толкова лоша форма“, „Може би
+                            никога няма да мога да се върна във форма“ — и спомен как е било по-лесно преди.
+                        </p>
+                        <p>
+                            <strong>Извод:</strong> сравнението не винаги показва, че пациентът подценява
+                            удоволствието — понякога разкрива нови, пречещи автоматични мисли (тук: сравнение
+                            със собственото минало Аз), които самата дейност е извадила наяве. Работата с тази
+                            конкретна мисъл е тема отвъд тази глава на източника.
+                        </p>
+                    </div>
+                </details>
+            </div>
+        </div>
+        <p class="concept-map__feedback">
+            Двата сценария показват двете посоки, в които сравнението може да изненада: понякога
+            действителността е <strong>по-добра</strong> от предсказаното (Сценарий 1), понякога —
+            <strong>по-лоша</strong> (Сценарий 2). И в двата случая сравнението дава конкретна, полезна
+            информация — не просто потвърждава каквото пациентът вече е вярвал.
+        </p>
     </LearningSection>
 
     <LearningSection Role="theory" RoleLabel="Теория">
@@ -491,8 +530,21 @@
         <details class="progressive-explanation concept-graph__retrieval-check">
             <summary>Retrieval practice: подреди без да гледаш назад</summary>
             <div class="progressive-explanation__body">
-                <OrderingBuilder ComponentId="week7-cycle-order" Activity="_week7CycleOrder" SafetyMode="_safetyMode" />
-                <p><a href="/kurs/sedmica-7#porochen-krag">Виж пълната диаграма в 7.2 →</a></p>
+                <p>
+                    Подредете тези четири стъпки от <strong>порочния кръг на бездействието</strong> в
+                    правилния ред, преди да разгънете отговора: <em>По-негативно мислене</em> ·
+                    <em>Бездействие</em> · <em>Още по-силно бездействие</em> · <em>По-ниско настроение</em>.
+                </p>
+                <details>
+                    <summary>Покажи верния ред</summary>
+                    <ol>
+                        <li>Бездействие</li>
+                        <li>По-ниско настроение</li>
+                        <li>По-негативно мислене</li>
+                        <li>Още по-силно бездействие</li>
+                    </ol>
+                    <p><a href="/kurs/sedmica-7#porochen-krag">Виж пълната диаграма в 7.2 →</a></p>
+                </details>
             </div>
         </details>
 
@@ -602,55 +654,6 @@
         AssessmentQuestion.TrueFalse("q16", "Поведенческата активация е представена тук като инструкция читателят да приложи директно върху себе си.",
             false, "Съдържанието е психообразователен модел с преразказани примери от трето лице — не self-therapy инструкция. Source: safety framing · <a href=\"/kurs/sedmica-7#izvori\">7.12</a>")
     ]);
-
-    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
-
-    // ACTIVE LEARNING (Phase 2, Batch 2) — 7.6's two predict-versus-actual scenarios become committed predictions. The scenario
-    // text, both real outcomes, the patient's own words and the two conclusions are the page's approved wording, moved
-    // verbatim: the reveal (and the closing sentence that states BOTH directions, which would otherwise sit in the DOM
-    // before either prediction is made) now exists only after the learner commits. The options describe a direction, never a claim.
-    private static readonly PredictRevealOption[] _week7DirectionOptions =
-    [
-        new("higher", "По-високи от предсказаните"),
-        new("same", "Същите като предсказаните"),
-        new("lower", "По-ниски от предсказаните")
-    ];
-
-    private const string _week7PredictQuestion = "Как ще се сравнят действителните оценки с предсказаните?";
-
-    private static readonly PredictRevealActivity _week7PredictFriends = new(
-        "Сценарий 1: среща с приятели",
-        "Пациентът планира три отделни срещи с приятели през седмицата и предсказва ниски оценки за удоволствие — основно между 0 и 3.",
-        _week7PredictQuestion,
-        _week7DirectionOptions,
-        "higher",
-        "Действителни оценки: 3 до 5 — по-високи от предсказаните. Пациент: Предполагам, че не съм добър предсказател. Мислех, че няма да се забавлявам, но се оказа, че все пак се забавлявах. Извод: преди терапията пациентът постоянно е предсказвал, че ще му е скучно с приятели, и затова е отказвал покани — предсказанието му за собственото удоволствие е било систематично твърде ниско.",
-        "7.6 — Предсказание срещу действителност");
-
-    private static readonly PredictRevealActivity _week7PredictRun = new(
-        "Сценарий 2: тичане през уикенда",
-        "Същият пациент предсказва умерени оценки — по 4 за овладяване и за удоволствие — преди да отиде да тича.",
-        _week7PredictQuestion,
-        _week7DirectionOptions,
-        "lower",
-        "Действителни оценки: по 1 — много по-ниски от предсказаните. Докато тичал, през ума му минавали мисли като „Това е трудно“, „Много съм изморен“, „Преди правех това лесно“, „Сега съм в толкова лоша форма“, „Може би никога няма да мога да се върна във форма“ — и спомен как е било по-лесно преди. Извод: сравнението не винаги показва, че пациентът подценява удоволствието — понякога разкрива нови, пречещи автоматични мисли (тук: сравнение със собственото минало Аз), които самата дейност е извадила наяве. Работата с тази конкретна мисъл е тема отвъд тази глава на източника. Двата сценария показват двете посоки, в които сравнението може да изненада: понякога действителността е по-добра от предсказаното (Сценарий 1), понякога — по-лоша (Сценарий 2). И в двата случая сравнението дава конкретна, полезна информация — не просто потвърждава каквото пациентът вече е вярвал.",
-        "7.6 — Предсказание срещу действителност");
-
-    // 7.11's retrieval reveal, made committed. Same four steps, same order as the reveal it replaces (the cycle drawn in 7.2);
-    // the feedback is 7.2's own sentence describing the cycle. It follows the Final Assessment, so it is review practice
-    // and is not what satisfies the Active Learning Gate.
-    private static readonly OrderingActivity _week7CycleOrder = new(
-        "Подредете стъпките на порочния кръг",
-        "Подредете тези четири стъпки от порочния кръг на бездействието в правилния ред — започнете от бездействието.",
-        [
-            new("inaction", "Бездействие"),
-            new("lower-mood", "По-ниско настроение"),
-            new("negative-thinking", "По-негативно мислене"),
-            new("stronger-inaction", "Още по-силно бездействие")
-        ],
-        "Порочен кръг: бездействието води до по-ниско настроение (по-малко възможности за овладяване и удоволствие), по-ниското настроение подхранва по-негативно мислене, а по-негативното мислене задълбочава бездействието още повече.",
-        "Диаграмата в 7.2",
-        ShuffleSeed: 1);
 
     private static readonly GraphRenderModel _week7MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek7MindMap());
 

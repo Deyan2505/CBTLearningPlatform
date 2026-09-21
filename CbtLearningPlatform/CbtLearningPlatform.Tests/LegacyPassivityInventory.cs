@@ -40,25 +40,14 @@ internal static class LegacyPassivityInventory
 
     public static IReadOnlyList<LegacyPassivityAssertion> Entries { get; } =
     [
-        // Weeks 1, 2 and 10 (Phase 2, Batch 1) were remediated: their Replace entries were removed together with the assertions
-        // themselves, which now assert the catalog gate instead (Week1/Week2/Week10ContentSliceTests + ActiveLearningBatch1Tests).
+        // Weeks 1, 2 and 10 (Phase 2, Batch 1) and Weeks 5, 7 and 9 (Phase 2, Batch 2) were remediated: their Replace entries were
+        // removed together with the assertions themselves, which now assert the catalog gate instead
+        // (Week1/2/5/7/9/10ContentSliceTests + ActiveLearningBatch1Tests / ActiveLearningBatch2Tests).
 
         Replace(4, "Week4ContentSliceTests.cs", "Week4Page_UsesOnlyExistingReusablePatterns_NoNewComponent",
             "Encodes AcademicContextOnly = zero interaction. Replace with the Week 4 catalog gate; keep the MindMapBranch (internal component) guard.",
             "<CbtChainSimulator", "<CategorizationCheck", "<InterpretationExample", "<ResearchTurnStepper",
             "<SocraticDialogueExplorer", "<SchemaFilterDemonstration", "<HistoricalTimeline", "<MindMapBranch"),
-
-        Replace(5, "Week5ContentSliceTests.cs", "Week5Page_UsesEstablishedReusablePatterns_ZeroNewComponents",
-            "Forbids the generic ScenarioSimulator. Replace with the Week 5 catalog gate.",
-            "<ScenarioSimulator", "<SourceArtifact", "<CbtChainSimulator"),
-
-        Replace(7, "Week7ContentSliceTests.cs", "Week7Page_UsesEstablishedReusablePatterns_ZeroNewComponents",
-            "Forbids the generic ScenarioSimulator. Replace with the Week 7 catalog gate.",
-            "<ScenarioSimulator", "<SourceArtifact", "<CbtChainSimulator"),
-
-        Replace(9, "Week9ContentSliceTests.cs", "Week9Page_UsesEstablishedReusablePatterns_ZeroNewComponents",
-            "Forbids ScenarioSimulator and WhatIfBox. Replace with the Week 9 catalog gate; the fixed (non-fillable) Thought Record decision is separate and stays.",
-            "<ScenarioSimulator", "<SourceArtifact", "<CbtChainSimulator", "<WhatIfBox"),
 
         new(10, "Week10ContentSliceTests.cs", "Week8Page_CrossLinksToWeek10_WithoutDuplicatingTheSimulator",
             new HashSet<string> { "<SocraticDialogueExplorer" }, LegacyPassivityKind.KeepCrossWeekScopeGuard,

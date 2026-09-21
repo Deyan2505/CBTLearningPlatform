@@ -92,7 +92,7 @@ public sealed class Week9ContentSliceTests
     }
 
     [Fact]
-    public void Week9Page_UsesEstablishedReusablePatterns_ZeroNewComponents()
+    public void Week9Page_UsesEstablishedReusablePatterns_AndHostsACommittedMatchingBeforeTheAssessment()
     {
         string source = ReadPage("Sedmica9.razor");
 
@@ -105,10 +105,14 @@ public sealed class Week9ContentSliceTests
         Assert.Contains("<ConceptGraph", source);
         Assert.Contains("<WeekCompletionControl WeekNumber=\"@_week.Number\" />", source);
 
-        Assert.DoesNotContain("<ScenarioSimulator", source);
-        Assert.DoesNotContain("<SourceArtifact", source);
-        Assert.DoesNotContain("<CbtChainSimulator", source);
-        Assert.DoesNotContain("<WhatIfBox", source);
+        // Replaces the retired "forbidden reuse" rule (Active Learning Standard, ADR-011): the qualifying interaction is the shared
+        // ClassifyMatchCheck (one-to-one distortion matching, 9.8) placed before the Final Assessment. The full declaration is
+        // verified by ActiveLearningGateTests and ActiveLearningBatch2Tests. The fixed, non-fillable Thought Record decision is
+        // separate and unchanged (Week9Page_ThoughtRecordDemonstration_HasNoInputScoringOrLiveForm).
+        Assert.Contains("<ClassifyMatchCheck", source);
+        Assert.True(
+            source.IndexOf("<ClassifyMatchCheck", StringComparison.Ordinal) < source.IndexOf("<FinalAssessment", StringComparison.Ordinal),
+            "The matching must precede the Final Assessment.");
     }
 
     [Fact]

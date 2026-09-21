@@ -7,11 +7,11 @@ namespace CbtLearningPlatform.Client.Curriculum;
 /// (ActiveLearningGateTests) verifies every marker against the page markup and fails if a week's
 /// <see cref="StructuralStatus"/> disagrees with its own declarations, in either direction.
 ///
-/// Weeks 3, 6 and 8 are the owner-confirmed compliant references. Weeks 1, 2 and 10 (Phase 2, Batch 1) pass the gate
-/// but are NOT owner-approved or locked: they await the owner's visual review of the interactions in production. The
-/// other nine are <see cref="StructuralStatus.StructuralEnrichmentRequired"/> (OWNER APPROVED CONTENT / STRUCTURAL
-/// ENRICHMENT REQUIRED): content approval and locked prose remain valid; only the learning architecture is
-/// reopened, one controlled batch at a time. When a week's remediation lands, add the new declarations and
+/// Weeks 3, 6 and 8 are the owner-confirmed compliant references, and Weeks 1, 2 and 10 (Phase 2, Batch 1) were owner-approved
+/// after production review. Weeks 5, 7 and 9 (Phase 2, Batch 2) pass the gate but are NOT owner-approved or locked: they await
+/// the owner's visual review of the interactions in production. The other six (4, 11-15) are
+/// <see cref="StructuralStatus.StructuralEnrichmentRequired"/> (OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED):
+/// content approval and locked prose remain valid; only the learning architecture is reopened, one controlled batch at a time. When a week's remediation lands, add the new declarations and
 /// promote its status to Compliant in the same change — a stale StructuralEnrichmentRequired also fails the gate.
 ///
 /// Existing select-to-read explorers (ResearchTurnStepper, CognitiveHierarchyExplorer, SocraticDialogueExplorer),
@@ -108,26 +108,51 @@ public static class ActiveLearningCatalog
                 new(LearnerResponseKind.Predict, "CaseExaminationSimulator")
             ]),
 
-        // --- OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED ---
+        // --- Phase 2, Batch 2: gate PASS, AWAITING OWNER VISUAL REVIEW (not locked) ---
+        // Week 5: the two-stage collaboration comparison (category-compare) and the Principle 7 tapering sequence stay the visual
+        // models; the learner classifies statements against the comparison (ClassifyMatchCheck, 5.5, before the quiz).
+        Compliant(5,
+            visuals:
+            [
+                new(VisualModelKind.MindMap, Graph("week5-mindmap-preview"), RepresentsCentralStructure: false),
+                new(VisualModelKind.Comparison, CategoryCompare),
+                new(VisualModelKind.Sequence, Sequence)
+            ],
+            interactions: [new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")],
+            responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
 
-        // Week 4: lists only + a Mind Map that does not carry the week's central structure.
-        Migration(4,
-            visuals: [new(VisualModelKind.MindMap, Graph("week4-mindmap-preview"), RepresentsCentralStructure: false)]),
-
-        Migration(5,
-            visuals: [new(VisualModelKind.MindMap, Graph("week5-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Comparison, CategoryCompare), new(VisualModelKind.Sequence, Sequence)]),
-
-        Migration(7,
+        // Week 7: the vicious-cycle loop and the Sali behavioural-experiment map stay the visual models; 7.6's two
+        // predict-versus-actual scenarios are committed predictions (PredictReveal). 7.11 also hosts a committed OrderingBuilder
+        // over the cycle; it follows the Final Assessment, so it is review practice and is intentionally not declared here.
+        Compliant(7,
             visuals:
             [
                 new(VisualModelKind.MindMap, Graph("week7-mindmap-preview"), RepresentsCentralStructure: false),
                 new(VisualModelKind.Cycle, Loop),
                 new(VisualModelKind.ConceptNetwork, Graph("week7-sali-map")),
                 new(VisualModelKind.Process, Flow)
-            ]),
+            ],
+            interactions: [new(InteractionFamily.PredictCommit, "PredictReveal")],
+            responses: [new(LearnerResponseKind.Predict, "PredictReveal")]),
 
-        Migration(9,
-            visuals: [new(VisualModelKind.MindMap, Graph("week9-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Process, Graph("week9-thought-record-structure")), new(VisualModelKind.Sequence, Sequence)]),
+        // Week 9: the six-column thought-record structure and the six-category evaluation sequence stay the visual models; the
+        // learner matches six approved distortion examples to their names (ClassifyMatchCheck, 9.8, before the quiz). The fixed,
+        // non-fillable Thought Record demonstration is unchanged.
+        Compliant(9,
+            visuals:
+            [
+                new(VisualModelKind.MindMap, Graph("week9-mindmap-preview"), RepresentsCentralStructure: false),
+                new(VisualModelKind.Process, Graph("week9-thought-record-structure")),
+                new(VisualModelKind.Sequence, Sequence)
+            ],
+            interactions: [new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")],
+            responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
+
+        // --- OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED ---
+
+        // Week 4: lists only + a Mind Map that does not carry the week's central structure.
+        Migration(4,
+            visuals: [new(VisualModelKind.MindMap, Graph("week4-mindmap-preview"), RepresentsCentralStructure: false)]),
 
         Migration(11,
             visuals: [new(VisualModelKind.MindMap, Graph("week11-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Process, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),

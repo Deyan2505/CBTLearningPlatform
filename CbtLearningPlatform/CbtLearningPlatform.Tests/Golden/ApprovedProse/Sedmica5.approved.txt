@@ -35,11 +35,7 @@
    No Sally case-intro facts, no reproduced dialogue anywhere (Ch.2's worked transcript and its
    conceptualization-sharing dialogue are excluded per the established dialogue-reproduction
    boundary — Week 4/12 precedent). Application scenarios (5.8) use generic, non-Sally, non-clinical
-   patients only.
-
-   ACTIVE LEARNING (Phase 2, Batch 2): 5.5 hosts one committed ClassifyMatchCheck (shared toolkit engine) over its own
-   approved two-stage comparison — the learner classifies before any verdict exists. Approved prose is unchanged (only an
-   insertion; guarded by Golden/ApprovedProse). No new component, no new CSS. *@
+   patients only. *@
 @page "/kurs/sedmica-5"
 
 <PageTitle>Седмица 5: Принципи на КПТ и терапевтичен съюз — 15-седмичен курс — КПТ Академия</PageTitle>
@@ -433,8 +429,6 @@
             постепенно, не рязко.
         </p>
 
-        <ClassifyMatchCheck ComponentId="week5-collaboration-stage" Activity="_week5CollaborationStage" SafetyMode="_safetyMode" />
-
         <div class="learning-grid learning-grid--balanced">
             <div class="card">
                 <p><strong>Проверка 6.</strong> Как се променя ролята на пациента с напредването на лечението?</p>
@@ -626,40 +620,6 @@
         AssessmentQuestion.TrueFalse("q12", "Тази страница кани читателя да изгради собствена терапевтична връзка според описаните тук стъпки.",
             false, "Съдържанието е образователен преглед на професионална практика — не инструкция за самотерапия. Source: safety framing.")
     ]);
-
-    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
-
-    // ACTIVE LEARNING (Phase 2, Batch 2) — a committed classification over 5.5's own two-stage comparison. Each statement is
-    // a phrase of that comparison (the actor is the one the panel names); the three options are the panels' own labels plus
-    // the closing sentence's "и в двата етапа"; the feedback is the same approved text. Nothing here is new content.
-    private const string _week5EarlyStage =
-        "В началото на лечението: Терапевтът е по-активен — предлага посока за сесиите, обяснява защо, обобщава наученото и дава ясна обосновка за всяка предложена стъпка, за да получи реално съгласие на пациента, не просто мълчаливо приемане.";
-
-    private const string _week5LaterStage =
-        "По-нататък в лечението: С напредването и социализирането в терапията пациентът поема все по-активна роля — сам избира за какво да говори, идентифицира изкривявания в собственото си мислене, обобщава важните моменти и предлага домашни задачи.";
-
-    private const string _week5BothStages =
-        "И в двата етапа терапията остава екипна работа — просто балансът на инициативата се измества постепенно, не рязко.";
-
-    private const string _week5StageSource = "5.5 — Сътрудничество: как се променя балансът";
-
-    private static readonly ClassifyMatchActivity _week5CollaborationStage = new(
-        "На кой етап от лечението отговаря това?",
-        "За всяко твърдение изберете етапа от сравнението по-горе, на който отговаря, после натиснете „Провери“.",
-        ClassifyMatchMode.Classify,
-        [
-            new("early", "В началото на лечението"),
-            new("later", "По-нататък в лечението"),
-            new("both", "И в двата етапа")
-        ],
-        [
-            new("later-topic", "Пациентът сам избира за какво да говори", "later", _week5LaterStage, _week5StageSource),
-            new("early-direction", "Терапевтът предлага посока за сесиите", "early", _week5EarlyStage, _week5StageSource),
-            new("both-teamwork", "Терапията остава екипна работа", "both", _week5BothStages, _week5StageSource),
-            new("later-summary", "Пациентът обобщава важните моменти", "later", _week5LaterStage, _week5StageSource),
-            new("early-summary", "Терапевтът обобщава наученото", "early", _week5EarlyStage, _week5StageSource),
-            new("later-distortions", "Пациентът идентифицира изкривявания в собственото си мислене", "later", _week5LaterStage, _week5StageSource)
-        ]);
 
     private static readonly GraphRenderModel _week5MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek5MindMap());
 
