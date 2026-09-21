@@ -25,7 +25,13 @@ public enum ActiveLearningGate
     VisualLearningModel,
     ActiveLearningInteraction,
     ActiveLearnerResponse,
-    FinalAssessment
+    FinalAssessment,
+
+    /// <summary>Weekly Mind Map (Preview + Review from one semantic model). Owner decision after the Batch 1 review: 12 of the
+    /// 15 weeks already carried one, so its absence was a defect rather than a style choice. Separate from
+    /// <see cref="VisualLearningModel"/> on purpose — a Mind Map is an orientation/memory hierarchy, and a week still needs a
+    /// visual model of its central structure whether or not that structure is what the map happens to show.</summary>
+    WeeklyMindMap
 }
 
 /// <summary>What structure a visual learning model makes visible (never what it says).</summary>
@@ -144,6 +150,10 @@ public static class ActiveLearningStandard
                 new HashSet<InteractionFamily> { InteractionFamily.PredictCommit },
                 new HashSet<LearnerResponseKind> { LearnerResponseKind.Predict, LearnerResponseKind.Choose, LearnerResponseKind.Compare },
                 "Committed predict → reveal: the explanation and actual outcome do not exist until the learner commits a prediction."),
+            ["CaseExaminationSimulator"] = new(
+                new HashSet<InteractionFamily> { InteractionFamily.Simulator, InteractionFamily.InteractiveModel },
+                new HashSet<LearnerResponseKind> { LearnerResponseKind.ManipulateModel, LearnerResponseKind.Predict, LearnerResponseKind.Decide },
+                "Stateful case model: the learner applies examination tools to a case, predicting each tool's finding before it joins the board; the closing outcome exists only once every tool has been applied."),
             ["ActiveLearningFrame"] = Excluded("Presentational frame (heading, instruction, safety notice) shared by the toolkit engines; not an interaction itself."),
 
             ["CategorizationCheck"] = Excluded("Reveal-only: the learner classifies mentally and clicks to reveal; no committed response. Superseded for new work by the commit-then-feedback ClassifyMatchCheck."),
@@ -236,6 +246,13 @@ public static class ActiveLearningStandard
         if (!week.DeclaresFinalAssessment)
         {
             findings.Add(new(ActiveLearningGate.FinalAssessment, "No Final Assessment declared."));
+        }
+
+        // E. WeeklyMindMap — presence only. Whether the map also carries the week's central structure is the VisualLearningModel
+        // gate's question, so a week cannot satisfy this one by relabelling some other visual as a Mind Map.
+        if (!week.VisualModels.Any(v => v.Kind == VisualModelKind.MindMap && v.Marker.Contains(MindMapMarker, StringComparison.OrdinalIgnoreCase)))
+        {
+            findings.Add(new(ActiveLearningGate.WeeklyMindMap, "No Weekly Mind Map declared (Preview + Review rendered from one semantic MindMapModel)."));
         }
 
         return findings;

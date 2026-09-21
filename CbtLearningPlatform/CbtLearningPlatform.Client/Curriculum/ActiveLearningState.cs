@@ -218,3 +218,95 @@ public sealed class PredictRevealState
         return true;
     }
 }
+
+// ---------------------------------------------------------------- D. case examination model (stateful)
+
+/// <summary>The one engine in the toolkit with a MODEL rather than a question set: the case starts in a stated state and the
+/// learner changes it by applying tools. Applying a tool takes two steps — open it, predict what it will surface — and the
+/// finding only joins <see cref="Findings"/> once the prediction is committed. The closing outcome does not exist until
+/// every tool has been applied, so it cannot leak into the DOM early.</summary>
+public sealed class CaseExaminationState
+{
+    private readonly Dictionary<string, string> _predictions = new(StringComparer.Ordinal);
+    private readonly List<string> _applied = [];
+
+    public CaseExaminationState(CaseExaminationActivity activity)
+    {
+        IReadOnlyList<string> issues = activity.Validate();
+        if (issues.Count > 0) throw new ArgumentException($"Invalid CaseExaminationActivity: {string.Join(" ", issues)}", nameof(activity));
+        Activity = activity;
+    }
+
+    public CaseExaminationActivity Activity { get; }
+
+    /// <summary>The tool the learner has opened and is predicting for; null when the board is at rest.</summary>
+    public string? ActiveToolId { get; private set; }
+
+    /// <summary>The prediction chosen for the open tool, not yet committed.</summary>
+    public string? PendingSelection { get; private set; }
+
+    public int Total => Activity.Tools.Count;
+    public int AppliedCount => _applied.Count;
+    public bool IsComplete => AppliedCount == Total;
+    public bool CanCommit => ActiveToolId is not null && PendingSelection is not null;
+
+    /// <summary>Tools in the order the learner applied them — the board's running state.</summary>
+    public IReadOnlyList<ExaminationTool> Findings => [.. _applied.Select(id => Activity.Tools.First(t => t.Id == id))];
+
+    public bool IsApplied(string toolId) => _predictions.ContainsKey(toolId);
+
+    /// <summary>Null until the tool has been applied — there is no verdict to leak before the learner commits.</summary>
+    public bool? WasCorrect(string toolId) =>
+        _predictions.TryGetValue(toolId, out string? predicted)
+            ? predicted == Activity.Tools.First(t => t.Id == toolId).CorrectOptionId
+            : null;
+
+    public string? Prediction(string toolId) => _predictions.GetValueOrDefault(toolId);
+
+    /// <summary>The closing state of the model — withheld until every tool has been applied.</summary>
+    public string? Outcome => IsComplete ? Activity.Outcome : null;
+
+    public int CorrectPredictionCount => _applied.Count(id => WasCorrect(id) == true);
+
+    public bool Open(string toolId)
+    {
+        if (IsApplied(toolId) || Activity.Tools.All(t => t.Id != toolId)) return false;
+        ActiveToolId = toolId;
+        PendingSelection = null;
+        return true;
+    }
+
+    public bool Select(string optionId)
+    {
+        if (ActiveToolId is not { } toolId) return false;
+        ExaminationTool tool = Activity.Tools.First(t => t.Id == toolId);
+        if (tool.Options.All(o => o.Id != optionId)) return false;
+        PendingSelection = optionId;
+        return true;
+    }
+
+    public bool Commit()
+    {
+        if (!CanCommit) return false;
+        _predictions[ActiveToolId!] = PendingSelection!;
+        _applied.Add(ActiveToolId!);
+        ActiveToolId = null;
+        PendingSelection = null;
+        return true;
+    }
+
+    /// <summary>Backs out of an opened tool without applying it — the model's state is unchanged.</summary>
+    public void Close()
+    {
+        ActiveToolId = null;
+        PendingSelection = null;
+    }
+
+    public void Reset()
+    {
+        _predictions.Clear();
+        _applied.Clear();
+        ActiveToolId = null;
+        PendingSelection = null;
+    }
+}

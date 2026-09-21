@@ -31,7 +31,15 @@
    7. ACTIVE LEARNING ENRICHMENT (Phase 2, Batch 1 — structural only, prose untouched): the plain <details> reveals
       of 10.4 (question vs. disguised advice) are now one committed ClassifyMatchCheck, and the 10.11 retrieval reveal
       is a committed OrderingBuilder. Both reuse only wording already approved on this page; the toolkit is the shared
-      Active Learning Toolkit (no week-specific component). Interaction precedes the Final Assessment (10.4). *@
+      Active Learning Toolkit (no week-specific component). Interaction precedes the Final Assessment (10.4).
+   8. BATCH 1 REMEDIATION (owner review: the visual model looks capable of becoming a real interactive model). 10.2's six
+      evaluation-question categories are now also MANIPULABLE, not only readable: CaseExaminationSimulator (a new shared,
+      data-driven toolkit engine — not a Week 10 widget) puts the already-approved Сали/Карен case on a board in its stated
+      starting state, and the learner changes that state by choosing a question, predicting what it will surface, and
+      applying it. Each applied question adds the explorer's own approved finding; the chapter's closing re-rating
+      (90% → ~20%) is withheld until all six have been applied. No per-step percentages are invented — the source reports
+      only the start and the end. The static six-category list and the select-to-read explorer both stay: the model
+      complements them. *@
 @page "/kurs/sedmica-10"
 
 <PageTitle>Седмица 10: Сократически въпроси и съвместно изследване — 15-седмичен курс — КПТ Академия</PageTitle>
@@ -211,6 +219,14 @@
             Преоценката след разглеждането — не самото „позитивно мислене“ — е това, което променя
             усещането ѝ.
         </p>
+
+        <h3>Разгледайте случая сами</h3>
+        <p>
+            Същият случай, но този път вие водите разглеждането: изберете въпрос, предскажете какво ще
+            разкрие той и чак тогава вижте какво е отговорила Сали. Всеки приложен въпрос остава на дъската,
+            за да се вижда как картината се допълва.
+        </p>
+        <CaseExaminationSimulator ComponentId="week10-case-examination" Activity="_week10CaseExamination" SafetyMode="_safetyMode" />
     </LearningSection>
 
     <div class="learning-grid learning-grid--balanced">
@@ -509,6 +525,67 @@
         ],
         SourceRef: "Фигура 11.1 — виж пълния списък в 10.2",
         ShuffleSeed: 2);
+
+    // ACTIVE LEARNING (Batch 1 remediation) — the interactive form of 10.2's six evaluation-question categories, applied to
+    // 10.3's already-approved Сали/Карен worked example. Every case fact, question and finding is the wording the
+    // SocraticDialogueExplorer above already carries; the closing outcome is 10.3's own closing paragraph. The prediction
+    // options are one-line restatements of what each of the six categories asks (10.2) — so a distractor is never a false
+    // claim, only a different approved category, and the learner's real task is telling the categories apart.
+    private const string SurfaceEvidence = "Конкретни факти за и против мисълта.";
+    private const string SurfaceAlternative = "Друго възможно обяснение на същата ситуация.";
+    private const string SurfaceDecatastrophizing = "Най-лошият, най-добрият и най-реалистичният изход.";
+    private const string SurfaceEffect = "Как самото вярване в мисълта се отразява на Сали.";
+    private const string SurfaceDistancing = "Какво Сали би казала на приятел в същото положение.";
+    private const string SurfaceProblemSolving = "Каква конкретна стъпка може да предприеме.";
+
+    private static readonly CaseExaminationActivity _week10CaseExamination = new(
+        "Разбор на случая: Сали и Карен",
+        "Изберете въпрос, предскажете какво ще разкрие той и го приложете. Обяснението се показва едва след потвърждаване.",
+        [
+            new("Ситуация", "Сали среща приятелката си Карен на път за час. Карен изглежда забързана, казва набързо „Здравей, Сали, до после“ и продължава да върви, без почти да я поглежда."),
+            new("Автоматична мисъл", "„Тя всъщност не се интересува какво ще ми се случи.“ (вяра 90%)"),
+            new("Емоция", "Тъга (80%)")
+        ],
+        [
+            new("evidence", "Доказателства",
+                "Какви са доказателствата, които подкрепят тази идея? Какви са доказателствата срещу тази идея?",
+                [new("a", SurfaceEvidence), new("b", SurfaceAlternative), new("c", SurfaceDistancing)],
+                "a",
+                "За: Карен изглеждаше забързана и почти не я погледна; понякога наистина е доста заета. Против: Карен обикновено пита дали иска да отидат да хапнат заедно, и понякога остават будни до късно, говорейки."),
+
+            new("alternative", "Алтернативно обяснение",
+                "Има ли алтернативно обяснение или гледна точка?",
+                [new("a", SurfaceDecatastrophizing), new("b", SurfaceAlternative), new("c", SurfaceEffect)],
+                "b",
+                "Може би Карен е имала урок точно тогава. Може би е закъсняла за нещо друго — забързаността невинаги означава липса на интерес."),
+
+            new("decatastrophizing", "Декатастрофизиране",
+                "Какво е най-лошото, което може да се случи? Какво е най-доброто? Какъв е най-реалистичният резултат?",
+                [new("a", SurfaceEffect), new("b", SurfaceProblemSolving), new("c", SurfaceDecatastrophizing)],
+                "c",
+                "Най-лошо: Карен наистина не я харесва и не може да разчита на нея — но Сали има и други приятели, на които може да разчита. Най-добро: Карен осъзнава какво е станало и се извинява. Най-реалистично: Карен наистина е била заета и приятелството продължава."),
+
+            new("effect", "Ефект от вярването",
+                "Какъв е ефектът от това, че вярвам в автоматичната мисъл?",
+                [new("a", SurfaceDistancing), new("b", SurfaceEffect), new("c", SurfaceProblemSolving)],
+                "b",
+                "Да вярва в мисълта я натъжава и я кара да се оттегли от Карен. Промяната на мисленето би я накарала да се почувства по-добре."),
+
+            new("distancing", "Дистанциране",
+                "Какво бих казал/а на приятел или член на семейството, ако той/тя беше в същата ситуация?",
+                [new("a", SurfaceAlternative), new("b", SurfaceEvidence), new("c", SurfaceDistancing)],
+                "c",
+                "Ако приятелката ѝ Алисън имаше същата мисъл за свой забързан, но иначе грижовен приятел, Сали би ѝ казала да не придава твърде голямо значение на един забързан момент."),
+
+            new("problem-solving", "Решаване на проблема",
+                "Какво трябва да направя?",
+                [new("a", SurfaceProblemSolving), new("b", SurfaceDecatastrophizing), new("c", SurfaceAlternative)],
+                "a",
+                "Сали осъзнава, че тази сутрин се е държала все едно първоначалната мисъл е вярна — казала е малко, когато е видяла Карен. Решава да говори с нея повече и да бъде по-приветлива.")
+        ],
+        OutcomeTitle: "Преоценка след разглеждането",
+        Outcome: "В края на разговора Сали преоценява първоначалната си мисъл: вярата ѝ в „Тя всъщност не се интересува какво ще ми се случи“ пада от 90% на около 20%, а тъгата ѝ значително намалява. Преоценката след разглеждането — не самото „позитивно мислене“ — е това, което променя усещането ѝ.",
+        SourceRef: "Глава 11 — случаят на Сали и Карен (стр. 168, 171–175)");
 
     private static readonly GraphRenderModel _week10MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek10MindMap());
 

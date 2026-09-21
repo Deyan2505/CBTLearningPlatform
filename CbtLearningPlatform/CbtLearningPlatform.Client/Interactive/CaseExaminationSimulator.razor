@@ -1,0 +1,200 @@
+@* Interactive WebAssembly island — Active Learning Toolkit engine D: CASE EXAMINATION MODEL.
+   The only engine in the toolkit with a MODEL rather than a question set. A fixed, week-supplied case sits on a board in a
+   stated starting state; the learner changes that state by applying examination tools to it. Applying a tool is a real
+   decision in two steps: open it, then PREDICT what it will surface. Only after the prediction is committed does the tool's
+   finding exist and join the board — so the learner manipulates the same conceptual structure the week's static visual shows,
+   instead of only reading it. The closing outcome is withheld until every tool has been applied (CaseExaminationState.Outcome
+   returns null before that), so it cannot leak into the DOM early.
+   ALL content arrives through the Activity parameter — nothing domain-specific is hard-coded here. Closed-choice radios and
+   native buttons only: no free text, no storage, no server call, no scoring persisted. Verdicts are never colour-only.
+   Safety mode adds the mandatory framing notice in every non-Normal mode (ActiveLearningSafety). *@
+@namespace CbtLearningPlatform.Client.Interactive
+
+@if (_issues.Count > 0)
+{
+    <div class="active-learning__config-error" role="alert" data-config-error="case-examination">Упражнението в момента не е налично.</div>
+}
+else
+{
+    <ActiveLearningFrame Id="@Id" Title="@Activity.Title" Instruction="@Activity.Instruction" Kind="case-examination"
+                         SafetyMode="@SafetyMode" SafetyNotice="@SafetyNotice">
+
+        <div class="active-learning__case card">
+            <dl class="active-learning__case-facts">
+                @foreach (CaseFact fact in Activity.Case)
+                {
+                    <div class="active-learning__case-fact">
+                        <dt>@fact.Label</dt>
+                        <dd>@fact.Value</dd>
+                    </div>
+                }
+            </dl>
+        </div>
+
+        <p class="active-learning__progress" aria-live="polite">@ProgressText</p>
+
+        <div class="active-learning__tools" role="group" aria-label="Инструменти за разглеждане">
+            @foreach (ExaminationTool tool in Activity.Tools)
+            {
+                string toolId = tool.Id;
+                bool applied = _state.IsApplied(toolId);
+                bool isOpen = _state.ActiveToolId == toolId;
+
+                <button type="button"
+                        class="@ToolClass(applied, isOpen)"
+                        disabled="@applied"
+                        aria-pressed="@(isOpen ? "true" : "false")"
+                        @onclick="() => Open(toolId)">
+                    @if (applied)
+                    {
+                        <span aria-hidden="true">✓</span>
+                        <span class="visually-hidden">приложено:</span>
+                    }
+                    @tool.Name
+                </button>
+            }
+        </div>
+
+        @if (_state.ActiveToolId is { } activeId)
+        {
+            ExaminationTool active = Activity.Tools.First(t => t.Id == activeId);
+
+            <div class="active-learning__tool-panel card">
+                <fieldset>
+                    <legend>@active.Question</legend>
+                    <p class="active-learning__hint">Първо предскажете какво ще разкрие този въпрос, после потвърдете.</p>
+
+                    <div class="active-learning__options">
+                        @foreach (ExaminationOption option in active.Options)
+                        {
+                            string optionId = option.Id;
+                            bool isSelected = _state.PendingSelection == optionId;
+
+                            <label class="@OptionClass(isSelected)">
+                                <input type="radio"
+                                       name="@($"{Id}-{activeId}")"
+                                       checked="@isSelected"
+                                       @onchange="() => Select(optionId)" />
+                                <span>@option.Label</span>
+                            </label>
+                        }
+                    </div>
+                </fieldset>
+
+                <div class="active-learning__actions">
+                    <button type="button" class="btn btn-violet" disabled="@(!_state.CanCommit)" @onclick="Commit">Потвърди и приложи</button>
+                    <button type="button" class="btn btn-neutral" @onclick="Close">Откажи</button>
+                </div>
+            </div>
+        }
+
+        <div class="active-learning__board" aria-live="polite">
+            <h4 class="active-learning__board-title">Какво разкри разборът</h4>
+
+            @if (_state.AppliedCount == 0)
+            {
+                <p class="active-learning__board-empty">Още нищо. Изберете въпрос по-горе, за да започнете.</p>
+            }
+            else
+            {
+                <ol class="active-learning__findings">
+                    @foreach (ExaminationTool finding in _state.Findings)
+                    {
+                        bool correct = _state.WasCorrect(finding.Id) == true;
+
+                        <li class="@FindingClass(correct)">
+                            <p class="active-learning__finding-head">
+                                <span class="active-learning__finding-name">@finding.Name</span>
+                                <span class="active-learning__status active-learning__status--@(correct ? "correct" : "incorrect")">
+                                    <span aria-hidden="true">@(correct ? "✓" : "✗")</span> @(correct ? "Предсказано вярно" : "Предсказано различно")
+                                </span>
+                            </p>
+                            <p class="active-learning__finding-text">@finding.Finding</p>
+                            @if (!string.IsNullOrWhiteSpace(finding.SourceRef))
+                            {
+                                <p class="active-learning__source">@finding.SourceRef</p>
+                            }
+                        </li>
+                    }
+                </ol>
+            }
+        </div>
+
+        @if (_state.Outcome is { } outcome)
+        {
+            <div class="active-learning__reveal" aria-live="polite">
+                <p class="active-learning__reveal-verdict"><span aria-hidden="true">✓</span> @Activity.OutcomeTitle</p>
+                <p>@outcome</p>
+                @if (!string.IsNullOrWhiteSpace(Activity.SourceRef))
+                {
+                    <p class="active-learning__source">@Activity.SourceRef</p>
+                }
+            </div>
+        }
+
+        @if (_state.AppliedCount > 0)
+        {
+            <div class="active-learning__actions">
+                <button type="button" class="btn btn-neutral" @onclick="Reset">Започни отначало</button>
+            </div>
+        }
+    </ActiveLearningFrame>
+}
+
+@code {
+    /// <summary>Everything the learner sees — supplied by the week page from approved, source-grounded content.</summary>
+    [Parameter, EditorRequired]
+    public CaseExaminationActivity Activity { get; set; } = default!;
+
+    /// <summary>Derive from the week with ActiveLearningSafety.ModeFor(week.SafetyLevel); never hand-picked.</summary>
+    [Parameter]
+    public ActiveLearningSafetyMode SafetyMode { get; set; } = ActiveLearningSafetyMode.NormalLearning;
+
+    /// <summary>Optional approved wording that replaces the mode's default notice (never removable in non-Normal modes).</summary>
+    [Parameter]
+    public string? SafetyNotice { get; set; }
+
+    /// <summary>Optional stable id (radio-group names, aria-labelledby). Generated when omitted.</summary>
+    [Parameter]
+    public string? ComponentId { get; set; }
+
+    private CaseExaminationState _state = default!;
+    private IReadOnlyList<string> _issues = [];
+    private string? _generatedId;
+
+    private string Id => ComponentId ?? (_generatedId ??= ActiveLearningIds.Next("case"));
+
+    private string ProgressText => _state.IsComplete
+        ? $"Разгледано от всичките {_state.Total} страни · {_state.CorrectPredictionCount} от {_state.Total} предсказани вярно"
+        : $"{_state.AppliedCount} от {_state.Total} приложени";
+
+    protected override void OnParametersSet()
+    {
+        _issues = Activity.Validate();
+        if (_issues.Count == 0 && (_state is null || !ReferenceEquals(_state.Activity, Activity)))
+        {
+            _state = new CaseExaminationState(Activity);
+        }
+    }
+
+    private void Open(string toolId) => _state.Open(toolId);
+
+    private void Select(string optionId) => _state.Select(optionId);
+
+    private void Commit() => _state.Commit();
+
+    private void Close() => _state.Close();
+
+    private void Reset() => _state.Reset();
+
+    private static string ToolClass(bool applied, bool isOpen) =>
+        "btn active-learning__tool"
+        + (applied ? " active-learning__tool--applied" : "")
+        + (isOpen ? " active-learning__tool--open" : "");
+
+    private static string FindingClass(bool correct) =>
+        "active-learning__finding " + (correct ? "active-learning__finding--correct" : "active-learning__finding--incorrect");
+
+    private static string OptionClass(bool isSelected) =>
+        "active-learning__option" + (isSelected ? " active-learning__option--selected" : "");
+}

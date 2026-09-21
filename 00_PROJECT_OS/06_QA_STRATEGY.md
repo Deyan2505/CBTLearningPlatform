@@ -100,7 +100,13 @@ markup на страницата, изисква взаимодействиет�
 интерактивни компоненти, са инвентаризирани в `LegacyPassivityInventory` и се **заместват** (не се изтриват) при
 remediation на съответната седмица. Нов интерактивен компонент трябва да бъде класифициран в `ActiveLearningStandard.Components`.
 
-**Задължителна запис-формула при приключване на седмица:** `ACTIVE LEARNING GATE — PASS` (Visual / Interaction / Response / Final Assessment).
+**Задължителна запис-формула при приключване на седмица:** `ACTIVE LEARNING GATE — PASS` (Visual / Interaction / Response / Final Assessment / Weekly Mind Map).
+
+**Weekly Mind Map (пети gate, собственическо решение 2026-09-21, след Batch 1 owner review):** всяка седмица рендира
+Preview + Review от един семантичен `MindMapModel`. Отделен от Visual gate-а — картата е ориентационна/паметова
+йерархия, а седмицата пак дължи визуален модел на централната си структура. 12 от 15 седмици вече имаха карта, т.е.
+липсата ѝ беше дефект, не стилистичен избор. **Единствено известно изключение: Седмица 12** (няма карта; вече
+`StructuralEnrichmentRequired` и по други gate-ове). Ново изключение изисква изрично собственическо решение.
 
 **Статус модел:** `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` = source/съдържателното одобрение остава валидно,
 прозата остава LOCKED, преотваря се само учебната архитектура за active-learning enrichment. Не изтрива предишни owner одобрения.

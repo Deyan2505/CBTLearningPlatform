@@ -106,7 +106,14 @@ The platform is not a sequence of reading pages. **Every learning week MUST cont
 2. at least one meaningful **active-learning interaction before the Final Assessment**;
 3. at least one **learner-response activity** — choose, classify, order, compare, predict, manipulate a
    model, map relationships, or make a decision — followed by feedback, consequence, comparison or reveal
-   only **after** the learner commits.
+   only **after** the learner commits;
+4. a **Weekly Mind Map** — Preview + Review rendered from one semantic `MindMapModel` (owner decision after the
+   Batch 1 review, 2026-09-21). This is a separate gate from the visual learning model: the Mind Map is the week's
+   orientation/memory hierarchy, and a week still needs a visual model of its central structure whether or not the map
+   happens to show that structure. 12 of the 15 weeks already carried one, so an absent map was a defect, not a style
+   choice. The single known exception is **Week 12**, which has no map and now fails this gate openly; it is
+   `StructuralEnrichmentRequired` for other reasons too. Any future exception needs an explicit owner decision recorded
+   here — the gate has no exemption state.
 
 These do **not** count: navigation, links, accordions, a plain `<details>` reveal, Mind Map expand/collapse,
 the completion control, the Final Assessment by itself, passive reading, or a static table/list.

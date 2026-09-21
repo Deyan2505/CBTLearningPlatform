@@ -20,7 +20,12 @@
    process chains side by side (existing .concept-map__flow markup; each node is a term already on this page, the
    highlighted node and the caption under each chain are the comparison table's own "starts from" row), and (b) a
    committed ClassifyMatchCheck from the shared Active Learning Toolkit — attribute the table's statements to a school,
-   then check; the feedback shows the table row. No new theory, no new components of its own. *@
+   then check; the feedback shows the table row. No new theory, no new components of its own.
+   BATCH 1 REMEDIATION (owner review: no Mind Map despite enough conceptual structure). A Weekly Mind Map (Preview in the
+   new 00 section, Review in 09) renders one semantic model: a shared foundation, one branch per school with its own
+   vocabulary, the historical link, and the academic framing. Every node and parent/child relation restates a relation this
+   page already asserts — Beck's terms stay on Beck's branch, REBT's on Ellis's, and Week 3/12's belief hierarchy is not
+   introduced here. The 00 section keeps every approved heading number unchanged (Week 3's convention). *@
 @page "/kurs/sedmica-2"
 
 <PageTitle>Седмица 2: Когнитивна терапия на Бек и REBT на Елис — 15-седмичен курс — КПТ Академия</PageTitle>
@@ -42,6 +47,7 @@
     </div>
 
     <nav class="section-nav" aria-label="Секции на седмицата">
+        <a href="/kurs/sedmica-2#karta-sedmicata">Карта на седмицата</a>
         <a href="/kurs/sedmica-2#nakratko">Накратко</a>
         <a href="/kurs/sedmica-2#bek-kratko">Бек: припомняне</a>
         <a href="/kurs/sedmica-2#elis-i-rebt">Елис и REBT</a>
@@ -50,11 +56,21 @@
         <a href="/kurs/sedmica-2#posledstvia-vyarvaniya">Последствия от вярванията</a>
         <a href="/kurs/sedmica-2#most-i-sravnenie">Мостът и сравнението</a>
         <a href="/kurs/sedmica-2#proverka">Проверка</a>
+        <a href="/kurs/sedmica-2#karta-povtorenie">Карта за повторение</a>
         <a href="/kurs/sedmica-2#izvori">Източници</a>
     </nav>
 </div>
 
 <div class="workspace">
+    <LearningSection Role="theory" RoleLabel="Карта на седмицата">
+        <h2 id="karta-sedmicata" tabindex="-1">00 · Карта на седмицата</h2>
+        <p>
+            Възлите по-долу са <strong>знаниевите клъстери</strong> на седмицата, не номерата на секциите —
+            секцийните линкове са само навигация към мястото, където всеки клъстер се обяснява.
+        </p>
+        <ConceptGraph ComponentId="week2-mindmap-preview" Model="@_week2MindMapRender" />
+    </LearningSection>
+
     <LearningSection Role="theory" RoleLabel="Рамка">
         <h2 id="nakratko" tabindex="-1">01 · Накратко</h2>
         <p>
@@ -242,6 +258,18 @@
     <LearningSection Role="academic" RoleLabel="Изводи">
         <h2 id="izvori" tabindex="-1">09 · Обобщение, академичен контекст и източници</h2>
 
+        <h3 id="karta-povtorenie" tabindex="-1">Карта за повторение</h3>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>
+                    Преди да разгънеш картата, опитай да си спомниш кои са основните знаниеви клъстери на
+                    седмицата и как се свързват — чак тогава разгъни, за да сравниш.
+                </p>
+                <ConceptGraph ComponentId="week2-mindmap-review" Model="@_week2MindMapRender" />
+            </div>
+        </details>
+
         <div class="learning-grid learning-grid--balanced">
             <div>
                 <h3>Какво да запомните</h3>
@@ -306,6 +334,45 @@
 
     // ACTIVE LEARNING (Phase 2, Batch 1) — derived from the week's own safety level, never hand-picked.
     private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
+
+    private static readonly GraphRenderModel _week2MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek2MindMap());
+
+    // Weekly Mind Map (Batch 1 remediation). Knowledge clusters, not section titles: the week's real structure is
+    // "one shared foundation → two schools, each with its own starting point and vocabulary → the historical link between
+    // them → the academic framing that refuses to pick a winner". Every node and every parent/child relation restates a
+    // relation this page already asserts; nothing is inferred across schools.
+    private static MindMapModel BuildWeek2MindMap() => new(
+        "Седмица 2 — знаниеви клъстери",
+        "Мисловна карта на паралела между когнитивната терапия на Бек и REBT на Елис, групирана по клъстери от знание, не по номер на секция.",
+        [
+            new("root", "Бек и Елис — две когнитивни школи", null, null, null, ConceptState.Introduced),
+
+            new("obshto", "Обща основа", "root", "Мислите оформят емоциите и поведението — по същество обща идея за двете школи.", "/kurs/sedmica-2#nakratko", ConceptState.Introduced),
+
+            new("bek", "Бек — когнитивна терапия", "root", "Разработена през 60-те години на XX в.", "/kurs/sedmica-2#bek-kratko", ConceptState.Introduced),
+            new("disfunkcionalno", "Дисфункционално мислене", "bek", "Общо за повечето психологически трудности; влияе на настроението и поведението.", "/kurs/sedmica-2#bek-kratko", ConceptState.Introduced),
+            new("avtomatichna-misal", "Автоматична мисъл", "bek", "Конкретната мисъл в дадена ситуация — началната точка на подхода.", "/kurs/sedmica-2#most-i-sravnenie",
+                ConceptStateResolver.Derive(1, [3, 8], CourseCatalog.Weeks)),
+            new("nasocheno-otkritie", "Насочено откритие", "bek", "Идентифициране, оценяване и отговаряне на автоматични мисли.", "/kurs/sedmica-2#bek-kratko", ConceptState.Introduced),
+
+            new("elis", "Елис — REBT", "root", "Разработена през 50-те години на XX в., преди Бек.", "/kurs/sedmica-2#elis-i-rebt", ConceptState.Introduced),
+            new("abc", "ABC моделът", "elis", "Влиянието на A върху C се опосредства от B.", "/kurs/sedmica-2#abc-modelat", ConceptState.Introduced),
+            new("abc-a", "A — Активиращо събитие", "abc", "Ситуация или преживяване.", "/kurs/sedmica-2#abc-modelat", ConceptState.Introduced),
+            new("abc-b", "B — Вярвания", "abc", "Как събитието се осмисля.", "/kurs/sedmica-2#abc-modelat", ConceptState.Introduced),
+            new("abc-c", "C — Последствия", "abc", "Емоционални, поведенчески, когнитивни и психофизиологични реакции.", "/kurs/sedmica-2#abc-modelat", ConceptState.Introduced),
+            new("vidove-vyarvaniya", "Рационални и ирационални вярвания", "elis", "Разграничени по логическа, емпирична и прагматична поддръжка.", "/kurs/sedmica-2#racionalni-irracionalni", ConceptState.Introduced),
+            new("iziskvane", "Категорично изискване", "vidove-vyarvaniya", "Ирационалната форма — води до дисфункционални последствия.", "/kurs/sedmica-2#racionalni-irracionalni", ConceptState.Introduced),
+            new("predpochitanie", "Гъвкаво предпочитание", "vidove-vyarvaniya", "Рационалната форма — желание с приемане.", "/kurs/sedmica-2#racionalni-irracionalni", ConceptState.Introduced),
+            new("vtorichni", "Вторични последствия", "elis", "Последствие (C) може само да стане ново активиращо събитие (A).", "/kurs/sedmica-2#posledstvia-vyarvaniya", ConceptState.Introduced),
+            new("samopriemane", "Безусловно самоприемане", "elis", "Приемане на себе си без цялостна положителна или отрицателна самооценка.", "/kurs/sedmica-2#posledstvia-vyarvaniya", ConceptState.Introduced),
+
+            new("vrazka", "Историческа връзка", "root", null, "/kurs/sedmica-2#most-i-sravnenie", ConceptState.Introduced),
+            new("vliyanie", "Елис сред влиянията на Бек", "vrazka", "Бек изрично го посочва.", "/kurs/sedmica-2#most-i-sravnenie", ConceptState.Introduced),
+            new("semeystvo", "REBT в когнитивно-поведенческото семейство", "vrazka", "Споделя основните характеристики, с различен акцент и концептуализация.", "/kurs/sedmica-2#most-i-sravnenie", ConceptState.Introduced),
+
+            new("ramka", "Академична рамка", "root", "Различните специалисти подчертават различни аспекти — не коя школа е вярната.", "/kurs/sedmica-2#nakratko", ConceptState.Introduced),
+            new("sachetavane", "Съчетаване, не избор", "ramka", "Академичен източник препоръчва съчетаване на рамките.", "/kurs/sedmica-2#most-i-sravnenie", ConceptState.Introduced)
+        ]);
 
     // Committed attribution over the approved comparison table (section 07): the learner assigns each statement to a school,
     // then checks. Every statement is a cell of that table, verbatim, and the feedback shows the table row it comes from — so

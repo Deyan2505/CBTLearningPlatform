@@ -187,15 +187,20 @@ public sealed class ActiveLearningGateTests
 
     // ---------------------------------------------------------------- semantic rules (synthetic declarations)
 
+    /// <summary>A synthetic week. The Weekly Mind Map is appended by default (mindMap: false omits it) so that every other rule
+    /// test keeps testing its own gate instead of tripping the mind-map one.</summary>
     private static WeekLearningArchitecture Synthetic(
         IReadOnlyList<VisualModelDeclaration>? visuals = null,
         IReadOnlyList<InteractionDeclaration>? interactions = null,
         IReadOnlyList<LearnerResponseDeclaration>? responses = null,
-        bool finalAssessment = true) =>
+        bool finalAssessment = true,
+        bool mindMap = true) =>
         new(99, StructuralStatus.StructuralEnrichmentRequired,
-            visuals ?? [], interactions ?? [], responses ?? [], finalAssessment);
+            [.. visuals ?? [], .. mindMap ? new[] { ValidMindMap } : []],
+            interactions ?? [], responses ?? [], finalAssessment);
 
     private static readonly VisualModelDeclaration ValidVisual = new(VisualModelKind.Sequence, "guided-practice-sequence");
+    private static readonly VisualModelDeclaration ValidMindMap = new(VisualModelKind.MindMap, "ComponentId=\"week99-mindmap-preview\"");
     private static readonly InteractionDeclaration ValidInteraction = new(InteractionFamily.Simulator, "ScenarioSimulator");
     private static readonly LearnerResponseDeclaration ValidResponse = new(LearnerResponseKind.Order, "ScenarioSimulator");
 

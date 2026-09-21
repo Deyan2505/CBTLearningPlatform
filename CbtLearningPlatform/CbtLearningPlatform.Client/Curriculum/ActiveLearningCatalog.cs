@@ -31,6 +31,7 @@ public static class ActiveLearningCatalog
         Compliant(3,
             visuals:
             [
+                new(VisualModelKind.MindMap, Graph("week3-mindmap-preview"), RepresentsCentralStructure: false),
                 new(VisualModelKind.Hierarchy, Graph("week3-sali-hierarchy")),
                 new(VisualModelKind.Process, Flow),
                 new(VisualModelKind.Cycle, Loop)
@@ -41,6 +42,7 @@ public static class ActiveLearningCatalog
         Compliant(6,
             visuals:
             [
+                new(VisualModelKind.MindMap, Graph("week6-mindmap-preview"), RepresentsCentralStructure: false),
                 new(VisualModelKind.DecisionModel, "decision-branch"),
                 new(VisualModelKind.ConceptNetwork, Graph("week6-concept-map")),
                 new(VisualModelKind.CaseModel, Graph("irina-case-map")),
@@ -55,14 +57,19 @@ public static class ActiveLearningCatalog
             ]),
 
         Compliant(8,
-            visuals: [new(VisualModelKind.Process, Flow)],
+            visuals: [new(VisualModelKind.MindMap, Graph("week8-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Process, Flow)],
             interactions: [new(InteractionFamily.Simulator, "CbtChainSimulator")],
             responses: [new(LearnerResponseKind.ManipulateModel, "CbtChainSimulator")]),
 
         // --- Phase 2, Batch 1: gate PASS, AWAITING OWNER VISUAL REVIEW (not locked) ---
         // Week 1: the timeline stays the visual model; the learner rebuilds it (OrderingBuilder, section 08, before the quiz).
         Compliant(1,
-            visuals: [new(VisualModelKind.Timeline, "<HistoricalTimeline"), new(VisualModelKind.Comparison, ComparisonMatrix)],
+            visuals:
+            [
+                new(VisualModelKind.MindMap, Graph("week1-mindmap-preview"), RepresentsCentralStructure: true),
+                new(VisualModelKind.Timeline, "<HistoricalTimeline"),
+                new(VisualModelKind.Comparison, ComparisonMatrix)
+            ],
             interactions: [new(InteractionFamily.OrderingBuilder, "OrderingBuilder")],
             responses: [new(LearnerResponseKind.Order, "OrderingBuilder")]),
 
@@ -70,6 +77,7 @@ public static class ActiveLearningCatalog
         Compliant(2,
             visuals:
             [
+                new(VisualModelKind.MindMap, Graph("week2-mindmap-preview"), RepresentsCentralStructure: true),
                 new(VisualModelKind.Process, Flow),
                 new(VisualModelKind.Comparison, ComparisonMatrix),
                 new(VisualModelKind.Comparison, CategoryCompare)
@@ -83,12 +91,22 @@ public static class ActiveLearningCatalog
         Compliant(10,
             visuals:
             [
+                new(VisualModelKind.MindMap, Graph("week10-mindmap-preview"), RepresentsCentralStructure: false),
                 new(VisualModelKind.Process, Flow),
                 new(VisualModelKind.Sequence, Sequence),
                 new(VisualModelKind.Comparison, CategoryCompare)
             ],
-            interactions: [new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")],
-            responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
+            interactions:
+            [
+                new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck"),
+                new(InteractionFamily.Simulator, "CaseExaminationSimulator")
+            ],
+            responses:
+            [
+                new(LearnerResponseKind.Classify, "ClassifyMatchCheck"),
+                new(LearnerResponseKind.ManipulateModel, "CaseExaminationSimulator"),
+                new(LearnerResponseKind.Predict, "CaseExaminationSimulator")
+            ]),
 
         // --- OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED ---
 
@@ -97,34 +115,38 @@ public static class ActiveLearningCatalog
             visuals: [new(VisualModelKind.MindMap, Graph("week4-mindmap-preview"), RepresentsCentralStructure: false)]),
 
         Migration(5,
-            visuals: [new(VisualModelKind.Comparison, CategoryCompare), new(VisualModelKind.Sequence, Sequence)]),
+            visuals: [new(VisualModelKind.MindMap, Graph("week5-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Comparison, CategoryCompare), new(VisualModelKind.Sequence, Sequence)]),
 
         Migration(7,
             visuals:
             [
+                new(VisualModelKind.MindMap, Graph("week7-mindmap-preview"), RepresentsCentralStructure: false),
                 new(VisualModelKind.Cycle, Loop),
                 new(VisualModelKind.ConceptNetwork, Graph("week7-sali-map")),
                 new(VisualModelKind.Process, Flow)
             ]),
 
         Migration(9,
-            visuals: [new(VisualModelKind.Process, Graph("week9-thought-record-structure")), new(VisualModelKind.Sequence, Sequence)]),
+            visuals: [new(VisualModelKind.MindMap, Graph("week9-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Process, Graph("week9-thought-record-structure")), new(VisualModelKind.Sequence, Sequence)]),
 
         Migration(11,
-            visuals: [new(VisualModelKind.Process, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),
+            visuals: [new(VisualModelKind.MindMap, Graph("week11-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Process, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),
 
+        // Week 12 is the ONE routed week with no Weekly Mind Map. Reported to the owner, not silently fixed: it now fails the
+        // WeeklyMindMap gate as well as Interaction/Response, which is honest — it was already StructuralEnrichmentRequired.
         Migration(12,
             visuals: [new(VisualModelKind.Comparison, CategoryCompare), new(VisualModelKind.Comparison, ComparisonMatrix)]),
 
         Migration(13,
-            visuals: [new(VisualModelKind.Sequence, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),
+            visuals: [new(VisualModelKind.MindMap, Graph("week13-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Sequence, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),
 
         Migration(14,
-            visuals: [new(VisualModelKind.Sequence, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),
+            visuals: [new(VisualModelKind.MindMap, Graph("week14-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Sequence, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),
 
         Migration(15,
             visuals:
             [
+                new(VisualModelKind.MindMap, Graph("week15-mindmap-preview"), RepresentsCentralStructure: false),
                 new(VisualModelKind.Process, Sequence),
                 new(VisualModelKind.Comparison, CategoryCompare),
                 new(VisualModelKind.Comparison, ComparisonMatrix)

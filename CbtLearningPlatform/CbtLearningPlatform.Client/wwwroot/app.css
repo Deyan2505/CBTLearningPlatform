@@ -4283,6 +4283,131 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
     color: var(--color-warning-text);
 }
 
+/* Engine D — case examination model: the case board, the tool row, the opened tool's prediction panel, and the
+   running list of findings the learner has uncovered. */
+.active-learning__case {
+    margin: var(--space-4) 0;
+}
+
+.active-learning__case-facts {
+    margin: 0;
+}
+
+.active-learning__case-fact + .active-learning__case-fact {
+    margin-top: var(--space-3);
+}
+
+.active-learning__case-fact dt {
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.active-learning__case-fact dd {
+    margin: var(--space-1) 0 0;
+}
+
+.active-learning__tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: var(--space-4) 0;
+}
+
+.active-learning__tool {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+}
+
+.active-learning__tool--open {
+    border-color: var(--accent-primary-border);
+    background: var(--accent-primary-surface);
+    color: var(--accent-primary);
+}
+
+.active-learning__tool--applied {
+    border-color: var(--color-success-text);
+    color: var(--color-success-text);
+}
+
+.active-learning__tool-panel {
+    margin: var(--space-4) 0;
+}
+
+/* The panel is already a card, so the inner fieldset's own border is redundant — and a long question wrapped over several
+   lines collides with it at narrow widths. The legend stays a real <legend> for assistive tech. */
+.active-learning__tool-panel fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.active-learning__tool-panel legend {
+    padding: 0;
+    font-weight: 700;
+}
+
+.active-learning__board {
+    margin: var(--space-4) 0;
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-info-bg);
+}
+
+.active-learning__board-title {
+    margin: 0 0 var(--space-3);
+}
+
+.active-learning__board-empty {
+    margin: 0;
+    color: var(--color-text-secondary);
+}
+
+.active-learning__findings {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.active-learning__finding {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    border-left-width: 4px;
+    background: var(--color-surface);
+}
+
+.active-learning__finding--correct {
+    border-left-color: var(--color-success-text);
+}
+
+.active-learning__finding--incorrect {
+    border-left-color: var(--color-error-text);
+}
+
+.active-learning__finding-head {
+    margin: 0 0 var(--space-2);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    align-items: baseline;
+}
+
+.active-learning__finding-name {
+    font-weight: 700;
+}
+
+.active-learning__finding-text {
+    margin: 0;
+}
+
 @media (max-width: 640px) {
     .active-learning__options {
         flex-direction: column;
@@ -4298,6 +4423,14 @@ a.mindmap-node:focus-visible .concept-graph__node-label {
 
     .active-learning__reveal {
         padding: var(--space-3) var(--space-4);
+    }
+
+    .active-learning__tools {
+        flex-direction: column;
+    }
+
+    .active-learning__tool {
+        width: 100%;
     }
 }
 

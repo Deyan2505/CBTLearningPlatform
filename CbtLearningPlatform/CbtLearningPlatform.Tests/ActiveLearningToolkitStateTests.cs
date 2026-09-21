@@ -419,7 +419,11 @@ public sealed class ActiveLearningToolkitStateTests
     {
         WeekLearningArchitecture Week(InteractionDeclaration interaction, LearnerResponseDeclaration response) =>
             new(99, StructuralStatus.StructuralEnrichmentRequired,
-                [new(VisualModelKind.Sequence, "guided-practice-sequence")], [interaction], [response], true);
+                [
+                    new(VisualModelKind.Sequence, "guided-practice-sequence"),
+                    new(VisualModelKind.MindMap, "ComponentId=\"week99-mindmap-preview\"")
+                ],
+                [interaction], [response], true);
 
         Assert.Empty(ActiveLearningStandard.Evaluate(Week(
             new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck"), new(LearnerResponseKind.Classify, "ClassifyMatchCheck"))));
@@ -427,12 +431,16 @@ public sealed class ActiveLearningToolkitStateTests
             new(InteractionFamily.OrderingBuilder, "OrderingBuilder"), new(LearnerResponseKind.Order, "OrderingBuilder"))));
         Assert.Empty(ActiveLearningStandard.Evaluate(Week(
             new(InteractionFamily.PredictCommit, "PredictReveal"), new(LearnerResponseKind.Predict, "PredictReveal"))));
+        Assert.Empty(ActiveLearningStandard.Evaluate(Week(
+            new(InteractionFamily.Simulator, "CaseExaminationSimulator"), new(LearnerResponseKind.ManipulateModel, "CaseExaminationSimulator"))));
 
         // a classify engine does not order, and an ordering engine does not predict
         Assert.NotEmpty(ActiveLearningStandard.Evaluate(Week(
             new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck"), new(LearnerResponseKind.Order, "ClassifyMatchCheck"))));
         Assert.NotEmpty(ActiveLearningStandard.Evaluate(Week(
             new(InteractionFamily.OrderingBuilder, "OrderingBuilder"), new(LearnerResponseKind.Predict, "OrderingBuilder"))));
+        Assert.NotEmpty(ActiveLearningStandard.Evaluate(Week(
+            new(InteractionFamily.OrderingBuilder, "CaseExaminationSimulator"), new(LearnerResponseKind.ManipulateModel, "CaseExaminationSimulator"))));
     }
 
     [Fact]
@@ -440,5 +448,151 @@ public sealed class ActiveLearningToolkitStateTests
     {
         Assert.False(ActiveLearningStandard.Components["ActiveLearningFrame"].QualifiesAsInteraction);
         Assert.False(ActiveLearningStandard.Components["ActiveLearningFrame"].QualifiesAsResponse);
+    }
+
+    // ---------------------------------------------------------------- D. case examination model (stateful)
+
+    private static CaseExaminationActivity Case() => new(
+        "T", "I",
+        [new("Fact", "A neutral fact."), new("Other", "Another neutral fact.")],
+        [
+            new("t1", "Tool One", "Question one?", [new("a", "Surface A"), new("b", "Surface B")], "a", "SECRET-FINDING-1"),
+            new("t2", "Tool Two", "Question two?", [new("a", "Surface A"), new("b", "Surface B")], "b", "SECRET-FINDING-2", "SECRET-TOOL-SOURCE")
+        ],
+        OutcomeTitle: "Closing state",
+        Outcome: "SECRET-OUTCOME",
+        SourceRef: "SECRET-CASE-SOURCE");
+
+    [Fact]
+    public void CaseExamination_StartsWithAnUntouchedModel_AndNoOutcome()
+    {
+        CaseExaminationState state = new(Case());
+
+        Assert.Equal(0, state.AppliedCount);
+        Assert.Equal(2, state.Total);
+        Assert.False(state.IsComplete);
+        Assert.Null(state.Outcome);
+        Assert.Null(state.ActiveToolId);
+        Assert.Empty(state.Findings);
+        Assert.False(state.CanCommit);
+        Assert.All(state.Activity.Tools, t => Assert.Null(state.WasCorrect(t.Id)));
+    }
+
+    [Fact]
+    public void CaseExamination_ATool_MustBeOpenedAndPredictedBeforeItCanBeApplied()
+    {
+        CaseExaminationState state = new(Case());
+
+        Assert.False(state.Select("a"));            // nothing is open yet
+        Assert.False(state.Commit());
+        Assert.True(state.Open("t1"));
+        Assert.False(state.CanCommit);              // opened, but no prediction yet
+        Assert.False(state.Commit());
+        Assert.False(state.Select("nonsense"));
+        Assert.True(state.Select("a"));
+        Assert.True(state.CanCommit);
+
+        Assert.Null(state.WasCorrect("t1"));        // still no verdict before the commit
+        Assert.Empty(state.Findings);
+
+        Assert.True(state.Commit());
+        Assert.True(state.WasCorrect("t1"));
+        Assert.Equal(["t1"], state.Findings.Select(f => f.Id));
+        Assert.Null(state.ActiveToolId);
+    }
+
+    [Fact]
+    public void CaseExamination_AWrongPrediction_StillAppliesTheToolAndRevealsTheRealFinding()
+    {
+        CaseExaminationState state = new(Case());
+
+        state.Open("t1");
+        state.Select("b");                          // wrong: the correct option is "a"
+        state.Commit();
+
+        Assert.False(state.WasCorrect("t1"));
+        Assert.Equal(0, state.CorrectPredictionCount);
+        Assert.Equal("SECRET-FINDING-1", state.Findings.Single().Finding);   // the model still advances
+        Assert.True(state.IsApplied("t1"));
+    }
+
+    [Fact]
+    public void CaseExamination_TheOutcomeExistsOnlyAfterEveryToolHasBeenApplied()
+    {
+        CaseExaminationState state = new(Case());
+
+        state.Open("t1");
+        state.Select("a");
+        state.Commit();
+        Assert.Null(state.Outcome);                 // one tool left
+        Assert.False(state.IsComplete);
+
+        state.Open("t2");
+        state.Select("b");
+        state.Commit();
+
+        Assert.True(state.IsComplete);
+        Assert.Equal("SECRET-OUTCOME", state.Outcome);
+        Assert.Equal(2, state.CorrectPredictionCount);
+    }
+
+    [Fact]
+    public void CaseExamination_AnAppliedToolCannotBeReopened_AndClosingLeavesTheModelUnchanged()
+    {
+        CaseExaminationState state = new(Case());
+
+        state.Open("t1");
+        state.Select("a");
+        state.Commit();
+        Assert.False(state.Open("t1"));
+
+        state.Open("t2");
+        state.Select("a");
+        state.Close();
+
+        Assert.Null(state.ActiveToolId);
+        Assert.Null(state.PendingSelection);
+        Assert.False(state.IsApplied("t2"));
+        Assert.Single(state.Findings);
+    }
+
+    [Fact]
+    public void CaseExamination_ResetReturnsTheModelToItsStartingState()
+    {
+        CaseExaminationState state = new(Case());
+
+        state.Open("t1");
+        state.Select("a");
+        state.Commit();
+        state.Reset();
+
+        Assert.Equal(0, state.AppliedCount);
+        Assert.Empty(state.Findings);
+        Assert.Null(state.Outcome);
+        Assert.Null(state.WasCorrect("t1"));
+        Assert.False(state.IsApplied("t1"));
+    }
+
+    [Theory]
+    [InlineData("blank-title")]
+    [InlineData("one-tool")]
+    [InlineData("unknown-correct-option")]
+    [InlineData("blank-finding")]
+    [InlineData("blank-outcome")]
+    public void CaseExamination_RefusesMalformedData(string flaw)
+    {
+        CaseExaminationActivity valid = Case();
+        CaseExaminationActivity broken = flaw switch
+        {
+            "blank-title" => valid with { Title = "  " },
+            "one-tool" => valid with { Tools = [valid.Tools[0]] },
+            "unknown-correct-option" => valid with { Tools = [valid.Tools[0] with { CorrectOptionId = "zzz" }, valid.Tools[1]] },
+            "blank-finding" => valid with { Tools = [valid.Tools[0] with { Finding = " " }, valid.Tools[1]] },
+            "blank-outcome" => valid with { Outcome = "" },
+            _ => throw new ArgumentOutOfRangeException(nameof(flaw))
+        };
+
+        Assert.NotEmpty(broken.Validate());
+        Assert.Throws<ArgumentException>(() => new CaseExaminationState(broken));
     }
 }

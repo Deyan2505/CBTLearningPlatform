@@ -138,6 +138,64 @@ public sealed record PredictRevealActivity(
     }
 }
 
+// ---------------------------------------------------------------- D. case examination model (stateful)
+
+/// <summary>One labelled line of the case as the learner first meets it (situation, thought, emotion, …).</summary>
+public sealed record CaseFact(string Label, string Value);
+
+public sealed record ExaminationOption(string Id, string Label);
+
+/// <summary>One examination tool the learner can apply to the case. The learner first PREDICTS what applying it will
+/// surface; only after committing does <paramref name="Finding"/> exist and join the board's running state.</summary>
+/// <param name="Finding">What this tool actually reveals about the case — the week's approved, source-grounded text.</param>
+public sealed record ExaminationTool(
+    string Id,
+    string Name,
+    string Question,
+    IReadOnlyList<ExaminationOption> Options,
+    string CorrectOptionId,
+    string Finding,
+    string? SourceRef = null);
+
+/// <summary>A case the learner examines by applying tools to it, watching the board's state grow. Unlike the check-style
+/// engines this one has a MODEL the learner manipulates: the case starts in one state and ends in another, and the closing
+/// <paramref name="Outcome"/> is withheld until every tool has been applied.</summary>
+public sealed record CaseExaminationActivity(
+    string Title,
+    string Instruction,
+    IReadOnlyList<CaseFact> Case,
+    IReadOnlyList<ExaminationTool> Tools,
+    string OutcomeTitle,
+    string Outcome,
+    string? SourceRef = null)
+{
+    public IReadOnlyList<string> Validate()
+    {
+        List<string> issues = [];
+        ActivityValidation.Require(issues, !ActivityValidation.Blank(Title), "Title is required.");
+        ActivityValidation.Require(issues, !ActivityValidation.Blank(Instruction), "Instruction is required.");
+        ActivityValidation.Require(issues, !ActivityValidation.Blank(OutcomeTitle), "OutcomeTitle is required.");
+        ActivityValidation.Require(issues, !ActivityValidation.Blank(Outcome), "Outcome is required (the model must end in a stated state).");
+        ActivityValidation.Require(issues, Case.Count >= 1, "The case needs at least one fact.");
+        ActivityValidation.Require(issues, Case.All(f => !ActivityValidation.Blank(f.Label) && !ActivityValidation.Blank(f.Value)), "Every case fact needs a label and a value.");
+        ActivityValidation.Require(issues, Tools.Count >= 2, "At least two examination tools are required.");
+        ActivityValidation.UniqueIds(issues, "Tools", Tools.Select(t => t.Id));
+
+        foreach (ExaminationTool tool in Tools)
+        {
+            ActivityValidation.Require(issues, !ActivityValidation.Blank(tool.Name), $"Tool '{tool.Id}' needs a name.");
+            ActivityValidation.Require(issues, !ActivityValidation.Blank(tool.Question), $"Tool '{tool.Id}' needs a question.");
+            ActivityValidation.Require(issues, !ActivityValidation.Blank(tool.Finding), $"Tool '{tool.Id}' needs a finding (the state change it produces).");
+            ActivityValidation.Require(issues, tool.Options.Count >= 2, $"Tool '{tool.Id}' needs at least two options.");
+            ActivityValidation.UniqueIds(issues, $"Tool '{tool.Id}' options", tool.Options.Select(o => o.Id));
+            ActivityValidation.Require(issues, tool.Options.All(o => !ActivityValidation.Blank(o.Label)), $"Tool '{tool.Id}': every option needs a label.");
+            ActivityValidation.Require(issues, tool.Options.Any(o => o.Id == tool.CorrectOptionId), $"Tool '{tool.Id}' names an unknown correct option '{tool.CorrectOptionId}'.");
+        }
+
+        return issues;
+    }
+}
+
 /// <summary>Unique DOM ids for toolkit instances (radio-group names, aria-labelledby) so several engines can share a page.
 /// A week may pass its own stable ComponentId instead.</summary>
 internal static class ActiveLearningIds
