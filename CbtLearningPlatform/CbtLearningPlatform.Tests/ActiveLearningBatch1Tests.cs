@@ -300,12 +300,19 @@ public sealed class ActiveLearningBatch1Tests
 
     [Theory]
     [MemberData(nameof(BatchWeeks))]
-    public void Batch1Weeks_PassTheActiveLearningGate_AndArePromotedToCompliant(int week)
+    public void Batch1Weeks_AreHonestlyReevaluatedUnderTheSeparateSimulatorGate(int week)
     {
         WeekLearningArchitecture architecture = ActiveLearningCatalog.For(week);
 
-        Assert.Equal(StructuralStatus.Compliant, architecture.Status);
-        Assert.Empty(ActiveLearningStandard.Evaluate(architecture));
+        Assert.Equal(week == 10 ? StructuralStatus.Compliant : StructuralStatus.StructuralEnrichmentRequired, architecture.Status);
+        if (week == 10)
+        {
+            Assert.Empty(ActiveLearningStandard.Evaluate(architecture));
+        }
+        else
+        {
+            Assert.Contains(ActiveLearningStandard.Evaluate(architecture), f => f.Gate == ActiveLearningGate.SimulatorInteractiveModelGate);
+        }
         Assert.Null(ActiveLearningStandard.CheckStatus(architecture));
     }
 
@@ -359,11 +366,11 @@ public sealed class ActiveLearningBatch1Tests
     public void WeeksOutsideBatch1_AreNotPromoted()
     {
         // Weeks 5, 7 and 9 were promoted by Phase 2, Batch 2 (ActiveLearningBatch2Tests).
-        foreach (int week in new[] { 4, 11, 12, 13, 14, 15 })
+        foreach (int week in new[] { 1, 2, 3, 4, 8, 11, 12, 13, 14, 15 })
         {
             Assert.Equal(StructuralStatus.StructuralEnrichmentRequired, ActiveLearningCatalog.For(week).Status);
         }
-        foreach (int week in new[] { 3, 6, 8 })
+        foreach (int week in new[] { 5, 6, 7, 9, 10 })
         {
             Assert.Equal(StructuralStatus.Compliant, ActiveLearningCatalog.For(week).Status);
         }

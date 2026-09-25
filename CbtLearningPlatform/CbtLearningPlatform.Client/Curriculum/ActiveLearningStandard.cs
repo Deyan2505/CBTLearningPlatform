@@ -12,7 +12,7 @@ namespace CbtLearningPlatform.Client.Curriculum;
 /// "exempt" value: safety tiers change the FORM of interaction, never remove it.</summary>
 public enum StructuralStatus
 {
-    /// <summary>All four gates (visual, interaction, learner response, final assessment) pass.</summary>
+    /// <summary>All six gates (Mind Map, visual, simulator, retrieval, application feedback, final assessment) pass.</summary>
     Compliant,
 
     /// <summary>OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED — content approval stays valid,
@@ -22,16 +22,12 @@ public enum StructuralStatus
 
 public enum ActiveLearningGate
 {
-    VisualLearningModel,
-    ActiveLearningInteraction,
-    ActiveLearnerResponse,
-    FinalAssessment,
-
-    /// <summary>Weekly Mind Map (Preview + Review from one semantic model). Owner decision after the Batch 1 review: 12 of the
-    /// 15 weeks already carried one, so its absence was a defect rather than a style choice. Separate from
-    /// <see cref="VisualLearningModel"/> on purpose — a Mind Map is an orientation/memory hierarchy, and a week still needs a
-    /// visual model of its central structure whether or not that structure is what the map happens to show.</summary>
-    WeeklyMindMap
+    MindMapGate,
+    VisualLearningModelGate,
+    SimulatorInteractiveModelGate,
+    RetrievalResponseGate,
+    ApplicationFeedbackGate,
+    FinalAssessmentGate
 }
 
 /// <summary>What structure a visual learning model makes visible (never what it says).</summary>
@@ -117,6 +113,23 @@ public static class ActiveLearningStandard
 
     private static ComponentQualification Excluded(string reason) => new(NoInteraction, NoResponse, reason);
 
+    /// <summary>Components that implement a real stateful, multi-path model. Retrieval-only engines are
+    /// deliberately absent even though they are meaningful active learning.</summary>
+    public static IReadOnlySet<string> SimulatorComponents { get; } = new HashSet<string>
+    {
+        "ScenarioSimulator", "CbtChainSimulator", "CaseExaminationSimulator", "StatefulModelSimulator"
+    };
+
+    public static IReadOnlySet<string> RetrievalComponents { get; } = new HashSet<string>
+    {
+        "ScenarioSimulator", "ClassifyMatchCheck", "OrderingBuilder", "PredictReveal", "CaseExaminationSimulator"
+    };
+
+    public static IReadOnlySet<string> ApplicationFeedbackComponents { get; } = new HashSet<string>
+    {
+        "ScenarioSimulator", "CbtChainSimulator", "CaseExaminationSimulator", "StatefulModelSimulator"
+    };
+
     /// <summary>Every learning-layer component the project ships, classified. A new interactive island must
     /// be added here (the gate fails on an unclassified file in /Interactive) — that is the single place
     /// where a new engine becomes able to satisfy the standard. Qualification is by DESIGN (does the learner
@@ -154,6 +167,10 @@ public static class ActiveLearningStandard
                 new HashSet<InteractionFamily> { InteractionFamily.Simulator, InteractionFamily.InteractiveModel },
                 new HashSet<LearnerResponseKind> { LearnerResponseKind.ManipulateModel, LearnerResponseKind.Predict, LearnerResponseKind.Decide },
                 "Stateful case model: the learner applies examination tools to a case, predicting each tool's finding before it joins the board; the closing outcome exists only once every tool has been applied."),
+            ["StatefulModelSimulator"] = new(
+                new HashSet<InteractionFamily> { InteractionFamily.Simulator, InteractionFamily.InteractiveModel, InteractionFamily.BranchingCase },
+                new HashSet<LearnerResponseKind> { LearnerResponseKind.Choose, LearnerResponseKind.ManipulateModel, LearnerResponseKind.Decide },
+                "Closed-choice state machine: a committed choice changes the visible model snapshot, reveals a sourced consequence, and supports multiple meaningful paths."),
             ["ActiveLearningFrame"] = Excluded("Presentational frame (heading, instruction, safety notice) shared by the toolkit engines; not an interaction itself."),
 
             ["CategorizationCheck"] = Excluded("Reveal-only: the learner classifies mentally and clicks to reveal; no committed response. Superseded for new work by the commit-then-feedback ClassifyMatchCheck."),
@@ -203,7 +220,13 @@ public static class ActiveLearningStandard
     {
         var findings = new List<ActiveLearningFinding>();
 
-        // A. VisualLearningModel
+        // MindMapGate
+        if (!week.VisualModels.Any(v => v.Kind == VisualModelKind.MindMap && v.Marker.Contains(MindMapMarker, StringComparison.OrdinalIgnoreCase)))
+        {
+            findings.Add(new(ActiveLearningGate.MindMapGate, "No Weekly Mind Map declared (Preview + Review rendered from one semantic MindMapModel)."));
+        }
+
+        // VisualLearningModelGate
         List<string> visualRejections = [];
         bool hasVisual = false;
         foreach (VisualModelDeclaration visual in week.VisualModels)
@@ -213,46 +236,51 @@ public static class ActiveLearningStandard
         }
         if (!hasVisual)
         {
-            findings.Add(new(ActiveLearningGate.VisualLearningModel, Join("No qualifying visual learning model declared.", visualRejections)));
+            findings.Add(new(ActiveLearningGate.VisualLearningModelGate, Join("No qualifying visual learning model declared.", visualRejections)));
         }
 
-        // B. ActiveLearningInteraction
-        List<string> interactionRejections = [];
-        bool hasInteraction = false;
+        // SimulatorInteractiveModelGate — retrieval practice can never satisfy this gate.
+        List<string> simulatorRejections = [];
+        bool hasSimulator = false;
         foreach (InteractionDeclaration interaction in week.Interactions)
         {
             string? rejection = InteractionRejection(interaction);
-            if (rejection is null) hasInteraction = true; else interactionRejections.Add(rejection);
+            if (rejection is not null) simulatorRejections.Add(rejection);
+            else if (interaction.Family == InteractionFamily.Simulator && SimulatorComponents.Contains(interaction.Component)) hasSimulator = true;
+            else simulatorRejections.Add($"'{interaction.Component}' is not a qualifying stateful simulator declaration.");
         }
-        if (!hasInteraction)
+        if (!hasSimulator)
         {
-            findings.Add(new(ActiveLearningGate.ActiveLearningInteraction, Join("No qualifying active-learning interaction declared.", interactionRejections)));
+            findings.Add(new(ActiveLearningGate.SimulatorInteractiveModelGate, Join("No qualifying simulator / stateful interactive model declared.", simulatorRejections)));
         }
 
-        // C. ActiveLearnerResponse
+        // RetrievalResponseGate
         List<string> responseRejections = [];
-        bool hasResponse = false;
+        bool hasRetrieval = false;
         foreach (LearnerResponseDeclaration response in week.LearnerResponses)
         {
             string? rejection = ResponseRejection(response);
-            if (rejection is null) hasResponse = true; else responseRejections.Add(rejection);
+            if (rejection is not null) responseRejections.Add(rejection);
+            else if (RetrievalComponents.Contains(response.Component)) hasRetrieval = true;
+            else responseRejections.Add($"'{response.Component}' changes a model but is not retrieval practice.");
         }
-        if (!hasResponse)
+        if (!hasRetrieval)
         {
-            findings.Add(new(ActiveLearningGate.ActiveLearnerResponse, Join("No qualifying learner-response activity declared.", responseRejections)));
+            findings.Add(new(ActiveLearningGate.RetrievalResponseGate, Join("No qualifying retrieval-practice / committed learner response declared.", responseRejections)));
         }
 
-        // D. FinalAssessment
+        // ApplicationFeedbackGate
+        bool hasApplicationFeedback = week.Interactions.Any(i =>
+            InteractionRejection(i) is null && ApplicationFeedbackComponents.Contains(i.Component));
+        if (!hasApplicationFeedback)
+        {
+            findings.Add(new(ActiveLearningGate.ApplicationFeedbackGate, "No qualifying application + feedback interaction declared."));
+        }
+
+        // FinalAssessmentGate
         if (!week.DeclaresFinalAssessment)
         {
-            findings.Add(new(ActiveLearningGate.FinalAssessment, "No Final Assessment declared."));
-        }
-
-        // E. WeeklyMindMap — presence only. Whether the map also carries the week's central structure is the VisualLearningModel
-        // gate's question, so a week cannot satisfy this one by relabelling some other visual as a Mind Map.
-        if (!week.VisualModels.Any(v => v.Kind == VisualModelKind.MindMap && v.Marker.Contains(MindMapMarker, StringComparison.OrdinalIgnoreCase)))
-        {
-            findings.Add(new(ActiveLearningGate.WeeklyMindMap, "No Weekly Mind Map declared (Preview + Review rendered from one semantic MindMapModel)."));
+            findings.Add(new(ActiveLearningGate.FinalAssessmentGate, "No Final Assessment declared."));
         }
 
         return findings;

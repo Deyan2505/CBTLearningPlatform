@@ -7,9 +7,10 @@ namespace CbtLearningPlatform.Client.Curriculum;
 /// (ActiveLearningGateTests) verifies every marker against the page markup and fails if a week's
 /// <see cref="StructuralStatus"/> disagrees with its own declarations, in either direction.
 ///
-/// Weeks 3, 6 and 8 are the owner-confirmed compliant references, and Weeks 1, 2 and 10 (Phase 2, Batch 1) were owner-approved
-/// after production review. Weeks 5, 7 and 9 (Phase 2, Batch 2) pass the gate but are NOT owner-approved or locked: they await
-/// the owner's visual review of the interactions in production. The other six (4, 11-15) are
+/// The stricter six-gate owner rule is recorded here honestly. Weeks 5, 7 and 9 include both their retained retrieval
+/// activities and the shared stateful simulator; they await owner review. Weeks 6 and 10 also satisfy all six gates.
+/// Weeks 1, 2, 3 and 8 passed the retired gate but fail at least one newly separate simulator/retrieval/application gate.
+/// The remaining weeks (4, 11-15) also remain
 /// <see cref="StructuralStatus.StructuralEnrichmentRequired"/> (OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED):
 /// content approval and locked prose remain valid; only the learning architecture is reopened, one controlled batch at a time. When a week's remediation lands, add the new declarations and
 /// promote its status to Compliant in the same change — a stale StructuralEnrichmentRequired also fails the gate.
@@ -27,8 +28,8 @@ public static class ActiveLearningCatalog
 
     public static IReadOnlyList<WeekLearningArchitecture> Weeks { get; } =
     [
-        // --- Structurally compliant references ---
-        Compliant(3,
+        // --- Re-evaluated under the six-gate standard ---
+        Migration(3,
             visuals:
             [
                 new(VisualModelKind.MindMap, Graph("week3-mindmap-preview"), RepresentsCentralStructure: false),
@@ -56,14 +57,14 @@ public static class ActiveLearningCatalog
                 new(LearnerResponseKind.Decide, "ScenarioSimulator")
             ]),
 
-        Compliant(8,
+        Migration(8,
             visuals: [new(VisualModelKind.MindMap, Graph("week8-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Process, Flow)],
             interactions: [new(InteractionFamily.Simulator, "CbtChainSimulator")],
             responses: [new(LearnerResponseKind.ManipulateModel, "CbtChainSimulator")]),
 
-        // --- Phase 2, Batch 1: gate PASS, AWAITING OWNER VISUAL REVIEW (not locked) ---
+        // --- Earlier batches, honestly re-evaluated under the stricter simulator gate ---
         // Week 1: the timeline stays the visual model; the learner rebuilds it (OrderingBuilder, section 08, before the quiz).
-        Compliant(1,
+        Migration(1,
             visuals:
             [
                 new(VisualModelKind.MindMap, Graph("week1-mindmap-preview"), RepresentsCentralStructure: true),
@@ -74,7 +75,7 @@ public static class ActiveLearningCatalog
             responses: [new(LearnerResponseKind.Order, "OrderingBuilder")]),
 
         // Week 2: the two schools as side-by-side process chains + a committed Beck/Ellis attribution over the comparison table.
-        Compliant(2,
+        Migration(2,
             visuals:
             [
                 new(VisualModelKind.MindMap, Graph("week2-mindmap-preview"), RepresentsCentralStructure: true),
@@ -118,7 +119,11 @@ public static class ActiveLearningCatalog
                 new(VisualModelKind.Comparison, CategoryCompare),
                 new(VisualModelKind.Sequence, Sequence)
             ],
-            interactions: [new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")],
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "StatefulModelSimulator"),
+                new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")
+            ],
             responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
 
         // Week 7: the vicious-cycle loop and the Sali behavioural-experiment map stay the visual models; 7.6's two
@@ -132,7 +137,11 @@ public static class ActiveLearningCatalog
                 new(VisualModelKind.ConceptNetwork, Graph("week7-sali-map")),
                 new(VisualModelKind.Process, Flow)
             ],
-            interactions: [new(InteractionFamily.PredictCommit, "PredictReveal")],
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "StatefulModelSimulator"),
+                new(InteractionFamily.PredictCommit, "PredictReveal")
+            ],
             responses: [new(LearnerResponseKind.Predict, "PredictReveal")]),
 
         // Week 9: the six-column thought-record structure and the six-category evaluation sequence stay the visual models; the
@@ -145,7 +154,11 @@ public static class ActiveLearningCatalog
                 new(VisualModelKind.Process, Graph("week9-thought-record-structure")),
                 new(VisualModelKind.Sequence, Sequence)
             ],
-            interactions: [new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")],
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "StatefulModelSimulator"),
+                new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")
+            ],
             responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
 
         // --- OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED ---
@@ -191,6 +204,10 @@ public static class ActiveLearningCatalog
 
     // Interaction and response lists are empty on purpose: no qualifying element exists yet. They are filled
     // in by the week's controlled remediation, together with the promotion to Compliant.
-    private static WeekLearningArchitecture Migration(int week, IReadOnlyList<VisualModelDeclaration> visuals) =>
-        new(week, StructuralStatus.StructuralEnrichmentRequired, visuals, [], [], DeclaresFinalAssessment: true);
+    private static WeekLearningArchitecture Migration(
+        int week,
+        IReadOnlyList<VisualModelDeclaration> visuals,
+        IReadOnlyList<InteractionDeclaration>? interactions = null,
+        IReadOnlyList<LearnerResponseDeclaration>? responses = null) =>
+        new(week, StructuralStatus.StructuralEnrichmentRequired, visuals, interactions ?? [], responses ?? [], DeclaresFinalAssessment: true);
 }

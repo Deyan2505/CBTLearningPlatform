@@ -79,14 +79,16 @@
 практическо взаимодействие, *където темата позволява*" (v2, точка 7, пренесена през v3): взаимодействието вече е
 **задължително** — safety класът и Representation Fit определят ФОРМАТА му, никога дали го има.
 
-Една седмица е структурно завършена само ако **и четирите gate-а** са `PASS` (плюс съществуващите source/safety/coverage gate-ове):
+Една седмица е структурно завършена само ако **и шестте gate-а** са `PASS` (плюс съществуващите source/safety/coverage gate-ове):
 
 | Gate | Изискване | НЕ се брои |
 |---|---|---|
-| **Visual Learning Gate** | поне един source-grounded визуален модел на централната структура на седмицата (процес, йерархия, цикъл, сравнение, времева линия, мрежа, decision модел…) | самостоятелен Mind Map (освен ако реално представя централната структура), проста таблица/списък |
-| **Active Interaction Gate** | поне едно смислено активно взаимодействие **преди** Final Assessment | навигация, линкове, accordion, обикновен `<details>` reveal, Mind Map expand/collapse, completion бутон, Final Assessment, четене, select-to-read explorer |
-| **Active Learner Response Gate** | поне една активност, в която обучаемият **избира / класифицира / подрежда / сравнява / предсказва / манипулира модел / свързва връзки / взема решение** и получава feedback, последица, сравнение или reveal **едва СЛЕД ангажимента си** | plain reveal, WhatIfBox, reveal-only проверка, „помисли и разгъни" |
-| **Final Assessment Gate** | точно един `FinalAssessment` (платформен стандарт) | — |
+| **MindMapGate** | Weekly Mind Map: Preview + Review от един семантичен `MindMapModel` | друг визуален модел; expand/collapse като interaction |
+| **VisualLearningModelGate** | поне един source-grounded визуален модел на централната структура на седмицата (процес, йерархия, цикъл, сравнение, времева линия, мрежа, decision модел…) | самостоятелен Mind Map (освен ако реално представя централната структура), проста таблица/списък |
+| **SimulatorInteractiveModelGate** | source-grounded stateful модел **преди** Final Assessment: вътрешно състояние, learner choice/input, видима промяна, последствия/отношения/прогресия и повече от един смислен path/state | `ClassifyMatchCheck`, `OrderingBuilder` или `PredictReveal` сами по себе си; Final Assessment; Mind Map; plain reveal/details; навигация |
+| **RetrievalResponseGate** | отделна retrieval activity, в която обучаемият **избира / класифицира / подрежда / сравнява / предсказва / свързва връзки** и получава feedback/reveal **едва СЛЕД commit** | симулатор без retrieval задача; plain reveal; „помисли и разгъни" |
+| **ApplicationFeedbackGate** | поне едно приложение с feedback/последица/сравнение след learner commit, преди Final Assessment | пасивен worked example без commit |
+| **FinalAssessmentGate** | точно един `FinalAssessment` (платформен стандарт) | — |
 
 Safety-адаптация (`AcademicContextOnly`, `ProfessionalReviewRequired`, `NotEligibleForSelfGuidedSimulator`): трето лице, фиксирани
 примери, без free-text самооценка, без risk prediction, без диагностичен self-test, без exposure planning, без self-treatment
@@ -95,14 +97,14 @@ Safety-адаптация (`AcademicContextOnly`, `ProfessionalReviewRequired`, 
 **Механизъм (автоматизиран):** всяка routed седмица декларира елементите си в `Curriculum/ActiveLearningCatalog.cs`
 (само наличие/тип, без CBT съдържание); `ActiveLearningGateTests` оценява и верифицира всяка декларация срещу реалния
 markup на страницата, изисква взаимодействието да предхожда Final Assessment, и налага контролираната миграция:
-`StructuralStatus.Compliant` изисква A–D; `StructuralStatus.StructuralEnrichmentRequired` е временно и мълчаливо
+`StructuralStatus.Compliant` изисква и шестте gate-а; `StructuralStatus.StructuralEnrichmentRequired` е временно и мълчаливо
 неизползваемо — тестът пада и при фалшива „Compliant", и при остаряло „Enrichment Required". Стари тестове, които забраняват
 интерактивни компоненти, са инвентаризирани в `LegacyPassivityInventory` и се **заместват** (не се изтриват) при
 remediation на съответната седмица. Нов интерактивен компонент трябва да бъде класифициран в `ActiveLearningStandard.Components`.
 
-**Задължителна запис-формула при приключване на седмица:** `ACTIVE LEARNING GATE — PASS` (Visual / Interaction / Response / Final Assessment / Weekly Mind Map).
+**Задължителна запис-формула при приключване на седмица:** `ACTIVE LEARNING GATE — PASS` (Mind Map / Visual / Simulator / Retrieval Response / Application Feedback / Final Assessment).
 
-**Weekly Mind Map (пети gate, собственическо решение 2026-09-21, след Batch 1 owner review):** всяка седмица рендира
+**Weekly Mind Map (отделен gate, собственическо решение 2026-09-21, след Batch 1 owner review):** всяка седмица рендира
 Preview + Review от един семантичен `MindMapModel`. Отделен от Visual gate-а — картата е ориентационна/паметова
 йерархия, а седмицата пак дължи визуален модел на централната си структура. 12 от 15 седмици вече имаха карта, т.е.
 липсата ѝ беше дефект, не стилистичен избор. **Единствено известно изключение: Седмица 12** (няма карта; вече

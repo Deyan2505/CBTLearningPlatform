@@ -196,6 +196,73 @@ public sealed record CaseExaminationActivity(
     }
 }
 
+// ---------------------------------------------------------------- E. stateful model simulator
+
+/// <summary>One visible slot in a model snapshot. Domain labels and values are supplied by the week.</summary>
+public sealed record StatefulModelField(string Id, string Label, string Value);
+
+/// <summary>A committed choice transitions the model. Consequence and source stay hidden until commit.</summary>
+public sealed record StatefulModelChoice(
+    string Id,
+    string Label,
+    string NextStateId,
+    string Consequence,
+    string? SourceRef = null);
+
+/// <summary>A complete visible snapshot of the model at one point in an exploratory path.</summary>
+public sealed record StatefulModelNode(
+    string Id,
+    string Phase,
+    string Title,
+    string Description,
+    IReadOnlyList<StatefulModelField> Fields,
+    IReadOnlyList<StatefulModelChoice> Choices);
+
+/// <summary>Content-free contract for a closed-choice, multi-state simulator.</summary>
+public sealed record StatefulModelActivity(
+    string Title,
+    string Instruction,
+    string InitialStateId,
+    IReadOnlyList<StatefulModelNode> States)
+{
+    public IReadOnlyList<string> Validate()
+    {
+        List<string> issues = [];
+        ActivityValidation.Require(issues, !ActivityValidation.Blank(Title), "Title is required.");
+        ActivityValidation.Require(issues, !ActivityValidation.Blank(Instruction), "Instruction is required.");
+        ActivityValidation.Require(issues, States.Count >= 3, "At least three model states are required.");
+        ActivityValidation.UniqueIds(issues, "States", States.Select(s => s.Id));
+
+        HashSet<string> stateIds = [.. States.Select(s => s.Id)];
+        ActivityValidation.Require(issues, stateIds.Contains(InitialStateId), $"Initial state '{InitialStateId}' does not exist.");
+        foreach (StatefulModelNode state in States)
+        {
+            ActivityValidation.Require(issues, !ActivityValidation.Blank(state.Phase), $"State '{state.Id}' needs a phase.");
+            ActivityValidation.Require(issues, !ActivityValidation.Blank(state.Title), $"State '{state.Id}' needs a title.");
+            ActivityValidation.Require(issues, !ActivityValidation.Blank(state.Description), $"State '{state.Id}' needs a description.");
+            ActivityValidation.Require(issues, state.Fields.Count >= 2, $"State '{state.Id}' needs at least two visible model fields.");
+            ActivityValidation.UniqueIds(issues, $"State '{state.Id}' fields", state.Fields.Select(f => f.Id));
+            ActivityValidation.Require(issues, state.Fields.All(f => !ActivityValidation.Blank(f.Label) && !ActivityValidation.Blank(f.Value)),
+                $"State '{state.Id}': every field needs a label and value.");
+            ActivityValidation.UniqueIds(issues, $"State '{state.Id}' choices", state.Choices.Select(c => c.Id));
+            foreach (StatefulModelChoice choice in state.Choices)
+            {
+                ActivityValidation.Require(issues, !ActivityValidation.Blank(choice.Label), $"Choice '{choice.Id}' needs a label.");
+                ActivityValidation.Require(issues, !ActivityValidation.Blank(choice.Consequence), $"Choice '{choice.Id}' needs a consequence.");
+                ActivityValidation.Require(issues, stateIds.Contains(choice.NextStateId),
+                    $"Choice '{choice.Id}' leads to unknown state '{choice.NextStateId}'.");
+            }
+        }
+
+        StatefulModelNode? initial = States.FirstOrDefault(s => s.Id == InitialStateId);
+        ActivityValidation.Require(issues,
+            initial is not null && initial.Choices.Select(c => c.NextStateId).Distinct(StringComparer.Ordinal).Count() >= 2,
+            "The initial state must offer at least two meaningful paths to different states.");
+        ActivityValidation.Require(issues, States.Any(s => s.Choices.Count == 0), "At least one terminal state is required.");
+        return issues;
+    }
+}
+
 /// <summary>Unique DOM ids for toolkit instances (radio-group names, aria-labelledby) so several engines can share a page.
 /// A week may pass its own stable ComponentId instead.</summary>
 internal static class ActiveLearningIds

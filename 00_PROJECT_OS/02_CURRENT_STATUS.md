@@ -1,5 +1,33 @@
 # 02 — Current Status
 
+## CURRENT OWNER-REVIEW CORRECTION — 2026-09-25
+
+`BATCH 2 SIMULATORS READY FOR DEPLOYMENT / AWAITING OWNER REVIEW`.
+
+The previous Batch 2 owner review **FAILED**: the Week 5, 7, and 9 retrieval activities did not
+constitute a stateful simulator. The older `ACTIVE LEARNING BATCH 2 DEPLOYED / AWAITING OWNER VISUAL
+REVIEW` checkpoint below is retained as history but is superseded by this correction. It is not an
+approval or lock.
+
+- Week 5 now combines the retained classification retrieval with a stateful collaboration simulator:
+  the learner selects an early/later stage and then a source-approved contribution, and the visible
+  therapist/patient contribution model changes after commitment (`SRC-041`, K08, p. 8, §5.5).
+- Week 7 retains both prediction/reveal retrieval activities and adds a branching behavioral-experiment
+  simulator using only the approved fixed friend-meeting and running examples. Prediction, action,
+  observation, and revised model are separate committed states (`SRC-041`, U22–U29/U45–U49,
+  pp. 84–88, 96–98); no outcome is invented for Sally.
+- Week 9 retains the distortion-matching retrieval and adds a closed-choice, third-person thought-record
+  simulator. Its visible six-slot record changes across two fixed source-grounded cases; absent values
+  are explicitly marked as not supplied (`SRC-041`, U10–U11/U34–U45/U67–U70, Figures 11.1–11.2/12.1).
+
+The global standard now has six independent mandatory gates: `MindMapGate`,
+`VisualLearningModelGate`, `SimulatorInteractiveModelGate`, `RetrievalResponseGate`,
+`ApplicationFeedbackGate`, and `FinalAssessmentGate`. Retrieval alone does not satisfy the simulator
+or application gates. Honest current catalog result: Weeks **5, 6, 7, 9, 10** are structurally
+`Compliant`; Weeks **1, 2, 3, 4, 8, 11, 12, 13, 14, 15** remain
+`StructuralEnrichmentRequired`. Prior content/source approvals remain valid, but this remediation for
+Weeks 5, 7, and 9 is **not owner approved and not locked**.
+
 *Актуализира се след всяка работна сесия. Единствен източник на истина за "къде сме сега".*
 
 ## ACTIVE CONTEXT FOR CURRENT STEP

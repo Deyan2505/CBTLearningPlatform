@@ -88,7 +88,7 @@ public sealed class ActiveLearningBatch2Tests
             Assert.True(Approved(5, body), $"Feedback for '{item.Id}' is not approved text.");
             Assert.Contains(predicate, body, StringComparison.OrdinalIgnoreCase);   // the phrase lives in the very paragraph that names its stage
             Assert.Contains("5.5 · Сътрудничество: как се променя балансът", page);
-            Assert.Equal("5.5 — Сътрудничество: как се променя балансът", item.SourceRef);
+            Assert.Equal("SRC-041 · K08 · p. 8 · 5.5 — Сътрудничество: как се променя балансът", item.SourceRef);
         }
 
         // The same skill (summarising) moves from therapist to patient — the shift itself, not just an actor pattern.
@@ -446,17 +446,20 @@ public sealed class ActiveLearningBatch2Tests
     [Fact]
     public void Batch2_DeclaresExactlyTheToolkitElementsThePagesContain_AndKeepsEachWeeksOwnVisualModels()
     {
+        Assert.Contains(ActiveLearningCatalog.For(5).Interactions, i => i is { Family: InteractionFamily.Simulator, Component: "StatefulModelSimulator" });
         Assert.Contains(ActiveLearningCatalog.For(5).Interactions, i => i is { Family: InteractionFamily.ClassifyMatch, Component: "ClassifyMatchCheck" });
         Assert.Contains(ActiveLearningCatalog.For(5).LearnerResponses, r => r is { Response: LearnerResponseKind.Classify, Component: "ClassifyMatchCheck" });
         Assert.Contains(ActiveLearningCatalog.For(5).VisualModels, v => v is { Kind: VisualModelKind.Comparison, Marker: "category-compare" });
         Assert.Contains(ActiveLearningCatalog.For(5).VisualModels, v => v is { Kind: VisualModelKind.Sequence, Marker: "guided-practice-sequence" });
 
         Assert.Contains(ActiveLearningCatalog.For(7).Interactions, i => i is { Family: InteractionFamily.PredictCommit, Component: "PredictReveal" });
+        Assert.Contains(ActiveLearningCatalog.For(7).Interactions, i => i is { Family: InteractionFamily.Simulator, Component: "StatefulModelSimulator" });
         Assert.Contains(ActiveLearningCatalog.For(7).LearnerResponses, r => r is { Response: LearnerResponseKind.Predict, Component: "PredictReveal" });
         Assert.Contains(ActiveLearningCatalog.For(7).VisualModels, v => v is { Kind: VisualModelKind.Cycle, Marker: "cascade-loop" });
         Assert.Contains(ActiveLearningCatalog.For(7).VisualModels, v => v is { Kind: VisualModelKind.ConceptNetwork });
 
         Assert.Contains(ActiveLearningCatalog.For(9).Interactions, i => i is { Family: InteractionFamily.ClassifyMatch, Component: "ClassifyMatchCheck" });
+        Assert.Contains(ActiveLearningCatalog.For(9).Interactions, i => i is { Family: InteractionFamily.Simulator, Component: "StatefulModelSimulator" });
         Assert.Contains(ActiveLearningCatalog.For(9).LearnerResponses, r => r is { Response: LearnerResponseKind.Classify, Component: "ClassifyMatchCheck" });
         Assert.Contains(ActiveLearningCatalog.For(9).VisualModels, v => v is { Kind: VisualModelKind.Process, Marker: "ComponentId=\"week9-thought-record-structure\"" });
     }
@@ -464,11 +467,11 @@ public sealed class ActiveLearningBatch2Tests
     [Fact]
     public void WeeksOutsideBatches1And2_AreNotPromoted()
     {
-        foreach (int week in new[] { 4, 11, 12, 13, 14, 15 })
+        foreach (int week in new[] { 1, 2, 3, 4, 8, 11, 12, 13, 14, 15 })
         {
             Assert.Equal(StructuralStatus.StructuralEnrichmentRequired, ActiveLearningCatalog.For(week).Status);
         }
-        foreach (int week in new[] { 1, 2, 3, 5, 6, 7, 8, 9, 10 })
+        foreach (int week in new[] { 5, 6, 7, 9, 10 })
         {
             Assert.Equal(StructuralStatus.Compliant, ActiveLearningCatalog.For(week).Status);
         }

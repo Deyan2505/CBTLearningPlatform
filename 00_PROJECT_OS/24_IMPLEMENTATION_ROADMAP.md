@@ -812,3 +812,17 @@ awaiting owner review of this module first.
   `PROJECT-WIDE COGNITIVE LEARNING ROLLOUT` — see the new
   `_blueprints/COGNITIVE_LEARNING_ROLLOUT_PLAN_v1.md` for the per-week audit, migration
   classification (A-E), and the Minimum Stability Gate required before Phase 7 (Week 7) resumes.
+
+### Phase 6 correction — Batch 2 stateful simulators (2026-09-25)
+
+- The first Week 5/7/9 Batch 2 delivery failed owner review because retrieval interactions were
+  counted as simulators. That checkpoint is superseded, not approved.
+- A reusable data-driven `StatefulModelSimulator` now supplies committed state change and application
+  feedback in Weeks 5, 7, and 9; their existing retrieval activities remain separate.
+- The Active Learning Gate is now six-part: Mind Map, Visual Learning Model, Simulator/Interactive
+  Model, Retrieval Response, Application Feedback, Final Assessment. Retrieval alone cannot satisfy
+  simulator/application.
+- Current honest structural roster: `Compliant` — 5, 6, 7, 9, 10;
+  `StructuralEnrichmentRequired` — 1, 2, 3, 4, 8, 11, 12, 13, 14, 15.
+- Delivery status: `READY FOR DEPLOYMENT / AWAITING OWNER REVIEW`; never infer
+  owner approval or lock from automated QA or deployment.

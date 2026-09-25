@@ -226,3 +226,7 @@ for the *source/audit* layer; the next open decisions belong to an actual implem
 
 **Not implemented (any turn). Week 4 untouched. No build/tests run.**
 **`SOURCE-READY FOR IMPLEMENTATION: YES.`**
+
+## 2026-09-25 — Batch 2 simulator remediation traceability addendum
+
+The owner-overridden Active Learning requirement adds a stateful collaboration simulator without changing KU accounting or approved prose. Every simulator state maps to **K08, SRC-041 Chapter 1 p. 8**: early treatment (therapist more active), later treatment (patient increasingly active), and teamwork across both stages. Controls only select the approved stage and one already-approved contribution behavior; no clinical outcome is predicted or invented. The existing `ClassifyMatchCheck` remains the separate retrieval layer.

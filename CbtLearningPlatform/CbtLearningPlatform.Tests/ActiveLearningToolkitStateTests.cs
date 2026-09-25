@@ -417,20 +417,20 @@ public sealed class ActiveLearningToolkitStateTests
     [Fact]
     public void ToolkitEngines_QualifyAsInteractionAndResponse_WithinTheirOwnFamiliesOnly()
     {
-        WeekLearningArchitecture Week(InteractionDeclaration interaction, LearnerResponseDeclaration response) =>
+        WeekLearningArchitecture Week(InteractionDeclaration interaction, LearnerResponseDeclaration response, bool addSimulator = false) =>
             new(99, StructuralStatus.StructuralEnrichmentRequired,
                 [
                     new(VisualModelKind.Sequence, "guided-practice-sequence"),
                     new(VisualModelKind.MindMap, "ComponentId=\"week99-mindmap-preview\"")
                 ],
-                [interaction], [response], true);
+                addSimulator ? [new(InteractionFamily.Simulator, "StatefulModelSimulator"), interaction] : [interaction], [response], true);
 
         Assert.Empty(ActiveLearningStandard.Evaluate(Week(
-            new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck"), new(LearnerResponseKind.Classify, "ClassifyMatchCheck"))));
+            new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck"), new(LearnerResponseKind.Classify, "ClassifyMatchCheck"), addSimulator: true)));
         Assert.Empty(ActiveLearningStandard.Evaluate(Week(
-            new(InteractionFamily.OrderingBuilder, "OrderingBuilder"), new(LearnerResponseKind.Order, "OrderingBuilder"))));
+            new(InteractionFamily.OrderingBuilder, "OrderingBuilder"), new(LearnerResponseKind.Order, "OrderingBuilder"), addSimulator: true)));
         Assert.Empty(ActiveLearningStandard.Evaluate(Week(
-            new(InteractionFamily.PredictCommit, "PredictReveal"), new(LearnerResponseKind.Predict, "PredictReveal"))));
+            new(InteractionFamily.PredictCommit, "PredictReveal"), new(LearnerResponseKind.Predict, "PredictReveal"), addSimulator: true)));
         Assert.Empty(ActiveLearningStandard.Evaluate(Week(
             new(InteractionFamily.Simulator, "CaseExaminationSimulator"), new(LearnerResponseKind.ManipulateModel, "CaseExaminationSimulator"))));
 
@@ -441,6 +441,10 @@ public sealed class ActiveLearningToolkitStateTests
             new(InteractionFamily.OrderingBuilder, "OrderingBuilder"), new(LearnerResponseKind.Predict, "OrderingBuilder"))));
         Assert.NotEmpty(ActiveLearningStandard.Evaluate(Week(
             new(InteractionFamily.OrderingBuilder, "CaseExaminationSimulator"), new(LearnerResponseKind.ManipulateModel, "CaseExaminationSimulator"))));
+
+        Assert.Contains(ActiveLearningStandard.Evaluate(Week(
+            new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck"), new(LearnerResponseKind.Classify, "ClassifyMatchCheck"))),
+            f => f.Gate == ActiveLearningGate.SimulatorInteractiveModelGate);
     }
 
     [Fact]

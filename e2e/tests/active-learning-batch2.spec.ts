@@ -20,6 +20,27 @@ test.describe("Active Learning — Batch 2 (Weeks 5, 7, 9)", () => {
   });
   test.afterEach(() => expect(errors, errors.join(" | ")).toEqual([]));
 
+  test("week 5 simulator: stage and contribution commits visibly change the model", async ({ page }) => {
+    await open(page, 5);
+    const s = section(page, "week5-collaboration-simulator");
+    await s.scrollIntoViewIfNeeded();
+    await expect(s.locator(".stateful-model")).toHaveAttribute("data-state", "start");
+    await expect(s.locator(".stateful-model__feedback")).toHaveCount(0);
+
+    await s.getByText("Разгледай началото на лечението", { exact: true }).click();
+    await s.getByRole("button", { name: "Промени модела" }).click();
+    await expect(s.locator(".stateful-model")).toHaveAttribute("data-state", "early");
+    await expect(s.getByText("По-активен", { exact: true })).toBeVisible();
+
+    await s.getByText("Терапевтът предлага посока за сесиите", { exact: true }).click();
+    await s.getByRole("button", { name: "Промени модела" }).click();
+    await expect(s.locator(".stateful-model")).toHaveAttribute("data-state", "early-direction");
+    await expect(s.getByText("Видим принос", { exact: true })).toBeVisible();
+
+    await s.getByRole("button", { name: "Изследвай друг път" }).click();
+    await expect(s.locator(".stateful-model")).toHaveAttribute("data-state", "start");
+  });
+
   test("week 5: the collaboration classification withholds feedback until Провери, then explains from the approved text", async ({ page }) => {
     await open(page, 5);
     const s = section(page, "week5-collaboration-stage");
@@ -78,6 +99,27 @@ test.describe("Active Learning — Batch 2 (Weeks 5, 7, 9)", () => {
     await expect(two.getByText("Действителни оценки")).toHaveCount(0);
   });
 
+  test("week 7 simulator: prediction → action → observed outcome updates the cycle model", async ({ page }) => {
+    await open(page, 7);
+    const s = section(page, "week7-cycle-simulator");
+    await s.scrollIntoViewIfNeeded();
+
+    await s.getByText("Изследвай срещите с приятели", { exact: true }).click();
+    await s.getByRole("button", { name: "Промени модела" }).click();
+    await expect(s.locator(".stateful-model")).toHaveAttribute("data-state", "friends-prediction");
+    await expect(s.getByText("Удоволствие: 0–3", { exact: true })).toBeVisible();
+
+    await s.getByText("Проведи трите планирани срещи и запиши оценките", { exact: true }).click();
+    await s.getByRole("button", { name: "Промени модела" }).click();
+    await expect(s.locator(".stateful-model")).toHaveAttribute("data-state", "friends-action");
+
+    await s.getByText("Добави наблюдавания резултат", { exact: true }).click();
+    await s.getByRole("button", { name: "Промени модела" }).click();
+    await expect(s.locator(".stateful-model")).toHaveAttribute("data-state", "friends-outcome");
+    await expect(s.getByText("3–5", { exact: true })).toBeVisible();
+    await expect(s.getByText("Действителността е по-добра от предсказаното", { exact: true })).toBeVisible();
+  });
+
   test("week 7: the review ordering of the cycle is committed (no solution until Провери подредбата)", async ({ page }) => {
     await open(page, 7);
     const review = page.locator("details.concept-graph__retrieval-check").filter({ hasText: "Retrieval practice" });
@@ -129,6 +171,24 @@ test.describe("Active Learning — Batch 2 (Weeks 5, 7, 9)", () => {
     for (let i = 0; i < 6; i++) await items.nth(i).locator("input[type=radio]").first().check();
     await expect(s.getByText("Всеки вариант може да се използва само веднъж.")).toBeVisible();
     await expect(s.getByRole("button", { name: "Провери" })).toBeDisabled();
+  });
+
+  test("week 9 simulator: fixed third-person choices fill the structure without free text", async ({ page }) => {
+    await open(page, 9);
+    const s = section(page, "week9-thought-record-simulator");
+    await s.scrollIntoViewIfNeeded();
+    await expect(s.locator("textarea, input[type=text]")).toHaveCount(0);
+    await expect(s.locator("[data-field=distortion] dd")).toHaveText("Не е дадено във фиксирания сценарий");
+
+    await s.getByText("Зареди Сценарий Б: мисълта за приятеля", { exact: true }).click();
+    await s.getByRole("button", { name: "Промени модела" }).click();
+    await expect(s.locator(".stateful-model")).toHaveAttribute("data-state", "case-b");
+    await s.getByText("Добави одобреното изкривяване", { exact: true }).click();
+    await s.getByRole("button", { name: "Промени модела" }).click();
+    await expect(s.locator("[data-field=distortion] dd")).toHaveText("Четене на мисли");
+    await s.getByText("Добави първия оценъчен въпрос", { exact: true }).click();
+    await s.getByRole("button", { name: "Промени модела" }).click();
+    await expect(s.locator("[data-field=response] dd")).toContainText("Какви са доказателствата");
   });
 
   test("keyboard: a Week 7 prediction can be chosen and committed without a mouse", async ({ page }) => {

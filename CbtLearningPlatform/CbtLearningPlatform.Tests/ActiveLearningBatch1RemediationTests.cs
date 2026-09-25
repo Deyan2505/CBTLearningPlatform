@@ -361,7 +361,7 @@ public sealed class ActiveLearningBatch1RemediationTests
         var withoutMap = withMap with { VisualModels = [withMap.VisualModels[0]] };
         ActiveLearningGate[] failing = [.. ActiveLearningStandard.Evaluate(withoutMap).Select(f => f.Gate)];
 
-        Assert.Equal([ActiveLearningGate.WeeklyMindMap], failing);
+        Assert.Equal([ActiveLearningGate.MindMapGate], failing);
     }
 
     [Fact]
@@ -371,7 +371,7 @@ public sealed class ActiveLearningBatch1RemediationTests
             [new(VisualModelKind.Sequence, "guided-practice-sequence"), new(VisualModelKind.MindMap, "guided-practice-sequence")],
             [new(InteractionFamily.Simulator, "ScenarioSimulator")], [new(LearnerResponseKind.Order, "ScenarioSimulator")], true);
 
-        Assert.Contains(ActiveLearningStandard.Evaluate(relabelled), f => f.Gate == ActiveLearningGate.WeeklyMindMap);
+        Assert.Contains(ActiveLearningStandard.Evaluate(relabelled), f => f.Gate == ActiveLearningGate.MindMapGate);
     }
 
     [Fact]
@@ -385,11 +385,11 @@ public sealed class ActiveLearningBatch1RemediationTests
         // Week 12 is the single known exception, reported to the owner rather than silently satisfied.
         Assert.Equal([12], without);
         Assert.Equal(StructuralStatus.StructuralEnrichmentRequired, ActiveLearningCatalog.For(12).Status);
-        Assert.Contains(ActiveLearningStandard.Evaluate(ActiveLearningCatalog.For(12)), f => f.Gate == ActiveLearningGate.WeeklyMindMap);
+        Assert.Contains(ActiveLearningStandard.Evaluate(ActiveLearningCatalog.For(12)), f => f.Gate == ActiveLearningGate.MindMapGate);
     }
 
     [Fact]
-    public void NoWeekLostItsStatus_ToTheNewGate()
+    public void StricterSimulatorGate_ReevaluatesTheCompliantRosterHonestly()
     {
         // Adding a gate must not silently demote anyone: the compliant set is exactly the reference weeks plus Batch 1 and
         // Batch 2 (Weeks 5, 7 and 9, added by Phase 2, Batch 2).
@@ -398,7 +398,7 @@ public sealed class ActiveLearningBatch1RemediationTests
             .Select(w => w.WeekNumber)
             .Order()];
 
-        Assert.Equal([1, 2, 3, 5, 6, 7, 8, 9, 10], compliant);
+        Assert.Equal([5, 6, 7, 9, 10], compliant);
         Assert.All(compliant, w => Assert.Empty(ActiveLearningStandard.Evaluate(ActiveLearningCatalog.For(w))));
     }
 

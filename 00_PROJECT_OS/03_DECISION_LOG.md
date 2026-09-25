@@ -140,14 +140,23 @@
 - **Последствия:** всяко бъдещо съдържателно разширение на курса (Седмици 1–7, 9–15) трябва първо да мине през вече зададената safety classification в тази стъпка (не да се пренаписва от нулата), освен ако собственикът изрично поиска промяна. `18_INFORMATION_ARCHITECTURE.md`/`21_CONTENT_AND_DATA_MODEL.md`/`22_USER_FLOWS.md` актуализирани да отразяват новия организационен слой.
 - **Възможност за преразглеждане:** да — стандартно, изисква ново собственическо решение; специално триггерирано, ако бъде намерен реален източник за Седмица 9 категоризацията, различен от вече заключения SRC-041 списък.
 
+## ADR-013 — Симулаторът е отделен задължителен Active Learning gate
+
+- **Дата:** 2026-09-25 (собственическо решение след BATCH 2 OWNER REVIEW FAILED).
+- **Контекст:** Седмици 5, 7 и 9 получиха committed retrieval activities, но нямаха Simulator / Stateful Interactive Model. Старият gate допускаше `ClassifyMatchCheck`, `OrderingBuilder` или `PredictReveal` да удовлетворят общия interaction gate и така даде фалшив PASS.
+- **Решение:** всяка седмица дължи шест отделни слоя: `MindMapGate`, `VisualLearningModelGate`, `SimulatorInteractiveModelGate`, `RetrievalResponseGate`, `ApplicationFeedbackGate`, `FinalAssessmentGate`. Retrieval practice **не е** симулатор. Симулаторът има вътрешно състояние, learner choices/inputs, видима промяна на модела, последствия/отношения/прогресия, повече от един смислен state/path, source grounding и позиция преди Final Assessment.
+- **Изключени от Simulator gate:** `ClassifyMatchCheck`, `OrderingBuilder`, `PredictReveal`, Final Assessment, Mind Map, plain reveal/details и навигация. Те могат да останат валидни в собствения си слой.
+- **Последствия:** каталогът и всички routed седмици се преоценяват честно. При приемането на решението пълните шест gate-а минават Седмици 5, 6, 7, 9 и 10; Седмици 1, 2, 3, 4, 8, 11, 12, 13, 14 и 15 са `StructuralEnrichmentRequired`. Предишните content approvals/locks не се заличават; структурният статус се коригира.
+- **Обхват на remediation:** само Седмици 5, 7 и 9 получават нов simulator в този batch; retrieval activities остават. Другите седмици не се поправят или обявяват погрешно за compliant.
+
 ## ADR-012 — Weekly Mind Map е задължителен елемент на всяка седмица
 
 - **Дата:** 2026-09-21 (собственическо решение след BATCH 1 OWNER REVIEW).
 - **Контекст:** собственическият преглед на Седмици 1, 2 и 10 установи, че Седмица 1 и Седмица 2 нямат Мисловна карта. Проверка
   на всичките 15 седмици показа, че **12 вече имат** Preview + Review карта с еднаква конвенция (`weekN-mindmap-preview` /
   `weekN-mindmap-review`) — т.е. липсата беше пропуск в имплементацията, а не съзнателно решение.
-- **Решение:** Weekly Mind Map става **пети gate** на Active Learning Standard (`ActiveLearningGate.WeeklyMindMap`), отделен от
-  `VisualLearningModel`. Presence-only: картата трябва да е декларирана и реално да присъства в markup-а; дали тя носи
+- **Решение:** Weekly Mind Map става **отделен gate** на Active Learning Standard (днес `ActiveLearningGate.MindMapGate`), отделен от
+  `VisualLearningModelGate`. Presence-only: картата трябва да е декларирана и реално да присъства в markup-а; дали тя носи
   централната структура на седмицата остава въпрос на Visual gate-а, така че gate-ът не може да бъде минат чрез преетикетиране
   на друг визуален елемент.
 - **Известни изключения:** **само Седмица 12** (AcademicContextOnly, няма карта). Не е поправена мълчаливо — сега открито

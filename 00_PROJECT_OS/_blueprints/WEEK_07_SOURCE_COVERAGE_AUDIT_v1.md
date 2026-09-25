@@ -239,3 +239,7 @@ established for Weeks 1/3/6/8/10/12.
    over a full branching engine (§7), or explicitly ask for the heavier pattern.
 5. **Pleasant Events Schedule external citation** — skip entirely (recommended) or raise as an
    `OptionalReadingSource` candidate pending live-URL verification.
+
+## 2026-09-25 — Batch 2 simulator remediation traceability addendum
+
+The stateful cycle/experiment simulator changes no KU dispositions. Its fixed Sally context maps to **U22–U29** (experiment design only; no outcome invented for Sally). Its two complete explorable paths map to **U45–U49**, preserving the already-approved separate patient examples and exact values: friends prediction 0–3 → observed 3–5; running prediction 4/4 → observed 1/1. The visible state sequence is prediction → activity/experiment → observed outcome → changed model interpretation. Existing `PredictReveal` and review `OrderingBuilder` remain retrieval practice.

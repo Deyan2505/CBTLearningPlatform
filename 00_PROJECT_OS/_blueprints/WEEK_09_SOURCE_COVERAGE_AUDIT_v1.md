@@ -199,3 +199,7 @@ framing intact and matches `PublicWithAdaptation` exactly as Week 6/7 already es
    (recommended, resolves the old MVP plan safely) over building any form of fillable input.
 5. **AWARE technique / relaxation cross-references (U75–U76)** — confirm Deferred (out of this
    week's two-part scope) rather than included as a "beyond the basics" section.
+
+## 2026-09-25 — Batch 2 simulator remediation traceability addendum
+
+The closed-choice third-person simulator changes no KU dispositions. The six-slot structure maps to **U67–U70 / Figure 12.1**; distortion states map to **U34–U45 / Figure 11.2**; the evidence question maps to **U10–U11 / Figure 11.1**. It uses only the two already-approved fixed application cases in §9.8. Missing case values remain explicitly “not supplied” rather than inferred. There is no free text, personal clinical input, persistence, or self-treatment workflow. The six-item `ClassifyMatchCheck` remains the separate retrieval layer.

@@ -442,6 +442,8 @@
             </div>
         </div>
 
+        <StatefulModelSimulator ComponentId="week9-thought-record-simulator" Activity="_week9ThoughtRecordSimulator" SafetyMode="_safetyMode" />
+
         <ClassifyMatchCheck ComponentId="week9-distortion-match" Activity="_week9DistortionMatch" SafetyMode="_safetyMode" />
     </LearningSection>
 
@@ -596,6 +598,52 @@
     // in 9.3 for reading). Fixed, third-person examples only: no free text, no self-assessment, no thought-record workflow;
     // the fixed Thought Record demonstration in 9.6/9.7 is untouched. Items are deliberately listed out of the options' order.
     private const string _week9DistortionSource = "9.3 — Фигура 11.2";
+
+    // CLOSED-CHOICE THIRD-PERSON SIMULATOR — only the two fixed application cases are selectable. Empty columns are
+    // labelled as not supplied by the fixed case instead of being invented; there is no personal input or thought-record form.
+    private const string _notSupplied = "Не е дадено във фиксирания сценарий";
+    private static readonly StatefulModelActivity _week9ThoughtRecordSimulator = new(
+        "Симулатор: структура на запис на мислите",
+        "Изберете един от двата фиксирани случая и променяйте модела само чрез готовите елементи. Това е структурна демонстрация в трето лице, не личен запис на мисли.",
+        "start",
+        [
+            new("start", "Изходно състояние", "Празна структурна рамка",
+                "Шестте колони са видими, но моделът още не е свързан с фиксиран случай.",
+                ThoughtRecordFields(_notSupplied, _notSupplied, _notSupplied, _notSupplied, _notSupplied, _notSupplied),
+                [
+                    new("case-a", "Зареди Сценарий А: оценката на изпита", "case-a", "Ситуацията и автоматичната мисъл от Сценарий А вече са видими в структурата.", "SRC-041 · U34–U45 · Фигура 11.2 · 9.3/9.8, Сценарий А"),
+                    new("case-b", "Зареди Сценарий Б: мисълта за приятеля", "case-b", "Ситуацията и автоматичната мисъл от Сценарий Б вече са видими в структурата.", "SRC-041 · U10–U11/U34–U45 · Фигури 11.1–11.2 · 9.2/9.8, Сценарий Б")
+                ]),
+            new("case-a", "Фиксиран случай", "Сценарий А е зареден",
+                "Пациент получава средна оценка на изпит с няколко високи оценки по отделни въпроси.",
+                ThoughtRecordFields("Средна оценка на изпит; няколко високи оценки по отделни въпроси", "„Значи цялостно се представих ужасно.“", _notSupplied, _notSupplied, _notSupplied, _notSupplied),
+                [new("add-filter", "Добави одобреното изкривяване", "case-a-distortion", "Ментален филтър — вниманието е насочено само към ниската оценка, игнорирайки останалата, по-балансирана картина.", "SRC-041 · U34–U45 · Фигура 11.2 · 9.3/9.8, Сценарий А")]),
+            new("case-a-distortion", "Променен модел", "Изкривяването е добавено",
+                "Моделът показва докъде стигат данните на фиксирания случай; останалите колони не се попълват по предположение.",
+                ThoughtRecordFields("Средна оценка на изпит; няколко високи оценки по отделни въпроси", "„Значи цялостно се представих ужасно.“", _notSupplied, "Ментален филтър", _notSupplied, _notSupplied), []),
+            new("case-b", "Фиксиран случай", "Сценарий Б е зареден",
+                "Пациент е сигурен, че приятел мисли зле за него, без приятелят да е казал или направил нещо конкретно в тази посока.",
+                ThoughtRecordFields("Няма конкретно казано или направено от приятеля", "„Приятелят мисли зле за него.“", _notSupplied, _notSupplied, _notSupplied, _notSupplied),
+                [new("add-mind-reading", "Добави одобреното изкривяване", "case-b-distortion", "Четене на мисли.", "SRC-041 · U34–U45 · Фигура 11.2 · 9.3/9.8, Сценарий Б")]),
+            new("case-b-distortion", "Променен модел", "Изкривяването е добавено",
+                "Класификацията насочва към първия одобрен оценъчен въпрос.",
+                ThoughtRecordFields("Няма конкретно казано или направено от приятеля", "„Приятелят мисли зле за него.“", _notSupplied, "Четене на мисли", _notSupplied, _notSupplied),
+                [new("add-question", "Добави първия оценъчен въпрос", "case-b-response", "„Какви са доказателствата за тази идея — и има ли доказателства против нея?“", "SRC-041 · U10–U11 · Фигура 11.1 · 9.2/9.8, Сценарий Б")]),
+            new("case-b-response", "Променен модел", "Отговорът е добавен",
+                "Структурата е променена само с елементите, които фиксираният случай предоставя.",
+                ThoughtRecordFields("Няма конкретно казано или направено от приятеля", "„Приятелят мисли зле за него.“", _notSupplied, "Четене на мисли", "Какви са доказателствата за тази идея — и има ли доказателства против нея?", _notSupplied), [])
+        ]);
+
+    private static IReadOnlyList<StatefulModelField> ThoughtRecordFields(
+        string situation, string thought, string emotion, string distortion, string response, string outcome) =>
+        [
+            new("situation", "Ситуация", situation),
+            new("thought", "Автоматична мисъл", thought),
+            new("emotion", "Емоция", emotion),
+            new("distortion", "Когнитивно изкривяване", distortion),
+            new("response", "Отговор", response),
+            new("outcome", "Резултат", outcome)
+        ];
 
     private static readonly ClassifyMatchActivity _week9DistortionMatch = new(
         "Съпоставете примерите с изкривяванията",

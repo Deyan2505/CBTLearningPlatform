@@ -17,7 +17,10 @@ export default defineConfig({
   // whole .NET runtime before any DOM renders — the default 5s per-assertion timeout can be too tight
   // for that first hit (subsequent navigations reuse the cached framework files and are fast).
   expect: { timeout: 15_000 },
-  fullyParallel: false, // shared localStorage-key semantics per test; each test opens its own context anyway
+  fullyParallel: false,
+  // Blazor WASM cold boots are memory/CPU heavy. Running files concurrently made otherwise-green
+  // Axe and interaction checks time out nondeterministically on CI-sized machines.
+  workers: 1,
   reporter: [["list"]],
   use: {
     baseURL,
@@ -26,7 +29,7 @@ export default defineConfig({
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: `dotnet run --no-launch-profile --urls ${baseURL}`,
+    command: `dotnet run --launch-profile http --urls ${baseURL}`,
     cwd: "../CbtLearningPlatform/CbtLearningPlatform.Client",
     url: baseURL,
     reuseExistingServer: true,

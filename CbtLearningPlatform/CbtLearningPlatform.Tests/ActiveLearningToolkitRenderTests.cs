@@ -298,7 +298,7 @@ public sealed class ActiveLearningToolkitStructureTests
     [Fact]
     public void TheEnginesUseNoFreeTextNoStorageNoNetworkAndNoJsInterop()
     {
-        string[] files = ["Interactive/ClassifyMatchCheck.razor", "Interactive/OrderingBuilder.razor", "Interactive/PredictReveal.razor", "Components/Shared/ActiveLearningFrame.razor"];
+        string[] files = ["Interactive/ClassifyMatchCheck.razor", "Interactive/OrderingBuilder.razor", "Interactive/PredictReveal.razor", "Interactive/StatefulModelSimulator.razor", "Components/Shared/ActiveLearningFrame.razor"];
 
         foreach (string file in files)
         {
@@ -324,11 +324,11 @@ public sealed class ActiveLearningToolkitStructureTests
         Assert.True(start > 0);
         string toolkit = css[start..css.IndexOf("Blazor framework hooks", start, StringComparison.Ordinal)];
 
-        // only .active-learning* rules, plus the one shared config-error selector for the simulator's new unavailable state
+        // toolkit rules plus the shared stateful-model engine; locked simulator selectors remain untouched
         foreach (Match selector in Regex.Matches(toolkit, @"^\.([a-z][a-z0-9_-]*)", RegexOptions.Multiline))
         {
             string name = selector.Groups[1].Value;
-            Assert.True(name.StartsWith("active-learning") || name == "scenario-simulator__config-error",
+            Assert.True(name.StartsWith("active-learning") || name.StartsWith("stateful-model") || name == "scenario-simulator__config-error",
                 $"Toolkit CSS defines unexpected selector .{name}");
         }
     }

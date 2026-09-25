@@ -1346,8 +1346,6 @@
 - **Git:** commit, изолиран от все още некомитнатата Седмица 12 работа.
 - **Следваща стъпка:** owner финален pixel review на `/kurs/sedmica-3`. **НЕ Седмица 7. НЕ Седмица 8. НЕ Седмица 12.**
 
----
-
 ## Сесия 55 — Week 3 Targeted Diagram Geometry Fix — 2026-08-24
 
 - **Повод:** owner review след Сесия 54's polish намери 3 останали geometry проблема. Content/architecture остава PASS — чист geometry-only pass, Mind Map/coverage/semantic relations недокоснати.
@@ -1380,3 +1378,33 @@
 - **Променени файлове:** `Components/Pages/Sedmica3.razor`, `wwwroot/app.css`, `10_SESSION_LOG.md` (този запис). Никакви Week 1/6/7/8/10/12 файлове пипнати.
 - **Git:** commit `3e4ca50`, изрично pathspec-limited заради externally-staged Седмица 12 работа.
 - **Следваща стъпка:** owner финален pixel review на `/kurs/sedmica-3`. **НЕ Седмица 7. НЕ Седмица 8. НЕ Седмица 12.**
+
+---
+
+## Сесия 57 — Batch 2 Stateful Simulator Remediation — 2026-09-25
+
+- **Повод:** owner review отхвърли предишния Batch 2 за Седмици 5, 7 и 9: наличните
+  retrieval активности не бяха реални stateful симулатори. Съдържателните/source одобрения остават
+  валидни; структурният remediation не е owner approved и не е locked.
+- **Общ engine:** добавен е data-driven `StatefulModelSimulator` с чист state machine. Feedback и
+  consequence не се показват преди commit; изборът променя видимия модел; поддържат се разклонени
+  пътища, terminal states и reset. Няма free text, persistence, network или седмично съдържание в
+  engine-а.
+- **Седмица 5:** запазен `ClassifyMatchCheck`; новият симулатор променя видимите приноси на
+  терапевт/пациент според етап и committed поведение (`SRC-041`, K08, p. 8, §5.5).
+- **Седмица 7:** запазени двата `PredictReveal`; новият симулатор води през prediction → action →
+  observation → revised model за двата одобрени фиксирани примера (`SRC-041`, U22–U29/U45–U49,
+  pp. 84–88, 96–98), без измислен Sally outcome.
+- **Седмица 9:** запазен distortion matching; новият closed-choice third-person симулатор променя
+  шестте видими полета на thought record за два одобрени фиксирани случая (`SRC-041`,
+  U10–U11/U34–U45/U67–U70, Figures 11.1–11.2/12.1). Липсващите source стойности са маркирани,
+  не допълнени.
+- **Gate correction:** стандартът вече изисква шест независими gate-а: Mind Map, Visual Learning
+  Model, Simulator/Interactive Model, Retrieval Response, Application Feedback и Final Assessment.
+  Retrieval не може да замести simulator/application. Каталогът честно отчита `Compliant` само
+  5, 6, 7, 9, 10; 1, 2, 3, 4, 8, 11–15 са `StructuralEnrichmentRequired`.
+- **QA:** Debug + Release build с 0 warnings/0 errors; Debug + Release tests **1207/1207**;
+  simulator-region axe dark/light **6/6**; fresh responsive changed-state screenshots за трите
+  седмици при 1440/1024/390; пълен Playwright пакет **74/74** (включително student journey).
+- **Статус:** `BATCH 2 SIMULATORS READY FOR DEPLOYMENT / AWAITING OWNER REVIEW`.
+  Това не е owner approval и не е lock.

@@ -102,29 +102,35 @@ The deprecated “source note -> short lesson -> quiz -> complete” workflow is
 
 The platform is not a sequence of reading pages. **Every learning week MUST contain:**
 
-1. at least one source-grounded **visual learning model** of the week's central structure;
-2. at least one meaningful **active-learning interaction before the Final Assessment**;
-3. at least one **learner-response activity** — choose, classify, order, compare, predict, manipulate a
-   model, map relationships, or make a decision — followed by feedback, consequence, comparison or reveal
-   only **after** the learner commits;
-4. a **Weekly Mind Map** — Preview + Review rendered from one semantic `MindMapModel` (owner decision after the
+1. a **Weekly Mind Map** — Preview + Review rendered from one semantic `MindMapModel` (owner decision after the
    Batch 1 review, 2026-09-21). This is a separate gate from the visual learning model: the Mind Map is the week's
    orientation/memory hierarchy, and a week still needs a visual model of its central structure whether or not the map
    happens to show that structure. 12 of the 15 weeks already carried one, so an absent map was a defect, not a style
    choice. The single known exception is **Week 12**, which has no map and now fails this gate openly; it is
    `StructuralEnrichmentRequired` for other reasons too. Any future exception needs an explicit owner decision recorded
-   here — the gate has no exemption state.
+   here — the gate has no exemption state;
+2. at least one source-grounded **visual learning model** of the week's central structure;
+3. a source-grounded **Simulator / Stateful Interactive Model before the Final Assessment**. It must hold internal
+   state, accept learner choices/inputs, visibly change the model state, show consequences/relationships/progression,
+   and allow exploration of more than one meaningful state/path;
+4. a separate **Retrieval Practice / Active Learner Response** — choose, classify, order, compare, predict, map
+   relationships, or otherwise commit a response before feedback;
+5. a meaningful **Application + feedback interaction before the Final Assessment**; and
+6. a **Final Assessment**.
 
-These do **not** count: navigation, links, accordions, a plain `<details>` reveal, Mind Map expand/collapse,
-the completion control, the Final Assessment by itself, passive reading, or a static table/list.
+`ClassifyMatchCheck`, `OrderingBuilder`, and `PredictReveal` remain valid retrieval-practice layers, but by themselves
+do **not** satisfy the Simulator gate. These also do **not** count as simulators: navigation, links, accordions, a plain
+`<details>` reveal, Mind Map expand/collapse, the completion control, Final Assessment, passive reading, or a static table/list.
 Safety tiers (`AcademicContextOnly`, `ProfessionalReviewRequired`, `NotEligibleForSelfGuidedSimulator`) change
 the FORM of interaction — third-person, fixed examples, no free-text self-assessment, no risk prediction, no
 self-treatment simulation — and **never** remove it. "This topic does not need the Week 8 simulator" is not a
 justification for passive-only content.
 
 Enforcement: every routed week declares its elements in `Curriculum/ActiveLearningCatalog.cs` (presence/type
-only, no CBT content); `ActiveLearningGateTests` evaluates and source-verifies every declaration for all routed
-weeks. A week is either `Compliant` or `StructuralEnrichmentRequired` — there is no exemption state.
+only, no CBT content); `ActiveLearningGateTests` evaluates and source-verifies the six separate gates for all routed
+weeks: `MindMapGate`, `VisualLearningModelGate`, `SimulatorInteractiveModelGate`, `RetrievalResponseGate`,
+`ApplicationFeedbackGate`, and `FinalAssessmentGate`. A week is either `Compliant` or
+`StructuralEnrichmentRequired` — there is no exemption state.
 `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` means content approval stays valid and prose stays
 locked; only the learning architecture is reopened. **`ACTIVE LEARNING GATE — PASS` is a required precondition for
 any future OWNER LOCK** (DoD v4 in `06_QA_STRATEGY.md`). New interactive components must be classified in

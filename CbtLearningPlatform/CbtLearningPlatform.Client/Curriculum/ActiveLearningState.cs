@@ -310,3 +310,61 @@ public sealed class CaseExaminationState
         PendingSelection = null;
     }
 }
+
+// ---------------------------------------------------------------- E. stateful model simulator
+
+public sealed record StatefulModelTransition(
+    string FromStateId,
+    string ChoiceLabel,
+    string Consequence,
+    string? SourceRef,
+    string ToStateId);
+
+/// <summary>Pure in-memory state machine. A pending choice has no consequence; committing atomically
+/// changes the visible snapshot and creates feedback.</summary>
+public sealed class StatefulModelState
+{
+    private readonly List<StatefulModelTransition> _history = [];
+
+    public StatefulModelState(StatefulModelActivity activity)
+    {
+        IReadOnlyList<string> issues = activity.Validate();
+        if (issues.Count > 0) throw new ArgumentException($"Invalid StatefulModelActivity: {string.Join(" ", issues)}", nameof(activity));
+        Activity = activity;
+        CurrentStateId = activity.InitialStateId;
+    }
+
+    public StatefulModelActivity Activity { get; }
+    public string CurrentStateId { get; private set; }
+    public string? PendingChoiceId { get; private set; }
+    public StatefulModelNode Current => Activity.States.Single(s => s.Id == CurrentStateId);
+    public IReadOnlyList<StatefulModelTransition> History => _history;
+    public StatefulModelTransition? LatestTransition => _history.LastOrDefault();
+    public bool CanCommit => PendingChoiceId is not null;
+    public bool IsTerminal => Current.Choices.Count == 0;
+
+    public bool Select(string choiceId)
+    {
+        if (Current.Choices.All(c => c.Id != choiceId)) return false;
+        PendingChoiceId = choiceId;
+        return true;
+    }
+
+    public bool Commit()
+    {
+        if (PendingChoiceId is null) return false;
+        StatefulModelNode from = Current;
+        StatefulModelChoice choice = from.Choices.Single(c => c.Id == PendingChoiceId);
+        _history.Add(new(from.Id, choice.Label, choice.Consequence, choice.SourceRef, choice.NextStateId));
+        CurrentStateId = choice.NextStateId;
+        PendingChoiceId = null;
+        return true;
+    }
+
+    public void Reset()
+    {
+        CurrentStateId = Activity.InitialStateId;
+        PendingChoiceId = null;
+        _history.Clear();
+    }
+}

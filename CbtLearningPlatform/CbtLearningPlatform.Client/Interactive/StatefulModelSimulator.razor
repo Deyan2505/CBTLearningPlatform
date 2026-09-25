@@ -1,0 +1,97 @@
+@* Shared content-free stateful simulator. All visible facts, choices, consequences and source
+   locators come from the week. Closed choices only; no storage, network, scoring or free text. *@
+@namespace CbtLearningPlatform.Client.Interactive
+
+@if (_issues.Count > 0)
+{
+    <div class="active-learning__config-error" role="alert" data-config-error="stateful-model">Упражнението в момента не е налично.</div>
+}
+else
+{
+    <ActiveLearningFrame Id="@Id" Title="@Activity.Title" Instruction="@Activity.Instruction" Kind="stateful-model"
+                         SafetyMode="@SafetyMode" SafetyNotice="@SafetyNotice">
+        <div class="stateful-model" data-state="@_state.CurrentStateId">
+            <div class="stateful-model__status" aria-live="polite">
+                <span class="stateful-model__phase">@_state.Current.Phase</span>
+                <strong>@_state.Current.Title</strong>
+                <p>@_state.Current.Description</p>
+            </div>
+
+            <dl class="stateful-model__snapshot" aria-label="Текущо състояние на модела">
+                @foreach (StatefulModelField field in _state.Current.Fields)
+                {
+                    <div class="stateful-model__field" data-field="@field.Id">
+                        <dt>@field.Label</dt>
+                        <dd>@field.Value</dd>
+                    </div>
+                }
+            </dl>
+
+            @if (!_state.IsTerminal)
+            {
+                <fieldset class="stateful-model__choices">
+                    <legend>Изберете следващата промяна в модела</legend>
+                    @foreach (StatefulModelChoice choice in _state.Current.Choices)
+                    {
+                        string choiceId = choice.Id;
+                        <label class="active-learning__option @(_state.PendingChoiceId == choiceId ? "active-learning__option--selected" : "")">
+                            <input type="radio" name="@($"{Id}-{_state.CurrentStateId}")"
+                                   checked="@(_state.PendingChoiceId == choiceId)"
+                                   @onchange="() => Select(choiceId)" />
+                            <span>@choice.Label</span>
+                        </label>
+                    }
+                </fieldset>
+                <button type="button" class="btn btn-violet" disabled="@(!_state.CanCommit)" @onclick="Commit">Промени модела</button>
+            }
+
+            @if (_state.LatestTransition is { } transition)
+            {
+                <div class="stateful-model__feedback" aria-live="polite">
+                    <p><strong>Какво се промени</strong></p>
+                    <p>@transition.Consequence</p>
+                    @if (!string.IsNullOrWhiteSpace(transition.SourceRef))
+                    {
+                        <p class="active-learning__source">@transition.SourceRef</p>
+                    }
+                </div>
+            }
+
+            @if (_state.History.Count > 0)
+            {
+                <ol class="stateful-model__history" aria-label="Път през модела">
+                    @foreach (StatefulModelTransition step in _state.History)
+                    {
+                        <li>@step.ChoiceLabel</li>
+                    }
+                </ol>
+                <button type="button" class="btn btn-neutral" @onclick="Reset">Изследвай друг път</button>
+            }
+        </div>
+    </ActiveLearningFrame>
+}
+
+@code {
+    [Parameter, EditorRequired] public StatefulModelActivity Activity { get; set; } = default!;
+    [Parameter] public ActiveLearningSafetyMode SafetyMode { get; set; } = ActiveLearningSafetyMode.NormalLearning;
+    [Parameter] public string? SafetyNotice { get; set; }
+    [Parameter] public string? ComponentId { get; set; }
+
+    private StatefulModelState _state = default!;
+    private IReadOnlyList<string> _issues = [];
+    private string? _generatedId;
+    private string Id => ComponentId ?? (_generatedId ??= ActiveLearningIds.Next("stateful"));
+
+    protected override void OnParametersSet()
+    {
+        _issues = Activity.Validate();
+        if (_issues.Count == 0 && (_state is null || !ReferenceEquals(_state.Activity, Activity)))
+        {
+            _state = new StatefulModelState(Activity);
+        }
+    }
+
+    private void Select(string choiceId) => _state.Select(choiceId);
+    private void Commit() => _state.Commit();
+    private void Reset() => _state.Reset();
+}

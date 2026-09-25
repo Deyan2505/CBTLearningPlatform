@@ -156,9 +156,9 @@ public sealed class ActiveLearningGateTests
     }
 
     [Fact]
-    public void CurrentReferenceWeeks_3_6_8_AreStructurallyCompliant()
+    public void CurrentSixGateWeeks_AreStructurallyCompliant()
     {
-        foreach (int week in new[] { 3, 6, 8 })
+        foreach (int week in new[] { 5, 6, 7, 9, 10 })
         {
             WeekLearningArchitecture architecture = ActiveLearningCatalog.For(week);
 
@@ -205,7 +205,7 @@ public sealed class ActiveLearningGateTests
     private static readonly LearnerResponseDeclaration ValidResponse = new(LearnerResponseKind.Order, "ScenarioSimulator");
 
     [Fact]
-    public void Rule_AWeekWithAllFourElementsPassesTheGate()
+    public void Rule_AWeekWithAllSixElementsPassesTheGate()
     {
         var week = Synthetic([ValidVisual], [ValidInteraction], [ValidResponse]);
 
@@ -222,8 +222,37 @@ public sealed class ActiveLearningGateTests
 
         ActiveLearningGate[] failing = [.. ActiveLearningStandard.Evaluate(week).Select(f => f.Gate)];
 
-        Assert.Contains(ActiveLearningGate.ActiveLearningInteraction, failing);
-        Assert.Contains(ActiveLearningGate.ActiveLearnerResponse, failing);
+        Assert.Contains(ActiveLearningGate.SimulatorInteractiveModelGate, failing);
+        Assert.Contains(ActiveLearningGate.RetrievalResponseGate, failing);
+    }
+
+    [Theory]
+    [InlineData("ClassifyMatchCheck", InteractionFamily.ClassifyMatch, LearnerResponseKind.Classify)]
+    [InlineData("OrderingBuilder", InteractionFamily.OrderingBuilder, LearnerResponseKind.Order)]
+    [InlineData("PredictReveal", InteractionFamily.PredictCommit, LearnerResponseKind.Predict)]
+    public void Rule_RetrievalPracticeAlone_NeverPassesTheSimulatorOrApplicationGates(
+        string component, InteractionFamily family, LearnerResponseKind response)
+    {
+        var retrievalOnly = Synthetic([ValidVisual], [new(family, component)], [new(response, component)]);
+        ActiveLearningGate[] failing = [.. ActiveLearningStandard.Evaluate(retrievalOnly).Select(f => f.Gate)];
+
+        Assert.Contains(ActiveLearningGate.SimulatorInteractiveModelGate, failing);
+        Assert.Contains(ActiveLearningGate.ApplicationFeedbackGate, failing);
+        Assert.DoesNotContain(ActiveLearningGate.RetrievalResponseGate, failing);
+    }
+
+    [Fact]
+    public void Rule_AStatefulSimulatorWithoutRetrievalPractice_FailsRetrievalResponseGate()
+    {
+        var simulatorOnly = Synthetic(
+            [ValidVisual],
+            [new(InteractionFamily.Simulator, "StatefulModelSimulator")],
+            [new(LearnerResponseKind.ManipulateModel, "StatefulModelSimulator")]);
+
+        ActiveLearningGate[] failing = [.. ActiveLearningStandard.Evaluate(simulatorOnly).Select(f => f.Gate)];
+        Assert.Contains(ActiveLearningGate.RetrievalResponseGate, failing);
+        Assert.DoesNotContain(ActiveLearningGate.SimulatorInteractiveModelGate, failing);
+        Assert.DoesNotContain(ActiveLearningGate.ApplicationFeedbackGate, failing);
     }
 
     [Fact]
@@ -233,9 +262,9 @@ public sealed class ActiveLearningGateTests
         VisualModelDeclaration centralMap = new(VisualModelKind.MindMap, "ComponentId=\"week4-mindmap-preview\"", RepresentsCentralStructure: true);
 
         Assert.Contains(ActiveLearningStandard.Evaluate(Synthetic([ordinaryMap], [ValidInteraction], [ValidResponse])),
-            f => f.Gate == ActiveLearningGate.VisualLearningModel);
+            f => f.Gate == ActiveLearningGate.VisualLearningModelGate);
         Assert.DoesNotContain(ActiveLearningStandard.Evaluate(Synthetic([centralMap], [ValidInteraction], [ValidResponse])),
-            f => f.Gate == ActiveLearningGate.VisualLearningModel);
+            f => f.Gate == ActiveLearningGate.VisualLearningModelGate);
     }
 
     [Fact]
@@ -245,9 +274,9 @@ public sealed class ActiveLearningGateTests
         var wrongMarker = new VisualModelDeclaration(VisualModelKind.MindMap, "guided-practice-sequence", RepresentsCentralStructure: true);
 
         Assert.Contains(ActiveLearningStandard.Evaluate(Synthetic([disguised], [ValidInteraction], [ValidResponse])),
-            f => f.Gate == ActiveLearningGate.VisualLearningModel);
+            f => f.Gate == ActiveLearningGate.VisualLearningModelGate);
         Assert.Contains(ActiveLearningStandard.Evaluate(Synthetic([wrongMarker], [ValidInteraction], [ValidResponse])),
-            f => f.Gate == ActiveLearningGate.VisualLearningModel);
+            f => f.Gate == ActiveLearningGate.VisualLearningModelGate);
     }
 
     [Theory]
@@ -259,7 +288,7 @@ public sealed class ActiveLearningGateTests
     {
         var week = Synthetic([new(VisualModelKind.Comparison, marker)], [ValidInteraction], [ValidResponse]);
 
-        Assert.Contains(ActiveLearningStandard.Evaluate(week), f => f.Gate == ActiveLearningGate.VisualLearningModel);
+        Assert.Contains(ActiveLearningStandard.Evaluate(week), f => f.Gate == ActiveLearningGate.VisualLearningModelGate);
     }
 
     [Theory]
@@ -282,8 +311,8 @@ public sealed class ActiveLearningGateTests
 
         ActiveLearningGate[] failing = [.. ActiveLearningStandard.Evaluate(week).Select(f => f.Gate)];
 
-        Assert.Contains(ActiveLearningGate.ActiveLearningInteraction, failing);
-        Assert.Contains(ActiveLearningGate.ActiveLearnerResponse, failing);
+        Assert.Contains(ActiveLearningGate.SimulatorInteractiveModelGate, failing);
+        Assert.Contains(ActiveLearningGate.RetrievalResponseGate, failing);
     }
 
     [Fact]
@@ -291,12 +320,12 @@ public sealed class ActiveLearningGateTests
     {
         Assert.Contains(
             ActiveLearningStandard.Evaluate(Synthetic([ValidVisual], [new(InteractionFamily.Simulator, "SomeNewIsland")], [ValidResponse])),
-            f => f.Gate == ActiveLearningGate.ActiveLearningInteraction);
+            f => f.Gate == ActiveLearningGate.SimulatorInteractiveModelGate);
 
         // ScenarioSimulator matches/orders/branches; it does not "manipulate a model".
         Assert.Contains(
             ActiveLearningStandard.Evaluate(Synthetic([ValidVisual], [ValidInteraction], [new(LearnerResponseKind.ManipulateModel, "ScenarioSimulator")])),
-            f => f.Gate == ActiveLearningGate.ActiveLearnerResponse);
+            f => f.Gate == ActiveLearningGate.RetrievalResponseGate);
     }
 
     [Theory]
@@ -313,8 +342,8 @@ public sealed class ActiveLearningGateTests
 
         ActiveLearningGate[] failing = [.. ActiveLearningStandard.Evaluate(passiveOnly).Select(f => f.Gate)];
 
-        Assert.Contains(ActiveLearningGate.ActiveLearningInteraction, failing);
-        Assert.Contains(ActiveLearningGate.ActiveLearnerResponse, failing);
+        Assert.Contains(ActiveLearningGate.SimulatorInteractiveModelGate, failing);
+        Assert.Contains(ActiveLearningGate.RetrievalResponseGate, failing);
     }
 
     [Fact]

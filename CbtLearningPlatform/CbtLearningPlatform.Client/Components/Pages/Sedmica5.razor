@@ -433,6 +433,8 @@
             постепенно, не рязко.
         </p>
 
+        <StatefulModelSimulator ComponentId="week5-collaboration-simulator" Activity="_week5CollaborationSimulator" SafetyMode="_safetyMode" />
+
         <ClassifyMatchCheck ComponentId="week5-collaboration-stage" Activity="_week5CollaborationStage" SafetyMode="_safetyMode" />
 
         <div class="learning-grid learning-grid--balanced">
@@ -641,7 +643,43 @@
     private const string _week5BothStages =
         "И в двата етапа терапията остава екипна работа — просто балансът на инициативата се измества постепенно, не рязко.";
 
-    private const string _week5StageSource = "5.5 — Сътрудничество: как се променя балансът";
+    private const string _week5StageSource = "SRC-041 · K08 · p. 8 · 5.5 — Сътрудничество: как се променя балансът";
+
+    // STATEFUL SIMULATOR — every label and state comes from the approved two-stage comparison above.
+    // The engine owns only transition mechanics; it contains no CBT facts.
+    private static readonly StatefulModelActivity _week5CollaborationSimulator = new(
+        "Симулатор на сътрудничеството",
+        "Изберете етап, после изследвайте как одобрено поведение променя видимия баланс на приноса. Моделът не предсказва клиничен резултат.",
+        "start",
+        [
+            new("start", "Изходно състояние", "Екипна работа",
+                _week5BothStages,
+                [new("stage", "Етап", "Все още не е избран"), new("balance", "Баланс на инициативата", "Измества се постепенно, не рязко")],
+                [
+                    new("choose-early", "Разгледай началото на лечението", "early", _week5EarlyStage, _week5StageSource),
+                    new("choose-later", "Разгледай по-късен етап", "later", _week5LaterStage, _week5StageSource)
+                ]),
+            new("early", "Етап 1", "В началото на лечението", _week5EarlyStage,
+                [new("therapist", "Принос на терапевта", "По-активен"), new("patient", "Принос на пациента", "Реално съгласие, не мълчаливо приемане")],
+                [
+                    new("early-direction", "Терапевтът предлага посока за сесиите", "early-direction", _week5EarlyStage, _week5StageSource),
+                    new("early-summary", "Терапевтът обобщава наученото", "early-summary", _week5EarlyStage, _week5StageSource)
+                ]),
+            new("later", "Етап 2", "По-нататък в лечението", _week5LaterStage,
+                [new("therapist", "Принос на терапевта", "Остава партньор"), new("patient", "Принос на пациента", "Поема все по-активна роля")],
+                [
+                    new("later-topic", "Пациентът сам избира за какво да говори", "later-topic", _week5LaterStage, _week5StageSource),
+                    new("later-summary", "Пациентът обобщава важните моменти", "later-summary", _week5LaterStage, _week5StageSource)
+                ]),
+            new("early-direction", "Променен модел", "Терапевтът предлага посока за сесиите", _week5BothStages,
+                [new("stage", "Етап", "В началото на лечението"), new("visible", "Видим принос", "Терапевтът предлага посока")], []),
+            new("early-summary", "Променен модел", "Терапевтът обобщава наученото", _week5BothStages,
+                [new("stage", "Етап", "В началото на лечението"), new("visible", "Видим принос", "Терапевтът обобщава")], []),
+            new("later-topic", "Променен модел", "Пациентът сам избира тема", _week5BothStages,
+                [new("stage", "Етап", "По-нататък в лечението"), new("visible", "Видим принос", "Пациентът избира за какво да говори")], []),
+            new("later-summary", "Променен модел", "Пациентът обобщава важните моменти", _week5BothStages,
+                [new("stage", "Етап", "По-нататък в лечението"), new("visible", "Видим принос", "Пациентът обобщава")], [])
+        ]);
 
     private static readonly ClassifyMatchActivity _week5CollaborationStage = new(
         "На кой етап от лечението отговаря това?",
