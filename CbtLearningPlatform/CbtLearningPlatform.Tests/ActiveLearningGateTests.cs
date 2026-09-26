@@ -158,7 +158,7 @@ public sealed class ActiveLearningGateTests
     [Fact]
     public void CurrentSixGateWeeks_AreStructurallyCompliant()
     {
-        foreach (int week in new[] { 5, 6, 7, 9, 10 })
+        foreach (int week in new[] { 1, 2, 5, 6, 7, 8, 9, 10 })
         {
             WeekLearningArchitecture architecture = ActiveLearningCatalog.For(week);
 
@@ -253,6 +253,26 @@ public sealed class ActiveLearningGateTests
         Assert.Contains(ActiveLearningGate.RetrievalResponseGate, failing);
         Assert.DoesNotContain(ActiveLearningGate.SimulatorInteractiveModelGate, failing);
         Assert.DoesNotContain(ActiveLearningGate.ApplicationFeedbackGate, failing);
+    }
+
+    [Fact]
+    public void Week3_SchemaFilterIsASimulator_ButRetrievalAndApplicationComeFromSeparateComponents()
+    {
+        WeekLearningArchitecture week = ActiveLearningCatalog.For(3);
+        ComponentQualification qualification = ActiveLearningStandard.Components["SchemaFilterDemonstration"];
+        ActiveLearningGate[] failing = [.. ActiveLearningStandard.Evaluate(week).Select(f => f.Gate)];
+
+        Assert.Contains("SchemaFilterDemonstration", ActiveLearningStandard.SimulatorComponents);
+        Assert.Contains(InteractionFamily.Simulator, qualification.Interaction);
+        Assert.Contains(week.Interactions,
+            interaction => interaction is { Family: InteractionFamily.Simulator, Component: "SchemaFilterDemonstration" });
+        Assert.DoesNotContain("SchemaFilterDemonstration", ActiveLearningStandard.RetrievalComponents);
+        Assert.DoesNotContain(ActiveLearningGate.SimulatorInteractiveModelGate, failing);
+        Assert.DoesNotContain("SchemaFilterDemonstration", ActiveLearningStandard.ApplicationFeedbackComponents);
+        Assert.Contains(week.Interactions, i => i.Component == "StatefulModelSimulator");
+        Assert.Contains(week.LearnerResponses, r => r.Component == "ClassifyMatchCheck");
+        Assert.Empty(failing);
+        Assert.Equal(StructuralStatus.Compliant, week.Status);
     }
 
     [Fact]

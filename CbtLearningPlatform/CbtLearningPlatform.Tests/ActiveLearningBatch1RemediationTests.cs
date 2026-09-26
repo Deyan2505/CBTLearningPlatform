@@ -391,14 +391,14 @@ public sealed class ActiveLearningBatch1RemediationTests
     [Fact]
     public void StricterSimulatorGate_ReevaluatesTheCompliantRosterHonestly()
     {
-        // Adding a gate must not silently demote anyone: the compliant set is exactly the reference weeks plus Batch 1 and
-        // Batch 2 (Weeks 5, 7 and 9, added by Phase 2, Batch 2).
+        // Adding a gate must not silently demote anyone: the compliant set is exactly the reference weeks plus remediated
+        // Weeks 1/2/3/10, Batch 2 (Weeks 5, 7 and 9), and Week 8 after its separate retrieval layer was restored.
         int[] compliant = [.. ActiveLearningCatalog.Weeks
             .Where(w => w.Status == StructuralStatus.Compliant)
             .Select(w => w.WeekNumber)
             .Order()];
 
-        Assert.Equal([5, 6, 7, 9, 10], compliant);
+        Assert.Equal([1, 2, 3, 5, 6, 7, 8, 9, 10], compliant);
         Assert.All(compliant, w => Assert.Empty(ActiveLearningStandard.Evaluate(ActiveLearningCatalog.For(w))));
     }
 

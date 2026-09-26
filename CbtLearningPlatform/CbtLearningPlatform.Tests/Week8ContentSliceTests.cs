@@ -55,7 +55,54 @@ public sealed class Week8ContentSliceTests
 
         Assert.Contains("<CbtChainSimulator", source);
         Assert.Contains("<InterpretationExample", source);
-        Assert.Contains("<CategorizationCheck", source);
+        Assert.Contains("<ClassifyMatchCheck", source);
+    }
+
+    [Fact]
+    public void Week8Categorization_UsesTheApprovedItemsInACommittedSharedClassification()
+    {
+        Type page = Assembly.Load("CbtLearningPlatform.Client")
+            .GetType("CbtLearningPlatform.Client.Components.Pages.Sedmica8")!;
+        var activity = (ClassifyMatchActivity)page
+            .GetField("_week8ModelCategorization", BindingFlags.NonPublic | BindingFlags.Static)!
+            .GetValue(null)!;
+
+        Assert.Empty(activity.Validate());
+        Assert.Equal(ClassifyMatchMode.Classify, activity.Mode);
+        Assert.Equal(["Мисъл", "Емоция", "Телесна реакция", "Поведение"], activity.Options.Select(o => o.Label));
+        Assert.Equal(["„Сърцето ми бие бързо.“", "„Сигурно ще се проваля.“", "„Тревога.“", "„Отменям срещата.“"],
+            activity.Items.Select(i => i.Prompt));
+        Assert.All(activity.Items, item =>
+        {
+            Assert.False(string.IsNullOrWhiteSpace(item.SourceRef));
+            Assert.Contains("U", item.SourceRef!);
+        });
+
+        var state = new ClassifyMatchState(activity);
+        Assert.All(activity.Items, item => Assert.Null(state.IsCorrect(item.Id)));
+        foreach (ClassifyMatchItem item in activity.Items)
+        {
+            Assert.True(state.Select(item.Id, item.CorrectOptionId));
+        }
+        Assert.True(state.Check());
+        Assert.All(activity.Items, item => Assert.True(state.IsCorrect(item.Id)));
+    }
+
+    [Fact]
+    public void Week8Retrieval_PrecedesFinalAssessment_AndAllSixGatesPass()
+    {
+        string source = ReadPage("Sedmica8.razor");
+        int retrieval = source.IndexOf("<ClassifyMatchCheck", StringComparison.Ordinal);
+        int assessment = source.IndexOf("<FinalAssessment", StringComparison.Ordinal);
+        WeekLearningArchitecture architecture = ActiveLearningCatalog.For(8);
+
+        Assert.True(retrieval >= 0 && retrieval < assessment);
+        Assert.Contains(architecture.Interactions,
+            interaction => interaction is { Family: InteractionFamily.Simulator, Component: "CbtChainSimulator" });
+        Assert.Contains(architecture.LearnerResponses,
+            response => response is { Response: LearnerResponseKind.Classify, Component: "ClassifyMatchCheck" });
+        Assert.Equal(StructuralStatus.Compliant, architecture.Status);
+        Assert.Empty(ActiveLearningStandard.Evaluate(architecture));
     }
 
     [Fact]
@@ -317,7 +364,7 @@ public sealed class Week8ContentSliceTests
     public void Week8Page_Section04And05AreNotPairedInAMismatchedHeightRow()
     {
         // Owner visual review found a large dead-space gap: section 04 (InterpretationExample,
-        // short) and section 05 (comparison table + CategorizationCheck, much taller) previously
+        // short) and section 05 (comparison table + ClassifyMatchCheck, much taller) previously
         // shared one .learning-grid--balanced row, so the row's height followed the taller child
         // and left a large empty gap under the shorter one. Mirrors the same fix already applied
         // to Week 3's mismatched-height pair (Week3ContentSliceTests.cs) — each is now its own

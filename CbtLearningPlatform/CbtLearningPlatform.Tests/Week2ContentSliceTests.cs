@@ -64,12 +64,29 @@ public sealed class Week2ContentSliceTests
         Assert.Contains("class=\"category-compare\"", source);
         Assert.Contains("class=\"comparison-matrix comparison-matrix--dual\"", source);
 
-        // Replaces the retired "zero interactivity / forbidden components" rule: the committed response is the shared,
-        // data-driven ClassifyMatchCheck (no week-specific component), and it must precede the Final Assessment.
+        // The stateful ABC model and the separate committed retrieval response both use shared engines and precede the assessment.
+        Assert.Contains("<StatefulModelSimulator", source);
         Assert.Contains("<ClassifyMatchCheck", source);
+        Assert.True(
+            source.IndexOf("<StatefulModelSimulator", StringComparison.Ordinal) < source.IndexOf("<ClassifyMatchCheck", StringComparison.Ordinal),
+            "The simulator must remain separate from and precede the classification retrieval.");
         Assert.True(
             source.IndexOf("<ClassifyMatchCheck", StringComparison.Ordinal) < source.IndexOf("<FinalAssessment", StringComparison.Ordinal),
             "The classification must precede the Final Assessment.");
+    }
+
+    [Fact]
+    public void Week2Simulator_IsImmediatelyAfterSection05Comparison_AndBeforeSection06()
+    {
+        string source = ReadPage("Sedmica2.razor");
+        int section05 = source.IndexOf("id=\"racionalni-irracionalni\"", StringComparison.Ordinal);
+        int tableEnd = source.IndexOf("</table>", section05, StringComparison.Ordinal);
+        int simulator = source.IndexOf("<StatefulModelSimulator", StringComparison.Ordinal);
+        int section06 = source.IndexOf("id=\"posledstvia-vyarvaniya\"", StringComparison.Ordinal);
+        int assessment = source.IndexOf("<FinalAssessment", StringComparison.Ordinal);
+
+        Assert.True(section05 >= 0 && tableEnd > section05 && simulator > tableEnd && simulator < section06);
+        Assert.True(simulator < assessment);
     }
 
     [Fact]

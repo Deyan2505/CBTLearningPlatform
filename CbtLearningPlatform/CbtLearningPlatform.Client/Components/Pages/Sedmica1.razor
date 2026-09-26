@@ -10,8 +10,8 @@
    session): automatic thoughts are not framed as "lacking objective validity" (they can be
    accurate, inaccurate, or partially supported), and psychoanalysis is not framed as
    "failed" — both described as a shift in research question/method, not a winner/loser.
-   One interactive island only (ResearchTurnStepper) — the knowledge check reuses native
-   <details>/<summary> (same mechanism as ProgressiveExplanation), not a second WASM component.
+    ResearchTurnStepper remains a select-to-read explorer. The evidence-model simulator in §03
+    applies either approved evidence stream to the model; OrderingBuilder remains separate retrieval practice in §08.
    WEEK_01_RETROFIT_AUDIT_v1 (owner-approved, conservative retrofit): enriched HistoricalTimeline
    and ResearchTurnStepper (same structure, same 4 steps/6 milestones — no new components) with
    the chapter's actual origin story — the dream-study hypothesis and its surprising result, the
@@ -122,6 +122,7 @@
         — преди всичко мисли и убеждения — като основна характеристика на депресията и разработва краткосрочно
         лечение, чиято основна цел е депресивното мислене на пациента да бъде съпоставено с реалността.
     </p>
+    <StatefulModelSimulator ComponentId="week1-explanatory-model-simulator" Activity="_week1EvidenceModelSimulator" SafetyMode="_safetyMode" />
 
     <LearningSection Role="example" RoleLabel="Сравнение">
         <h2 id="predi-i-sled" tabindex="-1">04 · Какво се променя във фокуса</h2>
@@ -319,6 +320,46 @@
     private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
 
     private static readonly GraphRenderModel _week1MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek1MindMap());
+
+    private static readonly StatefulModelActivity _week1EvidenceModelSimulator = new(
+        "Как данните променят обяснителния модел",
+        "Изберете един от двата одобрени потока данни и го приложете към модела. Потвърдете избора си, за да видите какво променя наблюдението.",
+        "initial",
+        [
+            new("initial", "Изходна хипотеза", "Какво предсказва първоначалното обяснение?",
+                "Проверяваното психоаналитично обяснение е, че депресията е резултат от насочена навътре враждебност.",
+                [
+                    new("hypothesis", "Проверявана хипотеза", "Депресията е резултат от насочена навътре враждебност."),
+                    new("prediction", "Предсказание при изследването на сънищата", "Повече теми на враждебност в сънищата на депресираните пациенти.")
+                ],
+                [
+                    new("apply-dream-evidence", "Приложи тези данни към модела: изследването на сънищата", "dream-evidence",
+                        "Наблюдавани са по-малко, а не повече, теми на враждебност; вместо това има повече теми за дефектност, лишение и загуба. Резултатът не подкрепя очакването. В други проучвания е поставена под въпрос и свързаната идея, че депресираните пациенти имат нужда да страдат. Допусканията се преразглеждат и се търси друго обяснение; това не означава, че психоанализата е опровергана.",
+                        "SRC-041 · Гл. 1, стр. 5 · U1/U2/U14/U15/U16"),
+                    new("apply-thought-stream-evidence", "Приложи тези данни към модела: наблюдението на втория поток от самооценъчни мисли", "thought-stream-evidence",
+                        "Освен потока от свободни асоциации се наблюдава втори, много по-бърз поток от самооценъчни мисли, тясно свързан с емоционалните реакции. Наблюдението се повтаря и с други пациенти и насочва фокуса към идентифицирането и оценяването на автоматичните мисли.",
+                        "SRC-041 · Гл. 1, стр. 5 · U17/U18/U3")
+                ]),
+            new("dream-evidence", "Изследване на сънищата", "Резултатите променят статуса на очакването.",
+                "Съпоставете първоначалното предсказание с наблюдаваното. Разминаването насочва към преосмисляне на допусканията и търсене на друго обяснение.",
+                [
+                    new("hypothesis", "Проверявана хипотеза", "Депресията е резултат от насочена навътре враждебност."),
+                    new("prediction", "Първоначално очакване", "Повече теми на враждебност в сънищата на депресираните пациенти."),
+                    new("observation", "Наблюдавани сънища", "По-малко теми на враждебност; повече теми за дефектност, лишение и загуба."),
+                    new("status", "Статус на очакването", "Не е подкрепено от резултатите."),
+                    new("next-focus", "Какво следва", "В други проучвания е поставена под въпрос и свързаната идея за „нужда да страдат“; допусканията се преразглеждат и се търси друго обяснение.")
+                ],
+                []),
+            new("thought-stream-evidence", "Втори поток на мислене", "Наблюдението насочва вниманието към мисли и значения.",
+                "Данните за пациентите променят фокуса към бързите мисли, които могат да бъдат забелязани и оценявани.",
+                [
+                    new("streams", "Наблюдение", "Освен потока от свободни асоциации има втори, много по-бърз поток от самооценъчни мисли."),
+                    new("emotion", "Връзка с емоциите", "Самооценъчните мисли са тясно свързани с емоционалните реакции."),
+                    new("replication", "Повторение на наблюдението", "Наблюдението се повтаря и с други пациенти."),
+                    new("focus", "Фокус на модела", "Идентифициране и оценяване на автоматичните мисли; депресивното мислене се съпоставя с реалността.")
+                ],
+                [])
+        ]);
 
     // Weekly Mind Map (Batch 1 remediation). Knowledge clusters, not section titles: the week's actual structure is
     // "starting assumption → empirical test → what the test revealed → scientific confirmation → growth of the model".

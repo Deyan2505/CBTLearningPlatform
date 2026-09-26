@@ -117,7 +117,7 @@ public static class ActiveLearningStandard
     /// deliberately absent even though they are meaningful active learning.</summary>
     public static IReadOnlySet<string> SimulatorComponents { get; } = new HashSet<string>
     {
-        "ScenarioSimulator", "CbtChainSimulator", "CaseExaminationSimulator", "StatefulModelSimulator"
+        "ScenarioSimulator", "CbtChainSimulator", "SchemaFilterDemonstration", "CaseExaminationSimulator", "StatefulModelSimulator"
     };
 
     public static IReadOnlySet<string> RetrievalComponents { get; } = new HashSet<string>
@@ -146,7 +146,7 @@ public static class ActiveLearningStandard
                 new HashSet<LearnerResponseKind> { LearnerResponseKind.ManipulateModel },
                 "Learner changes the model's inputs and observes the resulting chain."),
             ["SchemaFilterDemonstration"] = new(
-                new HashSet<InteractionFamily> { InteractionFamily.InteractiveModel },
+                new HashSet<InteractionFamily> { InteractionFamily.Simulator, InteractionFamily.InteractiveModel },
                 new HashSet<LearnerResponseKind> { LearnerResponseKind.ManipulateModel },
                 "Learner toggles the model's filter and observes how the same data changes."),
 

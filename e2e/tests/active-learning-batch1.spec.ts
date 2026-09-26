@@ -105,6 +105,57 @@ test.describe("Active Learning — Batch 1 (Weeks 1, 2, 10)", () => {
     await expect(s.getByRole("button", { name: "Опитай отново" })).toHaveCount(0);
   });
 
+  test("week 1: evidence application commits either source-grounded model change and reset opens the other path", async ({ page }) => {
+    await open(page, "/kurs/sedmica-1");
+    const simulator = page.locator(".stateful-model");
+
+    await expect(simulator).toHaveAttribute("data-state", "initial");
+    await expect(simulator.getByText("Изходна хипотеза", { exact: true })).toBeVisible();
+    await expect(simulator.getByText("Повече теми на враждебност в сънищата на депресираните пациенти.", { exact: true })).toBeVisible();
+    await expect(simulator.getByText("Приложи тези данни към модела: изследването на сънищата", { exact: true })).toBeVisible();
+    await expect(simulator.getByText("Приложи тези данни към модела: наблюдението на втория поток от самооценъчни мисли", { exact: true })).toBeVisible();
+    await expect(simulator.locator(".stateful-model__feedback")).toHaveCount(0);
+    await expect(simulator).not.toContainText("дефектност, лишение и загуба");
+    await expect(simulator).not.toContainText("SRC-041");
+    await expect(simulator).not.toContainText(/Какво избира Бек|ако Бек беше|променят историята/);
+
+    const dream = simulator.getByRole("radio", { name: "Приложи тези данни към модела: изследването на сънищата" });
+    await pickByKeyboard(page, dream);
+    await expect(simulator).toHaveAttribute("data-state", "initial");
+    await expect(simulator.locator(".stateful-model__feedback")).toHaveCount(0);
+    await simulator.getByRole("button", { name: "Промени модела" }).click();
+    await expect(simulator).toHaveAttribute("data-state", "dream-evidence");
+    await expect(simulator.locator('[data-field="observation"] dd')).toContainText("По-малко теми на враждебност");
+    await expect(simulator.locator('[data-field="status"] dd')).toHaveText("Не е подкрепено от резултатите.");
+    await expect(simulator.locator('[data-field="next-focus"] dd')).toContainText("нужда да страдат");
+    await expect(simulator.getByText("SRC-041 · Гл. 1, стр. 5 · U1/U2/U14/U15/U16")).toBeVisible();
+
+    await simulator.getByRole("button", { name: "Изследвай друг път" }).click();
+    await expect(simulator).toHaveAttribute("data-state", "initial");
+    await expect(simulator.locator(".stateful-model__feedback")).toHaveCount(0);
+    await expect(simulator.locator(".stateful-model__history li")).toHaveCount(0);
+
+    const thoughtStream = simulator.getByRole("radio", { name: "Приложи тези данни към модела: наблюдението на втория поток от самооценъчни мисли" });
+    await pickByKeyboard(page, thoughtStream);
+    await simulator.getByRole("button", { name: "Промени модела" }).click();
+    await expect(simulator).toHaveAttribute("data-state", "thought-stream-evidence");
+    await expect(simulator.locator('[data-field="streams"] dd')).toContainText("втори, много по-бърз поток от самооценъчни мисли");
+    await expect(simulator.locator('[data-field="emotion"] dd')).toContainText("тясно свързани с емоционалните реакции");
+    await expect(simulator.locator('[data-field="replication"] dd')).toContainText("повтаря и с други пациенти");
+    await expect(simulator.locator('[data-field="focus"] dd')).toContainText("Идентифициране и оценяване на автоматичните мисли");
+    await expect(simulator.getByText("SRC-041 · Гл. 1, стр. 5 · U17/U18/U3")).toBeVisible();
+
+    const simulatorBox = await simulator.boundingBox();
+    const section04 = await page.locator("#predi-i-sled").boundingBox();
+    const assessment = await page.getByRole("button", { name: "Предай теста" }).boundingBox();
+    expect(simulatorBox!.y).toBeLessThan(section04!.y);
+    expect(simulatorBox!.y).toBeLessThan(assessment!.y);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(simulator).toBeVisible();
+    expect(await page.locator("html").evaluate((element) => element.scrollWidth)).toBeLessThanOrEqual(390);
+  });
+
   test("week 1: the scored Final Assessment is untouched and still works after the exercise", async ({ page }) => {
     await open(page, "/kurs/sedmica-1");
     await expect(page.getByText("0 от 4 отговорени")).toBeVisible();

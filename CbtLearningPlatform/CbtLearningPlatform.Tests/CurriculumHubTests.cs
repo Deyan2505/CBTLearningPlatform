@@ -245,7 +245,7 @@ public sealed class CurriculumHubTests
 
         Assert.Contains("<CbtChainSimulator", source);
         Assert.Contains("<InterpretationExample", source);
-        Assert.Contains("<CategorizationCheck", source);
+        Assert.Contains("<ClassifyMatchCheck", source);
     }
 
     [Fact]

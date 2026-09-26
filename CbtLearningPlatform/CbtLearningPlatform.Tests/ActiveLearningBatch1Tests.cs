@@ -28,6 +28,8 @@ public sealed class ActiveLearningBatch1Tests
             .GetValue(null)!;
 
     private static ClassifyMatchActivity Week2Attribution => Field<ClassifyMatchActivity>(Week2Page, "_week2SchoolAttribution");
+    private static StatefulModelActivity Week2Simulator => Field<StatefulModelActivity>(Week2Page, "_week2AbcBeliefSimulator");
+    private static StatefulModelActivity Week1Simulator => Field<StatefulModelActivity>(Week1Page, "_week1EvidenceModelSimulator");
     private static ClassifyMatchActivity Week10Types => Field<ClassifyMatchActivity>(Week10Page, "_week10QuestionTypes");
     private static OrderingActivity Week1Order => Field<OrderingActivity>(Week1Page, "_week1HistoryOrder");
     private static OrderingActivity Week10Order => Field<OrderingActivity>(Week10Page, "_week10CategoryOrder");
@@ -40,7 +42,9 @@ public sealed class ActiveLearningBatch1Tests
     public void EveryBatch1Activity_IsWellFormed()
     {
         Assert.Empty(Week1Order.Validate());
+        Assert.Empty(Week1Simulator.Validate());
         Assert.Empty(Week2Attribution.Validate());
+        Assert.Empty(Week2Simulator.Validate());
         Assert.Empty(Week10Types.Validate());
         Assert.Empty(Week10Order.Validate());
     }
@@ -67,6 +71,90 @@ public sealed class ActiveLearningBatch1Tests
 
         // "Late 1970s" overlaps 1977 and 1979 in the source, so that milestone has no single defensible position.
         Assert.DoesNotContain(activity.CorrectSequence, i => i.Text.Contains("тревожността", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void Week1_SimulatorAppliesBothApprovedEvidenceStreamsAndResetsCleanly()
+    {
+        StatefulModelActivity activity = Week1Simulator;
+        StatefulModelNode initial = activity.States.Single(s => s.Id == activity.InitialStateId);
+
+        Assert.Equal("initial", activity.InitialStateId);
+        Assert.Equal(["dream-evidence", "thought-stream-evidence"], initial.Choices.Select(c => c.NextStateId));
+        Assert.Equal(
+            [
+                "Приложи тези данни към модела: изследването на сънищата",
+                "Приложи тези данни към модела: наблюдението на втория поток от самооценъчни мисли"
+            ],
+            initial.Choices.Select(c => c.Label));
+        Assert.All(initial.Choices, choice => Assert.StartsWith("SRC-041 · Гл. 1", choice.SourceRef));
+
+        var dreamState = new StatefulModelState(activity);
+        Assert.Null(dreamState.LatestTransition);
+        Assert.True(dreamState.Select("apply-dream-evidence"));
+        Assert.Equal("initial", dreamState.CurrentStateId);
+        Assert.Null(dreamState.LatestTransition);
+        Assert.True(dreamState.Commit());
+        Assert.Equal("dream-evidence", dreamState.CurrentStateId);
+        Assert.Equal("Не е подкрепено от резултатите.", dreamState.Current.Fields.Single(f => f.Id == "status").Value);
+        Assert.Contains("дефектност, лишение и загуба", dreamState.Current.Fields.Single(f => f.Id == "observation").Value);
+        Assert.Contains("нужда да страдат", dreamState.Current.Fields.Single(f => f.Id == "next-focus").Value);
+        Assert.Contains("SRC-041 · Гл. 1, стр. 5 · U1/U2/U14/U15/U16", dreamState.LatestTransition!.SourceRef);
+        dreamState.Reset();
+        Assert.Equal("initial", dreamState.CurrentStateId);
+        Assert.Empty(dreamState.History);
+        Assert.Null(dreamState.PendingChoiceId);
+        Assert.Null(dreamState.LatestTransition);
+
+        var thoughtStreamState = new StatefulModelState(activity);
+        Assert.True(thoughtStreamState.Select("apply-thought-stream-evidence"));
+        Assert.True(thoughtStreamState.Commit());
+        Assert.Equal("thought-stream-evidence", thoughtStreamState.CurrentStateId);
+        Assert.Contains("втори, много по-бърз поток", thoughtStreamState.Current.Fields.Single(f => f.Id == "streams").Value);
+        Assert.Contains("тясно свързани с емоционалните реакции", thoughtStreamState.Current.Fields.Single(f => f.Id == "emotion").Value);
+        Assert.Contains("повтаря и с други пациенти", thoughtStreamState.Current.Fields.Single(f => f.Id == "replication").Value);
+        Assert.Contains("Идентифициране и оценяване на автоматичните мисли", thoughtStreamState.Current.Fields.Single(f => f.Id == "focus").Value);
+        Assert.Contains("SRC-041 · Гл. 1, стр. 5 · U17/U18/U3", thoughtStreamState.LatestTransition!.SourceRef);
+    }
+
+    [Fact]
+    public void Week1_SimulatorWithholdsOutcomesAndFramesChoicesAsEvidenceApplication()
+    {
+        string html = Render<StatefulModelSimulator>(Week1Simulator, 1, "week1-explanatory-model-simulator-test");
+
+        Assert.Contains("data-state=\"initial\"", html);
+        Assert.Contains("насочена навътре враждебност", html);
+        Assert.Contains("Повече теми на враждебност", html);
+        Assert.Contains("Приложи тези данни към модела", html);
+        Assert.DoesNotContain("stateful-model__feedback", html);
+        Assert.DoesNotContain("Не е подкрепено от резултатите", html);
+        Assert.DoesNotContain("дефектност, лишение и загуба", html);
+        Assert.DoesNotContain("нужда да страдат", html);
+        Assert.DoesNotContain("SRC-041", html);
+        Assert.DoesNotContain("Какво избира Бек?", html);
+        Assert.DoesNotContain("ако Бек беше", html);
+        Assert.DoesNotContain("променят историята", html);
+    }
+
+    [Fact]
+    public void Week1_SimulatorAndRetrievalAreSeparateAndAllSixGatesPassBeforeAssessment()
+    {
+        WeekLearningArchitecture architecture = ActiveLearningCatalog.For(1);
+        string source = ApprovedProse.CurrentPage(1);
+        int simulator = source.IndexOf("<StatefulModelSimulator ComponentId=\"week1-explanatory-model-simulator\"", StringComparison.Ordinal);
+        int section04 = source.IndexOf("<h2 id=\"predi-i-sled\"", StringComparison.Ordinal);
+        int ordering = source.IndexOf("<OrderingBuilder", StringComparison.Ordinal);
+        int assessment = source.IndexOf("<FinalAssessment", StringComparison.Ordinal);
+
+        Assert.Equal(StructuralStatus.Compliant, architecture.Status);
+        Assert.Empty(ActiveLearningStandard.Evaluate(architecture));
+        Assert.Equal(6, Enum.GetValues<ActiveLearningGate>().Length);
+        Assert.True(simulator > source.IndexOf("<ResearchTurnStepper", StringComparison.Ordinal) && simulator < section04);
+        Assert.True(ordering < assessment);
+        Assert.Contains(architecture.Interactions, i => i is { Family: InteractionFamily.Simulator, Component: "StatefulModelSimulator" });
+        Assert.Contains(architecture.Interactions, i => i is { Family: InteractionFamily.OrderingBuilder, Component: "OrderingBuilder" });
+        Assert.Equal([new LearnerResponseDeclaration(LearnerResponseKind.Order, "OrderingBuilder")], architecture.LearnerResponses);
+        Assert.DoesNotContain(architecture.LearnerResponses, response => response.Component == "StatefulModelSimulator");
     }
 
     [Fact]
@@ -99,6 +187,74 @@ public sealed class ActiveLearningBatch1Tests
         Assert.Equal(6, used.Count);
         Assert.DoesNotContain(used, u => u.Row == 3);
         Assert.Contains("обща по същество идея", ApprovedProse.NormalizedBaseline(2));
+    }
+
+    [Fact]
+    public void Week2_SimulatorUsesOnlyTheApprovedAbcRelationshipsAndBeliefFormulations()
+    {
+        string approved = ApprovedProse.NormalizedBaseline(2);
+        StatefulModelActivity activity = Week2Simulator;
+        StatefulModelNode initial = activity.States.Single(s => s.Id == activity.InitialStateId);
+
+        Assert.Equal("initial", activity.InitialStateId);
+        Assert.Equal(["rigid-belief", "flexible-belief"], initial.Choices.Select(c => c.NextStateId));
+        Assert.All(activity.States, state =>
+            Assert.Equal("Ситуация или преживяване", state.Fields.Single(f => f.Id == "a").Value));
+
+        foreach (string approvedText in new[]
+        {
+            "Трябва да успея — и не мога да приема, че може да не успея",
+            "Бих искал да успея, но мога да приема, че нещата не винаги се случват както искам",
+            "Нелогично, неподкрепено от фактите и/или непрактично — води до дисфункционални последствия.",
+            "Логически, емпирично и/или прагматично подкрепено — води до функционални последствия."
+        })
+        {
+            Assert.Contains(ApprovedProse.Normalize(approvedText), approved);
+        }
+
+        Assert.All(initial.Choices, choice => Assert.Equal("SRC-042 · ABC1/ABC2/ABC3 · §04–05", choice.SourceRef));
+    }
+
+    [Theory]
+    [InlineData("choose-rigid", "rigid-belief", "Трябва да успея — и не мога да приема, че може да не успея", "Дисфункционални последствия")]
+    [InlineData("choose-flexible", "flexible-belief", "Бих искал да успея, но мога да приема, че нещата не винаги се случват както искам", "Функционални последствия")]
+    public void Week2_SimulatorCommitsBothBranchesChangesBAndCAndResets(
+        string choiceId, string nextStateId, string expectedB, string expectedC)
+    {
+        var state = new StatefulModelState(Week2Simulator);
+        string initialA = state.Current.Fields.Single(f => f.Id == "a").Value;
+
+        Assert.Null(state.LatestTransition);
+        Assert.True(state.Select(choiceId));
+        Assert.Equal("initial", state.CurrentStateId);
+        Assert.Null(state.LatestTransition);
+
+        Assert.True(state.Commit());
+        Assert.Equal(nextStateId, state.CurrentStateId);
+        Assert.Equal(initialA, state.Current.Fields.Single(f => f.Id == "a").Value);
+        Assert.Equal(expectedB, state.Current.Fields.Single(f => f.Id == "b").Value);
+        Assert.Equal(expectedC, state.Current.Fields.Single(f => f.Id == "c").Value);
+        Assert.True(state.IsTerminal);
+        Assert.Single(state.History);
+
+        state.Reset();
+        Assert.Equal("initial", state.CurrentStateId);
+        Assert.Empty(state.History);
+        Assert.Null(state.PendingChoiceId);
+        Assert.Null(state.LatestTransition);
+    }
+
+    [Fact]
+    public void Week2_SimulatorInitialMarkupWithholdsTheConsequenceMappingUntilCommitment()
+    {
+        string html = Render<StatefulModelSimulator>(Week2Simulator, 2, "week2-abc-belief-simulator-test");
+
+        Assert.Contains("data-state=\"initial\"", html);
+        Assert.Contains("Ситуация или преживяване", html);
+        Assert.Contains("Все още не е избрано вярване", html);
+        Assert.DoesNotContain("stateful-model__feedback", html);
+        Assert.DoesNotContain("Дисфункционални последствия", html);
+        Assert.DoesNotContain("Функционални последствия", html);
     }
 
     [Fact]
@@ -304,8 +460,9 @@ public sealed class ActiveLearningBatch1Tests
     {
         WeekLearningArchitecture architecture = ActiveLearningCatalog.For(week);
 
-        Assert.Equal(week == 10 ? StructuralStatus.Compliant : StructuralStatus.StructuralEnrichmentRequired, architecture.Status);
-        if (week == 10)
+        bool compliant = week is 1 or 2 or 10;
+        Assert.Equal(compliant ? StructuralStatus.Compliant : StructuralStatus.StructuralEnrichmentRequired, architecture.Status);
+        if (compliant)
         {
             Assert.Empty(ActiveLearningStandard.Evaluate(architecture));
         }
@@ -319,12 +476,16 @@ public sealed class ActiveLearningBatch1Tests
     [Fact]
     public void Batch1_DeclaresExactlyTheToolkitElementsThePagesContain()
     {
+        Assert.Contains(ActiveLearningCatalog.For(1).Interactions, i => i is { Family: InteractionFamily.Simulator, Component: "StatefulModelSimulator" });
         Assert.Contains(ActiveLearningCatalog.For(1).Interactions, i => i is { Family: InteractionFamily.OrderingBuilder, Component: "OrderingBuilder" });
         Assert.Contains(ActiveLearningCatalog.For(1).LearnerResponses, r => r is { Response: LearnerResponseKind.Order, Component: "OrderingBuilder" });
+        Assert.DoesNotContain(ActiveLearningCatalog.For(1).LearnerResponses, r => r.Component == "StatefulModelSimulator");
         Assert.Contains(ActiveLearningCatalog.For(1).VisualModels, v => v is { Kind: VisualModelKind.Timeline });
 
         Assert.Contains(ActiveLearningCatalog.For(2).Interactions, i => i is { Family: InteractionFamily.ClassifyMatch, Component: "ClassifyMatchCheck" });
+        Assert.Contains(ActiveLearningCatalog.For(2).Interactions, i => i is { Family: InteractionFamily.Simulator, Component: "StatefulModelSimulator" });
         Assert.Contains(ActiveLearningCatalog.For(2).LearnerResponses, r => r is { Response: LearnerResponseKind.Classify, Component: "ClassifyMatchCheck" });
+        Assert.DoesNotContain(ActiveLearningCatalog.For(2).LearnerResponses, r => r.Component == "StatefulModelSimulator");
         Assert.Contains(ActiveLearningCatalog.For(2).VisualModels, v => v is { Kind: VisualModelKind.Process, Marker: "concept-map__flow" });
 
         Assert.Contains(ActiveLearningCatalog.For(10).Interactions, i => i is { Family: InteractionFamily.ClassifyMatch, Component: "ClassifyMatchCheck" });
@@ -366,11 +527,11 @@ public sealed class ActiveLearningBatch1Tests
     public void WeeksOutsideBatch1_AreNotPromoted()
     {
         // Weeks 5, 7 and 9 were promoted by Phase 2, Batch 2 (ActiveLearningBatch2Tests).
-        foreach (int week in new[] { 1, 2, 3, 4, 8, 11, 12, 13, 14, 15 })
+        foreach (int week in new[] { 4, 11, 12, 13, 14, 15 })
         {
             Assert.Equal(StructuralStatus.StructuralEnrichmentRequired, ActiveLearningCatalog.For(week).Status);
         }
-        foreach (int week in new[] { 5, 6, 7, 9, 10 })
+        foreach (int week in new[] { 1, 2, 3, 5, 6, 7, 8, 9, 10 })
         {
             Assert.Equal(StructuralStatus.Compliant, ActiveLearningCatalog.For(week).Status);
         }

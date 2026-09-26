@@ -212,9 +212,9 @@ public sealed class InteractiveUiTests
     }
 
     [Fact]
-    public void CategorizationCheck_IsUsedOnTheRepresentativeWeekPage()
+    public void ClassifyMatchCheck_IsUsedOnTheRepresentativeWeekPage()
     {
-        Assert.Contains("<CategorizationCheck", ReadPage("Sedmica8.razor"));
+        Assert.Contains("<ClassifyMatchCheck", ReadPage("Sedmica8.razor"));
     }
 
     [Fact]

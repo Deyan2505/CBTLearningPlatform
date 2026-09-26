@@ -8,9 +8,9 @@ namespace CbtLearningPlatform.Client.Curriculum;
 /// <see cref="StructuralStatus"/> disagrees with its own declarations, in either direction.
 ///
 /// The stricter six-gate owner rule is recorded here honestly. Weeks 5, 7 and 9 include both their retained retrieval
-/// activities and the shared stateful simulator; they await owner review. Weeks 6 and 10 also satisfy all six gates.
-/// Weeks 1, 2, 3 and 8 passed the retired gate but fail at least one newly separate simulator/retrieval/application gate.
-/// The remaining weeks (4, 11-15) also remain
+/// activities and the shared stateful simulator; they await owner review. Weeks 2, 6, 8 and 10 also satisfy all six gates.
+/// Week 3 now passes all six: the schema-filter simulator, a committed level classification (retrieval) and the Sally belief application.
+/// The remaining weeks (4, 11-15) remain
 /// <see cref="StructuralStatus.StructuralEnrichmentRequired"/> (OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED):
 /// content approval and locked prose remain valid; only the learning architecture is reopened, one controlled batch at a time. When a week's remediation lands, add the new declarations and
 /// promote its status to Compliant in the same change — a stale StructuralEnrichmentRequired also fails the gate.
@@ -29,7 +29,7 @@ public static class ActiveLearningCatalog
     public static IReadOnlyList<WeekLearningArchitecture> Weeks { get; } =
     [
         // --- Re-evaluated under the six-gate standard ---
-        Migration(3,
+        Compliant(3,
             visuals:
             [
                 new(VisualModelKind.MindMap, Graph("week3-mindmap-preview"), RepresentsCentralStructure: false),
@@ -37,8 +37,13 @@ public static class ActiveLearningCatalog
                 new(VisualModelKind.Process, Flow),
                 new(VisualModelKind.Cycle, Loop)
             ],
-            interactions: [new(InteractionFamily.InteractiveModel, "SchemaFilterDemonstration")],
-            responses: [new(LearnerResponseKind.ManipulateModel, "SchemaFilterDemonstration")]),
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "SchemaFilterDemonstration"),
+                new(InteractionFamily.Simulator, "StatefulModelSimulator"),
+                new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")
+            ],
+            responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
 
         Compliant(6,
             visuals:
@@ -57,25 +62,33 @@ public static class ActiveLearningCatalog
                 new(LearnerResponseKind.Decide, "ScenarioSimulator")
             ]),
 
-        Migration(8,
+        Compliant(8,
             visuals: [new(VisualModelKind.MindMap, Graph("week8-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Process, Flow)],
-            interactions: [new(InteractionFamily.Simulator, "CbtChainSimulator")],
-            responses: [new(LearnerResponseKind.ManipulateModel, "CbtChainSimulator")]),
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "CbtChainSimulator"),
+                new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")
+            ],
+            responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
 
         // --- Earlier batches, honestly re-evaluated under the stricter simulator gate ---
-        // Week 1: the timeline stays the visual model; the learner rebuilds it (OrderingBuilder, section 08, before the quiz).
-        Migration(1,
+        // Week 1: the evidence simulator is distinct from the timeline and the committed ordering retrieval in section 08.
+        Compliant(1,
             visuals:
             [
                 new(VisualModelKind.MindMap, Graph("week1-mindmap-preview"), RepresentsCentralStructure: true),
                 new(VisualModelKind.Timeline, "<HistoricalTimeline"),
                 new(VisualModelKind.Comparison, ComparisonMatrix)
             ],
-            interactions: [new(InteractionFamily.OrderingBuilder, "OrderingBuilder")],
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "StatefulModelSimulator"),
+                new(InteractionFamily.OrderingBuilder, "OrderingBuilder")
+            ],
             responses: [new(LearnerResponseKind.Order, "OrderingBuilder")]),
 
-        // Week 2: the two schools as side-by-side process chains + a committed Beck/Ellis attribution over the comparison table.
-        Migration(2,
+        // Week 2: the ABC belief-mediation simulator is separate from the committed Beck/Ellis attribution retrieval.
+        Compliant(2,
             visuals:
             [
                 new(VisualModelKind.MindMap, Graph("week2-mindmap-preview"), RepresentsCentralStructure: true),
@@ -83,7 +96,11 @@ public static class ActiveLearningCatalog
                 new(VisualModelKind.Comparison, ComparisonMatrix),
                 new(VisualModelKind.Comparison, CategoryCompare)
             ],
-            interactions: [new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")],
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "StatefulModelSimulator"),
+                new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")
+            ],
             responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
 
         // Week 10: the 10.4 reveal cards are now a committed classification (before the assessment). Section 10.11 also hosts a

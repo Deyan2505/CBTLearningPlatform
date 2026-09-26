@@ -156,6 +156,8 @@
                 </tbody>
             </table>
         </div>
+
+        <StatefulModelSimulator ComponentId="week2-abc-belief-simulator" Activity="_week2AbcBeliefSimulator" SafetyMode="_safetyMode" />
     </LearningSection>
 
     <LearningSection Role="theory" RoleLabel="Последствия">
@@ -334,6 +336,45 @@
 
     // ACTIVE LEARNING (Phase 2, Batch 1) — derived from the week's own safety level, never hand-picked.
     private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
+
+    // STATEFUL SIMULATOR — one shared A, two approved B formulations, and only the corresponding
+    // consequence classes already established by SRC-042 ABC1/ABC2/ABC3. The initial snapshot
+    // withholds both the selected belief and its consequence class until the learner commits.
+    private static readonly StatefulModelActivity _week2AbcBeliefSimulator = new(
+        "Едно A, различно B, различен клас C",
+        "Изберете едно от двете вярвания за същото активиращо събитие. След потвърждение моделът ще покаже съответния клас последствия.",
+        "initial",
+        [
+            new("initial", "Изходно състояние", "A остава същото",
+                "Влиянието на A върху C се опосредства от B.",
+                [
+                    new("a", "A — Активиращо събитие", "Ситуация или преживяване"),
+                    new("b", "B — Вярвания", "Все още не е избрано вярване"),
+                    new("c", "C — Последствия", "Показват се след избора")
+                ],
+                [
+                    new("choose-rigid", "Трябва да успея — и не мога да приема, че може да не успея", "rigid-belief",
+                        "Нелогично, неподкрепено от фактите и/или непрактично — води до дисфункционални последствия.",
+                        "SRC-042 · ABC1/ABC2/ABC3 · §04–05"),
+                    new("choose-flexible", "Бих искал да успея, но мога да приема, че нещата не винаги се случват както искам", "flexible-belief",
+                        "Логически, емпирично и/или прагматично подкрепено — води до функционални последствия.",
+                        "SRC-042 · ABC1/ABC2/ABC3 · §04–05")
+                ]),
+            new("rigid-belief", "Променен модел", "Категорично изискване",
+                "Нелогично, неподкрепено от фактите и/или непрактично — води до дисфункционални последствия.",
+                [
+                    new("a", "A — Активиращо събитие", "Ситуация или преживяване"),
+                    new("b", "B — Вярвания", "Трябва да успея — и не мога да приема, че може да не успея"),
+                    new("c", "C — Последствия", "Дисфункционални последствия")
+                ], []),
+            new("flexible-belief", "Променен модел", "Гъвкаво предпочитание с приемане",
+                "Логически, емпирично и/или прагматично подкрепено — води до функционални последствия.",
+                [
+                    new("a", "A — Активиращо събитие", "Ситуация или преживяване"),
+                    new("b", "B — Вярвания", "Бих искал да успея, но мога да приема, че нещата не винаги се случват както искам"),
+                    new("c", "C — Последствия", "Функционални последствия")
+                ], [])
+        ]);
 
     private static readonly GraphRenderModel _week2MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek2MindMap());
 

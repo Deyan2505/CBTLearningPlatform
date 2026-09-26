@@ -210,6 +210,8 @@
         </p>
         <ConceptGraph ComponentId="week3-sali-hierarchy" Model="@_saliHierarchyRender" />
 
+        <StatefulModelSimulator ComponentId="week3-sali-belief-application" Activity="_week3SaliBeliefApplication" SafetyMode="_safetyMode" />
+
         <h3>Нагласа, правило, предположение — три различни вида междинно вярване</h3>
         <p>Книгата разграничава три вида междинно вярване. Примерите по-долу са от собствения ѝ пример за Читател Е (не от случая на Сали):</p>
         <div class="comparison-matrix-wrapper">
@@ -357,39 +359,7 @@
 
     <LearningSection Role="example" RoleLabel="Сравнение">
         <h2 id="obarkvaniya" tabindex="-1">10 · Чести обърквания</h2>
-        <p>Изберете как бихте класифицирали всяка фраза, после разгънете обяснението.</p>
-
-        <div class="concept-map__side-notes">
-            <div class="card">
-                <p>"Ще се изложа на срещата."</p>
-                <details class="progressive-explanation">
-                    <summary>Покажи класификацията</summary>
-                    <div class="progressive-explanation__body">
-                        <p><strong>Автоматична мисъл</strong> в конкретна ситуация.</p>
-                    </div>
-                </details>
-            </div>
-
-            <div class="card">
-                <p>"Ако не се справя отлично, хората ще ме отхвърлят."</p>
-                <details class="progressive-explanation">
-                    <summary>Покажи класификацията</summary>
-                    <div class="progressive-explanation__body">
-                        <p><strong>Условно предположение или правило</strong> (междинно вярване).</p>
-                    </div>
-                </details>
-            </div>
-
-            <div class="card">
-                <p>"Не съм достатъчно добър."</p>
-                <details class="progressive-explanation">
-                    <summary>Покажи класификацията</summary>
-                    <div class="progressive-explanation__body">
-                        <p>Възможно <strong>основно вярване</strong>.</p>
-                    </div>
-                </details>
-            </div>
-        </div>
+        <ClassifyMatchCheck ComponentId="week3-level-classification" Activity="_week3LevelClassification" SafetyMode="_safetyMode" />
 
         <div class="callout callout--info" role="note">
             <p><strong>Важно:</strong> езиковата форма помага за ориентация, но не е достатъчна сама по себе си за окончателна класификация.</p>
@@ -469,6 +439,58 @@
 
 @code {
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 3);
+
+    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
+
+    // Retrieval (section 10): the learner classifies the three approved example phrases by cognitive level before any verdict.
+    // Phrases, answers and the hedge on the third item are the page's former reveal cards, unchanged.
+    private static readonly ClassifyMatchActivity _week3LevelClassification = new(
+        "На кое ниво е фразата?",
+        "За всяка фраза изберете нивото, после натиснете „Провери“.",
+        ClassifyMatchMode.Classify,
+        [
+            new("at", "Автоматична мисъл"),
+            new("ib", "Междинно вярване"),
+            new("cb", "Основно вярване")
+        ],
+        [
+            new("i1", "\"Ще се изложа на срещата.\"", "at", "Автоматична мисъл в конкретна ситуация.", "Раздел 10"),
+            new("i2", "\"Ако не се справя отлично, хората ще ме отхвърлят.\"", "ib", "Условно предположение или правило (междинно вярване).", "Раздел 10"),
+            new("i3", "\"Не съм достатъчно добър.\"", "cb", "Възможно основно вярване — езиковата форма помага за ориентация, но не е достатъчна сама по себе си.", "Раздел 10")
+        ]);
+
+    // Application (section 06): the learner applies the approved Sally observation — which belief is active shapes the automatic
+    // thought in a similar-type situation. Both thoughts are quoted from the case prose above; nothing new is claimed.
+    private static readonly StatefulModelActivity _week3SaliBeliefApplication = new(
+        "Кое вярване е активно?",
+        "В подобна по вид ситуация изберете кое от вярванията на Сали е активно. След потвърждение моделът показва автоматичната мисъл от случая.",
+        "initial",
+        [
+            new("initial", "Изходно състояние", "Подобна по вид ситуация",
+                "Едни и същи основни вярвания дават различни резултати в различни периоди.",
+                [
+                    new("belief", "Основно вярване", "Все още не е избрано"),
+                    new("thought", "Автоматична мисъл", "Показва се след избора")
+                ],
+                [
+                    new("pick-positive", "„Разумно съм компетентна“ доминира (гимназията)", "positive",
+                        "Автоматичните мисли са сравнително реалистични: влиза в отбора по софтбол и си мисли „Това е страхотно.“", "SRC-041 · Гл. 3 · Сали"),
+                    new("pick-negative", "„Аз съм некомпетентна“ е активирано от депресията (първата година в колежа)", "negative",
+                        "Подобна по вид ситуация води до други мисли: „Не съм добра. Вероятно дори няма да мога да се справя.“", "SRC-041 · Гл. 3 · Сали")
+                ]),
+            new("positive", "Променен модел", "Позитивното вярване е активно",
+                "Автоматичните мисли са сравнително реалистични.",
+                [
+                    new("belief", "Основно вярване", "„Разумно съм компетентна“"),
+                    new("thought", "Автоматична мисъл", "„Това е страхотно.“")
+                ], []),
+            new("negative", "Променен модел", "Негативното вярване е активно",
+                "Подобна по вид ситуация води до съвсем различни мисли.",
+                [
+                    new("belief", "Основно вярване", "„Аз съм некомпетентна“"),
+                    new("thought", "Автоматична мисъл", "„Не съм добра. Вероятно дори няма да мога да се справя.“")
+                ], [])
+        ]);
 
     // Weekly Final Assessment Standard — same 6 questions, wording, and answer keys as before the
     // retrofit; only the interaction changed (scored submit/retry instead of a static reveal).

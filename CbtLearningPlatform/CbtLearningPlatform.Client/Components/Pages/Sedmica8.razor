@@ -4,7 +4,7 @@
    Modul2Lesson1/2/3 content (situation→thought→emotion→behavior model) rather than duplicating
    their full text. Content basis: same as the three Module 2 lessons (SRC-041, Ch. 3/9/10).
    Concept-map/comparison-matrix are static SSR (no state); CbtChainSimulator/InterpretationExample
-   (branch diagram)/CategorizationCheck are the 3 Interactive WebAssembly islands. Two-column rows
+   (branch diagram)/ClassifyMatchCheck are the 3 Interactive WebAssembly islands. Two-column rows
    use .learning-grid — DOM order always matches reading order, no CSS `order` reordering. *@
 @page "/kurs/sedmica-8"
 
@@ -125,7 +125,7 @@
                 </tbody>
             </table>
         </div>
-        <CategorizationCheck />
+        <ClassifyMatchCheck ComponentId="week8-model-categorization" Activity="_week8ModelCategorization" SafetyMode="_safetyMode" />
     </section>
 
     <section class="section-card section-card--theory">
@@ -393,6 +393,32 @@
 
 @code {
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 8);
+
+    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
+
+    // Retrieval practice: the existing reveal-only categorization is preserved as the same four approved examples,
+    // categories and explanations, but now requires a committed choice before any verdict or feedback exists.
+    // Grounding: SRC-041 Ch.3 U05/U06 and Ch.10 U97; Week 8 sections 02 and 05.
+    private static readonly ClassifyMatchActivity _week8ModelCategorization = new(
+        "Мисъл, емоция, телесна реакция или поведение?",
+        "За всяка кратка фраза изберете категорията, после натиснете „Провери“.",
+        ClassifyMatchMode.Classify,
+        [
+            new("thought", "Мисъл"),
+            new("emotion", "Емоция"),
+            new("body", "Телесна реакция"),
+            new("behavior", "Поведение")
+        ],
+        [
+            new("fast-heart", "„Сърцето ми бие бързо.“", "body",
+                "Това описва физическо усещане в тялото.", "Source: U05/U06 · 8.2/8.5"),
+            new("failure-thought", "„Сигурно ще се проваля.“", "thought",
+                "Това е изречение с конкретно съдържание — автоматична мисъл.", "Source: U05/U06/U97 · 8.5"),
+            new("anxiety", "„Тревога.“", "emotion",
+                "Това е дума, описваща чувство.", "Source: U97 · 8.5"),
+            new("cancel-meeting", "„Отменям срещата.“", "behavior",
+                "Това е конкретно действие.", "Source: U05/U06 · 8.2/8.5")
+        ]);
 
     // Weekly Final Assessment Standard — same 5 questions, wording, and answer keys as before the
     // retrofit; only the interaction changed (scored submit/retry instead of a static reveal).
