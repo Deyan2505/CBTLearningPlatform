@@ -60,7 +60,7 @@ public sealed class Week11ContentSliceTests
     }
 
     [Fact]
-    public void Week11Page_UsesOnlyExistingReusablePatterns()
+    public void Week11Page_UsesOnlyExistingReusablePatterns_AndPassesTheActiveLearningGate()
     {
         string source = ReadPage("Sedmica11.razor");
 
@@ -76,6 +76,92 @@ public sealed class Week11ContentSliceTests
         Assert.Contains("class=\"guided-practice-sequence\"", source);
         Assert.Contains("class=\"comparison-matrix-wrapper\"", source);
         Assert.Contains("class=\"learning-grid learning-grid--balanced\"", source);
+
+        // Active Learning remediation: shared toolkit engines only, in the fixed ProfessionalContext mode.
+        Assert.Contains("<StatefulModelSimulator", source);
+        Assert.Contains("<ClassifyMatchCheck", source);
+        Assert.Equal(ActiveLearningSafetyMode.ProfessionalContext, ActiveLearningSafety.ModeFor(CourseCatalog.Weeks.Single(w => w.Number == 11).SafetyLevel));
+
+        WeekLearningArchitecture week = ActiveLearningCatalog.For(11);
+        Assert.Equal(StructuralStatus.Compliant, week.Status);
+        Assert.Empty(ActiveLearningStandard.Evaluate(week));
+    }
+
+    [Fact]
+    public void Week11Page_SimulatorAndRetrieval_AreSeparateLayers_BeforeTheFinalAssessment()
+    {
+        string source = ReadPage("Sedmica11.razor");
+
+        int koncept = source.IndexOf("id=\"koncept-diagrama\"", StringComparison.Ordinal);
+        int simulator = source.IndexOf("<StatefulModelSimulator", StringComparison.Ordinal);
+        int review = source.IndexOf("id=\"review\"", StringComparison.Ordinal);
+        int retrieval = source.IndexOf("<ClassifyMatchCheck", StringComparison.Ordinal);
+        int assessment = source.IndexOf("<FinalAssessment", StringComparison.Ordinal);
+
+        Assert.True(simulator > koncept && simulator < review, "The judgment simulator lives in §06, before §09.");
+        Assert.True(retrieval > review && retrieval < assessment, "The retrieval match sits in §09, before the Final Assessment.");
+        Assert.NotEqual(simulator, retrieval);
+    }
+
+    [Fact]
+    public void Week11Page_JudgmentSimulator_UsesOnlySourceSupportedOutcomes_NoUnsupportedCausalBranch()
+    {
+        string source = ReadPage("Sedmica11.razor");
+
+        // The two explicitly source-supported "not worth it" outcomes.
+        Assert.Contains("Не си струва времето или усилията да се работи върху вярвания, в които пациентът вярва само леко.", source);
+        Assert.Contains("Не си струва времето или усилията да се работи върху периферно убеждение.", source);
+        Assert.Contains("периферно убеждение", source);
+        Assert.DoesNotContain("периферно вярване поради малък обхват", source);
+        Assert.DoesNotContain("незначителен обхват", source);
+
+        // Readiness/time: source-faithful wording only, never an automatic failure -> postpone rule.
+        Assert.Contains("Дали да се работи по вярването сега зависи и от това дали пациентът може да го оцени с достатъчна обективност в този момент", source);
+        Assert.Contains("Вярването може да бъде идентифицирано като такова, по което да се работи в бъдеще", source);
+        string[] forbiddenCausalWording =
+        [
+            "не е готов -> отложи", "не е готова -> отложи", "недостатъчно време -> отложи",
+            "автоматично отлагане", "not ready", "postpone"
+        ];
+        foreach (string fragment in forbiddenCausalWording)
+        {
+            Assert.DoesNotContain(fragment, source);
+        }
+
+        // The positive closing statement keeps its qualifier — the sequencing is not made absolute.
+        Assert.Contains("Модифицирането на междинните вярвания обикновено се извършва преди модифицирането на основните вярвания", source);
+
+        // Never Sally, never the learner's own belief, in the simulator's own content.
+        int simulatorStart = source.IndexOf("_week11JudgmentModel = new", StringComparison.Ordinal);
+        int simulatorEnd = source.IndexOf("\n    // Retrieval", simulatorStart, StringComparison.Ordinal);
+        string simulatorBlock = source[simulatorStart..simulatorEnd];
+        Assert.DoesNotContain("Сали", simulatorBlock);
+        Assert.DoesNotContain("твоето вярване", simulatorBlock);
+        Assert.DoesNotContain("твоята схема", simulatorBlock);
+    }
+
+    [Fact]
+    public void Week11Page_RetrievalMatch_UsesVerbatimSection07Definitions()
+    {
+        string source = ReadPage("Sedmica11.razor");
+
+        foreach (string definition in new[]
+        {
+            "Проверка на вярването чрез реално действие извън сесията — може да промени вярването по-силно от чисто вербална работа.",
+            "Числова скала, която показва междинни позиции между двете крайности на едно \"всичко или нищо\" вярване.",
+            "Терапевт и пациент разменят ролите на \"интелектуалната\" и \"емоционалната\" част на ума, когато вярването се знае логически за невярно, но все още се \"усеща\" вярно.",
+            "Пациентът обмисля вярването на друг човек в подобно положение, за да получи психологическа дистанция от собственото си вярване.",
+            "Пациентът действа временно, сякаш вече вярва в новото, по-функционално вярване — промяната в поведението често отслабва старото вярване.",
+            "Уместно и искрено споделяне от страна на терапевта на личен опит, свързан с вярването."
+        })
+        {
+            Assert.Equal(2, Regex.Matches(source, Regex.Escape(definition)).Count);
+        }
+
+        // The Socratic-questioning definition keeps its wording; only the cross-link markup is dropped, since the
+        // retrieval component renders plain text, not markup.
+        Assert.Contains("Същият тип въпроси, използвани при оценка на автоматични мисли (виж <a href=\"/kurs/sedmica-10\">Седмица 10</a>), приложени конкретно към вярването.", source);
+        Assert.Contains("Същият тип въпроси, използвани при оценка на автоматични мисли (виж Седмица 10), приложени конкретно към вярването.", source);
     }
 
     [Fact]

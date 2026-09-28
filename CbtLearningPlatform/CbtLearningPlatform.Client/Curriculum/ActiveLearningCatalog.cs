@@ -11,7 +11,8 @@ namespace CbtLearningPlatform.Client.Curriculum;
 /// activities and the shared stateful simulator; they await owner review. Weeks 2, 6, 8 and 10 also satisfy all six gates.
 /// Week 3 now passes all six: the schema-filter simulator, a committed level classification (retrieval) and the Sally belief application.
 /// Week 4 passes all six with a fixed third-person case examination, the session sequence and a separate ordering retrieval.
-/// The remaining weeks (11-15) remain
+/// Week 11 passes all six with a generic-patient therapist-judgment simulator and a separate technique-matching retrieval.
+/// The remaining weeks (12-15) remain
 /// <see cref="StructuralStatus.StructuralEnrichmentRequired"/> (OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED):
 /// content approval and locked prose remain valid; only the learning architecture is reopened, one controlled batch at a time. When a week's remediation lands, add the new declarations and
 /// promote its status to Compliant in the same change — a stale StructuralEnrichmentRequired also fails the gate.
@@ -203,8 +204,23 @@ public static class ActiveLearningCatalog
                 new(LearnerResponseKind.Predict, "CaseExaminationSimulator")
             ]),
 
-        Migration(11,
-            visuals: [new(VisualModelKind.MindMap, Graph("week11-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Process, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),
+        // Week 11 (ProfessionalReviewRequired -> ProfessionalContext): the existing 3-step identify/decide/modify
+        // sequence and the two comparison tables stay the visuals; the learner works the §06 therapist-judgment model
+        // (generic unnamed patient, never Sally, never Downward Arrow) and separately matches the seven §07
+        // modification-technique names to their definitions before the Final Assessment.
+        Compliant(11,
+            visuals:
+            [
+                new(VisualModelKind.MindMap, Graph("week11-mindmap-preview"), RepresentsCentralStructure: false),
+                new(VisualModelKind.Process, Sequence),
+                new(VisualModelKind.Comparison, ComparisonMatrix)
+            ],
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "StatefulModelSimulator"),
+                new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")
+            ],
+            responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
 
         // Week 12 is the ONE routed week with no Weekly Mind Map. Reported to the owner, not silently fixed: it now fails the
         // WeeklyMindMap gate as well as Interaction/Response, which is honest — it was already StructuralEnrichmentRequired.
