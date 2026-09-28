@@ -55,7 +55,7 @@ public sealed class Week4ContentSliceTests
     }
 
     [Fact]
-    public void Week4Page_UsesOnlyExistingReusablePatterns_NoNewComponent()
+    public void Week4Page_UsesOnlyExistingReusablePatterns_AndPassesTheActiveLearningGate()
     {
         string source = ReadPage("Sedmica4.razor");
 
@@ -67,20 +67,65 @@ public sealed class Week4ContentSliceTests
         Assert.Contains("<SourceReferences", source);
         Assert.Contains("<OptionalReadingSource", source);
         Assert.Contains("<WeekCompletionControl", source);
-        // Weekly Mind Map (owner-approved addition, Week 6/15 engine) — the one previously-forbidden
-        // component this page now legitimately reuses.
         Assert.Contains("<ConceptGraph", source);
 
-        string[] forbiddenNewComponents =
-        [
-            "<CbtChainSimulator", "<CategorizationCheck", "<InterpretationExample",
-            "<ResearchTurnStepper", "<SocraticDialogueExplorer", "<SchemaFilterDemonstration",
-            "<HistoricalTimeline", "<MindMapBranch"
-        ];
-        foreach (string component in forbiddenNewComponents)
+        // Active Learning remediation: shared toolkit engines only, in the fixed third-person mode for AcademicContextOnly.
+        Assert.Contains("<CaseExaminationSimulator", source);
+        Assert.Contains("<OrderingBuilder", source);
+        Assert.Contains("class=\"guided-practice-sequence\"", source);
+        Assert.Equal(ActiveLearningSafetyMode.AcademicThirdPerson, ActiveLearningSafety.ModeFor(CourseCatalog.Weeks.Single(w => w.Number == 4).SafetyLevel));
+
+        WeekLearningArchitecture week = ActiveLearningCatalog.For(4);
+        Assert.Equal(StructuralStatus.Compliant, week.Status);
+        Assert.Empty(ActiveLearningStandard.Evaluate(week));
+    }
+
+    [Fact]
+    public void Week4Page_ActiveLearningOrder_VisualThenApplicationThenRetrievalThenAssessment()
+    {
+        string source = ReadPage("Sedmica4.razor");
+
+        int visual = source.IndexOf("class=\"guided-practice-sequence\"", StringComparison.Ordinal);
+        int bridge = source.IndexOf("id=\"ot-otsenka-kam-kontseptualizatsia\"", StringComparison.Ordinal);
+        int simulator = source.IndexOf("<CaseExaminationSimulator", StringComparison.Ordinal);
+        int review = source.IndexOf("id=\"review\"", StringComparison.Ordinal);
+        int retrieval = source.IndexOf("<OrderingBuilder", StringComparison.Ordinal);
+        int assessment = source.IndexOf("<FinalAssessment", StringComparison.Ordinal);
+
+        Assert.True(visual > 0 && visual < bridge, "The §04 sequence precedes §08.");
+        Assert.True(simulator > bridge && simulator < review, "The case examination lives in §08.");
+        Assert.True(retrieval > review && retrieval < assessment, "Retrieval follows §08 and precedes the Final Assessment.");
+    }
+
+    [Fact]
+    public void Week4Page_SessionStepsStayVerbatim_AndTheCaseExaminationUsesOnlyApprovedSection08Wording()
+    {
+        string source = ReadPage("Sedmica4.razor");
+
+        foreach (string step in new[]
         {
-            Assert.DoesNotContain(component, source);
+            "Посрещане на пациента.", "Съвместно решение дали и кога да присъства член на семейството.",
+            "Определяне на дневния ред и очакванията за сесията.", "Провеждане на самата оценка.",
+            "Поставяне на начални, широки цели.", "Получаване на обратна връзка от пациента."
+        })
+        {
+            Assert.Contains(step, source);
         }
+
+        // The five tools are the §08 questions, each already on the page in the approved card.
+        foreach (string question in new[]
+        {
+            "Имало ли е важни събития в ранния живот, довели до развитието на определени основни вярвания?",
+            "Какви са основните вярвания на пациента?", "Какво е предизвикало разстройството?",
+            "Направил ли е пациентът неблагоприятна интерпретация на определени предизвикващи събития?",
+            "Как мисленето и поведението на пациента допринасят за поддържането на трудностите?"
+        })
+        {
+            Assert.Equal(2, Regex.Matches(source, Regex.Escape(question)).Count);
+        }
+
+        // The closing outcome is the page's own treatment-focus sentence.
+        Assert.Equal(2, Regex.Matches(source, Regex.Escape("помощ при решаване на практически проблеми, насърчаване към по-голяма активност")).Count);
     }
 
     [Fact]

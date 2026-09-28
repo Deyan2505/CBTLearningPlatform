@@ -35,7 +35,13 @@
    Zero new components, zero new CSS: reuses LearningSection/LearningObjectives/
    ProgressiveExplanation/DisclaimerCallout (including its existing, previously-unused "safety"
    Variant for RISK1)/SourceReferences/OptionalReadingSource/WeekCompletionControl. Domain-survey
-   list (§05) and the conceptualization questions (§08) are plain lists — no new markup pattern. *@
+   list (§05) and the conceptualization questions (§08) are plain lists — no new markup pattern.
+   ACTIVE LEARNING REMEDIATION (structural only, prose untouched; owner-approved boundary): §04's six STRUCT1 steps now
+   render as the shared guided-practice-sequence (never Week 3's flow-diagram markup — that diagram stays Week 3's). §08 hosts a
+   shared CaseExaminationSimulator (AcademicThirdPerson, fixed case): the learner applies the five CONCEPT2 questions to
+   the §08 Sally synthesis (CONCEPT3) and predicts each finding; its board lists findings, not a belief hierarchy or a
+   second conceptualization map, and adds no Sally fact. §09 opens with a separate OrderingBuilder over the same six steps,
+   before the Final Assessment. *@
 @page "/kurs/sedmica-4"
 
 <PageTitle>Седмица 4: Клинична оценка и когнитивна концептуализация — 15-седмичен курс — КПТ Академия</PageTitle>
@@ -119,13 +125,17 @@
     <LearningSection Role="theory" RoleLabel="Структура">
         <h2 id="struktura-na-sesiyata" tabindex="-1">04 · Структура на сесията по оценка</h2>
         <p>Типична сесия по оценка следва обща последователност от стъпки:</p>
-        <ol>
-            <li>Посрещане на пациента.</li>
-            <li>Съвместно решение дали и кога да присъства член на семейството.</li>
-            <li>Определяне на дневния ред и очакванията за сесията.</li>
-            <li>Провеждане на самата оценка.</li>
-            <li>Поставяне на начални, широки цели.</li>
-            <li>Получаване на обратна връзка от пациента.</li>
+        <ol class="guided-practice-sequence" aria-label="Шестте стъпки на сесията по оценка">
+            @for (int i = 0; i < _sessionSteps.Length; i++)
+            {
+                <li class="guided-practice-sequence__step">
+                    <span class="guided-practice-sequence__unit">
+                        <span class="guided-practice-sequence__number" aria-hidden="true">@((i + 1).ToString("00"))</span>
+                        <span class="guided-practice-sequence__label">@_sessionSteps[i]</span>
+                    </span>
+                    <span class="guided-practice-sequence__connector" aria-hidden="true"></span>
+                </li>
+            }
         </ol>
         <p>
             В началото на сесията клиницистът обяснява ясно, че това е сесия по оценка, а не терапевтична сесия
@@ -246,10 +256,12 @@
             Концептуализацията не е еднократна присъда — тя се уточнява през цялата терапия, докато клиницистът
             опознава по-добре пациента и естеството на трудностите му.
         </p>
+        <CaseExaminationSimulator ComponentId="week4-conceptualization-questions" Activity="_week4ConceptualizationQuestions" SafetyMode="_safetyMode" />
     </LearningSection>
 
     <LearningSection Role="theory" RoleLabel="Обобщение">
         <h2 id="review" tabindex="-1">09 · Седмичен преглед</h2>
+        <OrderingBuilder ComponentId="week4-session-order" Activity="_week4SessionOrder" SafetyMode="_safetyMode" />
         <details class="progressive-explanation concept-graph__retrieval-check">
             <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
             <div class="progressive-explanation__body">
@@ -321,6 +333,85 @@
 
 @code {
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 4);
+    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
+
+    // STRUCT1 (SRC-041 Ch.4, p.48): the six session steps, verbatim. One list feeds both the §04 sequence visual and the
+    // §09 ordering retrieval, so the two can never drift apart.
+    private static readonly string[] _sessionSteps =
+    [
+        "Посрещане на пациента.",
+        "Съвместно решение дали и кога да присъства член на семейството.",
+        "Определяне на дневния ред и очакванията за сесията.",
+        "Провеждане на самата оценка.",
+        "Поставяне на начални, широки цели.",
+        "Получаване на обратна връзка от пациента."
+    ];
+
+    // Retrieval (§09): placed after §08 and before the Final Assessment, away from the §04 visual so it cannot be copied.
+    private static readonly OrderingActivity _week4SessionOrder = new(
+        "Подредете стъпките на сесията по оценка",
+        "Подредете шестте стъпки в последователността от раздел 04, после проверете.",
+        [.. _sessionSteps.Select((step, index) => new OrderingItem($"s{index + 1}", step))],
+        SourceRef: "Раздел 04 — структура на сесията по оценка",
+        ShuffleSeed: 1);
+
+    // Simulator + application (§08): the learner applies the five CONCEPT2 questions to Sally's §08 assessment synthesis
+    // (CONCEPT3), predicting what each question surfaces. Every option is one of the five approved findings, so a wrong
+    // prediction is only an approved fact placed under the wrong question — nothing new is claimed. The board lists what the
+    // examination revealed; it is not a belief hierarchy and not Week 3's concept map, which stays Week 3's.
+    private const string SurfaceOrigins = "Взаимодействия с родители, братя/сестри и учители.";
+    private const string SurfaceBelief = "Уязвимост да се възприема като некомпетентна.";
+    private const string SurfaceTrigger = "Постъпването ѝ в колеж.";
+    private const string SurfaceInterpretation = "Възприема се като неспособна да отговори на новите изисквания.";
+    private const string SurfaceMaintenance = "Оттегляне, избягване на трудни задачи и приписване на трудностите на вроден недостатък.";
+    private const string ConceptSource = "SRC-041 · Глава 4 · стр. 57–58";
+
+    private static readonly CaseExaminationActivity _week4ConceptualizationQuestions = new(
+        "Приложете петте въпроса към случая на Сали",
+        "Изберете въпрос, предскажете какво ще разкрие той в синтеза на оценката ѝ и го приложете. Обяснението се показва едва след потвърждаване.",
+        [
+            new("Случай", "Сали — пациентката от книгата на Джудит Бек, чийто когнитивен модел вече познавате от Седмица 3."),
+            new("Данни", "Синтезът на нейната сесия по оценка от раздел 08.")
+        ],
+        [
+            new("origins", "Ранни събития",
+                "Имало ли е важни събития в ранния живот, довели до развитието на определени основни вярвания?",
+                [new("a", SurfaceTrigger), new("b", SurfaceOrigins), new("c", SurfaceBelief)],
+                "b",
+                "Уязвимостта ѝ да се възприема като некомпетентна е оформена през взаимодействия с родители, братя/сестри и учители.",
+                ConceptSource),
+
+            new("belief", "Основни вярвания",
+                "Какви са основните вярвания на пациента?",
+                [new("a", SurfaceBelief), new("b", SurfaceInterpretation), new("c", SurfaceMaintenance)],
+                "a",
+                "Уязвимост да се възприема като некомпетентна.",
+                ConceptSource),
+
+            new("trigger", "Предизвикващо събитие",
+                "Какво е предизвикало разстройството?",
+                [new("a", SurfaceOrigins), new("b", SurfaceMaintenance), new("c", SurfaceTrigger)],
+                "c",
+                "При постъпването ѝ в колеж това вярване се активира.",
+                ConceptSource),
+
+            new("interpretation", "Тълкуване",
+                "Направил ли е пациентът неблагоприятна интерпретация на определени предизвикващи събития?",
+                [new("a", SurfaceInterpretation), new("b", SurfaceTrigger), new("c", SurfaceOrigins)],
+                "a",
+                "Тя започва да се възприема като неспособна да отговори на новите изисквания.",
+                ConceptSource),
+
+            new("maintenance", "Поддържане на трудностите",
+                "Как мисленето и поведението на пациента допринасят за поддържането на трудностите?",
+                [new("a", SurfaceBelief), new("b", SurfaceMaintenance), new("c", SurfaceInterpretation)],
+                "b",
+                "Поведенчески се оттегля — прекарва твърде много време сама, избягва трудни задачи и изостава в училищната работа, — а трудностите си приписва на вроден недостатък, не на депресията, която реално ги причинява.",
+                ConceptSource)
+        ],
+        OutcomeTitle: "Начален фокус на лечението",
+        Outcome: "Въз основа на този синтез клиницистът хипотезира първоначален фокус на лечението: помощ при решаване на практически проблеми, насърчаване към по-голяма активност и работа по идентифициране, оценяване и промяна на неточните мисли за провал и некомпетентност. Концептуализацията не е еднократна присъда — тя се уточнява през цялата терапия.",
+        SourceRef: ConceptSource);
 
     // Weekly Mind Map — reuses the locked Week 6/15 ConceptGraph/MindMapAdapter engine and semantic
     // model verbatim (no new visualization system). Preview (§01) and Review (§09) render the SAME

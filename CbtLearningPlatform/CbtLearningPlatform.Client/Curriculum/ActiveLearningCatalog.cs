@@ -10,7 +10,8 @@ namespace CbtLearningPlatform.Client.Curriculum;
 /// The stricter six-gate owner rule is recorded here honestly. Weeks 5, 7 and 9 include both their retained retrieval
 /// activities and the shared stateful simulator; they await owner review. Weeks 2, 6, 8 and 10 also satisfy all six gates.
 /// Week 3 now passes all six: the schema-filter simulator, a committed level classification (retrieval) and the Sally belief application.
-/// The remaining weeks (4, 11-15) remain
+/// Week 4 passes all six with a fixed third-person case examination, the session sequence and a separate ordering retrieval.
+/// The remaining weeks (11-15) remain
 /// <see cref="StructuralStatus.StructuralEnrichmentRequired"/> (OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED):
 /// content approval and locked prose remain valid; only the learning architecture is reopened, one controlled batch at a time. When a week's remediation lands, add the new declarations and
 /// promote its status to Compliant in the same change — a stale StructuralEnrichmentRequired also fails the gate.
@@ -181,8 +182,26 @@ public static class ActiveLearningCatalog
         // --- OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED ---
 
         // Week 4: lists only + a Mind Map that does not carry the week's central structure.
-        Migration(4,
-            visuals: [new(VisualModelKind.MindMap, Graph("week4-mindmap-preview"), RepresentsCentralStructure: false)]),
+        // Week 4 (AcademicContextOnly -> fixed third-person case): the six-step session sequence (§04) is the visual; the learner
+        // applies the five conceptualization questions to Sally's §08 assessment synthesis (CaseExaminationSimulator), and
+        // separately rebuilds the session order (OrderingBuilder, §09, before the quiz).
+        Compliant(4,
+            visuals:
+            [
+                new(VisualModelKind.MindMap, Graph("week4-mindmap-preview"), RepresentsCentralStructure: false),
+                new(VisualModelKind.Sequence, Sequence)
+            ],
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "CaseExaminationSimulator"),
+                new(InteractionFamily.OrderingBuilder, "OrderingBuilder")
+            ],
+            responses:
+            [
+                new(LearnerResponseKind.Order, "OrderingBuilder"),
+                new(LearnerResponseKind.ManipulateModel, "CaseExaminationSimulator"),
+                new(LearnerResponseKind.Predict, "CaseExaminationSimulator")
+            ]),
 
         Migration(11,
             visuals: [new(VisualModelKind.MindMap, Graph("week11-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Process, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),
