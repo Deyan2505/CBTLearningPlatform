@@ -397,7 +397,7 @@ public sealed class ActiveLearningBatch1RemediationTests
             .Select(w => w.WeekNumber)
             .Order()];
 
-        Assert.Equal([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], compliant);
+        Assert.Equal([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], compliant);
         Assert.All(compliant, w => Assert.Empty(ActiveLearningStandard.Evaluate(ActiveLearningCatalog.For(w))));
     }
 

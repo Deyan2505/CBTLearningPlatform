@@ -34,8 +34,13 @@
      exposure procedure/adherence monitor/cross-out step/hierarchy literature: all excluded (frozen
      safety contract, WEEK_13_SOURCE_AUDIT_v1.md §7).
    - Zero self-input anywhere on this page (no <input>/<textarea>/<form>), zero reproduced
-     therapist-patient dialogue transcripts, zero simulator — every method is described in the third
-     person (what the therapist does), matching Week 11's precedent.
+     therapist-patient dialogue transcripts — every method is described in the third person (what the
+     therapist does), matching Week 11's precedent. ADR-011 (owner decision) supersedes this audit's
+     original "zero simulator, at most one interaction" call: §08 now carries a NoSelfGuidedSimulation
+     StatefulModelSimulator on Sally's already-approved responsibility-pie material (K97-K101) — its
+     two learner paths differ only in evaluation ORDER and converge on the same source-supported
+     outcome, never a branching clinical consequence, and it is never labelled "Симулатор" to the
+     learner. §10 separately adds a ClassifyMatchCheck retrieval over §07's own skill-vs-belief material.
 
    OVERLAP BOUNDARIES (see audit §4c): does not re-teach Week 7's vicious cycle or its energy-sized
    activity-schedule steps (only cross-linked and explicitly distinguished from this chapter's
@@ -406,6 +411,7 @@
             като секторите на диаграмата са разпределени, некомпетентността на Сали заема само една малка
             част от кръга — не целия резултат.
         </p>
+        <StatefulModelSimulator ComponentId="week13-attribution-model" Activity="_week13AttributionModel" SafetyMode="_safetyMode" />
     </LearningSection>
 
     <LearningSection Role="theory" RoleLabel="Пример">
@@ -457,6 +463,7 @@
 
     <LearningSection Role="theory" RoleLabel="Обобщение">
         <h2 id="review" tabindex="-1">10 · Седмичен преглед</h2>
+        <ClassifyMatchCheck ComponentId="week13-skill-or-belief-match" Activity="_week13SkillOrBeliefMatch" SafetyMode="_safetyMode" />
         <details class="progressive-explanation concept-graph__retrieval-check">
             <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
             <div class="progressive-explanation__body">
@@ -536,6 +543,85 @@
 
 @code {
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 13);
+    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
+
+    // Interactive model + application/feedback (§08, SRC-041 Ch.15 pp.268-272, K97-K101): Sally's responsibility-pie
+    // attribution order, using only the page's own six alternatives and its own closing sentence. Both learner paths
+    // converge on the same source-supported conceptual outcome — this models evaluation ORDER, never a branching
+    // clinical consequence, so it stays within NoSelfGuidedSimulation. The Title below is the learner-facing heading
+    // and deliberately avoids the safety-restricted format label (see Week13Page_LearnerFacingMarkupNeverSaysSimulator).
+    private const string AttributionStart = "Некомпетентна — близо 100%";
+    private const string SixAlternatives =
+        "Преподавателят не е обяснил материала достатъчно добре; Тестът е бил наистина труден; " +
+        "Не е познала правилно кой материал да учи; Записките от лекции, които е заела от друг, не са били особено добри; " +
+        "Част от материала на изпита изобщо не е бил покрит в час; Депресията и тревожността ѝ са пречили на концентрацията.";
+    private const string PieSource = "SRC-041 · Гл. 15 · стр. 268–272";
+
+    private static readonly StatefulModelActivity _week13AttributionModel = new(
+        "Интерактивен модел на атрибуцията",
+        "Изберете как да подредите оценяването на възможните обяснения за оценката на Сали в кръговата диаграма на отговорността.",
+        "initial",
+        [
+            new("initial", "Начало", "Кръгова диаграма на отговорността",
+                "Сали вярва близо 100%, че е получила C, защото е некомпетентна.",
+                [
+                    new("attribution", "Текуща атрибуция", AttributionStart),
+                    new("explanations", "Разгледани обяснения", "Няма още")
+                ],
+                [
+                    new("consider-others", "Разгледай другите възможни обяснения първо", "alternatives",
+                        "Насочваш вниманието към другите възможни обяснения, преди да прецениш крайния резултат.",
+                        PieSource),
+                    new("evaluate-now", "Оцени некомпетентността веднага", "initial",
+                        "Дисфункционалното обяснение винаги се оценява последно.",
+                        PieSource)
+                ]),
+
+            new("alternatives", "Разглеждане на алтернативи", "Шестте други възможни обяснения",
+                "Преди дисфункционалното обяснение, се обмислят всички по-вероятни алтернативи.",
+                [
+                    new("attribution", "Текуща атрибуция", AttributionStart),
+                    new("explanations", "Разгледани обяснения", SixAlternatives)
+                ],
+                [
+                    new("evaluate-last", "Сега оцени некомпетентността — последна", "final",
+                        "Некомпетентността на Сали вече е само едно от седем обяснения, разгледано последно.",
+                        PieSource)
+                ]),
+
+            new("final", "Резултат", "Диаграмата е разпределена",
+                "Всички седем обяснения вече имат сектор в диаграмата.",
+                [
+                    new("attribution", "Текуща атрибуция", "Заема само една малка част от кръга"),
+                    new("explanations", "Разгледани обяснения", SixAlternatives)
+                ],
+                [])
+        ]);
+
+    // Retrieval (§10, top, after §09, before the Final Assessment, separate from the §08 model): classifies only the
+    // §07 comparison's own four cells plus its own Test 1 conclusion and Test 2 example — no new examples.
+    private static readonly ClassifyMatchActivity _week13SkillOrBeliefMatch = new(
+        "Дефицит на умения или блокирано от вярване поведение?",
+        "Изберете за всяко твърдение дали то показва реален дефицит на умения, или наличие на умение, блокирано от вярване, после проверете.",
+        ClassifyMatchMode.Classify,
+        [
+            new("skills-deficit", "Реален дефицит на умения"),
+            new("belief-blocked", "Умение налично, блокирано от вярване")
+        ],
+        [
+            new("i-no-skill", "Пациентът общо взето не разполага с уменията или има само един комуникативен стил, без гъвкавост да го адаптира при нужда.", "skills-deficit",
+                "Това е самата дефиниция на реален дефицит на умения от раздел 07.", "SRC-041 · Гл. 15 · стр. 267–268"),
+            new("i-training-helps", "Обучението в социални умения (включително чрез ролева игра) реално помага.", "skills-deficit",
+                "Обучение в умения помага точно когато дефицитът е реален.", "SRC-041 · Гл. 15 · стр. 267–268"),
+            new("i-belief-blocks", """Пациентът знае какво да каже, но дисфункционално вярване („Ако изразя мнение, ще бъда отхвърлен") пречи да го използва.""", "belief-blocked",
+                "Умението е налично; пречката е вярването, не липсата на умение.", "SRC-041 · Гл. 15 · стр. 267–268"),
+            new("i-role-play-purpose", "Ролевата игра тук е насочена не към учене на умение, а към разкриване на автоматичните мисли по време на настоятелно поведение.", "belief-blocked",
+                "Когато умението вече е налично, ролевата игра разкрива вярването, не учи нов навик.", "SRC-041 · Гл. 15 · стр. 267–268"),
+            new("i-test1", "Ако пациентът веднага формулира ясен, адекватен отговор — той разполага с умението; пречката е вярването, не липсата на умение.", "belief-blocked",
+                "Тест 1: приемане на положителен изход разкрива, че умението вече съществува.", "SRC-041 · Гл. 15 · стр. 267–268"),
+            new("i-test2", "Ако пациентът е напълно адекватно настоятелен на работа, но не и с приятели — уменията очевидно съществуват, само не се прилагат навсякъде.", "belief-blocked",
+                "Тест 2: умение, проявено в друг контекст, показва че то съществува, но е блокирано.", "SRC-041 · Гл. 15 · стр. 267–268")
+        ]);
 
     private static readonly GraphRenderModel _week13MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek13MindMap());
 

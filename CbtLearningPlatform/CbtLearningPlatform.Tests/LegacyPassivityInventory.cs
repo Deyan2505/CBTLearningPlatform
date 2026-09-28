@@ -40,9 +40,10 @@ internal static class LegacyPassivityInventory
 
     public static IReadOnlyList<LegacyPassivityAssertion> Entries { get; } =
     [
-        // Weeks 1, 2 and 10 (Phase 2, Batch 1), Weeks 5, 7 and 9 (Phase 2, Batch 2) and Week 4 were remediated: their Replace entries were
-        // removed together with the assertions themselves, which now assert the catalog gate instead
-        // (Week1/2/5/7/9/10ContentSliceTests + ActiveLearningBatch1Tests / ActiveLearningBatch2Tests).
+        // Weeks 1, 2 and 10 (Phase 2, Batch 1), Weeks 5, 7 and 9 (Phase 2, Batch 2), Week 4, Week 11, Week 12 and
+        // Week 13 were remediated: their Replace entries were removed together with the assertions themselves,
+        // which now assert the catalog gate instead
+        // (Week1/2/4/5/7/9/10/11/12/13ContentSliceTests + ActiveLearningBatch1Tests / ActiveLearningBatch2Tests).
 
         new(10, "Week10ContentSliceTests.cs", "Week8Page_CrossLinksToWeek10_WithoutDuplicatingTheSimulator",
             new HashSet<string> { "<SocraticDialogueExplorer" }, LegacyPassivityKind.KeepCrossWeekScopeGuard,
@@ -51,10 +52,6 @@ internal static class LegacyPassivityInventory
         new(13, "Week13ContentSliceTests.cs", "Week13_FormatIsNeverSimulator",
             new HashSet<string> { "InteractiveFormat.Simulator" }, LegacyPassivityKind.KeepSafetyLabelGuard,
             "NotEligibleForSelfGuidedSimulator must not carry a self-guided 'Simulator' label. Interaction is still required in a safety-adapted form."),
-
-        Replace(13, "Week13ContentSliceTests.cs", "Week13Page_UsesOnlyExistingReusablePatterns",
-            "Comment says CategorizationCheck-style checks 'use the native <details> reveal instead' — a plain reveal does not satisfy the standard. Replace with the Week 13 catalog gate.",
-            Interactives),
 
         new(14, "Week14ContentSliceTests.cs", "Week14_FormatIsInteractiveModelNeverStaticVisualization",
             new HashSet<string> { "InteractiveFormat.Simulator" }, LegacyPassivityKind.KeepSafetyLabelGuard,

@@ -13,7 +13,9 @@ namespace CbtLearningPlatform.Client.Curriculum;
 /// Week 4 passes all six with a fixed third-person case examination, the session sequence and a separate ordering retrieval.
 /// Week 11 passes all six with a generic-patient therapist-judgment simulator and a separate technique-matching retrieval.
 /// Week 12 passes all six with an unnamed-person category-ambiguity simulator and a separate category-matching retrieval.
-/// The remaining weeks (13-15) remain
+/// Week 13 passes all six with a Sally-attribution-order interactive model (NoSelfGuidedSimulation, never labelled
+/// "Симулатор") and a separate skill-vs-belief classification retrieval.
+/// The remaining weeks (14-15) remain
 /// <see cref="StructuralStatus.StructuralEnrichmentRequired"/> (OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED):
 /// content approval and locked prose remain valid; only the learning architecture is reopened, one controlled batch at a time. When a week's remediation lands, add the new declarations and
 /// promote its status to Compliant in the same change — a stale StructuralEnrichmentRequired also fails the gate.
@@ -242,8 +244,25 @@ public static class ActiveLearningCatalog
             ],
             responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
 
-        Migration(13,
-            visuals: [new(VisualModelKind.MindMap, Graph("week13-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Sequence, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),
+        // Week 13 (NotEligibleForSelfGuidedSimulator -> NoSelfGuidedSimulation): the earlier audit's "zero simulator, at
+        // most one interaction" call is superseded by ADR-011 (owner decision). The Mind Map, ladder sequence and
+        // comparisons stay the visuals; the learner works the §08 attribution-order model on Sally's already-approved
+        // responsibility pie (two paths that differ only in evaluation order, never in clinical outcome — the model is
+        // never labelled "Симулатор" to the learner) and separately classifies §07's own skill-vs-belief statements
+        // before the Final Assessment.
+        Compliant(13,
+            visuals:
+            [
+                new(VisualModelKind.MindMap, Graph("week13-mindmap-preview"), RepresentsCentralStructure: false),
+                new(VisualModelKind.Sequence, Sequence),
+                new(VisualModelKind.Comparison, ComparisonMatrix)
+            ],
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "StatefulModelSimulator"),
+                new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")
+            ],
+            responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
 
         Migration(14,
             visuals: [new(VisualModelKind.MindMap, Graph("week14-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Sequence, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),

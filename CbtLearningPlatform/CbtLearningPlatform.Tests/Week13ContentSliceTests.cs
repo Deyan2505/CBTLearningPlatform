@@ -82,7 +82,7 @@ public sealed class Week13ContentSliceTests
     }
 
     [Fact]
-    public void Week13Page_UsesOnlyExistingReusablePatterns()
+    public void Week13Page_UsesOnlyExistingReusablePatterns_AndPassesTheActiveLearningGate()
     {
         string source = ReadPage("Sedmica13.razor");
 
@@ -99,11 +99,104 @@ public sealed class Week13ContentSliceTests
         Assert.Contains("class=\"comparison-matrix-wrapper\"", source);
         Assert.Contains("class=\"learning-grid learning-grid--balanced\"", source);
 
-        // No new .razor component and no new interactive island — CategorizationCheck-style checks
-        // use the existing native <details> reveal pattern instead.
-        Assert.DoesNotContain("<CbtChainSimulator", source);
-        Assert.DoesNotContain("<InterpretationExample", source);
-        Assert.DoesNotContain("<CategorizationCheck", source);
+        // Active Learning remediation: shared toolkit engines only, in the fixed NoSelfGuidedSimulation mode.
+        Assert.Contains("<StatefulModelSimulator", source);
+        Assert.Contains("<ClassifyMatchCheck", source);
+        Assert.Equal(ActiveLearningSafetyMode.NoSelfGuidedSimulation, ActiveLearningSafety.ModeFor(CourseCatalog.Weeks.Single(w => w.Number == 13).SafetyLevel));
+
+        WeekLearningArchitecture week = ActiveLearningCatalog.For(13);
+        Assert.Equal(StructuralStatus.Compliant, week.Status);
+        Assert.Empty(ActiveLearningStandard.Evaluate(week));
+    }
+
+    [Fact]
+    public void Week13Page_ModelAndRetrieval_AreSeparateLayers_BeforeTheFinalAssessment()
+    {
+        string source = ReadPage("Sedmica13.razor");
+
+        int otgovornost = source.IndexOf("id=\"krugova-diagrama-na-otgovornostta\"", StringComparison.Ordinal);
+        int model = source.IndexOf("<StatefulModelSimulator", StringComparison.Ordinal);
+        int zaslugi = source.IndexOf("id=\"sebesravnenie-i-zaslugi\"", StringComparison.Ordinal);
+        int review = source.IndexOf("id=\"review\"", StringComparison.Ordinal);
+        int retrieval = source.IndexOf("<ClassifyMatchCheck", StringComparison.Ordinal);
+        int assessment = source.IndexOf("<FinalAssessment", StringComparison.Ordinal);
+
+        Assert.True(model > otgovornost && model < zaslugi, "The attribution model lives in §08.");
+        Assert.True(retrieval > review && retrieval < assessment, "The retrieval match sits at the top of §10, before the Final Assessment.");
+        Assert.NotEqual(model, retrieval);
+    }
+
+    [Fact]
+    public void Week13Page_LearnerFacingMarkupNeverSaysSimulator()
+    {
+        string publicMarkup = ReadPublicMarkup("Sedmica13.razor");
+
+        Assert.DoesNotContain("Симулатор", publicMarkup);
+        Assert.DoesNotContain("Simulator\"", publicMarkup); // component tag name only, never a learner-visible label
+        Assert.Contains("Интерактивен модел на атрибуцията", publicMarkup);
+    }
+
+    [Fact]
+    public void Week13Page_AttributionModel_PathsConvergeToTheSameOutcome_NoInventedPercentagesOrConsequences()
+    {
+        string source = ReadPage("Sedmica13.razor");
+
+        int modelStart = source.IndexOf("AttributionStart = ", StringComparison.Ordinal);
+        int modelEnd = source.IndexOf("\n\n    // Retrieval", modelStart, StringComparison.Ordinal);
+        Assert.True(modelStart >= 0 && modelEnd > modelStart);
+        string modelBlock = source[modelStart..modelEnd];
+
+        // Path A (source-faithful order) and Path B (evaluate now) both exist...
+        Assert.Contains("Разгледай другите възможни обяснения първо", modelBlock);
+        Assert.Contains("Оцени некомпетентността веднага", modelBlock);
+
+        // ...and Path B's feedback is only the existing rule sentence — no negative consequence, no
+        // deterioration, no therapeutic failure, no invented learning outcome.
+        Assert.Contains("Дисфункционалното обяснение винаги се оценява последно.", modelBlock);
+        string[] forbiddenConsequences = ["влошава", "провал", "терапията се проваля", "пациентката се разстройва"];
+        foreach (string phrase in forbiddenConsequences)
+        {
+            Assert.DoesNotContain(phrase, modelBlock);
+        }
+
+        // Both paths converge on the same final attribution wording — never a numeric percentage other than the
+        // page's own pre-existing "близо 100%" framing of Sally's starting belief.
+        Assert.Single(Regex.Matches(modelBlock, "Заема само една малка част от кръга"));
+        foreach (Match match in Regex.Matches(modelBlock, @"\d+%"))
+        {
+            Assert.Equal("100%", match.Value);
+        }
+
+        // Never a new Sally fact — only the six alternatives already on the page.
+        Assert.Contains("Преподавателят не е обяснил материала достатъчно добре", modelBlock);
+        Assert.Contains("Депресията и тревожността ѝ са пречили на концентрацията", modelBlock);
+    }
+
+    [Fact]
+    public void Week13Page_SkillOrBeliefRetrieval_UsesOnlyExistingSection07AndTestMaterial()
+    {
+        string source = ReadPage("Sedmica13.razor");
+
+        // §07's table cells are single-line; the Test 1/Test 2 <details> paragraphs wrap across markup lines, so
+        // compare with whitespace normalized (the words themselves are identical to each retrieval item).
+        string normalized = Regex.Replace(source, @"\s+", " ");
+        foreach (string item in new[]
+        {
+            "Пациентът общо взето не разполага с уменията или има само един комуникативен стил, без гъвкавост да го адаптира при нужда.",
+            "Обучението в социални умения (включително чрез ролева игра) реално помага.",
+            "Ролевата игра тук е насочена не към учене на умение, а към разкриване на автоматичните мисли по време на настоятелно поведение.",
+            "Ако пациентът веднага формулира ясен, адекватен отговор — той разполага с умението; пречката е вярването, не липсата на умение.",
+            "Ако пациентът е напълно адекватно настоятелен на работа, но не и с приятели — уменията очевидно съществуват, само не се прилагат навсякъде."
+        })
+        {
+            Assert.Equal(2, Regex.Matches(normalized, Regex.Escape(item)).Count);
+        }
+
+        int retrievalStart = source.IndexOf("_week13SkillOrBeliefMatch = new", StringComparison.Ordinal);
+        Assert.True(retrievalStart >= 0);
+        string retrievalBlock = source[retrievalStart..];
+        Assert.Contains("Реален дефицит на умения", retrievalBlock);
+        Assert.Contains("Умение налично, блокирано от вярване", retrievalBlock);
     }
 
     [Fact]
