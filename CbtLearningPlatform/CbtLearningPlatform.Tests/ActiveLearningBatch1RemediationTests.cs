@@ -13,7 +13,8 @@ namespace CbtLearningPlatform.Tests;
 ///     are real single-parent knowledge hierarchies, and are built only from wording those weeks already teach.
 ///  D. Week 10's static six-category visual is now also manipulable: CaseExaminationSimulator drives the approved
 ///     Сали/Карен case, and the closing re-rating is withheld until every question has been applied.
-///  E. The Weekly Mind Map is now a gate. Week 12 is the one routed week without a map and is reported, not papered over.</summary>
+///  E. The Weekly Mind Map is now a gate. Week 12 was the one routed week without a map, reported rather than papered
+///     over — its own remediation later closed that exception, so every routed week now declares one.</summary>
 public sealed class ActiveLearningBatch1RemediationTests
 {
     private static T Field<T>(Type page, string name) =>
@@ -375,17 +376,15 @@ public sealed class ActiveLearningBatch1RemediationTests
     }
 
     [Fact]
-    public void EveryRoutedWeekExceptTheKnownException_DeclaresAWeeklyMindMap()
+    public void EveryRoutedWeek_DeclaresAWeeklyMindMap()
     {
+        // Week 12 was the one known exception; its remediation added a Mind Map, so the exception is now closed.
         int[] without = [.. ActiveLearningCatalog.Weeks
             .Where(w => !w.VisualModels.Any(v => v.Kind == VisualModelKind.MindMap))
             .Select(w => w.WeekNumber)
             .Order()];
 
-        // Week 12 is the single known exception, reported to the owner rather than silently satisfied.
-        Assert.Equal([12], without);
-        Assert.Equal(StructuralStatus.StructuralEnrichmentRequired, ActiveLearningCatalog.For(12).Status);
-        Assert.Contains(ActiveLearningStandard.Evaluate(ActiveLearningCatalog.For(12)), f => f.Gate == ActiveLearningGate.MindMapGate);
+        Assert.Empty(without);
     }
 
     [Fact]
@@ -398,7 +397,7 @@ public sealed class ActiveLearningBatch1RemediationTests
             .Select(w => w.WeekNumber)
             .Order()];
 
-        Assert.Equal([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], compliant);
+        Assert.Equal([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], compliant);
         Assert.All(compliant, w => Assert.Empty(ActiveLearningStandard.Evaluate(ActiveLearningCatalog.For(w))));
     }
 

@@ -55,6 +55,7 @@
         <a href="/kurs/sedmica-12#poddarzhane-na-vyarvaneto">Как се поддържа вярването</a>
         <a href="/kurs/sedmica-12#razvitie-na-novo-vyarvane">Развитие на ново вярване</a>
         <a href="/kurs/sedmica-12#akademichen-obzor">Защо само академичен обзор</a>
+        <a href="/kurs/sedmica-12#review">Седмичен преглед</a>
         <a href="/kurs/sedmica-12#proverka">Проверка</a>
         <a href="/kurs/sedmica-12#izvori">Източници</a>
     </nav>
@@ -72,6 +73,8 @@
             <a href="/kurs/sedmica-3">вижте Седмица 3 — Архитектура на когнитивния модел</a> за пълния преглед
             на йерархията.
         </p>
+        <h3>Мисловна карта на седмицата — преглед</h3>
+        <ConceptGraph ComponentId="week12-mindmap-preview" Model="@_week12MindMapRender" />
     </LearningSection>
 
     <LearningSection Role="academic" RoleLabel="Теория">
@@ -134,6 +137,11 @@
             "не достатъчно способен, за да постигна" (безпомощност), или "не достатъчно добър, за да бъда
             обичан" (необичаемост).
         </p>
+        <p>
+            Изберете кой от двата смисъла стои зад твърдението на един неназован човек, и вижте към коя
+            категория той сочи:
+        </p>
+        <StatefulModelSimulator ComponentId="week12-category-ambiguity" Activity="_week12CategoryAmbiguity" SafetyMode="_safetyMode" />
     </LearningSection>
 
     <LearningSection Role="academic" RoleLabel="Механизъм">
@@ -189,16 +197,28 @@
             Тя не пита и не предполага "коя категория си ти" — идентифицирането на конкретно основно вярване
             е чувствителна работа, която в реална практика се случва постепенно, с насочване от специалист.
         </p>
+        <ClassifyMatchCheck ComponentId="week12-category-match" Activity="_week12CategoryMatch" SafetyMode="_safetyMode" />
+    </LearningSection>
+
+    <LearningSection Role="theory" RoleLabel="Обобщение">
+        <h2 id="review" tabindex="-1">07 · Седмичен преглед</h2>
+        <details class="progressive-explanation concept-graph__retrieval-check">
+            <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
+            <div class="progressive-explanation__body">
+                <p>Преди да разгънеш картата, опитай да си спомниш основните клъстери на тази седмица.</p>
+                <ConceptGraph ComponentId="week12-mindmap-review" Model="@_week12MindMapRender" />
+            </div>
+        </details>
     </LearningSection>
 
     <LearningSection Role="theory" RoleLabel="Рефлексия">
-        <h2 id="proverka" tabindex="-1">07 · Проверка на разбирането</h2>
+        <h2 id="proverka" tabindex="-1">08 · Проверка на разбирането</h2>
         <p>5 въпроса. Отговорете на всички, за да предадете теста и видите резултата — не се пази между посещения.</p>
         <FinalAssessment SectionId="proverka" Model="_week12FinalAssessment" />
     </LearningSection>
 
     <LearningSection Role="academic" RoleLabel="Изводи">
-        <h2 id="izvori" tabindex="-1">08 · Обобщение, академичен контекст и източници</h2>
+        <h2 id="izvori" tabindex="-1">09 · Обобщение, академичен контекст и източници</h2>
 
         <div class="learning-grid learning-grid--balanced">
             <div>
@@ -253,6 +273,107 @@
 
 @code {
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 12);
+    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
+
+    // Weekly Mind Map — this week's own overview structure only, built from its own §01-§06 headings. Deliberately
+    // excludes "Автоматична мисъл" and "Междинно вярване": Week 3 owns that hierarchy and it is never re-rendered here.
+    private static readonly GraphRenderModel _week12MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek12MindMap());
+
+    private static MindMapModel BuildWeek12MindMap() => new(
+        "Седмица 12 — основни вярвания и схеми",
+        "Мисловна карта на седмицата: схема и основно вярване, ранен произход, трите категории, поддържане чрез филтъра, развитие на по-адаптивно вярване, и академичната граница на страницата.",
+        [
+            new("root", "Основни вярвания и схеми", null, null, null, ConceptState.Introduced),
+
+            new("shema", "Схема и основно вярване", "root",
+                "Схемата е когнитивната структура; основното вярване е нейното конкретно съдържание.",
+                "/kurs/sedmica-12#osnovno-vyarvane", ConceptState.Introduced),
+
+            new("proizhod", "Ранен произход", "root",
+                "Формира се рано, чрез вродена предразположеност и повтарящи се взаимодействия през детството.",
+                "/kurs/sedmica-12#osnovno-vyarvane", ConceptState.Introduced),
+
+            new("kategorii", "Трите категории", "root",
+                "Три широки теми сред негативните основни вярвания.",
+                "/kurs/sedmica-12#trite-kategorii", ConceptState.Introduced),
+            new("kat-bezpomoshtnost", "Безпомощност", "kategorii", "Теми около неефективност.", null, ConceptState.Introduced),
+            new("kat-neobichaemost", "Необичаемост", "kategorii", "Теми около неприемливост или „дефект“ в характера.", null, ConceptState.Introduced),
+            new("kat-bezpoleznost", "Безполезност", "kategorii", "Теми, при които ефективността и обичта отстъпват на заден план.", null, ConceptState.Introduced),
+
+            new("filtar", "Поддържане чрез филтъра", "root",
+                "Схемата пропуска потвърждаваща информация и филтрира противоречащата — затова погрешно вярване може да се усеща вярно.",
+                "/kurs/sedmica-12#poddarzhane-na-vyarvaneto", ConceptState.Introduced),
+
+            new("razvitie", "Развитие на по-адаптивно вярване", "root",
+                "Академичен преглед на процеса, в който старото вярване отслабва, а новото се затвърждава.",
+                "/kurs/sedmica-12#razvitie-na-novo-vyarvane", ConceptState.Introduced),
+
+            new("granitsa", "Академична граница", "root",
+                "Страницата остава академичен обзор — не инструмент за самооценка.",
+                "/kurs/sedmica-12#akademichen-obzor", ConceptState.Introduced)
+        ]);
+
+    // Simulator + Application/Feedback (§03, SRC-041 Ch.14 p.232, U15): an unnamed third-person statement whose category
+    // depends on its precise meaning. Only the two source-supported branches exist — no Безполезност branch, since the
+    // source defines that category but never links this specific phrase to it.
+    private static readonly StatefulModelActivity _week12CategoryAmbiguity = new(
+        "Коя категория стои зад твърдението?",
+        "Изберете кой от двата възможни смисъла на твърдението \"Не съм достатъчно добър\" е имал предвид човекът. Моделът показва към коя категория той сочи.",
+        "initial",
+        [
+            new("initial", "Изходно твърдение", "Неназован човек казва: „Не съм достатъчно добър.“",
+                "Категорията зависи от точния смисъл, който човекът е вложил в твърдението.",
+                [
+                    new("meaning", "Точен смисъл", "Все още не е установен"),
+                    new("category", "Категория", "Все още не е установена")
+                ],
+                [
+                    new("achievement", "„Не съм достатъчно способен, за да постигна.“", "helplessness",
+                        "Този смисъл сочи към категорията на безпомощността — теми около неефективност и невъзможност да постигнеш нещо съществено.",
+                        "SRC-041 · Гл. 14 · стр. 232"),
+                    new("love", "„Не съм достатъчно добър, за да бъда обичан.“", "unlovability",
+                        "Този смисъл сочи към категорията на необичаемостта — теми около неприемливост и невъзможност да получиш трайна любов и грижа.",
+                        "SRC-041 · Гл. 14 · стр. 232")
+                ]),
+
+            new("helplessness", "Резултат: Безпомощност", "Смисълът засяга способността да постигнеш нещо.",
+                "Твърдението отразява категорията на безпомощността.",
+                [
+                    new("meaning", "Точен смисъл", "Не достатъчно способен, за да постигна"),
+                    new("category", "Категория", "Безпомощност")
+                ], []),
+
+            new("unlovability", "Резултат: Необичаемост", "Смисълът засяга приемането от другите.",
+                "Твърдението отразява категорията на необичаемостта.",
+                [
+                    new("meaning", "Точен смисъл", "Не достатъчно добър, за да бъда обичан"),
+                    new("category", "Категория", "Необичаемост")
+                ], [])
+        ]);
+
+    // Retrieval (§06, after §05, before the Final Assessment, separate from the §03 simulator): matches only the three
+    // category NAMES to their own §03 theme descriptions, verbatim — never the §05 old-belief phrases (that would drift
+    // toward the excluded Figure 14.1 self-recognition use).
+    private static readonly ClassifyMatchActivity _week12CategoryMatch = new(
+        "Свържете категорията с описанието ѝ",
+        "Изберете описанието, което съответства на всяка от трите категории от раздел 03, после проверете.",
+        ClassifyMatchMode.Match,
+        [
+            new("helplessness", "Безпомощност"),
+            new("unlovability", "Необичаемост"),
+            new("worthlessness", "Безполезност")
+        ],
+        [
+            new("i-helplessness", "Безпомощност", "helplessness",
+                "Теми около неефективност — невъзможност да се справиш с нещата, да защитиш себе си или да постигнеш нещо съществено.",
+                "SRC-041 · Гл. 14 · стр. 232"),
+            new("i-unlovability", "Необичаемост", "unlovability",
+                """Теми около неприемливост, нежеланост или "дефект" в характера — усещане, че не можеш да получиш трайна любов и грижа от другите (не заради постижения или морал, а заради самата си същност).""",
+                "SRC-041 · Гл. 14 · стр. 232"),
+            new("i-worthlessness", "Безполезност", "worthlessness",
+                "Теми, при които ефективността и обичта отстъпват на заден план — усещане, че си лош, недостоен или дори опасен за другите.",
+                "SRC-041 · Гл. 14 · стр. 232")
+        ]);
 
     // Weekly Final Assessment Standard — same 5 questions, wording, and answer keys as before the
     // retrofit; only the interaction changed (scored submit/retry instead of a static reveal).

@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.RegularExpressions;
 using CbtLearningPlatform.Client.Curriculum;
 
 namespace CbtLearningPlatform.Tests;
@@ -73,7 +74,7 @@ public sealed class Week12ContentSliceTests
     }
 
     [Fact]
-    public void Week12Page_UsesOnlyExistingReusablePatterns()
+    public void Week12Page_UsesOnlyExistingReusablePatterns_AndPassesTheActiveLearningGate()
     {
         string source = ReadPage("Sedmica12.razor");
 
@@ -85,6 +86,110 @@ public sealed class Week12ContentSliceTests
         Assert.Contains("<OptionalReadingSource", source);
         Assert.Contains("class=\"category-compare\"", source);
         Assert.Contains("class=\"learning-grid learning-grid--balanced\"", source);
+
+        // Active Learning remediation: shared toolkit engines only, in the fixed AcademicThirdPerson mode.
+        Assert.Contains("<ConceptGraph", source);
+        Assert.Contains("<StatefulModelSimulator", source);
+        Assert.Contains("<ClassifyMatchCheck", source);
+        Assert.Equal(ActiveLearningSafetyMode.AcademicThirdPerson, ActiveLearningSafety.ModeFor(CourseCatalog.Weeks.Single(w => w.Number == 12).SafetyLevel));
+
+        WeekLearningArchitecture week = ActiveLearningCatalog.For(12);
+        Assert.Equal(StructuralStatus.Compliant, week.Status);
+        Assert.Empty(ActiveLearningStandard.Evaluate(week));
+    }
+
+    [Fact]
+    public void Week12Page_MindMapPreviewAndReview_UseTheSameModel_NoWeek3HierarchyNodes()
+    {
+        string source = ReadPage("Sedmica12.razor");
+
+        Assert.Equal(2, Regex.Matches(source, "<ConceptGraph").Count);
+        Assert.Equal(2, Regex.Matches(source, @"Model=""@_week12MindMapRender""").Count);
+
+        int mapStart = source.IndexOf("private static MindMapModel BuildWeek12MindMap", StringComparison.Ordinal);
+        int mapEnd = source.IndexOf("]);", mapStart, StringComparison.Ordinal);
+        Assert.True(mapStart >= 0 && mapEnd > mapStart);
+        string mapBlock = source[mapStart..mapEnd];
+
+        Assert.DoesNotContain("\"Автоматична мисъл\"", mapBlock);
+        Assert.DoesNotContain("\"Междинно вярване\"", mapBlock);
+
+        string[] expectedBranches =
+        [
+            "Схема и основно вярване", "Ранен произход", "Трите категории",
+            "Поддържане чрез филтъра", "Развитие на по-адаптивно вярване", "Академична граница"
+        ];
+        foreach (string branch in expectedBranches)
+        {
+            Assert.Contains($"\"{branch}\"", mapBlock);
+        }
+    }
+
+    [Fact]
+    public void Week12Page_SimulatorAndRetrieval_AreSeparateLayers_BeforeTheFinalAssessment()
+    {
+        string source = ReadPage("Sedmica12.razor");
+
+        int kategorii = source.IndexOf("id=\"trite-kategorii\"", StringComparison.Ordinal);
+        int simulator = source.IndexOf("<StatefulModelSimulator", StringComparison.Ordinal);
+        int razvitie = source.IndexOf("id=\"razvitie-na-novo-vyarvane\"", StringComparison.Ordinal);
+        int retrieval = source.IndexOf("<ClassifyMatchCheck", StringComparison.Ordinal);
+        int assessment = source.IndexOf("<FinalAssessment", StringComparison.Ordinal);
+
+        Assert.True(simulator > kategorii && simulator < razvitie, "The ambiguity simulator lives in §03.");
+        Assert.True(retrieval > razvitie && retrieval < assessment, "The retrieval match follows §05, before the Final Assessment.");
+        Assert.NotEqual(simulator, retrieval);
+    }
+
+    [Fact]
+    public void Week12Page_CategoryAmbiguitySimulator_HasExactlyTwoSourceSupportedBranches_NoWorthlessnessBranch()
+    {
+        string source = ReadPage("Sedmica12.razor");
+
+        int simulatorStart = source.IndexOf("_week12CategoryAmbiguity = new", StringComparison.Ordinal);
+        int simulatorEnd = source.IndexOf("\n    // Retrieval", simulatorStart, StringComparison.Ordinal);
+        Assert.True(simulatorStart >= 0 && simulatorEnd > simulatorStart);
+        string simulatorBlock = source[simulatorStart..simulatorEnd];
+
+        Assert.Contains("Не съм достатъчно способен, за да постигна", simulatorBlock);
+        Assert.Contains("Безпомощност", simulatorBlock);
+        Assert.Contains("Не съм достатъчно добър, за да бъда обичан", simulatorBlock);
+        Assert.Contains("Необичаемост", simulatorBlock);
+
+        // Exactly two branch choices ("new(" state-transition entries under the initial state) — no third
+        // Безполезност branch, since the source never links this specific phrase to that category.
+        Assert.DoesNotContain("Безполезност", simulatorBlock);
+        Assert.Equal(2, Regex.Matches(simulatorBlock, @"new\(""[a-z]+"", "".*"", (?:""helplessness""|""unlovability"")").Count);
+
+        // Never Sally, never Annie, never the learner's own belief.
+        Assert.DoesNotContain("Сали", simulatorBlock);
+        Assert.DoesNotContain("Анни", simulatorBlock);
+        Assert.DoesNotContain("твоето вярване", simulatorBlock);
+    }
+
+    [Fact]
+    public void Week12Page_RetrievalMatch_UsesVerbatimSection03Definitions_NeverSection05Phrases()
+    {
+        string source = ReadPage("Sedmica12.razor");
+
+        // The §03 cards wrap these sentences across markup lines, so compare with whitespace normalized rather than
+        // byte-for-byte (the words themselves are identical to each retrieval item's single-line definition).
+        string normalized = Regex.Replace(source, @"\s+", " ");
+        foreach (string definition in new[]
+        {
+            "Теми около неефективност — невъзможност да се справиш с нещата, да защитиш себе си или да постигнеш нещо съществено.",
+            "Теми, при които ефективността и обичта отстъпват на заден план — усещане, че си лош, недостоен или дори опасен за другите.",
+            """Теми около неприемливост, нежеланост или "дефект" в характера — усещане, че не можеш да получиш трайна любов и грижа от другите (не заради постижения или морал, а заради самата си същност)."""
+        })
+        {
+            Assert.Equal(2, Regex.Matches(normalized, Regex.Escape(definition)).Count);
+        }
+
+        // Retrieval never classifies the §05 old-belief phrases (that would read as a self-recognition tool).
+        string retrievalStart = source[source.IndexOf("_week12CategoryMatch = new", StringComparison.Ordinal)..];
+        string retrievalBlock = retrievalStart[..retrievalStart.IndexOf("\n\n    // Weekly Final Assessment", StringComparison.Ordinal)];
+        Assert.DoesNotContain("Аз съм (напълно) неслюбим", retrievalBlock);
+        Assert.DoesNotContain("Аз съм лош", retrievalBlock);
     }
 
     [Fact]
@@ -207,7 +312,7 @@ public sealed class Week12ContentSliceTests
         string[] anchorIds =
         [
             "niva", "osnovno-vyarvane", "trite-kategorii", "poddarzhane-na-vyarvaneto",
-            "razvitie-na-novo-vyarvane", "akademichen-obzor", "proverka", "izvori"
+            "razvitie-na-novo-vyarvane", "akademichen-obzor", "review", "proverka", "izvori"
         ];
 
         foreach (string id in anchorIds)

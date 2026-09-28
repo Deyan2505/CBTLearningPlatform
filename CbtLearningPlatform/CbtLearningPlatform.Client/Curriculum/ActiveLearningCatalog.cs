@@ -12,7 +12,8 @@ namespace CbtLearningPlatform.Client.Curriculum;
 /// Week 3 now passes all six: the schema-filter simulator, a committed level classification (retrieval) and the Sally belief application.
 /// Week 4 passes all six with a fixed third-person case examination, the session sequence and a separate ordering retrieval.
 /// Week 11 passes all six with a generic-patient therapist-judgment simulator and a separate technique-matching retrieval.
-/// The remaining weeks (12-15) remain
+/// Week 12 passes all six with an unnamed-person category-ambiguity simulator and a separate category-matching retrieval.
+/// The remaining weeks (13-15) remain
 /// <see cref="StructuralStatus.StructuralEnrichmentRequired"/> (OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED):
 /// content approval and locked prose remain valid; only the learning architecture is reopened, one controlled batch at a time. When a week's remediation lands, add the new declarations and
 /// promote its status to Compliant in the same change — a stale StructuralEnrichmentRequired also fails the gate.
@@ -222,10 +223,24 @@ public static class ActiveLearningCatalog
             ],
             responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
 
-        // Week 12 is the ONE routed week with no Weekly Mind Map. Reported to the owner, not silently fixed: it now fails the
-        // WeeklyMindMap gate as well as Interaction/Response, which is honest — it was already StructuralEnrichmentRequired.
-        Migration(12,
-            visuals: [new(VisualModelKind.Comparison, CategoryCompare), new(VisualModelKind.Comparison, ComparisonMatrix)]),
+        // Week 12 (AcademicContextOnly -> AcademicThirdPerson): the earlier audit's "zero interaction, no Mind Map"
+        // decisions are superseded by ADR-011 and the Mind Map mandate (owner decision). The two existing comparisons
+        // stay the visuals; the learner works the §03 category-ambiguity model (unnamed person, two source-supported
+        // branches only — no Безполезност branch) and separately matches the three category names to their §03
+        // definitions before the Final Assessment.
+        Compliant(12,
+            visuals:
+            [
+                new(VisualModelKind.MindMap, Graph("week12-mindmap-preview"), RepresentsCentralStructure: false),
+                new(VisualModelKind.Comparison, CategoryCompare),
+                new(VisualModelKind.Comparison, ComparisonMatrix)
+            ],
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "StatefulModelSimulator"),
+                new(InteractionFamily.ClassifyMatch, "ClassifyMatchCheck")
+            ],
+            responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
 
         Migration(13,
             visuals: [new(VisualModelKind.MindMap, Graph("week13-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Sequence, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),
