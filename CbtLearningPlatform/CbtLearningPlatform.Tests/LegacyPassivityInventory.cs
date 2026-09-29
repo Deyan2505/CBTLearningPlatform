@@ -40,10 +40,10 @@ internal static class LegacyPassivityInventory
 
     public static IReadOnlyList<LegacyPassivityAssertion> Entries { get; } =
     [
-        // Weeks 1, 2 and 10 (Phase 2, Batch 1), Weeks 5, 7 and 9 (Phase 2, Batch 2), Week 4, Week 11, Week 12 and
-        // Week 13 were remediated: their Replace entries were removed together with the assertions themselves,
-        // which now assert the catalog gate instead
-        // (Week1/2/4/5/7/9/10/11/12/13ContentSliceTests + ActiveLearningBatch1Tests / ActiveLearningBatch2Tests).
+        // Weeks 1, 2 and 10 (Phase 2, Batch 1), Weeks 5, 7 and 9 (Phase 2, Batch 2), Week 4, Week 11, Week 12,
+        // Week 13 and Week 14 were remediated: their Replace entries were removed together with the assertions
+        // themselves, which now assert the catalog gate instead
+        // (Week1/2/4/5/7/9/10/11/12/13/14ContentSliceTests + ActiveLearningBatch1Tests / ActiveLearningBatch2Tests).
 
         new(10, "Week10ContentSliceTests.cs", "Week8Page_CrossLinksToWeek10_WithoutDuplicatingTheSimulator",
             new HashSet<string> { "<SocraticDialogueExplorer" }, LegacyPassivityKind.KeepCrossWeekScopeGuard,
@@ -55,10 +55,7 @@ internal static class LegacyPassivityInventory
 
         new(14, "Week14ContentSliceTests.cs", "Week14_FormatIsInteractiveModelNeverStaticVisualization",
             new HashSet<string> { "InteractiveFormat.Simulator" }, LegacyPassivityKind.KeepSafetyLabelGuard,
-            "ProfessionalReviewRequired must not carry a self-guided 'Simulator' label. The InteractiveModel label is currently unearned until Week 14 is enriched."),
-
-        Replace(14, "Week14ContentSliceTests.cs", "Week14Page_UsesOnlyExistingReusablePatterns",
-            "Replace with the Week 14 catalog gate.", Interactives),
+            "ProfessionalReviewRequired must not carry a self-guided 'Simulator' label. Interaction is still required in a safety-adapted form."),
 
         Replace(15, "Week15ContentSliceTests.cs", "Week15_FormatIsAcademicOnlyNeverInteractiveOrSimulator",
             "Encodes 'AcademicOnly means never interactive'. Replace with the Week 15 catalog gate; keep the no-self-guided-Simulator label rule.",

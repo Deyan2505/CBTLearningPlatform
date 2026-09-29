@@ -15,7 +15,9 @@ namespace CbtLearningPlatform.Client.Curriculum;
 /// Week 12 passes all six with an unnamed-person category-ambiguity simulator and a separate category-matching retrieval.
 /// Week 13 passes all six with a Sally-attribution-order interactive model (NoSelfGuidedSimulation, never labelled
 /// "Симулатор") and a separate skill-vs-belief classification retrieval.
-/// The remaining weeks (14-15) remain
+/// Week 14 passes all six with a four-way homework-failure-diagnosis interactive model (ProfessionalContext) and a
+/// separate Figure 18.1 recovery-shape ordering retrieval.
+/// The remaining week (15) remains
 /// <see cref="StructuralStatus.StructuralEnrichmentRequired"/> (OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED):
 /// content approval and locked prose remain valid; only the learning architecture is reopened, one controlled batch at a time. When a week's remediation lands, add the new declarations and
 /// promote its status to Compliant in the same change — a stale StructuralEnrichmentRequired also fails the gate.
@@ -264,8 +266,24 @@ public static class ActiveLearningCatalog
             ],
             responses: [new(LearnerResponseKind.Classify, "ClassifyMatchCheck")]),
 
-        Migration(14,
-            visuals: [new(VisualModelKind.MindMap, Graph("week14-mindmap-preview"), RepresentsCentralStructure: false), new(VisualModelKind.Sequence, Sequence), new(VisualModelKind.Comparison, ComparisonMatrix)]),
+        // Week 14 (ProfessionalReviewRequired -> ProfessionalContext): ADR-011 supersedes the audit's original
+        // "no simulator" call (same owner decision already applied to Week 13). The Mind Map, taper sequence and
+        // comparisons stay the visuals; the learner works the §04 four-way homework-failure-diagnosis model
+        // (verbatim table cells, four distinct clinician-perspective paths, no patient answer, no percentage) and
+        // separately orders Figure 18.1's five recovery stages before the Final Assessment.
+        Compliant(14,
+            visuals:
+            [
+                new(VisualModelKind.MindMap, Graph("week14-mindmap-preview"), RepresentsCentralStructure: false),
+                new(VisualModelKind.Sequence, Sequence),
+                new(VisualModelKind.Comparison, ComparisonMatrix)
+            ],
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "StatefulModelSimulator"),
+                new(InteractionFamily.OrderingBuilder, "OrderingBuilder")
+            ],
+            responses: [new(LearnerResponseKind.Order, "OrderingBuilder")]),
 
         Migration(15,
             visuals:

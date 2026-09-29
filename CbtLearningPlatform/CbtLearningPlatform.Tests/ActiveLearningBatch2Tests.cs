@@ -467,11 +467,11 @@ public sealed class ActiveLearningBatch2Tests
     [Fact]
     public void WeeksOutsideBatches1And2_AreNotPromoted()
     {
-        foreach (int week in new[] { 14, 15 })
+        foreach (int week in new[] { 15 })
         {
             Assert.Equal(StructuralStatus.StructuralEnrichmentRequired, ActiveLearningCatalog.For(week).Status);
         }
-        foreach (int week in new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 })
+        foreach (int week in new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 })
         {
             Assert.Equal(StructuralStatus.Compliant, ActiveLearningCatalog.For(week).Status);
         }

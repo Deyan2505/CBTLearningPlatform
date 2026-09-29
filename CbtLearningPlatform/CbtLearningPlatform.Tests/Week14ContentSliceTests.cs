@@ -80,7 +80,7 @@ public sealed class Week14ContentSliceTests
     }
 
     [Fact]
-    public void Week14Page_UsesOnlyExistingReusablePatterns()
+    public void Week14Page_UsesOnlyExistingReusablePatterns_AndPassesTheActiveLearningGate()
     {
         string source = ReadPage("Sedmica14.razor");
 
@@ -98,10 +98,137 @@ public sealed class Week14ContentSliceTests
         Assert.Contains("class=\"comparison-matrix-wrapper\"", source);
         Assert.Contains("class=\"learning-grid learning-grid--balanced\"", source);
 
-        // No new .razor component and no new interactive island.
-        Assert.DoesNotContain("<CbtChainSimulator", source);
-        Assert.DoesNotContain("<InterpretationExample", source);
-        Assert.DoesNotContain("<CategorizationCheck", source);
+        // Active Learning remediation: shared toolkit engines only, in the fixed ProfessionalContext mode.
+        Assert.Contains("<StatefulModelSimulator", source);
+        Assert.Contains("<OrderingBuilder", source);
+        Assert.Equal(ActiveLearningSafetyMode.ProfessionalContext, ActiveLearningSafety.ModeFor(CourseCatalog.Weeks.Single(w => w.Number == 14).SafetyLevel));
+
+        WeekLearningArchitecture week = ActiveLearningCatalog.For(14);
+        Assert.Equal(StructuralStatus.Compliant, week.Status);
+        Assert.Empty(ActiveLearningStandard.Evaluate(week));
+    }
+
+    [Fact]
+    public void Week14Page_SimulatorAndRetrieval_AreSeparateLayers_BeforeTheFinalAssessment()
+    {
+        string source = ReadPage("Sedmica14.razor");
+
+        int diagnosis = source.IndexOf("id=\"diagnostika-na-neizpalnenie\"", StringComparison.Ordinal);
+        int model = source.IndexOf("<StatefulModelSimulator", StringComparison.Ordinal);
+        int pregled = source.IndexOf("id=\"pregled-na-domashnata\"", StringComparison.Ordinal);
+        int review = source.IndexOf("id=\"review\"", StringComparison.Ordinal);
+        int retrieval = source.IndexOf("<OrderingBuilder", StringComparison.Ordinal);
+        int assessment = source.IndexOf("<FinalAssessment", StringComparison.Ordinal);
+
+        Assert.True(model > diagnosis && model < pregled, "The homework-failure diagnosis model lives in §04.");
+        Assert.True(retrieval > review && retrieval < assessment, "The retrieval ordering sits at the top of §10, before the Final Assessment.");
+        Assert.NotEqual(model, retrieval);
+    }
+
+    [Fact]
+    public void Week14Page_LearnerFacingMarkupNeverSaysSimulator()
+    {
+        string publicMarkup = ReadPublicMarkup("Sedmica14.razor");
+
+        Assert.DoesNotContain("Симулатор", publicMarkup);
+        Assert.DoesNotContain("Simulator\"", publicMarkup);
+        Assert.Contains("Интерактивен модел: защо задачата не е изпълнена", publicMarkup);
+    }
+
+    [Fact]
+    public void Week14Page_DiagnosisModel_HasExactlyFourTableGroundedPaths_NoInventedOutcomeOrPercentage()
+    {
+        string source = ReadPage("Sedmica14.razor");
+
+        int modelStart = source.IndexOf("DiagnosisSource = ", StringComparison.Ordinal);
+        int modelEnd = source.IndexOf("\n\n    // Retrieval", modelStart, StringComparison.Ordinal);
+        Assert.True(modelStart >= 0 && modelEnd > modelStart);
+        string modelBlock = source[modelStart..modelEnd];
+
+        // Exactly four distinct recognition-cue choices, each the §04 table's own "Как се разпознава" cell, verbatim.
+        string[] recognitionCues =
+        [
+            "Пациентът съобщава липса на време, енергия или неясна задача; забравя обосновката, поради която е поел заданието; няма система за запомняне.",
+            "Има конкретен момент, в който пациентът е мислил за заданието, но не го е направил; типични причини — негативни предсказания, перфекционизъм, преувеличаване на нужната енергия или време.",
+            "Пациентът настоява, че пречката е чисто практическа (време, енергия, възможност), но терапевтът подозира и скрита мисъл или вярване отдолу.",
+            "Терапевтът самият се колебае да настоява за заданието — от страх да не нарани пациента, да не го обиди, или от предположение, че заданието не е наистина необходимо."
+        ];
+        foreach (string cue in recognitionCues)
+        {
+            Assert.Single(Regex.Matches(modelBlock, Regex.Escape(cue)));
+        }
+
+        // Each of the four resulting states carries the table's own type name and its own therapist-response
+        // cell, verbatim.
+        string[] typesAndResponses =
+        [
+            "Практически проблем",
+            "Изяснява практическата пречка, напомня обосновката, помага за организационна система — например ежедневен списък за отмятане на заданията.",
+            "Психологически проблем",
+            "Изследва точно този момент — какви мисли и чувства са били налице; при нужда прави заданието по-базово; напомня, че ученето на нов навик прилича на учене на умение, не изисква перфектност.",
+            "Психологически проблем, маскиран като практически",
+            "Проверява хипотетично: „ако този практически проблем магически изчезне, колко вероятно е да го направите?“ — за да разкрие скритата мисъл.",
+            "Проблем в собственото мислене на терапевта",
+            "Разпознава собствените си дисфункционални предположения; при нужда прави собствени записи на мисли или се консултира с колега — за да не лиши пациента от полезна, изследователски подкрепена интервенция."
+        ];
+        foreach (string text in typesAndResponses)
+        {
+            Assert.Contains(text, modelBlock);
+        }
+
+        // No invented patient answer, later homework outcome, or percentage/adherence logic anywhere in the model.
+        string[] forbidden = ["%", "пациентът отговори", "пациентът казва", "успешно изпълни", "не успя да изпълни"];
+        foreach (string phrase in forbidden)
+        {
+            Assert.DoesNotContain(phrase, modelBlock);
+        }
+
+        // Exactly four terminal states beyond "initial" (one per path) — never a fifth invented branch.
+        Assert.Equal(4, Regex.Matches(modelBlock, "\"response\", \"Отговор на терапевта\"").Count);
+    }
+
+    [Fact]
+    public void Week14Page_RecoveryShapeRetrieval_HasExactlyTheFiveFigure181StagesVerbatim()
+    {
+        string source = ReadPage("Sedmica14.razor");
+
+        int figureStart = source.IndexOf("Форма на възстановяването (Фигура 18.1)", StringComparison.Ordinal);
+        int figureEnd = source.IndexOf("</SourceArtifact>", figureStart, StringComparison.Ordinal);
+        Assert.True(figureStart >= 0 && figureEnd > figureStart);
+        string figureBlock = source[figureStart..figureEnd];
+
+        int retrievalStart = source.IndexOf("_week14RecoveryShapeOrder = new", StringComparison.Ordinal);
+        Assert.True(retrievalStart >= 0);
+        string retrievalBlock = source[retrievalStart..];
+
+        string[] stages =
+        [
+            "Първоначално подобрение",
+            "Плато или временен спад",
+            "Ново подобрение",
+            "По-малък, по-кратък и по-лек спад",
+            "Продължаващо подобрение — с времето спадовете стават все по-редки, по-кратки и по-леки"
+        ];
+        foreach (string stage in stages)
+        {
+            Assert.Contains(stage, figureBlock);
+            Assert.Contains(stage, retrievalBlock);
+        }
+
+        // No new stage invented in the retrieval activity.
+        Assert.Equal(5, Regex.Matches(retrievalBlock, "new\\(\"stage-").Count);
+    }
+
+    [Fact]
+    public void Week14Page_DiagnosisModel_IsClinicianPerspective_NoSelfAssessmentOrDialogue()
+    {
+        string publicMarkup = ReadPublicMarkup("Sedmica14.razor");
+
+        Assert.DoesNotContain("<input", publicMarkup);
+        Assert.DoesNotContain("<textarea", publicMarkup);
+        Assert.DoesNotContain("<form", publicMarkup);
+        Assert.DoesNotContain("Терапевт:", publicMarkup);
+        Assert.DoesNotContain("Пациент:", publicMarkup);
     }
 
     [Fact]

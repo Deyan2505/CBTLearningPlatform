@@ -38,8 +38,17 @@
      week's own primary source, not an orphaned chapter. C15-K05 (therapist development, Гл. 21) is
      explicitly NOT assigned here — remains Deferred/Unassigned pending the Week 15 audit.
    - Zero self-input anywhere on this page (no <input>/<textarea>/<form>), zero reproduced
-     therapist-patient dialogue, zero simulator — every method is described in the third person (what
-     the therapist does), matching Week 11/13's precedent.
+     therapist-patient dialogue — every method is described in the third person (what the therapist
+     does), matching Week 11/13's precedent.
+
+   ACTIVE LEARNING REMEDIATION (ADR-011 supersedes this audit's original "no simulator" call, same
+   owner decision already applied to Week 13): §04 gets a StatefulModelSimulator over the four-way
+   homework-failure diagnosis table — the learner picks one of the table's own four "Как се разпознава"
+   recognition cues, verbatim, and the model shows that row's own type and its own "Отговор на
+   терапевта" cell, verbatim. No patient answer, no later homework outcome, no percentage, no
+   self-assessment — ProfessionalContext (clinician-perspective, third person), never labelled
+   "Симулатор" to the learner. §10 gets a separate OrderingBuilder over Figure 18.1's five recovery
+   stages, verbatim, before the Final Assessment.
 
    OVERLAP BOUNDARIES (see audit §4): Week 6 owns homework as a session artifact/list (its own dated
    list pattern and Sally's Figure 5.1 are never reproduced here — only cross-linked); this page owns
@@ -51,8 +60,8 @@
    model Preview+Review, collapsed by default, 8 knowledge-cluster branches, single-parent, no invented
    causal relations) + one process visualization (.guided-practice-sequence, the taper ladder) + one
    fixed SourceArtifact illustration (Figure 18.1's recovery shape) + two comparisons (.comparison-matrix,
-   the four-way diagnosis and Figure 18.2) + shared FinalAssessment. No Concept Map, no new .razor
-   component, no new CSS class.
+   the four-way diagnosis and Figure 18.2) + shared FinalAssessment + shared StatefulModelSimulator (§04)
+   + shared OrderingBuilder (§10). No Concept Map, no new .razor component, no new CSS class.
 
    SALLY: Figure 18.2 (advantages/disadvantages of tapering) is the ONLY worked example — no new
    biography, no invented dialogue, no merging with unrelated source examples. *@
@@ -220,6 +229,7 @@
             пациента — целта ѝ е терапевтът да реагира точно на конкретната пречка, вместо да продължи да
             задава непроменена задача.
         </p>
+        <StatefulModelSimulator ComponentId="week14-homework-diagnosis-model" Activity="_week14HomeworkDiagnosisModel" SafetyMode="_safetyMode" />
     </LearningSection>
 
     <LearningSection Role="theory" RoleLabel="Преценка">
@@ -424,6 +434,7 @@
 
     <LearningSection Role="theory" RoleLabel="Обобщение">
         <h2 id="review" tabindex="-1">10 · Седмичен преглед</h2>
+        <OrderingBuilder ComponentId="week14-recovery-shape-order" Activity="_week14RecoveryShapeOrder" SafetyMode="_safetyMode" />
         <details class="progressive-explanation concept-graph__retrieval-check">
             <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
             <div class="progressive-explanation__body">
@@ -503,6 +514,90 @@
 
 @code {
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 14);
+    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
+
+    // Interactive model + application/feedback (§04, SRC-041 Гл. 17, four-way homework-failure diagnosis): the
+    // learner picks one of the table's own four "Как се разпознава" recognition cues, verbatim, and the model
+    // visibly updates to show that row's own type and its own "Отговор на терапевта" cell, verbatim. Four
+    // distinct terminal paths, ProfessionalContext (clinician-perspective, third person) — no patient answer,
+    // no later homework outcome, no percentage, no self-assessment. Learner-facing Title avoids the
+    // safety-restricted format label (see Week14Page_LearnerFacingMarkupNeverSaysSimulator).
+    private const string DiagnosisSource = "SRC-041 · Гл. 17";
+    private const string RecognizePractical = "Пациентът съобщава липса на време, енергия или неясна задача; забравя обосновката, поради която е поел заданието; няма система за запомняне.";
+    private const string RespondPractical = "Изяснява практическата пречка, напомня обосновката, помага за организационна система — например ежедневен списък за отмятане на заданията.";
+    private const string RecognizePsychological = "Има конкретен момент, в който пациентът е мислил за заданието, но не го е направил; типични причини — негативни предсказания, перфекционизъм, преувеличаване на нужната енергия или време.";
+    private const string RespondPsychological = "Изследва точно този момент — какви мисли и чувства са били налице; при нужда прави заданието по-базово; напомня, че ученето на нов навик прилича на учене на умение, не изисква перфектност.";
+    private const string RecognizeMasked = "Пациентът настоява, че пречката е чисто практическа (време, енергия, възможност), но терапевтът подозира и скрита мисъл или вярване отдолу.";
+    private const string RespondMasked = "Проверява хипотетично: „ако този практически проблем магически изчезне, колко вероятно е да го направите?“ — за да разкрие скритата мисъл.";
+    private const string RecognizeTherapist = "Терапевтът самият се колебае да настоява за заданието — от страх да не нарани пациента, да не го обиди, или от предположение, че заданието не е наистина необходимо.";
+    private const string RespondTherapist = "Разпознава собствените си дисфункционални предположения; при нужда прави собствени записи на мисли или се консултира с колега — за да не лиши пациента от полезна, изследователски подкрепена интервенция.";
+
+    private static readonly StatefulModelActivity _week14HomeworkDiagnosisModel = new(
+        "Интерактивен модел: защо задачата не е изпълнена",
+        "Изберете кой от четирите признака описва случая, за да видите как терапевтът разпознава типа и как отговаря.",
+        "initial",
+        [
+            new("initial", "Начало", "Зададена, подходяща задача не е изпълнена",
+                "Терапевтът концептуализира защо е възникнал проблемът — не приема неизпълнението за лична слабост или мързел.",
+                [
+                    new("situation", "Ситуация", "Пациентът не е изпълнил зададена, подходяща домашна задача."),
+                    new("diagnosis", "Диагноза", "Все още неизвестна — терапевтът предстои да я разпознае.")
+                ],
+                [
+                    new("pick-practical", RecognizePractical, "practical", RespondPractical, DiagnosisSource),
+                    new("pick-psychological", RecognizePsychological, "psychological", RespondPsychological, DiagnosisSource),
+                    new("pick-masked", RecognizeMasked, "masked", RespondMasked, DiagnosisSource),
+                    new("pick-therapist", RecognizeTherapist, "therapist", RespondTherapist, DiagnosisSource)
+                ]),
+
+            new("practical", "Разпознато", "Практически проблем",
+                "Терапевтът разпознава практически проблем по описания признак.",
+                [
+                    new("type", "Тип", "Практически проблем"),
+                    new("response", "Отговор на терапевта", RespondPractical)
+                ],
+                []),
+
+            new("psychological", "Разпознато", "Психологически проблем",
+                "Терапевтът разпознава психологически проблем по описания признак.",
+                [
+                    new("type", "Тип", "Психологически проблем"),
+                    new("response", "Отговор на терапевта", RespondPsychological)
+                ],
+                []),
+
+            new("masked", "Разпознато", "Психологически проблем, маскиран като практически",
+                "Терапевтът разпознава психологически проблем, маскиран като практически, по описания признак.",
+                [
+                    new("type", "Тип", "Психологически проблем, маскиран като практически"),
+                    new("response", "Отговор на терапевта", RespondMasked)
+                ],
+                []),
+
+            new("therapist", "Разпознато", "Проблем в собственото мислене на терапевта",
+                "Терапевтът разпознава проблем в собственото си мислене по описания признак.",
+                [
+                    new("type", "Тип", "Проблем в собственото мислене на терапевта"),
+                    new("response", "Отговор на терапевта", RespondTherapist)
+                ],
+                [])
+        ]);
+
+    // Retrieval (§10, top, before the Final Assessment, separate from the §04 model): orders the five
+    // Figure 18.1 recovery stages, verbatim from the existing SourceArtifact list in §06 — no new stages,
+    // no explanations added.
+    private static readonly OrderingActivity _week14RecoveryShapeOrder = new(
+        "Подредете формата на възстановяването",
+        "Подредете петте етапа от Фигура 18.1 в правилната последователност, после проверете.",
+        [
+            new("stage-1", "Първоначално подобрение"),
+            new("stage-2", "Плато или временен спад"),
+            new("stage-3", "Ново подобрение"),
+            new("stage-4", "По-малък, по-кратък и по-лек спад"),
+            new("stage-5", "Продължаващо подобрение — с времето спадовете стават все по-редки, по-кратки и по-леки")
+        ],
+        SourceRef: "SRC-041 · Гл. 18 · Фигура 18.1",
+        ShuffleSeed: 1);
 
     private static readonly GraphRenderModel _week14MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek14MindMap());
 
