@@ -411,7 +411,18 @@
             като секторите на диаграмата са разпределени, некомпетентността на Сали заема само една малка
             част от кръга — не целия резултат.
         </p>
-        <StatefulModelSimulator ComponentId="week13-attribution-model" Activity="_week13AttributionModel" SafetyMode="_safetyMode" />
+        <div class="responsibility-pie" data-state="@(_attributionStateId == "final" ? "minor" : "dominant")" aria-hidden="true">
+            <span class="responsibility-pie__circle"></span>
+            <span class="responsibility-pie__ring" aria-hidden="true">
+                @for (int i = 0; i < 6; i++)
+                {
+                    <span class="responsibility-pie__marker @(_attributionStateId != "initial" ? "responsibility-pie__marker--active" : "")"></span>
+                }
+            </span>
+        </div>
+        <p class="active-learning__source">Схематично представяне — размерите не са в мащаб.</p>
+        <p class="visually-hidden">@(_attributionStateId == "final" ? "Заема само една малка част от кръга" : AttributionStart)</p>
+        <StatefulModelSimulator ComponentId="week13-attribution-model" Activity="_week13AttributionModel" SafetyMode="_safetyMode" OnStateChanged="OnAttributionModelStateChanged" />
     </LearningSection>
 
     <LearningSection Role="theory" RoleLabel="Пример">
@@ -556,6 +567,12 @@
         "Не е познала правилно кой материал да учи; Записките от лекции, които е заела от друг, не са били особено добри; " +
         "Част от материала на изпита изобщо не е бил покрит в час; Депресията и тревожността ѝ са пречили на концентрацията.";
     private const string PieSource = "SRC-041 · Гл. 15 · стр. 268–272";
+
+    // Companion circle visual (§08): mirrors the simulator's own state, nothing more. It has exactly the two
+    // fill states the page's own text already claims ("близо 100%" / "малка част"); it never subdivides the
+    // six alternatives individually — they render as one shared marker ring, never as separately sized wedges.
+    private string _attributionStateId = "initial";
+    private void OnAttributionModelStateChanged(string stateId) => _attributionStateId = stateId;
 
     private static readonly StatefulModelActivity _week13AttributionModel = new(
         "Интерактивен модел на атрибуцията",

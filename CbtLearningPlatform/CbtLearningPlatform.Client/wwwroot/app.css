@@ -2025,6 +2025,48 @@ h3[tabindex="-1"]:focus-visible {
     white-space: normal;
 }
 
+/* Week 13 responsibility-pie: a decorative companion visual for the attribution-order StatefulModelSimulator
+   (Sedmica13.razor, §08). --pie-fill has exactly two fixed values, matched only to the page's own existing
+   qualitative wording ("близо 100%" / "малка част от кръга") — never a computed or labelled percentage, and
+   the six alternative explanations always render as one shared marker ring, never as separately sized wedges. */
+.responsibility-pie {
+    --pie-fill: 90%;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-elevated);
+}
+
+.responsibility-pie[data-state="minor"] { --pie-fill: 10%; }
+
+.responsibility-pie__circle {
+    display: block;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent-interactive) 0 var(--pie-fill), var(--color-border) var(--pie-fill) 100%);
+}
+
+.responsibility-pie__ring {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2);
+}
+
+.responsibility-pie__marker {
+    width: .6rem;
+    height: .6rem;
+    border-radius: 50%;
+    background: var(--color-border);
+}
+
+.responsibility-pie__marker--active { background: var(--accent-interactive); }
+
 /* Week 14 — same nowrap root cause, fixed pre-emptively at implementation time (never shipped live
    with the bug): the four-way homework-failure diagnosis table and Figure 18.2's advantages/
    disadvantages-with-reframe table both hold full-sentence cell content. Same scoped

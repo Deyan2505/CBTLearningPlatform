@@ -173,6 +173,29 @@ public sealed class Week13ContentSliceTests
     }
 
     [Fact]
+    public void Week13Page_ResponsibilityPie_HasScaleDisclaimer_AndNoNewPercentageLabel()
+    {
+        string publicMarkup = ReadPublicMarkup("Sedmica13.razor");
+
+        int pieStart = publicMarkup.IndexOf("responsibility-pie\"", StringComparison.Ordinal);
+        int pieEnd = publicMarkup.IndexOf("<StatefulModelSimulator", pieStart, StringComparison.Ordinal);
+        Assert.True(pieStart >= 0 && pieEnd > pieStart);
+        string pieBlock = publicMarkup[pieStart..pieEnd];
+
+        // The schematic/non-scale clarification is present, visible (not aria-hidden, not visually-hidden),
+        // and sits with the pie visual — not merely somewhere else on the page.
+        Assert.Contains("Схематично представяне — размерите не са в мащаб.", pieBlock);
+        Assert.DoesNotContain("""<p class="visually-hidden">Схематично""", pieBlock);
+
+        // No new percentage label anywhere in the pie block (the sr-only text below it still reuses only the
+        // page's own pre-existing "близо 100%" wording, never a newly rendered number).
+        foreach (Match match in Regex.Matches(pieBlock, @"\d+%"))
+        {
+            Assert.Equal("100%", match.Value);
+        }
+    }
+
+    [Fact]
     public void Week13Page_SkillOrBeliefRetrieval_UsesOnlyExistingSection07AndTestMaterial()
     {
         string source = ReadPage("Sedmica13.razor");

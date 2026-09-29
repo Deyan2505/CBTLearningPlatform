@@ -77,6 +77,10 @@ else
     [Parameter] public string? SafetyNotice { get; set; }
     [Parameter] public string? ComponentId { get; set; }
 
+    // Optional: lets a page mirror the model's current state in a companion visual it renders itself
+    // (e.g. Week 13's responsibility-pie). Unused by every other caller — purely additive.
+    [Parameter] public EventCallback<string> OnStateChanged { get; set; }
+
     private StatefulModelState _state = default!;
     private IReadOnlyList<string> _issues = [];
     private string? _generatedId;
@@ -92,6 +96,21 @@ else
     }
 
     private void Select(string choiceId) => _state.Select(choiceId);
-    private void Commit() => _state.Commit();
-    private void Reset() => _state.Reset();
+
+    private async Task Commit()
+    {
+        if (_state.Commit() && OnStateChanged.HasDelegate)
+        {
+            await OnStateChanged.InvokeAsync(_state.CurrentStateId);
+        }
+    }
+
+    private async Task Reset()
+    {
+        _state.Reset();
+        if (OnStateChanged.HasDelegate)
+        {
+            await OnStateChanged.InvokeAsync(_state.CurrentStateId);
+        }
+    }
 }
