@@ -209,7 +209,7 @@
             </div>
             <div class="card">
                 <details class="progressive-explanation"><summary>„Аз съм губещ. Той не струва нищо.“</summary>
-                    <div class="progressive-explanation__body"><p><strong>Етикетиране</strong> — налагате фиксиран, глобален етикет на себе си или на другите, без да вземете предвид, че доказателствата може да водят до по-малко категорично заключение.</p></div>
+                    <div class="progressive-explanation__body"><p><strong>Етикетиране</strong> — налагате фиксиран, глобален етикет на себе си или на другите, без да вземете предвид, че доказателствата може да водят до по-малко катастрофални заключения.</p></div>
                 </details>
             </div>
             <div class="card">
@@ -224,7 +224,7 @@
             </div>
             <div class="card">
                 <details class="progressive-explanation"><summary>„Той мисли, че не знам първото нещо за този проект.“</summary>
-                    <div class="progressive-explanation__body"><p><strong>Четене на мисли</strong> — вярвате, че знаете какво мислят другите, без да вземете предвид други, по-вероятни възможности.</p></div>
+                    <div class="progressive-explanation__body"><p><strong>Четене на ума</strong> — вярвате, че знаете какво мислят другите, без да вземете предвид други, по-вероятни възможности.</p></div>
                 </details>
             </div>
             <div class="card">
@@ -243,11 +243,12 @@
                 </details>
             </div>
             <div class="card">
-                <details class="progressive-explanation"><summary>„Учителят на сина ми не може да направи нищо правилно. Той е критичен и не е добър в преподаването.“</summary>
+                <details class="progressive-explanation"><summary>„Учителят на сина ми не може да направи нищо правилно. Той е критичен и нечувствителен и не е добър в преподаването.“</summary>
                     <div class="progressive-explanation__body"><p><strong>Тунелно виждане</strong> — виждате само негативните аспекти на ситуацията.</p></div>
                 </details>
             </div>
         </div>
+        <p>Бележка: В основния текст на главата същото когнитивно изкривяване е назовано „Четене на мисли“.</p>
         <p>
             Терапевтът може да отбележи конкретно изкривяване, когато забележи модел в мисленето на
             пациента, или да предостави списъка директно на пациента, за да го използва самостоятелно —

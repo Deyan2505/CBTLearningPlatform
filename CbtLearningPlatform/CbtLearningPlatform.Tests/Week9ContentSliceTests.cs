@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.RegularExpressions;
 using CbtLearningPlatform.Client.Curriculum;
 
 namespace CbtLearningPlatform.Tests;
@@ -146,7 +147,95 @@ public sealed class Week9ContentSliceTests
         // Spot-check a few exact source examples, not paraphrased.
         Assert.Contains("Ако не съм напълно успешен, значи съм провал", source);
         Assert.Contains("Ремонтникът беше груб с мен, защото направих нещо грешно", source);
-        Assert.Contains("Учителят на сина ми не може да направи нищо правилно", source);
+        Assert.Contains("Учителят на сина ми не може да направи нищо правилно. Той е критичен и нечувствителен и не е добър в преподаването", source);
+    }
+
+    [Fact]
+    public void Week9Page_Figure112_UsesTheFigureSOwnTerm_WhileRetrievalKeepsTheNarrativeTerm()
+    {
+        // The verified printed Figure 11.2 says "Четене на ума"; the surrounding chapter narrative
+        // (and this week's ClassifyMatchCheck retrieval, which quotes that narrative) says "Четене на
+        // мисли" — the BG source itself is internally split between the two, so both terms are
+        // source-supported and intentionally coexist rather than being reconciled into one.
+        string source = ReadPage("Sedmica9.razor");
+
+        int artifactStart = source.IndexOf("<SourceArtifact Title=\"Грешки в мисленето", StringComparison.Ordinal);
+        int artifactEnd = source.IndexOf("</SourceArtifact>", artifactStart, StringComparison.Ordinal);
+        Assert.True(artifactStart >= 0 && artifactEnd > artifactStart);
+        string artifact = source[artifactStart..artifactEnd];
+
+        Assert.Contains("<strong>Четене на ума</strong>", artifact);
+        Assert.DoesNotContain("<strong>Четене на мисли</strong>", artifact);
+
+        // The clarification note lives inside the artifact, directly associated with the figure — it
+        // is the ONE place "Четене на мисли" legitimately appears inside the artifact (not the card).
+        Assert.Contains("Бележка: В основния текст на главата същото когнитивно изкривяване е назовано „Четене на мисли“.", artifact);
+        Assert.Single(Regex.Matches(artifact, "Четене на мисли"));
+
+        // Outside the artifact, the narrative/retrieval keeps its own term unchanged.
+        string outsideArtifact = source.Remove(artifactStart, artifactEnd - artifactStart);
+        Assert.Contains("Четене на мисли", outsideArtifact);
+        Assert.DoesNotContain("<strong>Четене на ума</strong>", outsideArtifact);
+    }
+
+    [Fact]
+    public void Week9Page_Figure112_IsVisiblyRepresentedAsAnAttributedArtifact_NotOnlyASourceLabel()
+    {
+        string source = ReadPage("Sedmica9.razor");
+
+        int sectionStart = source.IndexOf("id=\"izkrivyavaniya\"", StringComparison.Ordinal);
+        int sectionEnd = source.IndexOf("id=\"koga-verni\"", sectionStart, StringComparison.Ordinal);
+        Assert.True(sectionStart >= 0 && sectionEnd > sectionStart);
+        string section = source[sectionStart..sectionEnd];
+
+        // The figure is identified and attributed where its content actually lives (9.3), reusing the
+        // established SourceArtifact convention — not introduced as a new bespoke component.
+        Assert.Contains("<SourceArtifact Title=\"Грешки в мисленето (Фигура 11.2)\"", section);
+        Assert.Contains("Възпроизведено по SRC-041, Гл. 11, печатни стр. 181–182", section);
+        Assert.Contains("собствен дизайн, не факсимиле на оригинала", section);
+        Assert.Contains("адаптирана с разрешение от Аарон Т. Бек", section);
+
+        // The artifact wraps the twelve source-grounded cards; the reveal framing and the retrieval
+        // prompt that precedes it are preserved.
+        int artifactStart = section.IndexOf("<SourceArtifact", StringComparison.Ordinal);
+        int artifactEnd = section.IndexOf("</SourceArtifact>", artifactStart, StringComparison.Ordinal);
+        Assert.True(artifactEnd > artifactStart);
+        string artifact = section[artifactStart..artifactEnd];
+
+        Assert.Contains("class=\"learning-grid learning-grid--balanced\"", artifact);
+        Assert.Equal(12, Regex.Matches(artifact, "<details class=\"progressive-explanation\">").Count);
+        Assert.Contains("опитай да познаеш", section[..artifactStart]);
+
+        // Exactly one artifact in 9.3 — the figure is not also printed a second time, which would
+        // duplicate twelve items and spoil the reveal exercise.
+        Assert.Single(Regex.Matches(section, "<SourceArtifact"));
+    }
+
+    [Fact]
+    public void Week9Page_Figure112Artifact_AddsNoStructureTheSourceFigureDoesNotHave()
+    {
+        string source = ReadPage("Sedmica9.razor");
+
+        int artifactStart = source.IndexOf("<SourceArtifact Title=\"Грешки в мисленето", StringComparison.Ordinal);
+        int artifactEnd = source.IndexOf("</SourceArtifact>", artifactStart, StringComparison.Ordinal);
+        Assert.True(artifactStart >= 0 && artifactEnd > artifactStart);
+        string artifact = source[artifactStart..artifactEnd];
+
+        // Figure 11.2 is a flat enumerated list in the source: no diagram, grouping, hierarchy,
+        // ordering logic or frequency data. None of those may be invented here.
+        Assert.DoesNotContain("<svg", artifact);
+        Assert.DoesNotContain("ConceptGraph", artifact);
+        Assert.DoesNotContain("%", artifact);
+
+        // No invented family/grouping vocabulary over the twelve.
+        string[] inventedGrouping = ["група", "групи", "категории изкривявания", "семейство", "клъстер", "най-чест", "най-често срещано изкривяване"];
+        foreach (string phrase in inventedGrouping)
+        {
+            Assert.DoesNotContain(phrase, artifact);
+        }
+
+        // Still exactly the twelve approved distortions — nothing added, nothing dropped.
+        Assert.Equal(12, Regex.Matches(artifact, "<div class=\"card\">").Count);
     }
 
     [Fact]

@@ -180,8 +180,24 @@ public sealed class ActiveLearningBatch2Tests
         foreach (ClassifyMatchItem item in activity.Items)
         {
             var card = cards.Single(c => c.Quote == item.Prompt);
-            Assert.Equal(card.Name, activity.Options.Single(o => o.Id == item.CorrectOptionId).Label);
-            Assert.Equal(card.Definition, item.Explanation);
+            string optionLabel = activity.Options.Single(o => o.Id == item.CorrectOptionId).Label;
+
+            // "Mind reading": the printed Figure 11.2 itself says "Четене на ума"; the surrounding
+            // chapter narrative (which this retrieval activity and its option label follow) says
+            // "Четене на мисли" — the BG source is internally split, so the card (inside the
+            // SourceArtifact) and the retrieval option are intentionally different terms, not a typo.
+            if (item.CorrectOptionId == "mind-reading")
+            {
+                Assert.Equal("Четене на ума", card.Name);
+                Assert.Equal("Четене на мисли", optionLabel);
+                Assert.Equal(card.Definition.Replace("Четене на ума", "Четене на мисли"), item.Explanation);
+            }
+            else
+            {
+                Assert.Equal(card.Name, optionLabel);
+                Assert.Equal(card.Definition, item.Explanation);
+            }
+
             Assert.Equal("9.3 — Фигура 11.2", item.SourceRef);
         }
 
