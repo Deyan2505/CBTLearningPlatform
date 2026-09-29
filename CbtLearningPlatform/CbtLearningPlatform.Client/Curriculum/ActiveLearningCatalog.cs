@@ -17,10 +17,11 @@ namespace CbtLearningPlatform.Client.Curriculum;
 /// "Симулатор") and a separate skill-vs-belief classification retrieval.
 /// Week 14 passes all six with a four-way homework-failure-diagnosis interactive model (ProfessionalContext) and a
 /// separate Figure 18.1 recovery-shape ordering retrieval.
-/// The remaining week (15) remains
-/// <see cref="StructuralStatus.StructuralEnrichmentRequired"/> (OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED):
-/// content approval and locked prose remain valid; only the learning architecture is reopened, one controlled batch at a time. When a week's remediation lands, add the new declarations and
-/// promote its status to Compliant in the same change — a stale StructuralEnrichmentRequired also fails the gate.
+/// Week 15 passes all six with a two-focus (CBTp vs. CT-R) interactive model (AcademicThirdPerson, never labelled
+/// "Симулатор") and a separate CT-R process-stage ordering retrieval — no week remains
+/// <see cref="StructuralStatus.StructuralEnrichmentRequired"/>. When a week's remediation lands, add the new
+/// declarations and promote its status to Compliant in the same change — a stale StructuralEnrichmentRequired also
+/// fails the gate.
 ///
 /// Existing select-to-read explorers (ResearchTurnStepper, CognitiveHierarchyExplorer, SocraticDialogueExplorer),
 /// reveal-only checks (CategorizationCheck, WhatIfBox, ProgressiveExplanation) and Mind Maps are intentionally
@@ -285,14 +286,25 @@ public static class ActiveLearningCatalog
             ],
             responses: [new(LearnerResponseKind.Order, "OrderingBuilder")]),
 
-        Migration(15,
+        // Week 15 (AcademicContextOnly -> AcademicThirdPerson): ADR-011 supersedes the original audit's
+        // §6 "no simulator" call (same owner decision already applied to Weeks 12-14). The Mind Map, the
+        // four-stage sequence and both comparisons stay the visuals; the learner works the §07
+        // two-focus model (CBTp vs the four §06 CT-R stages, no outcome, no verdict) and separately
+        // reorders the same four §06 stage labels before the Final Assessment.
+        Compliant(15,
             visuals:
             [
                 new(VisualModelKind.MindMap, Graph("week15-mindmap-preview"), RepresentsCentralStructure: false),
                 new(VisualModelKind.Process, Sequence),
                 new(VisualModelKind.Comparison, CategoryCompare),
                 new(VisualModelKind.Comparison, ComparisonMatrix)
-            ])
+            ],
+            interactions:
+            [
+                new(InteractionFamily.Simulator, "StatefulModelSimulator"),
+                new(InteractionFamily.OrderingBuilder, "OrderingBuilder")
+            ],
+            responses: [new(LearnerResponseKind.Order, "OrderingBuilder")])
     ];
 
     public static WeekLearningArchitecture For(int weekNumber) => Weeks.Single(w => w.WeekNumber == weekNumber);

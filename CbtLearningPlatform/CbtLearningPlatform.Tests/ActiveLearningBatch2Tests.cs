@@ -481,16 +481,15 @@ public sealed class ActiveLearningBatch2Tests
     }
 
     [Fact]
-    public void WeeksOutsideBatches1And2_AreNotPromoted()
+    public void AllRoutedWeeks_AreCompliant_NoneRemainOutsideEveryBatch()
     {
-        foreach (int week in new[] { 15 })
-        {
-            Assert.Equal(StructuralStatus.StructuralEnrichmentRequired, ActiveLearningCatalog.For(week).Status);
-        }
-        foreach (int week in new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 })
+        // Week 15's remediation closed the last StructuralEnrichmentRequired week (ADR-011).
+        foreach (int week in new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 })
         {
             Assert.Equal(StructuralStatus.Compliant, ActiveLearningCatalog.For(week).Status);
         }
+
+        Assert.DoesNotContain(ActiveLearningCatalog.Weeks, w => w.Status == StructuralStatus.StructuralEnrichmentRequired);
     }
 
     // ---------------------------------------------------------------- the approved prose is preserved

@@ -47,7 +47,18 @@
    of them with children — single-parent, no invented relations) + one process visualization
    (.guided-practice-sequence, the four CT-R stages) + two comparisons (.comparison-matrix, CT-R vs CBTp;
    .category-compare, the two belief categories) + a plain evidence list + shared FinalAssessment. No
-   Concept Map, no simulator, no new .razor component, no new CSS class. *@
+   Concept Map, no new .razor component, no new CSS class.
+
+   ACTIVE LEARNING REMEDIATION (ADR-011 supersedes the original audit's §6 "no simulator" call, the same
+   owner decision already applied to Weeks 12–14): §07 gets a StatefulModelSimulator, AcademicThirdPerson
+   mode, framed as which of the two approved focuses (CBTp or CT-R) is being examined — never a patient
+   path, never labelled "Симулатор" to the learner. The CBTp branch shows only the existing §07 CBTp cells
+   verbatim (terminal). The CT-R branch has exactly the four existing §06 stage labels verbatim, one per
+   state, chained in their existing order; stages 1/3 show only their own label (split across two fields,
+   inventing nothing); stages 2/4 also carry the existing rendered §06 paragraph verbatim. No outcome, no
+   CBTp-vs-CT-R verdict, no RCT result on either branch. §11 gets a separate OrderingBuilder over the same
+   four §06 stage labels, before the Final Assessment. §06/§07/§08 content, the Mind Map, and the §08
+   static belief illustrations are unchanged. *@
 @page "/kurs/sedmica-15"
 
 <PageTitle>Седмица 15: Съвременни разширения на КПТ и възстановително-ориентирана терапия — 15-седмичен курс — КПТ Академия</PageTitle>
@@ -272,6 +283,7 @@
             общностни екипи, индивидуално или групово — но самото прилагане изисква специализирано
             професионално обучение и остава извън обхвата на този академичен курс.
         </p>
+        <StatefulModelSimulator ComponentId="week15-focus-model" Activity="_week15FocusModel" SafetyMode="_safetyMode" />
     </LearningSection>
 
     <LearningSection Role="academic" RoleLabel="Вярвания">
@@ -345,6 +357,7 @@
 
     <LearningSection Role="theory" RoleLabel="Обобщение">
         <h2 id="review" tabindex="-1">11 · Седмичен преглед</h2>
+        <OrderingBuilder ComponentId="week15-ctr-process-order" Activity="_week15ProcessOrder" SafetyMode="_safetyMode" />
         <details class="progressive-explanation concept-graph__retrieval-check">
             <summary>Мисловна карта на седмицата — преглед (опитай да си спомниш, преди да разгънеш)</summary>
             <div class="progressive-explanation__body">
@@ -424,6 +437,8 @@
 @code {
     private static readonly CourseWeekDefinition _week = CourseCatalog.Weeks.Single(w => w.Number == 15);
 
+    private static readonly ActiveLearningSafetyMode _safetyMode = ActiveLearningSafety.ModeFor(_week.SafetyLevel);
+
     private static readonly GraphRenderModel _week15MindMapRender = MindMapAdapter.ToRenderModel(BuildWeek15MindMap());
 
     private static MindMapModel BuildWeek15MindMap() => new(
@@ -447,6 +462,79 @@
             new("protses", "Процесът на CT-R", "root", "Четири стъпки: достъп, развитие, актуализиране, заздравяване.", "/kurs/sedmica-15#protses-na-ct-r", ConceptState.Introduced),
 
             new("dokazatelstva", "Доказателства и граници", "root", "Изследвания за CT-R плюс уговорката, че по-ново не значи по-добро.", "/kurs/sedmica-15#dokazatelstva-i-granitsi", ConceptState.Introduced)
+        ]);
+
+    // ACTIVE LEARNING (ADR-011 remediation): §07 stateful model — which of the two approved focuses (CBTp
+    // or CT-R) is being examined. The CBTp branch shows only the existing §07 CBTp cells verbatim
+    // (terminal). The CT-R branch has exactly the four existing §06 stage labels verbatim, one per state,
+    // chained in order; stages 1/3 show only their own label (split across two fields to meet the shared
+    // engine's minimum, inventing nothing new); stages 2/4 also carry the existing rendered §06 paragraph
+    // verbatim. No outcome, no CBTp-vs-CT-R verdict, no RCT result. AcademicThirdPerson mode; the
+    // learner-facing title never uses the format-restricted safety label (see
+    // Week15Page_LearnerFacingMarkupNeverSaysSimulator).
+    private static readonly StatefulModelActivity _week15FocusModel = new(
+        "Интерактивен модел: два фокуса на работа",
+        "Изберете кой одобрен фокус на работа искате да разгледате — фокуса на CBTp, или четирите стъпки на процеса на CT-R.",
+        "start",
+        [
+            new("start", "Изходно състояние", "Кой одобрен фокус на работа се разглежда?",
+                "Изберете CBTp или CT-R, за да видите съществуващото сравнение от §07 или процеса от §06.",
+                [
+                    new("focus", "Фокус", "Все още не е избран"),
+                    new("etap", "Стъпка", "Все още не е избран")
+                ],
+                [
+                    new("choose-cbtp", "A. CBTp", "cbtp", "Показан е фокусът на когнитивно-поведенческата терапия за психоза (CBTp)."),
+                    new("choose-ctr", "B. CT-R", "ctr-1", "Показана е първата стъпка на процеса на възстановително-ориентираната когнитивна терапия (CT-R).")
+                ]),
+            new("cbtp", "CBTp", "Фокусът на CBTp",
+                "Двете съществуващи клетки от таблицата в §07, без промяна.",
+                [
+                    new("focus-1", "Основен фокус", "Основен фокус върху намаляване на симптомите — за да се редуцира дистресът и да се подобри качеството на живот."),
+                    new("focus-2", "Роля на симптомите", "Симптомите са централната мишена на интервенцията.")
+                ],
+                []),
+            new("ctr-1", "CT-R — стъпка 1", "Достъп и активиране",
+                "Първата от четирите стъпки на процеса на CT-R (§06), без добавено съдържание.",
+                [
+                    new("stage-focus", "Фокус на стъпката", "Достъп и активиране"),
+                    new("stage-mechanism", "Механизъм", "Чрез споделена дейност, изграждаща доверие")
+                ],
+                [new("to-ctr-2", "Продължи към стъпка 2", "ctr-2", "Показана е следващата стъпка на процеса на CT-R.")]),
+            new("ctr-2", "CT-R — стъпка 2", "Развитие",
+                "Втората от четирите стъпки на процеса на CT-R (§06), с вече представения в страницата текст за стремежите.",
+                [
+                    new("stage-focus", "Фокус на стъпката", "Развитие"),
+                    new("stage-mechanism", "Механизъм", "Чрез лично значими стремежи"),
+                    new("stage-detail", "Какво означава", "Терапевтът помага на пациента да открие смисъла зад собствения му стремеж — не самата цел, а причината тя да е важна. Пример от източника: пациент, чийто стремеж е да стане медицинска сестра, открива, че скритият смисъл е „да помагам на хората и да правя света по-добро място\"; друг пациент, чийто стремеж е партньорска връзка, открива смисъла „да споделям добри преживявания и да получавам взаимна подкрепа\". Стремежите пораждат надежда, изясняват ценностите на човека и насочват ежедневните му действия към лично значима цел.")
+                ],
+                [new("to-ctr-3", "Продължи към стъпка 3", "ctr-3", "Показана е следващата стъпка на процеса на CT-R.")]),
+            new("ctr-3", "CT-R — стъпка 3", "Актуализиране",
+                "Третата от четирите стъпки на процеса на CT-R (§06), без добавено съдържание.",
+                [
+                    new("stage-focus", "Фокус на стъпката", "Актуализиране"),
+                    new("stage-mechanism", "Механизъм", "Чрез позитивно действие в посока на стремежа")
+                ],
+                [new("to-ctr-4", "Продължи към стъпка 4", "ctr-4", "Показана е следващата стъпка на процеса на CT-R.")]),
+            new("ctr-4", "CT-R — стъпка 4", "Заздравяване",
+                "Четвъртата и последна стъпка на процеса на CT-R (§06), с вече представения в страницата текст за негативните и позитивните вярвания.",
+                [
+                    new("stage-focus", "Фокус на стъпката", "Заздравяване — овластяване и устойчивост, докато адаптивният режим стане водещ"),
+                    new("stage-detail", "Какво означава", "Терапевтът използва когнитивния модел, за да помогне на пациента да разбере собствените си негативни вярвания и да активира позитивните — особено вярвания, свързани с енергия, способност, контрол и връзка с другите.")
+                ],
+                [])
+        ]);
+
+    // Retrieval — the same four §06 stage labels, verbatim, as a separate OrderingBuilder before the
+    // Final Assessment. Deliberately does not use the §08 belief illustrations (owner-locked static).
+    private static readonly OrderingActivity _week15ProcessOrder = new(
+        "Подредете стъпките на процеса на CT-R",
+        "Подредете четирите стъпки от §06 в правилната последователност, после проверете.",
+        [
+            new("stage-1", "Достъп и активиране — чрез споделена дейност, изграждаща доверие"),
+            new("stage-2", "Развитие — чрез лично значими стремежи"),
+            new("stage-3", "Актуализиране — чрез позитивно действие в посока на стремежа"),
+            new("stage-4", "Заздравяване — овластяване и устойчивост, докато адаптивният режим стане водещ")
         ]);
 
     private static readonly FinalAssessmentModel _week15FinalAssessment = new([

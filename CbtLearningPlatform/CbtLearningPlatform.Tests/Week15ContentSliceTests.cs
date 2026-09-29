@@ -43,8 +43,10 @@ public sealed class Week15ContentSliceTests
     {
         CourseWeekDefinition week = CourseCatalog.Weeks.Single(w => w.Number == 15);
 
+        // AcademicOnly remains the course format after remediation (Weeks 4/12 precedent); only the
+        // self-guided "Simulator" label is forbidden — the internal StatefulModelSimulator engine is
+        // not a learner-facing format label and does not contradict AcademicOnly.
         Assert.Contains(InteractiveFormat.AcademicOnly, week.InteractiveFormats);
-        Assert.DoesNotContain(InteractiveFormat.InteractiveModel, week.InteractiveFormats);
         Assert.DoesNotContain(InteractiveFormat.Simulator, week.InteractiveFormats);
     }
 
@@ -83,7 +85,7 @@ public sealed class Week15ContentSliceTests
     }
 
     [Fact]
-    public void Week15Page_UsesOnlyExistingReusablePatterns()
+    public void Week15Page_UsesOnlyExistingReusablePatterns_AndPassesTheActiveLearningGate()
     {
         string source = ReadPage("Sedmica15.razor");
 
@@ -101,11 +103,168 @@ public sealed class Week15ContentSliceTests
         Assert.Contains("class=\"category-compare\"", source);
         Assert.Contains("class=\"learning-grid learning-grid--balanced\"", source);
 
-        // No new .razor component and no new interactive island.
-        Assert.DoesNotContain("<CbtChainSimulator", source);
-        Assert.DoesNotContain("<InterpretationExample", source);
-        Assert.DoesNotContain("<CategorizationCheck", source);
-        Assert.DoesNotContain("<SourceArtifact", source); // no figure exists in this week's sources to reproduce
+        // Active Learning remediation: shared toolkit engines only, in the fixed AcademicThirdPerson mode.
+        Assert.Contains("<StatefulModelSimulator", source);
+        Assert.Contains("<OrderingBuilder", source);
+        Assert.Equal(ActiveLearningSafetyMode.AcademicThirdPerson, ActiveLearningSafety.ModeFor(CourseCatalog.Weeks.Single(w => w.Number == 15).SafetyLevel));
+
+        WeekLearningArchitecture week = ActiveLearningCatalog.For(15);
+        Assert.Equal(StructuralStatus.Compliant, week.Status);
+        Assert.Empty(ActiveLearningStandard.Evaluate(week));
+    }
+
+    [Fact]
+    public void Week15Page_SimulatorAndRetrieval_AreSeparateLayers_BeforeTheFinalAssessment()
+    {
+        string source = ReadPage("Sedmica15.razor");
+
+        int comparison = source.IndexOf("id=\"ct-r-sreshtu-cbtp\"", StringComparison.Ordinal);
+        int model = source.IndexOf("<StatefulModelSimulator", StringComparison.Ordinal);
+        int beliefs = source.IndexOf("id=\"vyarvaniya\"", StringComparison.Ordinal);
+        int review = source.IndexOf("id=\"review\"", StringComparison.Ordinal);
+        int retrieval = source.IndexOf("<OrderingBuilder", StringComparison.Ordinal);
+        int retrievalDetails = source.IndexOf("<details class=\"progressive-explanation concept-graph__retrieval-check\">", StringComparison.Ordinal);
+        int assessment = source.IndexOf("<FinalAssessment", StringComparison.Ordinal);
+
+        Assert.True(model > comparison && model < beliefs, "The two-focus model lives in §07, after the comparison table.");
+        Assert.True(retrieval > review && retrieval < assessment, "The stage-ordering retrieval sits at the top of §11, before the Final Assessment.");
+        Assert.True(retrieval < retrievalDetails, "The retrieval is a separate layer from the Mind Map review reveal, and comes first.");
+        Assert.NotEqual(model, retrieval);
+    }
+
+    [Fact]
+    public void Week15Page_LearnerFacingMarkupNeverSaysSimulator()
+    {
+        string publicMarkup = ReadPublicMarkup("Sedmica15.razor");
+
+        Assert.DoesNotContain("Симулатор", publicMarkup);
+        Assert.DoesNotContain("Simulator\"", publicMarkup);
+        Assert.Contains("Интерактивен модел: два фокуса на работа", publicMarkup);
+    }
+
+    [Fact]
+    public void Week15Page_FocusModel_CbtpStateUsesOnlyTheExistingSevenOhSevenCellsVerbatim()
+    {
+        string source = ReadPage("Sedmica15.razor");
+
+        int modelStart = source.IndexOf("_week15FocusModel = new", StringComparison.Ordinal);
+        int modelEnd = source.IndexOf("// Retrieval", modelStart, StringComparison.Ordinal);
+        Assert.True(modelStart >= 0 && modelEnd > modelStart);
+        string modelBlock = source[modelStart..modelEnd];
+
+        int cbtpStart = modelBlock.IndexOf("new(\"cbtp\"", StringComparison.Ordinal);
+        int cbtpEnd = modelBlock.IndexOf("new(\"ctr-1\"", StringComparison.Ordinal);
+        Assert.True(cbtpStart >= 0 && cbtpEnd > cbtpStart);
+        string cbtpState = modelBlock[cbtpStart..cbtpEnd];
+
+        Assert.Contains("Основен фокус върху намаляване на симптомите — за да се редуцира дистресът и да се подобри качеството на живот.", cbtpState);
+        Assert.Contains("Симптомите са централната мишена на интервенцията.", cbtpState);
+
+        // Terminal state: exactly two fields (the two source cells) and an empty choices list.
+        Assert.Equal(2, Regex.Matches(cbtpState, "new\\(\"focus-\\d\"").Count);
+        Assert.Contains("[])", Regex.Replace(cbtpState, @"\s+", ""));
+
+        string[] forbiddenOutcome = ["по-добър", "по-добра", "превъзхожда", "печели", "губи", "%"];
+        foreach (string phrase in forbiddenOutcome)
+        {
+            Assert.DoesNotContain(phrase, cbtpState);
+        }
+    }
+
+    [Fact]
+    public void Week15Page_FocusModel_CtRPathHasExactlyFourStates_VerbatimStageLabels_NoInventedEffectOnStagesOneAndThree()
+    {
+        string source = ReadPage("Sedmica15.razor");
+
+        int modelStart = source.IndexOf("_week15FocusModel = new", StringComparison.Ordinal);
+        int modelEnd = source.IndexOf("// Retrieval", modelStart, StringComparison.Ordinal);
+        Assert.True(modelStart >= 0 && modelEnd > modelStart);
+        string modelBlock = source[modelStart..modelEnd];
+
+        // Exactly four CT-R states.
+        Assert.Equal(4, Regex.Matches(modelBlock, "new\\(\"ctr-\\d\"").Count);
+
+        string[] stageLabels =
+        [
+            "Достъп и активиране", "Чрез споделена дейност, изграждаща доверие",
+            "Развитие", "Чрез лично значими стремежи",
+            "Актуализиране", "Чрез позитивно действие в посока на стремежа",
+            "Заздравяване — овластяване и устойчивост, докато адаптивният режим стане водещ"
+        ];
+        foreach (string label in stageLabels)
+        {
+            Assert.Contains(label, modelBlock);
+        }
+
+        int stage1Start = modelBlock.IndexOf("new(\"ctr-1\"", StringComparison.Ordinal);
+        int stage1End = modelBlock.IndexOf("new(\"ctr-2\"", StringComparison.Ordinal);
+        string stage1 = modelBlock[stage1Start..stage1End];
+        Assert.Equal(2, Regex.Matches(stage1, "new\\(\"stage-").Count); // label split across two fields only — no third, invented field.
+
+        int stage3Start = modelBlock.IndexOf("new(\"ctr-3\"", StringComparison.Ordinal);
+        int stage3End = modelBlock.IndexOf("new(\"ctr-4\"", StringComparison.Ordinal);
+        string stage3 = modelBlock[stage3Start..stage3End];
+        Assert.Equal(2, Regex.Matches(stage3, "new\\(\"stage-").Count);
+
+        // Final CT-R endpoint uses only the existing source/page wording — nothing added after it.
+        int stage4Start = modelBlock.IndexOf("new(\"ctr-4\"", StringComparison.Ordinal);
+        string stage4 = modelBlock[stage4Start..];
+        Assert.Contains("докато адаптивният режим стане водещ", stage4);
+
+        // No outcome, no CBTp-vs-CT-R verdict, no RCT result anywhere in the CT-R path.
+        string[] forbiddenOutcome = ["по-добър", "по-добра", "превъзхожда", "по-ефективен", "RCT", "подобри участието", "%"];
+        foreach (string phrase in forbiddenOutcome)
+        {
+            Assert.DoesNotContain(phrase, modelBlock);
+        }
+    }
+
+    [Fact]
+    public void Week15Page_RecoveryProcessRetrieval_HasExactlyTheFourSectionSixStageLabelsVerbatim_NotTheBeliefIllustrations()
+    {
+        string source = ReadPage("Sedmica15.razor");
+
+        int retrievalStart = source.IndexOf("_week15ProcessOrder = new", StringComparison.Ordinal);
+        Assert.True(retrievalStart >= 0);
+        string retrievalBlock = source[retrievalStart..];
+
+        string[] stages =
+        [
+            "Достъп и активиране — чрез споделена дейност, изграждаща доверие",
+            "Развитие — чрез лично значими стремежи",
+            "Актуализиране — чрез позитивно действие в посока на стремежа",
+            "Заздравяване — овластяване и устойчивост, докато адаптивният режим стане водещ"
+        ];
+        foreach (string stage in stages)
+        {
+            Assert.Contains(stage, retrievalBlock);
+        }
+
+        Assert.Equal(4, Regex.Matches(retrievalBlock, "new\\(\"stage-\\d\"").Count);
+
+        // Never the §08 belief illustrations — those stay static (owner-locked, not a classification prompt).
+        Assert.DoesNotContain("Дефеатистки вярвания", retrievalBlock);
+        Assert.DoesNotContain("Асоциални вярвания", retrievalBlock);
+    }
+
+    [Fact]
+    public void Week15Page_BeliefIllustrationsRemainStatic_NoNewClassificationPrompt()
+    {
+        string source = ReadPage("Sedmica15.razor");
+        string publicMarkup = ReadPublicMarkup("Sedmica15.razor");
+
+        int beliefsStart = source.IndexOf("id=\"vyarvaniya\"", StringComparison.Ordinal);
+        int beliefsEnd = source.IndexOf("id=\"dokazatelstva-i-granitsi\"", StringComparison.Ordinal);
+        Assert.True(beliefsStart >= 0 && beliefsEnd > beliefsStart);
+        string beliefsSection = source[beliefsStart..beliefsEnd];
+
+        // Unchanged owner-locked static presentation (§08): the section still opens on the plain
+        // "category-compare" markup and closes at the next heading — no interactive engine appears
+        // anywhere between them — and the page's own disclaimer that this is not a self-classification
+        // prompt still stands.
+        Assert.Contains("class=\"category-compare\"", beliefsSection);
+        Assert.Empty(Regex.Matches(beliefsSection, "<(StatefulModelSimulator|OrderingBuilder|ClassifyMatchCheck|PredictReveal)\\b"));
+        Assert.Contains("не пита „коя категория си ти", publicMarkup);
     }
 
     [Fact]

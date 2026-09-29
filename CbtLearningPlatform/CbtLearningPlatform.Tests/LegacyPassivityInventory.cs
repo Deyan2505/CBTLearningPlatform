@@ -41,9 +41,10 @@ internal static class LegacyPassivityInventory
     public static IReadOnlyList<LegacyPassivityAssertion> Entries { get; } =
     [
         // Weeks 1, 2 and 10 (Phase 2, Batch 1), Weeks 5, 7 and 9 (Phase 2, Batch 2), Week 4, Week 11, Week 12,
-        // Week 13 and Week 14 were remediated: their Replace entries were removed together with the assertions
-        // themselves, which now assert the catalog gate instead
-        // (Week1/2/4/5/7/9/10/11/12/13/14ContentSliceTests + ActiveLearningBatch1Tests / ActiveLearningBatch2Tests).
+        // Week 13, Week 14 and Week 15 were remediated: their Replace entries were removed together with the
+        // assertions themselves, which now assert the catalog gate instead
+        // (Week1/2/4/5/7/9/10/11/12/13/14/15ContentSliceTests + ActiveLearningBatch1Tests / ActiveLearningBatch2Tests).
+        // No ReplaceOnRemediation entries remain — every routed week is Compliant.
 
         new(10, "Week10ContentSliceTests.cs", "Week8Page_CrossLinksToWeek10_WithoutDuplicatingTheSimulator",
             new HashSet<string> { "<SocraticDialogueExplorer" }, LegacyPassivityKind.KeepCrossWeekScopeGuard,
@@ -57,12 +58,8 @@ internal static class LegacyPassivityInventory
             new HashSet<string> { "InteractiveFormat.Simulator" }, LegacyPassivityKind.KeepSafetyLabelGuard,
             "ProfessionalReviewRequired must not carry a self-guided 'Simulator' label. Interaction is still required in a safety-adapted form."),
 
-        Replace(15, "Week15ContentSliceTests.cs", "Week15_FormatIsAcademicOnlyNeverInteractiveOrSimulator",
-            "Encodes 'AcademicOnly means never interactive'. Replace with the Week 15 catalog gate; keep the no-self-guided-Simulator label rule.",
-            "InteractiveFormat.InteractiveModel", "InteractiveFormat.Simulator"),
-
-        Replace(15, "Week15ContentSliceTests.cs", "Week15Page_UsesOnlyExistingReusablePatterns",
-            "Replace with the Week 15 catalog gate. The SourceArtifact ban has a content reason (no reproducible figure) that must be re-judged against the visual-model requirement.",
-            "<CbtChainSimulator", "<InterpretationExample", "<CategorizationCheck", "<SourceArtifact")
+        new(15, "Week15ContentSliceTests.cs", "Week15_FormatIsAcademicOnlyNeverInteractiveOrSimulator",
+            new HashSet<string> { "InteractiveFormat.Simulator" }, LegacyPassivityKind.KeepSafetyLabelGuard,
+            "AcademicContextOnly must not carry a self-guided 'Simulator' label. AcademicOnly stays the course format; interaction is still required in a safety-adapted (AcademicThirdPerson) form.")
     ];
 }
