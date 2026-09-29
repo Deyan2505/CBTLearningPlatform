@@ -3018,6 +3018,23 @@ h3[tabindex="-1"]:focus-visible {
     font-size: 0.8rem;
 }
 
+/* Recovery shape (Week 14, Figure 18.1) — a qualitative trajectory curve above the
+   existing verbatim stage list. Decorative only (aria-hidden): no axis, no ticks, no
+   numeric labels, so it never implies the y-axis is a measured symptom score. The
+   ordered list beneath remains the accessible, source-faithful content. */
+.recovery-shape__curve {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 7rem;
+    margin-bottom: var(--space-3);
+    color: var(--accent-theory);
+}
+
+.recovery-shape__point {
+    fill: var(--accent-theory);
+}
+
 /* Decision branch — a real root-to-leaves branching diagram (blueprint §7: V4 was
    flagged because the old plan reused .category-compare, a flat PARALLEL comparison
    of 3 equal columns, not an actual branch from one shared root). Desktop: root node

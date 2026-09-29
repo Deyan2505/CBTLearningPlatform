@@ -220,6 +220,40 @@ public sealed class Week14ContentSliceTests
     }
 
     [Fact]
+    public void Week14Page_RecoveryShapeFigure_HasAGenuineVisualCurve_NotJustAList()
+    {
+        string source = ReadPage("Sedmica14.razor");
+
+        int figureStart = source.IndexOf("Форма на възстановяването (Фигура 18.1)", StringComparison.Ordinal);
+        int figureEnd = source.IndexOf("</SourceArtifact>", figureStart, StringComparison.Ordinal);
+        Assert.True(figureStart >= 0 && figureEnd > figureStart);
+        string figureBlock = source[figureStart..figureEnd];
+
+        // A real visual trajectory, not only the textual <ol>.
+        Assert.Contains("<svg class=\"recovery-shape__curve\"", figureBlock);
+        Assert.Contains("<path", figureBlock);
+        Assert.Contains("recovery-shape__point", figureBlock);
+        Assert.Contains("<ol class=\"recovery-shape__steps\">", figureBlock);
+
+        // Decorative only — the accessible content is the existing list, not the curve.
+        Assert.Contains("aria-hidden=\"true\"", figureBlock);
+
+        // Original-design disclaimer is preserved verbatim.
+        Assert.Contains("собствен дизайн, не факсимиле на оригинала", figureBlock);
+
+        // No numeric axis ticks, percentages, time intervals, or symptom-score language anywhere
+        // in the figure — the curve's shape is qualitative only, never a measured y-axis.
+        string[] forbiddenQuantitative =
+        [
+            "%", "седмиц", "месец", "точки", "скор", "оценка от", "ниво на симптом", "BDI"
+        ];
+        foreach (string phrase in forbiddenQuantitative)
+        {
+            Assert.DoesNotContain(phrase, figureBlock);
+        }
+    }
+
+    [Fact]
     public void Week14Page_DiagnosisModel_IsClinicianPerspective_NoSelfAssessmentOrDialogue()
     {
         string publicMarkup = ReadPublicMarkup("Sedmica14.razor");
