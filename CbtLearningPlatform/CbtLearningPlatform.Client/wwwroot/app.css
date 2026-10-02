@@ -3001,6 +3001,12 @@ h3[tabindex="-1"]:focus-visible {
     color: var(--color-text-secondary);
 }
 
+.source-artifact__answer-space {
+    min-height: 2.5rem;
+    margin: var(--space-1) 0 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
 .source-artifact__body ol {
     margin: 0;
     padding-left: 1.25rem;

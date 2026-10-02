@@ -155,6 +155,88 @@ public sealed class Week6ContentSliceTests
     }
 
     [Fact]
+    public void Week6Page_Section66_UsesClearBulgarianVisualNames_WithWorkingAnchors_NoDeveloperJargon()
+    {
+        string source = ReadPage("Sedmica6.razor");
+
+        Assert.Contains("Виж диаграмата „Ситуация → Мисъл → Реакция (пример: обяд с колеги)“ в <a href=\"/kurs/sedmica-6#beck-praktika\">раздел 6.5</a>.", source);
+        Assert.Contains("Виж диаграмата с трите легитимни изключения от планираната структура в <a href=\"/kurs/sedmica-6#nachalo\">раздел 6.2</a>.", source);
+        Assert.Contains("Виж последователността „Десетте стъпки на първата сесия“ в <a href=\"/kurs/sedmica-6#struktura\">раздел 6.1</a>.", source);
+
+        string publicMarkup = ReadPublicMarkup("Sedmica6.razor");
+        Assert.DoesNotContain("branching", publicMarkup);
+        Assert.DoesNotContain("process rail", publicMarkup);
+        Assert.DoesNotContain("жива диаграма", publicMarkup);
+        Assert.DoesNotContain("SourceArtifact)", publicMarkup);
+        Assert.DoesNotContain("forward-reference", publicMarkup);
+        Assert.DoesNotContain("premine", publicMarkup);
+    }
+
+    [Fact]
+    public void Week6Page_Figure51_ContainsDateHeadingStandingInstruction_AndTheExactFiveSourceItemsVerbatim()
+    {
+        string source = ReadPage("Sedmica6.razor");
+
+        int artifactStart = source.IndexOf("<SourceArtifact Title=\"Списък с домашни задачи на Сали (Фигура 5.1)\"", StringComparison.Ordinal);
+        int artifactEnd = source.IndexOf("</SourceArtifact>", artifactStart, StringComparison.Ordinal);
+        Assert.True(artifactStart >= 0 && artifactEnd > artifactStart);
+        string artifact = source[artifactStart..artifactEnd];
+
+        Assert.Contains("<p><strong>22 януари</strong></p>", artifact);
+        Assert.Contains("<p><strong>Домашно:</strong></p>", artifact);
+        Assert.Contains("Чети този списък два пъти на ден; настрой аларма, за да запомниш.", artifact);
+
+        string[] exactItems =
+        [
+            "Ако започна да мисля, че съм мързелив и не съм добър, да си припомня, че имам истинска болест, наречена депресия, която ми затруднява да правя неща. Докато лечението започне да действа, моята депресия ще отшуми и нещата ще станат по-лесни.",
+            "Прочети списъка с цели и добави други, ако се сетиш за такива.",
+            "Когато забележа, че настроението ми се влошава, да се питам: „Какво ми минава през ума в момента?“ и да запиша мислите. Да си припомня, че само защото мисля нещо, не означава непременно, че е вярно.",
+            "Да направя планове с Алисон и Джо. Запомни, ако кажат не, вероятно искат да се срещнат с мен, но са твърде заети.",
+            "Прочети брошурата „Справяне с депресия“ (по желание)."
+        ];
+        Assert.Equal(5, System.Text.RegularExpressions.Regex.Matches(artifact, "<li>").Count);
+        foreach (string item in exactItems)
+        {
+            Assert.Contains($"<li>{item}</li>", artifact);
+        }
+    }
+
+    [Fact]
+    public void Week6Page_Figure52_BehavesAsAForm_SourceOnlyInsideArtifact_CommentaryOutside_LocatorIsPage77()
+    {
+        string source = ReadPage("Sedmica6.razor");
+
+        Assert.Contains("SourceLabel=\"Възпроизведено по SRC-041, Гл. 5, стр. 77 — собствен дизайн, не факсимиле на оригинала.\"", source);
+        Assert.DoesNotContain("стр. 76–77", source);
+
+        int artifactStart = source.IndexOf("<SourceArtifact Title=\"Доклад за терапия (Фигура 5.2)\"", StringComparison.Ordinal);
+        int artifactEnd = source.IndexOf("</SourceArtifact>", artifactStart, StringComparison.Ordinal);
+        Assert.True(artifactStart >= 0 && artifactEnd > artifactStart);
+        string artifact = source[artifactStart..artifactEnd];
+
+        // Exactly five questions, each followed by a visible empty answer area — no platform commentary,
+        // rating scales, checkboxes or invented fields inside the source figure itself.
+        Assert.Equal(5, System.Text.RegularExpressions.Regex.Matches(artifact, "<dt>").Count);
+        Assert.Equal(5, System.Text.RegularExpressions.Regex.Matches(artifact, "class=\"source-artifact__answer-space\" aria-hidden=\"true\"></dd>").Count);
+        Assert.Contains("1. Какво обсъдихме днес, което е важно за теб да запомниш?", artifact);
+        Assert.Contains("2. Колко много чувстваше, че можеш да се довериш на терапевта си днес?", artifact);
+        Assert.Contains("3. Имаше ли нещо, което те притесняваше по време на терапията днес? Ако да, какво беше то?", artifact);
+        Assert.Contains("4. Колко домашна работа беше свършил за терапията днес? Колко вероятно е да направиш новата домашна работа?", artifact);
+        Assert.Contains("5. Какво искаш да се увериш, че ще обсъдим на следващата сесия?", artifact);
+        Assert.DoesNotContain("Проверява", artifact);
+        Assert.DoesNotContain("Дава пространство", artifact);
+        Assert.DoesNotContain("<input", artifact);
+        Assert.DoesNotContain("type=\"checkbox\"", artifact);
+
+        // The platform's own commentary on the five questions now lives AFTER the artifact, as plain prose.
+        string afterArtifact = source[(artifactEnd + "</SourceArtifact>".Length)..];
+        int nextSectionIndex = afterArtifact.IndexOf("<h2", StringComparison.Ordinal);
+        string commentary = nextSectionIndex >= 0 ? afterArtifact[..nextSectionIndex] : afterArtifact;
+        Assert.Contains("проверяващ разбирането на пациента", commentary);
+        Assert.Contains("проверява алианса директно", commentary);
+    }
+
+    [Fact]
     public void Week6Page_TenStepGuidedPracticeSequence_AllStepsPresent()
     {
         string source = ReadPage("Sedmica6.razor");
@@ -268,7 +350,7 @@ public sealed class Week6ContentSliceTests
         Assert.Contains("описание на професионална клинична практика", source);
         Assert.Contains("не начин да прецените собственото си състояние", source);
         Assert.Contains("изцяло третолично", source);
-        Assert.Contains("без input поле, без scoring, без автоматична risk класификация", source);
+        Assert.Contains("без поле за въвеждане, без оценяване, без автоматична класификация на риска", source);
     }
 
     [Fact]
@@ -295,10 +377,34 @@ public sealed class Week6ContentSliceTests
     {
         string source = ReadPage("Sedmica6.razor");
 
-        Assert.Contains("Мартин — Basic", source);
-        Assert.Contains("Ирина — Intermediate", source);
-        Assert.Contains("Радо — Challenging", source);
-        Assert.Contains("одобрен pilot longitudinal case", source);
+        Assert.Contains("Мартин — Основен", source);
+        Assert.Contains("Ирина — Среден", source);
+        Assert.Contains("Радо — Предизвикателен", source);
+        Assert.Contains("одобрен пилотен случай с проследяване във времето", source);
+    }
+
+    [Fact]
+    public void Week6Page_HasNoLearnerFacingDeveloperJargon()
+    {
+        // Targeted language-cleanup guard (owner request): these English/mixed-language
+        // terms were previously found leaking into learner-facing Week 6 text. Source
+        // metadata, component names, and the dev comment block are not learner-facing and
+        // are intentionally excluded via ReadPublicMarkup.
+        string publicMarkup = ReadPublicMarkup("Sedmica6.razor");
+
+        string[] bannedPhrases =
+        [
+            "Deep Dive", "Beck in Practice", "Case Lab", "— Basic", "— Intermediate",
+            "— Challenging", "risk-свързано", "input поле", "scoring",
+            "risk класификация", "self-check", "self-therapy", "professional практика",
+            "pilot longitudinal case", "screen reader", "Case Conceptualization Map",
+            "Session Structure & Decision Simulator"
+        ];
+
+        foreach (string phrase in bannedPhrases)
+        {
+            Assert.DoesNotContain(phrase, publicMarkup);
+        }
     }
 
     [Fact]
@@ -344,12 +450,16 @@ public sealed class Week6ContentSliceTests
     }
 
     [Fact]
-    public void Week6Page_AssessmentQuestionsHaveExplanatoryFeedbackWithSourceAndBackLink()
+    public void Week6Page_AssessmentQuestionsHaveExplanatoryFeedbackWithABackLink()
     {
         string source = ReadPage("Sedmica6.razor");
 
-        int sourceCitationCount = CountOccurrences(source, "Source: U");
-        Assert.True(sourceCitationCount >= 18, $"Expected at least 18 source-cited assessment answers, found {sourceCitationCount}.");
+        int backLinkCount = CountOccurrences(source, "<a href=\"/kurs/sedmica-6#");
+        Assert.True(backLinkCount >= 18, $"Expected at least 18 section back-links in assessment feedback, found {backLinkCount}.");
+
+        // The internal KU-id prefix ("Source: Uxx ·") was removed from learner-facing feedback —
+        // see LearnerFacingKuIdGuardTests for the authoritative cross-page guard.
+        Assert.DoesNotContain("Source: U", source);
     }
 
     [Fact]

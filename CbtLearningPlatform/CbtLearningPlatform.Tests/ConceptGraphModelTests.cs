@@ -247,6 +247,7 @@ public sealed class ConceptGraphModelTests
 
         GraphRenderModel render = CaseConceptualizationAdapter.ToRenderModel(character, observation);
 
+        Assert.Equal("Карта за концептуализация на случая — Тест", render.Title);
         Assert.Equal(2, render.Nodes.Count);
         Assert.Contains(render.Nodes, n => n.ShortDefinition == "Some situation");
         Assert.Contains(render.Nodes, n => n.ShortDefinition == "Some behavior");

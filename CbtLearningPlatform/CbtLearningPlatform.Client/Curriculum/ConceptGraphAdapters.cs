@@ -167,7 +167,7 @@ public static class CaseConceptualizationAdapter
         }
 
         return new GraphRenderModel(
-            $"Case Conceptualization Map — {character.Name}",
+            $"Карта за концептуализация на случая — {character.Name}",
             $"Как когнитивният модел се проявява в наблюдаваната от {character.Name} ситуация през Седмица {observation.WeekNumber} — само вече показаните в урока елементи.",
             ConceptGraphMode.CaseMap,
             nodes,
