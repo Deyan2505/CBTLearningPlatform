@@ -31,7 +31,10 @@ public sealed class Batch2SimulatorTests
             Assert.False(string.IsNullOrWhiteSpace(choice.SourceRef));
             Assert.Contains(week.ToString(), choice.SourceRef!);
             Assert.Contains("SRC-041", choice.SourceRef!);
-            Assert.Matches(@"\b(?:K|U)\d+", choice.SourceRef!);
+            // A human-readable section reference (e.g. "7.3/7.6") proves grounding without requiring an
+            // internal KU id — Week 7's SourceRef no longer carries one (learner-facing UX fix); Weeks 5
+            // and 9 still may, untouched by that fix.
+            Assert.Matches(@"\d+\.\d+", choice.SourceRef!);
         });
     }
 

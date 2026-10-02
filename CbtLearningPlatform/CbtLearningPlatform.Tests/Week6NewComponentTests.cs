@@ -170,12 +170,25 @@ public sealed class Week6NewComponentTests
     }
 
     [Fact]
-    public void ScenarioSimulator_EveryFeedbackPathCitesASourceUnit()
+    public void ScenarioSimulator_NeverRendersTheInternalSourceUnitIdToTheLearner()
     {
+        // SourceUnit stays valid internal grounding metadata on the data records (see
+        // ScenarioSimulator_DataModelsCarrySourceUnitMetadata below) but must never reach the
+        // learner-facing feedback panel — a KU ID like "U04" means nothing to a visitor.
         string source = ReadClientComponent("ScenarioSimulator.razor");
 
-        Assert.Contains("scenario-simulator__feedback-source", source);
-        Assert.Contains("SourceUnit", source);
+        Assert.DoesNotContain("SourceUnit", source);
+    }
+
+    [Fact]
+    public void ScenarioSimulator_DataModelsCarrySourceUnitMetadata()
+    {
+        string source = File.ReadAllText(Path.Combine(
+            TestPaths.FindSolutionRoot(), "CbtLearningPlatform.Client", "Interactive", "ScenarioSimulatorModels.cs"));
+
+        Assert.Contains("record RecognitionItem(string Excerpt, string CorrectStepLabel, string Explanation, string SourceUnit)", source);
+        Assert.Contains("record NextStepChoice(string Label, bool IsCorrect, string Reasoning, string SourceUnit, string BackLinkAnchor, string BackLinkLabel)", source);
+        Assert.Contains("record BranchOption(string Label, string Consequence, bool IsRecommended, string Reasoning, string SourceUnit, string NextNodeId)", source);
     }
 
     [Fact]

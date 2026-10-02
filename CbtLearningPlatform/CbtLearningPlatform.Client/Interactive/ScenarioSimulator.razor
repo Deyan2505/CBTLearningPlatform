@@ -89,7 +89,6 @@
                 <div class="scenario-simulator__feedback @(isCorrect ? "is-correct" : "is-incorrect")" aria-live="polite">
                     <p class="scenario-simulator__feedback-verdict">@(isCorrect ? "Вярно." : "Не съвсем.")</p>
                     <p>@IdentifyItems[_identifyIndex].Explanation</p>
-                    <p class="scenario-simulator__feedback-source">Source: @IdentifyItems[_identifyIndex].SourceUnit</p>
                 </div>
             }
             <p>
@@ -181,7 +180,7 @@
                 <div class="scenario-simulator__feedback @(choice.IsCorrect ? "is-correct" : "is-incorrect")" aria-live="polite">
                     <p class="scenario-simulator__feedback-verdict">@(choice.IsCorrect ? "Обосновано действие." : "Не най-доброто действие тук.")</p>
                     <p>@choice.Reasoning</p>
-                    <p class="scenario-simulator__feedback-source">Source: @choice.SourceUnit · <a href="@choice.BackLinkAnchor">@choice.BackLinkLabel</a></p>
+                    <p class="scenario-simulator__feedback-source"><a href="@choice.BackLinkAnchor">@choice.BackLinkLabel</a></p>
                 </div>
             }
         }
@@ -220,7 +219,6 @@
                 <div class="scenario-simulator__feedback @(option.IsRecommended ? "is-correct" : "is-incorrect")" aria-live="polite">
                     <p class="scenario-simulator__feedback-verdict">@option.Consequence</p>
                     <p>@option.Reasoning</p>
-                    <p class="scenario-simulator__feedback-source">Source: @option.SourceUnit</p>
                 </div>
                 <button type="button" class="btn btn-violet" @onclick="() => Advance(option.NextNodeId)">Продължи</button>
             }

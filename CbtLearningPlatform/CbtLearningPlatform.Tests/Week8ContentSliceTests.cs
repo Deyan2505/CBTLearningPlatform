@@ -74,8 +74,11 @@ public sealed class Week8ContentSliceTests
             activity.Items.Select(i => i.Prompt));
         Assert.All(activity.Items, item =>
         {
+            // Grounded by a human-readable section reference (e.g. "8.2/8.5") — the internal KU id that
+            // used to prefix this field ("Source: U05/U06 ·") was removed; never a learner-facing "Uxx".
             Assert.False(string.IsNullOrWhiteSpace(item.SourceRef));
-            Assert.Contains("U", item.SourceRef!);
+            Assert.Matches(@"^\d+\.\d+", item.SourceRef!);
+            Assert.DoesNotMatch(@"\bU\d{2}\b", item.SourceRef!);
         });
 
         var state = new ClassifyMatchState(activity);

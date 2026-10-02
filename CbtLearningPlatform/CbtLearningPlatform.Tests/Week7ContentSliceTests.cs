@@ -262,12 +262,16 @@ public sealed class Week7ContentSliceTests
     }
 
     [Fact]
-    public void Week7Page_AssessmentQuestionsHaveSourceCitations()
+    public void Week7Page_AssessmentQuestionsHaveBackLinkCitations()
     {
         string source = ReadPage("Sedmica7.razor");
 
-        int sourceCitationCount = CountOccurrences(source, "Source: U");
-        Assert.True(sourceCitationCount >= 14, $"Expected at least 14 source-cited assessment answers, found {sourceCitationCount}.");
+        int backLinkCount = CountOccurrences(source, "<a href=\"/kurs/sedmica-7#");
+        Assert.True(backLinkCount >= 14, $"Expected at least 14 section back-links in assessment feedback, found {backLinkCount}.");
+
+        // The internal KU-id prefix ("Source: Uxx ·") was removed from learner-facing feedback —
+        // see LearnerFacingKuIdGuardTests for the authoritative cross-page guard.
+        Assert.DoesNotContain("Source: U", source);
     }
 
     [Fact]
