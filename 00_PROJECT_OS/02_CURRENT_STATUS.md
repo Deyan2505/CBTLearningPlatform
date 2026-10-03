@@ -1,5 +1,19 @@
 # 02 — Current Status
 
+## PROJECT STATUS — COMPLETE AND READY FOR REAL-WORLD USE — 2026-10-03
+
+**`CBT LEARNING PLATFORM — COMPLETE AND READY FOR REAL-WORLD USE`**
+
+The CBT Learning Platform (15-week curriculum) is complete, structurally compliant, owner-approved,
+and ready for real-world use. All Active Learning structural remediation is closed. The current 15-week
+curriculum is locked. No further general audit, structural remediation, visual-review cycle, or content-
+polish cycle should be started automatically.
+
+**Future work policy:** Changes require either (a) a concrete defect discovered during real use, or (b) an
+explicitly requested owner instruction. All locked CBT content and source audits remain authoritative.
+
+---
+
 ## ACTIVE LEARNING — COMPLETE: ALL 15 WEEKS STRUCTURALLY COMPLIANT + OWNER APPROVED — 2026-10-03
 
 **ALL 15 COURSE WEEKS — STRUCTURALLY COMPLIANT + `OWNER APPROVED — ACTIVE LEARNING COMPLETE`**
