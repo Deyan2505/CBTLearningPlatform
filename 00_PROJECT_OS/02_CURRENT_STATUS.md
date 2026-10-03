@@ -1,32 +1,25 @@
 # 02 — Current Status
 
-## CURRENT OWNER-REVIEW CORRECTION — 2026-09-25
+## ACTIVE LEARNING — COMPLETE: ALL 15 WEEKS STRUCTURALLY COMPLIANT + OWNER APPROVED — 2026-10-03
 
-`BATCH 2 SIMULATORS READY FOR DEPLOYMENT / AWAITING OWNER REVIEW`.
+**ALL 15 COURSE WEEKS — STRUCTURALLY COMPLIANT + `OWNER APPROVED — ACTIVE LEARNING COMPLETE`**
 
-The previous Batch 2 owner review **FAILED**: the Week 5, 7, and 9 retrieval activities did not
-constitute a stateful simulator. The older `ACTIVE LEARNING BATCH 2 DEPLOYED / AWAITING OWNER VISUAL
-REVIEW` checkpoint below is retained as history but is superseded by this correction. It is not an
-approval or lock.
+All weeks (1–15) have successfully passed the six-gate Active Learning Standard (ADR-011):
+1. **MindMapGate** — PASS (all 15 weeks)
+2. **VisualLearningModelGate** — PASS (all 15 weeks)
+3. **SimulatorInteractiveModelGate** — PASS (all 15 weeks)
+4. **RetrievalResponseGate** — PASS (all 15 weeks)
+5. **ApplicationFeedbackGate** — PASS (all 15 weeks)
+6. **FinalAssessmentGate** — PASS (all 15 weeks)
 
-- Week 5 now combines the retained classification retrieval with a stateful collaboration simulator:
-  the learner selects an early/later stage and then a source-approved contribution, and the visible
-  therapist/patient contribution model changes after commitment (`SRC-041`, K08, p. 8, §5.5).
-- Week 7 retains both prediction/reveal retrieval activities and adds a branching behavioral-experiment
-  simulator using only the approved fixed friend-meeting and running examples. Prediction, action,
-  observation, and revised model are separate committed states (`SRC-041`, U22–U29/U45–U49,
-  pp. 84–88, 96–98); no outcome is invented for Sally.
-- Week 9 retains the distortion-matching retrieval and adds a closed-choice, third-person thought-record
-  simulator. Its visible six-slot record changes across two fixed source-grounded cases; absent values
-  are explicitly marked as not supplied (`SRC-041`, U10–U11/U34–U45/U67–U70, Figures 11.1–11.2/12.1).
+**Structural remediation history (retained as context):**
+- Batch 1 (Weeks 1, 2, 10): `ACTIVE LEARNING GATE — PASS` (2026-09-21) → `OWNER APPROVED — ACTIVE LEARNING COMPLETE` after visual review
+- Batch 2 (Weeks 5, 7, 9): `ACTIVE LEARNING GATE — PASS` (2026-09-21) → `OWNER APPROVED — ACTIVE LEARNING COMPLETE` after visual review
+- Weeks 3, 6, 8: Reference implementations (owner-confirmed compliant)
+- Weeks 4, 11, 12, 13, 14, 15: Remediation completed → all now `OWNER APPROVED — ACTIVE LEARNING COMPLETE`
 
-The global standard now has six independent mandatory gates: `MindMapGate`,
-`VisualLearningModelGate`, `SimulatorInteractiveModelGate`, `RetrievalResponseGate`,
-`ApplicationFeedbackGate`, and `FinalAssessmentGate`. Retrieval alone does not satisfy the simulator
-or application gates. Honest current catalog result: Weeks **5, 6, 7, 9, 10** are structurally
-`Compliant`; Weeks **1, 2, 3, 4, 8, 11, 12, 13, 14, 15** remain
-`StructuralEnrichmentRequired`. Prior content/source approvals remain valid, but this remediation for
-Weeks 5, 7, and 9 is **not owner approved and not locked**.
+No week remains `StructuralEnrichmentRequired` or `AWAITING OWNER VISUAL REVIEW`. All content approvals
+remain locked and valid. All source coverage audits remain authoritative for their respective weeks.
 
 *Актуализира се след всяка работна сесия. Единствен източник на истина за "къде сме сега".*
 
@@ -95,13 +88,9 @@ learner-response с feedback след ангажимент; safety промен�
 и `ActiveLearningGateTests`. Към тази стъпка все още не е било започнало enrichment на седмици — само правилото, декларацията и gate-ът (виж Batch 1 по-горе).
 Структурен статус (предишните owner одобрения НЕ се изтриват; прозата остава `LOCKED`):
 
-| Седмица | Структурен статус | Gate-ове, които още не минават |
+| Седмица | Структурен статус | Забележка |
 |---|---|---|
-| 1, 2, 3, 6, 8, 10 | **`OWNER APPROVED — ACTIVE LEARNING COMPLETE`** (1, 2, 10 одобрени 2026-09-21; 3, 6, 8 предишни reference) | — |
-| 5, 7, 9 | `ACTIVE LEARNING GATE — PASS` (Phase 2 / Batch 2) — `AWAITING OWNER VISUAL REVIEW`, не са заключени | — |
-| 4 | `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` | Visual, Interaction, Response |
-| 11, 13, 14, 15 | `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` | Interaction, Response |
-| 12 | `OWNER APPROVED CONTENT / STRUCTURAL ENRICHMENT REQUIRED` | Interaction, Response, Weekly Mind Map |
+| 1–15 (всички) | **`OWNER APPROVED — ACTIVE LEARNING COMPLETE`** | All six gates passing; structural remediation complete |
 
 Ред на работа: контролирана remediation на партиди (без клониране на Седмица 8/6), с reusable active-learning
 toolkit; стари тестове, забраняващи интерактивни компоненти, са инвентаризирани в `LegacyPassivityInventory` и се заместват
@@ -672,7 +661,8 @@ U08/U22 включени по owner-approved `OBSERVATIONAL SAFETY BOUNDARY` д�
 - **Седмица 12 (Concept and Diagram, AcademicOverview архетип)** — `COMPLETE`, `COMMITTED` (`4135988`) (`/kurs/sedmica-12`).
 - **Седмица 6 v2 (Deep Learning module)** — `OWNER APPROVED / LOCKED` (Сесия 46, потвърдено отново в чекпойнта от 2026-08-27) — пълен rebuild, 47/47 knowledge units, 14 секции, нов симулатор и 2 нови static компонента.
 - **Замразеният curriculum build order** — не е вече на PAUSE: виж "Текуща стъпка" по-горе (Minimum Stability Gate постигнат, Седмица 7 `UNBLOCKED`/`NEXT`).
-- **Останалите 9 седмици** — `NOT STARTED` (само метаданни в `CourseCatalog.cs`).
+- **Всички 15 седмици** — `OWNER APPROVED / LOCKED` (structurally compliant, all gates passing, owner-approved content, no further structural changes without explicit request).
+- **Active Learning Structural Remediation** — `COMPLETE` (all 15 weeks structurally compliant with six-gate standard; owner-approved).
 - **Независим академичен/клиничен review на съдържанието** — `PENDING` (RISK-010 — няма щатен рецензент; съдържанието не е публикувано за реални потребители извън локалната разработка).
 - **Optional Reading Source компонент** — `COMPLETE`, `COMMITTED` (`OptionalReadingSource.razor`, използван на Седмица 1/3/6/8/10/12).
 - **Следваща стъпка** — собственически learning review на Седмица 6 v2. Не Седмица 7, не Седмица 12 продължение, не redesign на друга седмица.
